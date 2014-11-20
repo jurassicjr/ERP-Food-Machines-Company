@@ -1,9 +1,9 @@
 import java.awt.EventQueue;
 
-import rh.view.RegisterEmployeeFrame;
+import userInterface.view.MainFrame;
 
 /**
- * Classe principal, respons·vel por inicializar a aplicaÁ„o.
+ * Classe principal, respons√°vel por inicializar a aplica√ß√£o.
  */
 public class Main {
 
@@ -13,8 +13,8 @@ public class Main {
 			
 			@Override
 			public void run() {
-				RegisterEmployeeFrame window = new RegisterEmployeeFrame();
-				window.setVisible(true);
+				MainFrame frame = new MainFrame();
+				frame.setVisible(true);
 			}
 		});
 		
