@@ -15,6 +15,7 @@ public class Main {
 			public void run() {
 				MainFrame frame = new MainFrame();
 				frame.setVisible(true);
+				System.out.println("ok");
 			}
 		});
 		
