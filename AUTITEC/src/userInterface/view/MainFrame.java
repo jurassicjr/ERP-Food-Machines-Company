@@ -5,8 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
-import javax.swing.JMenuBar;
 import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
@@ -23,6 +23,7 @@ public class MainFrame extends JFrame {
 	private MainFrameController controller;
 	
 	private JMenuItem mntmRegisterEmployee;
+	private JMenuItem mntmApprovalOfSuppliers;
 
 	/**
 	 * Cria a janela principal da aplicação
@@ -53,8 +54,14 @@ public class MainFrame extends JFrame {
 		JMenu mnRh = new JMenu("RH");
 		menuBar.add(mnRh);
 		
+		JMenu mnSales = new JMenu("Vendas");
+		menuBar.add(mnSales);
+		
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
+		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
+		mnSales.add(mntmApprovalOfSuppliers);
+	
 	}
 
 	/**
@@ -68,11 +75,12 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();			
-				
+				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.approvalOfSuppliers();
 			}
 		};
 		
 		mntmRegisterEmployee.addActionListener(menuListeners);
+		mntmApprovalOfSuppliers.addActionListener(menuListeners);
 		
 	}
 	
