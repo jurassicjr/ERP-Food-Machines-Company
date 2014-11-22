@@ -75,7 +75,7 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();			
-				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.approvalOfSuppliers();
+				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.sales();
 			}
 		};
 		
