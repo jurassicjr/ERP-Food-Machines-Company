@@ -24,7 +24,7 @@ public class MainFrame extends JFrame {
 	
 	private JMenuItem mntmRegisterEmployee;
 	private JMenuItem mntmApprovalOfSuppliers;
-
+	private JMenuItem mntmSalesRequisition;
 	/**
 	 * Cria a janela principal da aplicação
 	 */
@@ -57,11 +57,13 @@ public class MainFrame extends JFrame {
 		JMenu mnSales = new JMenu("Vendas");
 		menuBar.add(mnSales);
 		
+		
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
 		mnSales.add(mntmApprovalOfSuppliers);
-	
+		mntmSalesRequisition = new JMenuItem("Requisição de Compra");
+		mnSales.add(mntmSalesRequisition);
 	}
 
 	/**
@@ -75,12 +77,14 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();			
-				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.sales();
+				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.ApprovalOfSuppliers();	
+				else if (e.getSource().equals(mntmSalesRequisition)) controller.SalesRequisition();
 			}
 		};
 		
 		mntmRegisterEmployee.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
+		mntmSalesRequisition.addActionListener(menuListeners);
 		
 	}
 	

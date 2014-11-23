@@ -12,8 +12,15 @@ public class SalesController {
 
 	public void ApprovalOfSuppliers() {
 		ApprovalOfSuppliersFrame frame = new ApprovalOfSuppliersFrame();
-		frame.setVisible(true);
 		frame.pack();
+		frame.setVisible(true);
 		frame.setLocationRelativeTo(mainFrame);
+	}
+	public void salesRequisition() {
+		SalesRequisitionFrame frameReq = new SalesRequisitionFrame();
+		frameReq.pack();
+		frameReq.setVisible(true);
+		frameReq.setLocationRelativeTo(mainFrame);
+		
 	}
 }
