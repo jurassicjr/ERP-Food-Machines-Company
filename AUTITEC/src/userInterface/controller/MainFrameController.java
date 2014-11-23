@@ -1,7 +1,7 @@
 package userInterface.controller;
 
 import rh.view.RegisterEmployeeFrame;
-import sales.view.ApprovalOfSuppliersFrame;
+import sales.view.SalesController;
 import userInterface.view.MainFrame;
 
 /**
@@ -31,12 +31,9 @@ public class MainFrameController {
 		
 	}
 
-	public void approvalOfSuppliers() {
-	    ApprovalOfSuppliersFrame frame = new ApprovalOfSuppliersFrame();
-	    frame.setVisible(true);
-	    frame.pack();
-	    frame.setLocationRelativeTo(mainFrame);
-	    
+	public void sales() {
+		SalesController SC = new SalesController(mainFrame);
+		SC.ApprovalOfSuppliers();
     }
 
 }
