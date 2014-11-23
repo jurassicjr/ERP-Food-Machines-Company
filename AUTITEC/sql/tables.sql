@@ -1,4 +1,11 @@
 CREATE DATABASE IF NOT EXISTS `autitec`;
 USE `autitec`;
 
+CREATE TABLE IF NOT EXISTS `cbo`(
+	id INT(10) AUTO_INCREMENT PRIMARY KEY,
+	code VARCHAR(6) NOT NULL, 
+	title VARCHAR(100) NOT NULL
+);
+
+
 -- CREATE table employee();

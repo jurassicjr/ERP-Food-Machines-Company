@@ -28,6 +28,7 @@ import javax.swing.table.DefaultTableModel;
 import userInterface.components.ComboBoxAutoCompletion;
 import core.City;
 import core.State;
+import database.FillCBO;
 import database.FillStateAndCity;
 
 /**
@@ -112,6 +113,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		initializaButtonsPanel();
 		
 		new FillStateAndCity(cbState, cbCity);
+		//new FillCBO(cb)
 
 		new ComboBoxAutoCompletion(cbState);
 		new ComboBoxAutoCompletion(cbCity);
