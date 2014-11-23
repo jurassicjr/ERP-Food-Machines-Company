@@ -3,7 +3,8 @@ package rh.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
@@ -14,69 +15,83 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.border.EtchedBorder;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+
+import ComboBoxItens.City;
+import ComboBoxItens.State;
+import database.FillStateAndCity;
 
 /**
- * Responsável pela Janela de registro de novos funcionários
+ * Representa o frame de registro de funcionários
  */
 public class RegisterEmployeeFrame extends JFrame {
 	
-	private static final long serialVersionUID = -5724629484141692770L;
+	private static final long serialVersionUID = -4506446090751738206L;
 	
 	private JTabbedPane tabbedPane;
-	
 	private JPanel personalDataPanel;
-	private JPanel bankingDataPanel;
 	private JPanel buttonsPanel;
+	private JPanel contactDataPanel;
+	private JPanel bankingDataPanel;
+	private JPanel dependentDataPanel;
 	
 	private JTextField txName;
-	private JTextField txCode;
 	private JTextField txBirth;
-	private JTextField txNacionality;
-	private JTextField txBirthPlace;
 	private JTextField txRg;
+	private JTextField txVoter;
+	private JTextField txReservist;
+	private JTextField txCode;
+	private JTextField txBirthPlace;
+	private JTextField txNacionality;
 	private JTextField txCpf;
-	private JTextField txCTPS;
-	private JTextField txCtpsSeries;
-	private JTextField txVoterRegistration;
 	private JTextField txDriverLicense;
-	private JTextField txReserve;
+	private JTextField txCtps;
+	private JTextField txCptsCategory;
 	private JTextField txAddress;
-	private JTextField txNeighborhood;
 	private JTextField txCep;
+	private JTextField txNeighborhood;
 	private JTextField txPhone;
-	private JTextField txCellPhone;
+	private JTextField txCellphone;
 	
-	private JComboBox<String> cbGender;
 	private JComboBox<String> cbMaritalStatus;
+	private JComboBox<String> cbDriverLicenseCategory;
+	private JComboBox<String> cbGender;
+	private JComboBox<String> cbReservistCategory;
 	private JComboBox<String> cbSchooling;
-	private JComboBox<String> cbDriverLicense;
-	private JComboBox<String> cbReserveCategory;
-	private JComboBox<String> cbState;
-	private JComboBox<String> cbCity;
+	private JComboBox<State> cbState;
+	private JComboBox<City> cbCity;
 	
-	private JButton okButton;
-	private JButton cancelButton;
-
+	private JButton btnCancel;
+	private JButton btnConfirme;
+	private JScrollPane dependentScrollPane;
+	private JTable dependentTable;
+	
 	/**
-	 * Cria a janela de registro de funcionário
+	 * Cria o frame de registro de funcionário
 	 */
 	public RegisterEmployeeFrame() {
 		initialize();
+		setListeners();
 	}
 
 	/**
-	 * Inicializa os elementos gráficos da janela de registro de usuário
+	 * Inicializa os componentes do frame
 	 */
 	private void initialize() {
 		
-		setBounds(100, 100, 655, 500);
-		setMinimumSize(new Dimension(655, 500));
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 829, 404);
+		setLocationRelativeTo(null);
+		setMinimumSize(new Dimension(829, 404));
 		setTitle("Registro de Funcionário");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -84,16 +99,24 @@ public class RegisterEmployeeFrame extends JFrame {
 		initializePersonalDataPanel();
 		tabbedPane.addTab("Dados Pessoais", personalDataPanel);
 		
-		initializeBankingDatePanel();
-		tabbedPane.addTab("Dados Bancários", bankingDataPanel);
+		initializeContactDataPanel();
+		tabbedPane.addTab("Informações de Contato", contactDataPanel);
 		
-		initializeButtonsPanel();
-		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);			
-
+		bankingDataPanel = new JPanel();
+		tabbedPane.add("Dados Bancários", bankingDataPanel);
+		
+		
+		initializeDependentDataPanel();
+		tabbedPane.addTab("Dependentes", dependentDataPanel);
+		
+		initializaButtonsPanel();
+		
+		new FillStateAndCity(cbState, cbCity);
+		
 	}
-
+	
 	/**
-	 * Inicializa os elementos gráficos para os dados pessoais
+	 * Inicializa os componentes gráficos para registro dos dados pessoais
 	 */
 	private void initializePersonalDataPanel() {
 		
@@ -102,318 +125,379 @@ public class RegisterEmployeeFrame extends JFrame {
 		JLabel lblName = new JLabel("Nome");
 		txName = new JTextField();
 		
-		JLabel lblPicture = new JLabel();
-		ImageIcon image = new ImageIcon(getClass().getResource("/resources/profile.png"));
-		ImageIcon thumbnail = new ImageIcon(image.getImage().getScaledInstance(80, -1, Image.SCALE_DEFAULT));
-		lblPicture.setIcon(thumbnail);
-		lblPicture.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
- 		
+		JLabel lblBirth = new JLabel("Data de Nascimento");
+		txBirth = new JTextField();
+		
+		JLabel lblNacionality = new JLabel("Nacionalidade");
+		txNacionality = new JTextField();
+		
+		JLabel lblRg = new JLabel("Registro Geral (RG)");
+		txRg = new JTextField();
+		
+		JLabel lblVoter = new JLabel("Título de Eleitor");
+		txVoter = new JTextField();
+		
+		JLabel lblReservist = new JLabel("Reservista");
+		txReservist = new JTextField();		
+		
 		JLabel lblCode = new JLabel("Código");
 		txCode = new JTextField();
 		
-		JLabel lblBirth = new JLabel("Data de Nascimento");
-		txBirth = new JTextField();
+		JLabel lblMaritalStatus = new JLabel("Estado Civil");
+		cbMaritalStatus = new JComboBox<String>();
+		cbMaritalStatus.setModel(new DefaultComboBoxModel<String>(new String[] {"Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)"}));
+		
+		JLabel lblBirthPlace = new JLabel("Local de Nascimento");
+		txBirthPlace = new JTextField();
+		
+		JLabel lblCpf = new JLabel("CPF");
+		txCpf = new JTextField();
+		
+		JLabel lblDriverLicense = new JLabel("Carteira de Habilitação");
+		txDriverLicense = new JTextField();
+		
+		JLabel lblDriverLicenseCategory = new JLabel("Categoria");		
+		cbDriverLicenseCategory = new JComboBox<String>();
+		cbDriverLicenseCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Categoria A", "Categoria B", "Categoria C", "Categoria D", "Categoria E"}));
+		
+		JLabel lblCtps = new JLabel("CTPS");
+		txCtps = new JTextField();
+		
+		JLabel lblCptsCategory = new JLabel("Categoria");
+		txCptsCategory = new JTextField();
 		
 		JLabel lblGender = new JLabel("Sexo");
 		cbGender = new JComboBox<String>();
 		cbGender.setModel(new DefaultComboBoxModel<String>(new String[] {"Masculino", "Feminino"}));
 		
-		JLabel lblMaritalStatus = new JLabel("Estado Civil");
-		
-		cbMaritalStatus = new JComboBox<String>();
-		cbMaritalStatus.setModel(new DefaultComboBoxModel<String>(new String[] {"Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)"}));
-		
-		JLabel lblNacionality = new JLabel("Nacionalidade");
-		txNacionality = new JTextField();
-		
-		JLabel lblBirthPlace = new JLabel("Local de Nascimento");
-		txBirthPlace = new JTextField();
+		JLabel lblReservistCategory = new JLabel("Categoria");
+		cbReservistCategory = new JComboBox<String>();
+		cbReservistCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"1ª Categoria", "2ª Categoria"}));
 		
 		JLabel lblSchooling = new JLabel("Escolaridade");
 		cbSchooling = new JComboBox<String>();
-		cbSchooling.setModel(new DefaultComboBoxModel<String>(new String[] {"Ensino Fundamental Incompleto", "Ensino Fundamental Completo", "Ensino Médio Incompleto", "Ensino Médio Completo", "Ensino Superior Incompleto", "Ensino Superior Completo", "Pós-Graduação"}));
+		cbSchooling.setModel(new DefaultComboBoxModel<String>(new String[] {"Fundamental Incompleto", "Fundamental Completo", "Médio Incompleto", "Médio Completo", "Técnico Incompleto", "Técnico Completo", "Superior Incompleto", "Superior Completo", "Pós-Graduado"}));
 		
-		JLabel lblRg = new JLabel("RG");
-		txRg = new JTextField();
+		JLabel lblPicture = new JLabel("New label");
 		
-		JLabel lblCpf = new JLabel("CPF");
-		txCpf = new JTextField();
+		GroupLayout layout = new GroupLayout(personalDataPanel);
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(layout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.LEADING)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(lblName)
+									.addGap(18)
+									.addComponent(txName, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+									.addGap(21)
+									.addComponent(lblCode)
+									.addGap(18)
+									.addComponent(txCode, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(lblBirth)
+									.addGap(18)
+									.addComponent(txBirth, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(lblGender)
+									.addGap(18)
+									.addComponent(cbGender, 0, 161, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(lblMaritalStatus)
+									.addGap(18)
+									.addComponent(cbMaritalStatus, 0, 126, Short.MAX_VALUE))
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(lblNacionality)
+									.addGap(18)
+									.addComponent(txNacionality, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+									.addGap(19)
+									.addComponent(lblBirthPlace)
+									.addGap(18)
+									.addComponent(txBirthPlace, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblPicture, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
+							.addContainerGap())
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblRg)
+							.addGap(18)
+							.addComponent(txRg, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblCpf)
+							.addGap(18)
+							.addComponent(txCpf, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblCtps)
+							.addGap(18)
+							.addComponent(txCtps, 95, 95, 95)
+							.addGap(18)
+							.addComponent(lblCptsCategory)
+							.addGap(18)
+							.addComponent(txCptsCategory, 0, 74, Short.MAX_VALUE)
+							.addGap(117))
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblVoter)
+							.addGap(18)
+							.addComponent(txVoter, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblDriverLicense)
+							.addGap(18)
+							.addComponent(txDriverLicense, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblDriverLicenseCategory)
+							.addGap(18)
+							.addComponent(cbDriverLicenseCategory, 0, 92, Short.MAX_VALUE)
+							.addGap(117))
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblSchooling)
+							.addGap(18)
+							.addComponent(cbSchooling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblReservist)
+							.addGap(18)
+							.addComponent(txReservist, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblReservistCategory)
+							.addGap(18)
+							.addComponent(cbReservistCategory, 0, 101, Short.MAX_VALUE)
+							.addGap(117))))
+		);
+		layout.setVerticalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addComponent(lblPicture, GroupLayout.PREFERRED_SIZE, 93, GroupLayout.PREFERRED_SIZE)
+						.addGroup(layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblName)
+								.addComponent(txName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCode))
+							.addGap(18)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblBirth)
+								.addComponent(txBirth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblGender)
+								.addComponent(cbGender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblMaritalStatus)
+								.addComponent(cbMaritalStatus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblNacionality)
+								.addComponent(txNacionality, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblBirthPlace)
+								.addComponent(txBirthPlace, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblRg)
+								.addComponent(txRg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCpf)
+								.addComponent(txCpf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCtps)
+								.addComponent(txCtps, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCptsCategory)
+								.addComponent(txCptsCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+							.addGap(18)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblVoter)
+								.addComponent(txVoter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDriverLicense)
+								.addComponent(txDriverLicense, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbDriverLicenseCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblDriverLicenseCategory))
+							.addGap(18)
+							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblReservistCategory)
+								.addComponent(cbReservistCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txReservist, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblSchooling)
+								.addComponent(cbSchooling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblReservist))))
+					.addContainerGap(539, Short.MAX_VALUE))
+		);
+		personalDataPanel.setLayout(layout);
+
 		
-		JLabel lblCtps = new JLabel("CTPS");
-		txCTPS = new JTextField();
+	}
+
+	/**
+	 * Inicializa os componentes gráficos para o registo das informações de contato
+	 */
+	private void initializeContactDataPanel() {
 		
-		JLabel lblCtpsSeries = new JLabel("Série");
-		txCtpsSeries = new JTextField();
+		contactDataPanel = new JPanel();
 		
-		JLabel lblVoterRegistration = new JLabel("Título de Eleitor");
-		txVoterRegistration = new JTextField();
-		
-		JLabel lblDriverLicense = new JLabel("CNH");
-		txDriverLicense = new JTextField();
-		
-		JLabel lblDriverLicenseCategory = new JLabel("Categoria CNH");
-		cbDriverLicense = new JComboBox<String>();
-		cbDriverLicense.setModel(new DefaultComboBoxModel<String>(new String[] {"A", "B", "C", "D", "E"}));
-		
-		JLabel lblReserve = new JLabel("Carteira de Reservista");
-		txReserve = new JTextField();
-		
-		JLabel lblReserveCategory = new JLabel("Categoria");
-		cbReserveCategory = new JComboBox<String>();
-		cbReserveCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"1ª Categoria", "2ª Categoria"}));
 		
 		JLabel lblAddress = new JLabel("Endereço");
 		txAddress = new JTextField();
-		
-		JLabel lblNeighborhood = new JLabel("Bairro");
-		txNeighborhood = new JTextField();
 		
 		JLabel lblCep = new JLabel("CEP");
 		txCep = new JTextField();
 		
 		JLabel lblState = new JLabel("Estado");
-		cbState = new JComboBox<String>();
+		cbState = new JComboBox<State>();
 		
 		JLabel lblCity = new JLabel("Cidade");
-		cbCity = new JComboBox<String>();
+		cbCity = new JComboBox<City>();
+		cbCity.setEnabled(false);
+		
+		JLabel lblNeighborhood = new JLabel("Bairro");
+		txNeighborhood = new JTextField();	
 		
 		JLabel lblPhone = new JLabel("Telefone");
 		txPhone = new JTextField();
 		
-		JLabel lblCellPhone = new JLabel("Celular");
-		txCellPhone = new JTextField();
+		JLabel lblCellphone = new JLabel("Celular");
+		txCellphone = new JTextField();
 		
-		GroupLayout personalDataPanelLayout = new GroupLayout(personalDataPanel);
-		personalDataPanelLayout.setHorizontalGroup(
-			personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(personalDataPanelLayout.createSequentialGroup()
+		GroupLayout layout = new GroupLayout(contactDataPanel);
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(personalDataPanelLayout.createSequentialGroup()
-							.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(personalDataPanelLayout.createSequentialGroup()
-									.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-										.addGroup(personalDataPanelLayout.createSequentialGroup()
-											.addComponent(lblName)
-											.addGap(18)
-											.addComponent(txName, GroupLayout.DEFAULT_SIZE, 301, Short.MAX_VALUE)
-											.addGap(18)
-											.addComponent(lblCode)
-											.addGap(18))
-										.addGroup(personalDataPanelLayout.createSequentialGroup()
-											.addComponent(lblBirth)
-											.addGap(18)
-											.addComponent(txBirth, GroupLayout.DEFAULT_SIZE, 79, Short.MAX_VALUE)
-											.addGap(18)
-											.addComponent(lblGender)
-											.addGap(18)
-											.addComponent(cbGender, 0, 79, Short.MAX_VALUE)
-											.addGap(18)
-											.addComponent(lblMaritalStatus)
-											.addGap(10)))
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-										.addComponent(cbMaritalStatus, 0, 94, Short.MAX_VALUE)
-										.addGroup(personalDataPanelLayout.createSequentialGroup()
-											.addComponent(txCode, GroupLayout.DEFAULT_SIZE, 92, Short.MAX_VALUE)
-											.addGap(2)))
-									.addPreferredGap(ComponentPlacement.RELATED))
-								.addGroup(personalDataPanelLayout.createSequentialGroup()
-									.addComponent(lblNacionality)
-									.addGap(18)
-									.addComponent(txNacionality, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(lblBirthPlace)
-									.addGap(18)
-									.addComponent(txBirthPlace, GroupLayout.DEFAULT_SIZE, 121, Short.MAX_VALUE)))
+					.addGroup(layout.createParallelGroup(Alignment.LEADING, false)
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblCep)
 							.addGap(18)
-							.addComponent(lblPicture, GroupLayout.PREFERRED_SIZE, 85, GroupLayout.PREFERRED_SIZE)
-							.addGap(12))
-						.addGroup(personalDataPanelLayout.createSequentialGroup()
-							.addComponent(lblSchooling)
+							.addComponent(txCep, GroupLayout.PREFERRED_SIZE, 134, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(cbSchooling, 0, 172, Short.MAX_VALUE)
-							.addGap(374))
-						.addGroup(personalDataPanelLayout.createSequentialGroup()
-							.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.TRAILING)
-								.addGroup(personalDataPanelLayout.createSequentialGroup()
-									.addComponent(lblVoterRegistration)
-									.addGap(18)
-									.addComponent(txVoterRegistration, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE))
-								.addGroup(personalDataPanelLayout.createSequentialGroup()
-									.addComponent(lblRg)
-									.addGap(18)
-									.addComponent(txRg, GroupLayout.DEFAULT_SIZE, 117, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(lblCpf)))
+							.addComponent(lblState)
 							.addGap(18)
-							.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(personalDataPanelLayout.createSequentialGroup()
-									.addComponent(txCpf, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(lblCtps))
-								.addGroup(personalDataPanelLayout.createSequentialGroup()
-									.addComponent(lblDriverLicense)
-									.addGap(18)
-									.addComponent(txDriverLicense, GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)))
+							.addComponent(cbState, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblCity)
 							.addGap(18)
-							.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-								.addGroup(personalDataPanelLayout.createSequentialGroup()
-									.addComponent(txCTPS, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
-									.addGap(18)
-									.addComponent(lblCtpsSeries))
-								.addGroup(personalDataPanelLayout.createSequentialGroup()
-									.addComponent(lblDriverLicenseCategory)
-									.addGap(18)
-									.addComponent(cbDriverLicense, 0, 38, Short.MAX_VALUE)))
-							.addGap(18)
-							.addComponent(txCtpsSeries, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(personalDataPanelLayout.createSequentialGroup()
-							.addComponent(lblReserve)
-							.addGap(18)
-							.addComponent(txReserve, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblReserveCategory)
-							.addGap(18)
-							.addComponent(cbReserveCategory, GroupLayout.PREFERRED_SIZE, 103, GroupLayout.PREFERRED_SIZE)
-							.addGap(178))
-						.addGroup(personalDataPanelLayout.createSequentialGroup()
+							.addComponent(cbCity, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblAddress)
 							.addGap(18)
-							.addComponent(txAddress, GroupLayout.DEFAULT_SIZE, 223, Short.MAX_VALUE)
+							.addComponent(txAddress, GroupLayout.PREFERRED_SIZE, 346, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(lblNeighborhood)
 							.addGap(18)
-							.addComponent(txNeighborhood, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblCep)
-							.addGap(18)
-							.addComponent(txCep, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
-							.addContainerGap())
-						.addGroup(personalDataPanelLayout.createSequentialGroup()
-							.addComponent(lblState)
-							.addGap(18)
-							.addComponent(cbState, 0, 135, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblCity)
-							.addGap(18)
-							.addComponent(cbCity, 0, 132, Short.MAX_VALUE)
-							.addGap(237))
-						.addGroup(personalDataPanelLayout.createSequentialGroup()
+							.addComponent(txNeighborhood, GroupLayout.PREFERRED_SIZE, 290, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblPhone)
 							.addGap(18)
-							.addComponent(txPhone, GroupLayout.DEFAULT_SIZE, 107, Short.MAX_VALUE)
+							.addComponent(txPhone, GroupLayout.PREFERRED_SIZE, 216, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(lblCellPhone)
+							.addComponent(lblCellphone)
 							.addGap(18)
-							.addComponent(txCellPhone, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-							.addGap(287))))
+							.addComponent(txCellphone, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap(35, Short.MAX_VALUE))
 		);
-		personalDataPanelLayout.setVerticalGroup(
-			personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-				.addGroup(personalDataPanelLayout.createSequentialGroup()
+		layout.setVerticalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.LEADING)
-						.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-							.addComponent(lblPicture, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-							.addComponent(cbMaritalStatus, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-						.addGroup(personalDataPanelLayout.createSequentialGroup()
-							.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblName)
-								.addComponent(txName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCode)
-								.addComponent(txCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-							.addGap(18)
-							.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblBirth)
-								.addComponent(txBirth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblGender)
-								.addComponent(cbGender, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblMaritalStatus))
-							.addGap(18)
-							.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-								.addComponent(lblNacionality)
-								.addComponent(txNacionality, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblBirthPlace)
-								.addComponent(txBirthPlace, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))))
-					.addGap(18)
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSchooling)
-						.addComponent(cbSchooling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblRg)
-						.addComponent(txRg, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCpf)
-						.addComponent(txCpf, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCtps)
-						.addComponent(txCTPS, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCtpsSeries)
-						.addComponent(txCtpsSeries, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblVoterRegistration)
-						.addComponent(txVoterRegistration, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDriverLicense)
-						.addComponent(txDriverLicense, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblDriverLicenseCategory)
-						.addComponent(cbDriverLicense, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblReserve)
-						.addComponent(txReserve, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblReserveCategory)
-						.addComponent(cbReserveCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblAddress)
 						.addComponent(txAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblNeighborhood)
-						.addComponent(txNeighborhood, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txNeighborhood, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCep)
-						.addComponent(txCep, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(txCep, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblState)
-						.addComponent(cbState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblCity)
-						.addComponent(cbCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(cbCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(cbState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(personalDataPanelLayout.createParallelGroup(Alignment.BASELINE)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPhone)
 						.addComponent(txPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCellPhone)
-						.addComponent(txCellPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(27, Short.MAX_VALUE))
+						.addComponent(lblCellphone)
+						.addComponent(txCellphone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(195, Short.MAX_VALUE))
 		);
-		personalDataPanel.setLayout(personalDataPanelLayout);
-		
+		contactDataPanel.setLayout(layout);		
 	}
 	
-	private void initializeBankingDatePanel() {
+	/**
+	 * Inicializa os componentes gráficos para o registro de dependentes
+	 */
+	private void initializeDependentDataPanel() {
 		
-		bankingDataPanel = new JPanel();
+		dependentDataPanel = new JPanel();
+		dependentDataPanel.setLayout(new BorderLayout(0, 0));
+		
+		dependentScrollPane = new JScrollPane();
+		dependentDataPanel.add(dependentScrollPane, BorderLayout.CENTER);
+		
+		dependentTable = new JTable();
+		dependentTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        dependentTable.setCellSelectionEnabled(true);
+        dependentTable.getTableHeader().setReorderingAllowed(false);
+		
+		dependentTable.setModel(new DefaultTableModel(
+			new String[][] {{"", "", ""},},
+			new String[] {"Nome", "Relação", "Data de Nascimento/Casamento"		}
+		));
+		
+		dependentScrollPane.setViewportView(dependentTable);	
 		
 	}
 	
 	/**
-	 * Inicializa os elementos gráficos dos botões de confirmação e cancelamento
+	 * Inicializa os componentes ggráficos dos botões inferiores
 	 */
-	private void initializeButtonsPanel() {
+	private void initializaButtonsPanel() {
 		
 		buttonsPanel = new JPanel();
+		
 		FlowLayout flowLayout = (FlowLayout) buttonsPanel.getLayout();
 		flowLayout.setAlignment(FlowLayout.RIGHT);
+		getContentPane().add(buttonsPanel, BorderLayout.SOUTH);
 		
-		cancelButton = new JButton("Cancelar");
-		cancelButton.setIcon(new ImageIcon(getClass().getResource("/resources/cancel.png")));
-		buttonsPanel.add(cancelButton);
+		btnCancel = new JButton("Cancelar");
+		btnCancel.setIcon(new ImageIcon(getClass().getResource("/resources/cancel.png")));
+		buttonsPanel.add(btnCancel);
 		
-		okButton = new JButton("Registrar Funcionário");
-		okButton.setIcon(new ImageIcon(getClass().getResource("/resources/ok.png")));
-		buttonsPanel.add(okButton);
+		btnConfirme = new JButton("Confirmar");
+		btnConfirme.setIcon(new ImageIcon(getClass().getResource("/resources/ok.png")));
+		buttonsPanel.add(btnConfirme);
+		
+	}
+
+	/**
+	 * Define as ações dos elementos gráficos
+	 */
+	private void setListeners() {
+		
+		dependentTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent arg0) {
+            	dependentTable.putClientProperty("terminateEditOnFocusLost", Boolean.TRUE); //se não havia terminado a edição  
+            }
+        });
+		
+		dependentTable.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e){
+            	tableKeyPressed(e);
+            }
+        });
 		
 	}
 	
+	/**
+	 * Trata o evento de tecla pressionada sobre a tabela 
+	 * 
+	 * @param e Objeto do evento de pressão do botão
+	 */
+	private void tableKeyPressed(KeyEvent e) {
+		
+		if(e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_DOWN){ //a tecla pressionada foi enter
+            if(dependentTable.getSelectedRow() == dependentTable.getModel().getRowCount() -1){ //se for a última linha da tabela
+            	DefaultTableModel model = (DefaultTableModel) dependentTable.getModel();
+                model.addRow(new Object[]{null, null}); //adiciona a nova linha
+            }
+        }
+		
+	}
+
+
 }

@@ -25,11 +25,11 @@ public class Properties {
 		}
 	}
 	
-	public String getPropriedade(String key) {
+	public String getPropertie(String key) {
 		return properties.getProperty(key);
 	}
 	
-	public void setPropriedade(String key, String value) {
+	public void setPropertie(String key, String value) {
 		properties.setProperty(key, value);
 	}
 
