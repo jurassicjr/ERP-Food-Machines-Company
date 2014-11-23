@@ -3,6 +3,7 @@ package rh.view;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
@@ -21,6 +22,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
+import javax.swing.border.EtchedBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -28,7 +30,6 @@ import javax.swing.table.DefaultTableModel;
 import userInterface.components.ComboBoxAutoCompletion;
 import core.City;
 import core.State;
-import database.FillCBO;
 import database.FillStateAndCity;
 
 /**
@@ -183,7 +184,31 @@ public class RegisterEmployeeFrame extends JFrame {
 		cbSchooling = new JComboBox<String>();
 		cbSchooling.setModel(new DefaultComboBoxModel<String>(new String[] {"Fundamental Incompleto", "Fundamental Completo", "Médio Incompleto", "Médio Completo", "Técnico Incompleto", "Técnico Completo", "Superior Incompleto", "Superior Completo", "Pós-Graduado"}));
 		
-		JLabel lblPicture = new JLabel("New label");
+		JLabel lblPicture = new JLabel();
+		//lblPicture.setIcon(new ImageIcon(getClass().getResource("/resources/profile.png")));
+		
+		
+		int labelWidth = 80;
+		ImageIcon imagem = new ImageIcon(getClass().getResource("/resources/profile.png"));
+		ImageIcon thumbnail = null;
+		if(imagem.getIconWidth() > labelWidth){       
+			thumbnail = new ImageIcon(imagem.getImage().getScaledInstance(labelWidth, -1, Image.SCALE_DEFAULT));  
+		}
+		else thumbnail = imagem;
+		
+		lblPicture.setIcon(thumbnail);
+		
+		lblPicture.setBorder(new EtchedBorder());
+		
+		
+//		 public ImageIcon GeraThumbnail(File arquivo, int labelWidth){  
+//		       
+//		       
+//		       
+//		  
+//		     return thumbnail;  
+//		}  
+		
 		
 		GroupLayout layout = new GroupLayout(personalDataPanel);
 		layout.setHorizontalGroup(
