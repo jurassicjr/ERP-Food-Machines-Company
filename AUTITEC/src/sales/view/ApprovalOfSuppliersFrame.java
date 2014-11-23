@@ -48,7 +48,9 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 	private void intialize() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		JTabbedPane tab = new JTabbedPane();
-
+		
+		ImageIcon img = new ImageIcon(getClass().getResource("/resources/Logo Frontal.png"));
+		this.setIconImage(img.getImage());
 		getContentPane().add(tab, BorderLayout.CENTER);
 		JPanel panelBotao = new JPanel();
 		FlowLayout fl = new FlowLayout();

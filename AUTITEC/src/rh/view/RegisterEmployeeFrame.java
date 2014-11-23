@@ -92,7 +92,6 @@ public class RegisterEmployeeFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setMinimumSize(new Dimension(829, 404));
 		setTitle("Registro de Funcionário");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
