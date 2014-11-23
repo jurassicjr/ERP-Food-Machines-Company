@@ -36,11 +36,13 @@ public class MainFrameController {
 	public void ApprovalOfSuppliers() {
 		ApprovalOfSuppliersFrame frame = new ApprovalOfSuppliersFrame();
 		frame.setVisible(true);
+		frame.pack();
 		frame.setLocationRelativeTo(mainFrame);
 	}
 	public void SalesRequisition() {
 		SalesRequisitionFrame frameReq = new SalesRequisitionFrame();
 		frameReq.setVisible(true);
+		frameReq.pack();
 		frameReq.setLocationRelativeTo(mainFrame);
 	}
 
