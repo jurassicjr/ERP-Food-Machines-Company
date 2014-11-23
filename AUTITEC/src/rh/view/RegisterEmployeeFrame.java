@@ -25,8 +25,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-import ComboBoxItens.City;
-import ComboBoxItens.State;
+import userInterface.components.ComboBoxAutoCompletion;
+import core.City;
+import core.State;
 import database.FillStateAndCity;
 
 /**
@@ -112,6 +113,9 @@ public class RegisterEmployeeFrame extends JFrame {
 		initializaButtonsPanel();
 		
 		new FillStateAndCity(cbState, cbCity);
+
+		new ComboBoxAutoCompletion(cbState);
+		new ComboBoxAutoCompletion(cbCity);
 		
 	}
 	

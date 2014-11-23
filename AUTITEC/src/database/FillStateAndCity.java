@@ -7,8 +7,8 @@ import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 
-import ComboBoxItens.City;
-import ComboBoxItens.State;
+import core.City;
+import core.State;
 
 /**
  * Responsável pelo preenchimento e gerenciamento de JComboBox para estados e cidades registrados na base de dados.

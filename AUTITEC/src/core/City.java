@@ -1,4 +1,4 @@
-package ComboBoxItens;
+package core;
 
 public class City {
 	
