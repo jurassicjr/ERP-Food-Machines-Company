@@ -45,6 +45,7 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JPanel contactDataPanel;
 	private JPanel bankingDataPanel;
 	private JPanel dependentDataPanel;
+	private JPanel jobDataPanel;
 	
 	private JTextField txName;
 	private JTextField txBirth;
@@ -76,6 +77,7 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JButton btnConfirme;
 	private JScrollPane dependentScrollPane;
 	private JTable dependentTable;
+	private JTextField textField;
 	
 	/**
 	 * Cria o frame de registro de funcionário
@@ -106,7 +108,41 @@ public class RegisterEmployeeFrame extends JFrame {
 		tabbedPane.addTab("Informações de Contato", contactDataPanel);
 		
 		bankingDataPanel = new JPanel();
-		tabbedPane.add("Dados Bancários", bankingDataPanel);
+		tabbedPane.addTab("Dados Bancários", bankingDataPanel);
+		
+		
+		
+		jobDataPanel = new JPanel();
+		tabbedPane.addTab("Dados do Cargo", jobDataPanel);
+		
+		JLabel lblDataDeAdmisso = new JLabel("Data de Admissão");
+		
+		textField = new JTextField();
+		textField.setColumns(10);
+		GroupLayout gl_jobDataPanel = new GroupLayout(jobDataPanel);
+		gl_jobDataPanel.setHorizontalGroup(
+			gl_jobDataPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_jobDataPanel.createSequentialGroup()
+					.addContainerGap()
+					.addComponent(lblDataDeAdmisso)
+					.addGap(18)
+					.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(608, Short.MAX_VALUE))
+		);
+		gl_jobDataPanel.setVerticalGroup(
+			gl_jobDataPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_jobDataPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_jobDataPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblDataDeAdmisso)
+						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(277, Short.MAX_VALUE))
+		);
+		jobDataPanel.setLayout(gl_jobDataPanel);
+		
+		
+		
+		
 		
 		
 		initializeDependentDataPanel();
@@ -529,6 +565,4 @@ public class RegisterEmployeeFrame extends JFrame {
         }
 		
 	}
-
-
 }

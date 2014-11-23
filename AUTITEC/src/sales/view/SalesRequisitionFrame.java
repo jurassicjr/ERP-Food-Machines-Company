@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
@@ -20,6 +21,8 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
+
+import userInterface.components.ComboBoxAutoCompletion;
 
 public class SalesRequisitionFrame extends JFrame {
 	
@@ -75,15 +78,14 @@ public class SalesRequisitionFrame extends JFrame {
 		JLabel lblInserirProduto = new JLabel("Inserir Produto:");
 
 		JComboBox<String> comboBox_3 = new JComboBox<String>();
-<<<<<<< HEAD
-=======
+
 		comboBox_3.setModel(new DefaultComboBoxModel<String>(new String[] { "Valvula Borboleta", "Valvula Solenoie",
 		        "Tubulação de 1/2 em aço inox" }));
 		comboBox_3.setEditable(true);
 		//comboBox_3.showPopup();
 		ComboBoxAutoCompletion cbac = new ComboBoxAutoCompletion(comboBox_3);
 		// AutoCompleteDecorator.decorate(comboBox_3);
->>>>>>> branch 'master' of ssh://git@bitbucket.org/pedrohreis/autitec.git
+
 		JButton btnInserir = new JButton("Inserir");
 
 		JScrollPane scrollPane = new JScrollPane();
