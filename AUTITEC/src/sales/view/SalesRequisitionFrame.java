@@ -78,14 +78,23 @@ public class SalesRequisitionFrame extends JFrame {
 		JLabel lblInserirProduto = new JLabel("Inserir Produto:");
 
 		JComboBox<String> comboBox_3 = new JComboBox<String>();
+<<<<<<< HEAD
 
+=======
+//<<<<<<< HEAD
+//=======
+>>>>>>> refs/remotes/origin/master
 		comboBox_3.setModel(new DefaultComboBoxModel<String>(new String[] { "Valvula Borboleta", "Valvula Solenoie",
 		        "Tubulação de 1/2 em aço inox" }));
 		comboBox_3.setEditable(true);
 		//comboBox_3.showPopup();
 		ComboBoxAutoCompletion cbac = new ComboBoxAutoCompletion(comboBox_3);
 		// AutoCompleteDecorator.decorate(comboBox_3);
+<<<<<<< HEAD
 
+=======
+//>>>>>>> branch 'master' of ssh://git@bitbucket.org/pedrohreis/autitec.git
+>>>>>>> refs/remotes/origin/master
 		JButton btnInserir = new JButton("Inserir");
 
 		JScrollPane scrollPane = new JScrollPane();

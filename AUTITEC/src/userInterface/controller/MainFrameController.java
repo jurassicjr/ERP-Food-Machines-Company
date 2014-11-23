@@ -1,5 +1,7 @@
 package userInterface.controller;
 
+import java.awt.Dimension;
+
 import rh.view.RegisterEmployeeFrame;
 import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.SalesRequisitionFrame;
@@ -42,7 +44,7 @@ public class MainFrameController {
 	public void SalesRequisition() {
 		SalesRequisitionFrame frameReq = new SalesRequisitionFrame();
 		frameReq.setVisible(true);
-		frameReq.pack();
+		frameReq.setMinimumSize(new Dimension(750,320));
 		frameReq.setLocationRelativeTo(mainFrame);
 	}
 
