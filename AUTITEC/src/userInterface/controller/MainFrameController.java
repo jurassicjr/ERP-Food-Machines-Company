@@ -1,6 +1,7 @@
 package userInterface.controller;
 
 import java.awt.Dimension;
+import java.awt.EventQueue;
 
 import rh.view.RegisterEmployeeFrame;
 import sales.view.ApprovalOfSuppliersFrame;
@@ -28,10 +29,18 @@ public class MainFrameController {
 	 * Exibe o frame para registro de funcionário
 	 */
 	public void registerEmployee() {
-
-		RegisterEmployeeFrame frame = new RegisterEmployeeFrame();
-		frame.setVisible(true);
-		frame.setLocationRelativeTo(mainFrame);
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				RegisterEmployeeFrame frame = new RegisterEmployeeFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});		
 
 	}
 

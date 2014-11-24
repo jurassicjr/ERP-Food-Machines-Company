@@ -37,7 +37,7 @@ public class FillCBO {
 		
 		try {
 		
-			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM cbo");
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM cbo ORDER BY title");
 			
 			while(resultSet.next()) {
 				
@@ -48,6 +48,8 @@ public class FillCBO {
 				cbo.addItem(new CBO(id, code, title));
 			
 			}
+			
+			cbo.setSelectedIndex(-1);
 			
 		} catch (SQLException e) {
 			DataBase.showDataBaseErrorMessage();

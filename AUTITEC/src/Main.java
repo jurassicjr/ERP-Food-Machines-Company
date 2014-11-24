@@ -1,6 +1,6 @@
 import java.awt.EventQueue;
 
-import rh.view.RegisterEmployeeFrame;
+import userInterface.view.MainFrame;
 
 /**
  * Classe principal, responsável por inicializar a aplicação.
@@ -13,8 +13,8 @@ public class Main {
 
 			@Override
 			public void run() {
-				//MainFrame frame = new MainFrame();
-				RegisterEmployeeFrame frame = new RegisterEmployeeFrame();
+				MainFrame frame = new MainFrame();
+				//RegisterEmployeeFrame frame = new RegisterEmployeeFrame();
 				frame.setVisible(true);
 			}
 		});
