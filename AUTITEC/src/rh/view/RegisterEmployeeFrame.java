@@ -9,6 +9,9 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.text.ParseException;
 
 import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
@@ -17,6 +20,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -31,18 +35,17 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import net.sf.nachocalendar.table.JTableCustomizer;
+import rh.controller.RegisterEmployeeController;
 import userInterface.components.ComboBoxAutoCompletion;
 import core.Bank;
 import core.CBO;
 import core.City;
 import core.State;
-import database.FillBanks;
-import database.FillCBO;
-import database.FillStateAndCity;
 
 /**
  * Representa o frame de registro de funcionários
@@ -61,35 +64,40 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JScrollPane dependentScrollPane;
 	
 	private JTextField txName;
-	private JTextField txRg;
-	private JTextField txVoter;
 	private JTextField txReservist;
 	private JTextField txCode;
 	private JTextField txBirthPlace;
 	private JTextField txNacionality;
-	private JTextField txCpf;
-	private JTextField txDriverLicense;
 	private JTextField txCtps;
 	private JTextField txCptsCategory;
 	private JTextField txAddress;
-	private JTextField txCep;
 	private JTextField txNeighborhood;
-	private JTextField txPhone;
-	private JTextField txCellphone;
-	private JTextField txAdmissionDate;
 	private JTextField txCbo;
 	private JTextField txSalary;
-	private JTextField txRetractionDate;
-	private JTextField txOptionDate;
 	private JTextField txAgency;
 	private JTextField txAccount;
+	private JTextField txCadastreNumber;
+	private JTextField txSocialIntegrationBank;
+	private JTextField txSocialIntegrationAddress;
+	private JTextField txReservistCategory;
+	private JFormattedTextField txRg;
+	private JFormattedTextField txVoter;
+	private JFormattedTextField txCpf;
+	private JFormattedTextField txDriverLicense;
+	private JFormattedTextField txCep;
+	private JFormattedTextField txPhone;
+	private JFormattedTextField txCellphone;
 	
 	private DateField txBirth;
+	private DateField txOptionDate;
+	private DateField txAdmissionDate;
+	private DateField txRetractionDate;
+	private DateField txCadastreDate;
 	
 	private JComboBox<String> cbMaritalStatus;
 	private JComboBox<String> cbDriverLicenseCategory;
 	private JComboBox<String> cbGender;
-	private JComboBox<String> cbReservistCategory;
+	
 	private JComboBox<String> cbSchooling;
 	private JComboBox<State> cbState;
 	private JComboBox<City> cbCity;
@@ -97,26 +105,22 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JComboBox<Bank> cbBank;
 	private JComboBox<CBO> cbJob;
 	private JComboBox<String> cbPayment;
+	private JComboBox<Bank> cbSocialIntegrationBank;
+	
+	private JLabel lblPicture;
 	
 	private JTable dependentTable;
 	
 	private JButton btnCancel;
 	private JButton btnConfirme;
-	private JLabel lblDataDeCadastro;
-	private JTextField textField;
-	private JLabel lblNmeroDeCadastro;
-	private JTextField textField_1;
-	private JLabel lblBanco;
-	private JComboBox comboBox;
-	private JLabel lblAgncia;
-	private JTextField textField_2;
-	private JLabel lblEndereo;
-	private JTextField textField_3;
+	
+	private RegisterEmployeeController controller;
 	
 	/**
 	 * Cria o frame de registro de funcionário
 	 */
 	public RegisterEmployeeFrame() {
+		controller = new RegisterEmployeeController(this);
 		initialize();
 		setListeners();
 	}
@@ -144,96 +148,26 @@ public class RegisterEmployeeFrame extends JFrame {
 		initializeJobDataPanel();
 		tabbedPane.addTab("Dados do Cargo", jobDataPanel);
 		
-		socialIntegrationProgramPanel = new JPanel();
+		initializeSocialIntegrationProgramPanel();
 		tabbedPane.addTab("Programa de Integração Social", socialIntegrationProgramPanel);
-		
-		lblDataDeCadastro = new JLabel("Data de Cadastro");
-		
-		textField = new JTextField();
-		textField.setColumns(10);
-		
-		lblNmeroDeCadastro = new JLabel("Número de Cadastro");
-		
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
-		
-		lblBanco = new JLabel("Banco");
-		
-		comboBox = new JComboBox();
-		
-		lblAgncia = new JLabel("Agência");
-		
-		textField_2 = new JTextField();
-		textField_2.setColumns(10);
-		
-		lblEndereo = new JLabel("Endereço");
-		
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
-		GroupLayout gl_socialIntegrationProgramPanel = new GroupLayout(socialIntegrationProgramPanel);
-		gl_socialIntegrationProgramPanel.setHorizontalGroup(
-			gl_socialIntegrationProgramPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_socialIntegrationProgramPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_socialIntegrationProgramPanel.createParallelGroup(Alignment.LEADING, false)
-						.addGroup(gl_socialIntegrationProgramPanel.createSequentialGroup()
-							.addComponent(lblDataDeCadastro)
-							.addGap(18)
-							.addComponent(textField)
-							.addGap(18)
-							.addComponent(lblNmeroDeCadastro)
-							.addGap(18)
-							.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, 256, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_socialIntegrationProgramPanel.createSequentialGroup()
-							.addComponent(lblBanco)
-							.addGap(18)
-							.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, 188, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblAgncia)
-							.addGap(18)
-							.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblEndereo)
-							.addGap(18)
-							.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, 175, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap(147, Short.MAX_VALUE))
-		);
-		gl_socialIntegrationProgramPanel.setVerticalGroup(
-			gl_socialIntegrationProgramPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_socialIntegrationProgramPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_socialIntegrationProgramPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblDataDeCadastro)
-						.addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(textField_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblNmeroDeCadastro))
-					.addGap(18)
-					.addGroup(gl_socialIntegrationProgramPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblBanco)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAgncia)
-						.addComponent(textField_2, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblEndereo)
-						.addComponent(textField_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(233, Short.MAX_VALUE))
-		);
-		socialIntegrationProgramPanel.setLayout(gl_socialIntegrationProgramPanel);
-		
+				
 		initializeDependentDataPanel();
 		tabbedPane.addTab("Dependentes", dependentDataPanel);
 		
-		initializaButtonsPanel();
+		initializeButtonsPanel();		
 		
-		new FillStateAndCity(cbState, cbCity);
-		new FillBanks(cbBank);
-		new FillBanks(cbDepositaryBank);
-		new FillCBO(cbJob);
+		controller.fillStateAndCity(cbState, cbCity);
+		controller.fillCBO(cbJob, txCbo);
+		controller.fillBanks(cbBank);
+		controller.fillBanks(cbDepositaryBank);
+		controller.fillBanks(cbSocialIntegrationBank);
 
 		new ComboBoxAutoCompletion(cbState);
 		new ComboBoxAutoCompletion(cbCity);
-		new ComboBoxAutoCompletion(cbBank);
 		new ComboBoxAutoCompletion(cbJob);
+		new ComboBoxAutoCompletion(cbBank);
 		new ComboBoxAutoCompletion(cbDepositaryBank);
+		new ComboBoxAutoCompletion(cbSocialIntegrationBank);
 		
 	}
 	
@@ -255,33 +189,40 @@ public class RegisterEmployeeFrame extends JFrame {
 		txNacionality = new JTextField();
 		
 		JLabel lblRg = new JLabel("Registro Geral (RG)");
-		txRg = new JTextField();
-		
+		try { txRg = new JFormattedTextField(new MaskFormatter("##.###.###-A")); }
+		catch (ParseException e) { e.printStackTrace(); }
+				
 		JLabel lblVoter = new JLabel("Título de Eleitor");
-		txVoter = new JTextField();
+		try { txVoter = new JFormattedTextField(new MaskFormatter("#### #### #### ####")); }
+		catch (ParseException e) { e.printStackTrace(); }
 		
 		JLabel lblReservist = new JLabel("Reservista");
 		txReservist = new JTextField();		
 		
 		JLabel lblCode = new JLabel("Código");
 		txCode = new JTextField();
+		txCode.setEditable(false);
 		
 		JLabel lblMaritalStatus = new JLabel("Estado Civil");
 		cbMaritalStatus = new JComboBox<String>();
 		cbMaritalStatus.setModel(new DefaultComboBoxModel<String>(new String[] {"Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)"}));
+		cbMaritalStatus.setSelectedIndex(-1);
 		
 		JLabel lblBirthPlace = new JLabel("Local de Nascimento");
 		txBirthPlace = new JTextField();
 		
 		JLabel lblCpf = new JLabel("CPF");
-		txCpf = new JTextField();
-		
+		try { txCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##")); } 
+		catch (ParseException e) { e.printStackTrace(); }
+			
 		JLabel lblDriverLicense = new JLabel("Carteira de Habilitação");
-		txDriverLicense = new JTextField();
+		try { txDriverLicense = new JFormattedTextField(new MaskFormatter("###########")); }
+		catch (ParseException e) { e.printStackTrace(); }
 		
 		JLabel lblDriverLicenseCategory = new JLabel("Categoria");		
 		cbDriverLicenseCategory = new JComboBox<String>();
-		cbDriverLicenseCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Categoria A", "Categoria B", "Categoria C", "Categoria D", "Categoria E"}));
+		cbDriverLicenseCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"Categoria A", "Categoria B", "Categoria AB", "Categoria AC", "Categoria AD", "Categoria AE", "Categoria C", "Categoria D", "Categoria E"}));
+		cbDriverLicenseCategory.setSelectedIndex(-1);
 		
 		JLabel lblCtps = new JLabel("CTPS");
 		txCtps = new JTextField();
@@ -292,40 +233,26 @@ public class RegisterEmployeeFrame extends JFrame {
 		JLabel lblGender = new JLabel("Sexo");
 		cbGender = new JComboBox<String>();
 		cbGender.setModel(new DefaultComboBoxModel<String>(new String[] {"Masculino", "Feminino"}));
+		cbGender.setSelectedIndex(-1);
 		
 		JLabel lblReservistCategory = new JLabel("Categoria");
-		cbReservistCategory = new JComboBox<String>();
-		cbReservistCategory.setModel(new DefaultComboBoxModel<String>(new String[] {"1ª Categoria", "2ª Categoria"}));
+		txReservistCategory = new JTextField();
 		
 		JLabel lblSchooling = new JLabel("Escolaridade");
 		cbSchooling = new JComboBox<String>();
 		cbSchooling.setModel(new DefaultComboBoxModel<String>(new String[] {"Fundamental Incompleto", "Fundamental Completo", "Médio Incompleto", "Médio Completo", "Técnico Incompleto", "Técnico Completo", "Superior Incompleto", "Superior Completo", "Pós-Graduado"}));
+		cbSchooling.setSelectedIndex(-1);
 		
-		JLabel lblPicture = new JLabel();
-		//lblPicture.setIcon(new ImageIcon(getClass().getResource("/resources/profile.png")));
-		
-		
-		int labelWidth = 90;
+		lblPicture = new JLabel();	
+		int labelWidth = 95;
 		ImageIcon imagem = new ImageIcon(getClass().getResource("/resources/profile.png"));
 		ImageIcon thumbnail = null;
 		if(imagem.getIconWidth() > labelWidth){       
 			thumbnail = new ImageIcon(imagem.getImage().getScaledInstance(labelWidth, -1, Image.SCALE_DEFAULT));  
 		}
 		else thumbnail = imagem;
-		
 		lblPicture.setIcon(thumbnail);
-		
 		lblPicture.setBorder(new EtchedBorder());
-		
-		
-//		 public ImageIcon GeraThumbnail(File arquivo, int labelWidth){  
-//		       
-//		       
-//		       
-//		  
-//		     return thumbnail;  
-//		}  
-		
 		
 		GroupLayout layout = new GroupLayout(personalDataPanel);
 		layout.setHorizontalGroup(
@@ -338,42 +265,42 @@ public class RegisterEmployeeFrame extends JFrame {
 								.addGroup(layout.createSequentialGroup()
 									.addComponent(lblName)
 									.addGap(18)
-									.addComponent(txName, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+									.addComponent(txName, GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
 									.addGap(21)
 									.addComponent(lblCode)
 									.addGap(18)
-									.addComponent(txCode, GroupLayout.DEFAULT_SIZE, 110, Short.MAX_VALUE))
+									.addComponent(txCode, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
 								.addGroup(layout.createSequentialGroup()
 									.addComponent(lblBirth)
 									.addGap(18)
-									.addComponent(txBirth, GroupLayout.DEFAULT_SIZE, 134, Short.MAX_VALUE)
+									.addComponent(txBirth, GroupLayout.DEFAULT_SIZE, 133, Short.MAX_VALUE)
 									.addGap(18)
 									.addComponent(lblGender)
 									.addGap(18)
-									.addComponent(cbGender, 0, 161, Short.MAX_VALUE)
+									.addComponent(cbGender, 0, 158, Short.MAX_VALUE)
 									.addGap(18)
 									.addComponent(lblMaritalStatus)
 									.addGap(18)
-									.addComponent(cbMaritalStatus, 0, 126, Short.MAX_VALUE))
+									.addComponent(cbMaritalStatus, 0, 125, Short.MAX_VALUE))
 								.addGroup(layout.createSequentialGroup()
 									.addComponent(lblNacionality)
 									.addGap(18)
-									.addComponent(txNacionality, GroupLayout.DEFAULT_SIZE, 220, Short.MAX_VALUE)
+									.addComponent(txNacionality, GroupLayout.DEFAULT_SIZE, 218, Short.MAX_VALUE)
 									.addGap(19)
 									.addComponent(lblBirthPlace)
 									.addGap(18)
-									.addComponent(txBirthPlace, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE)))
+									.addComponent(txBirthPlace, GroupLayout.DEFAULT_SIZE, 245, Short.MAX_VALUE)))
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(lblPicture, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE)
 							.addContainerGap())
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblRg)
 							.addGap(18)
-							.addComponent(txRg, GroupLayout.DEFAULT_SIZE, 105, Short.MAX_VALUE)
+							.addComponent(txRg, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblCpf)
 							.addGap(18)
-							.addComponent(txCpf, GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+							.addComponent(txCpf, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblCtps)
 							.addGap(18)
@@ -381,20 +308,20 @@ public class RegisterEmployeeFrame extends JFrame {
 							.addGap(18)
 							.addComponent(lblCptsCategory)
 							.addGap(18)
-							.addComponent(txCptsCategory, 0, 74, Short.MAX_VALUE)
+							.addComponent(txCptsCategory, 0, 73, Short.MAX_VALUE)
 							.addGap(117))
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblVoter)
 							.addGap(18)
-							.addComponent(txVoter, GroupLayout.DEFAULT_SIZE, 97, Short.MAX_VALUE)
+							.addComponent(txVoter, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(lblDriverLicense)
 							.addGap(18)
-							.addComponent(txDriverLicense, GroupLayout.DEFAULT_SIZE, 177, Short.MAX_VALUE)
+							.addComponent(txDriverLicense, GroupLayout.PREFERRED_SIZE, 150, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(lblDriverLicenseCategory)
 							.addGap(18)
-							.addComponent(cbDriverLicenseCategory, 0, 92, Short.MAX_VALUE)
+							.addComponent(cbDriverLicenseCategory, 0, 91, Short.MAX_VALUE)
 							.addGap(117))
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblSchooling)
@@ -403,11 +330,11 @@ public class RegisterEmployeeFrame extends JFrame {
 							.addGap(18)
 							.addComponent(lblReservist)
 							.addGap(18)
-							.addComponent(txReservist, GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
+							.addComponent(txReservist, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblReservistCategory)
 							.addGap(18)
-							.addComponent(cbReservistCategory, 0, 101, Short.MAX_VALUE)
+							.addComponent(txReservistCategory, 0, 99, Short.MAX_VALUE)
 							.addGap(117))))
 		);
 		layout.setVerticalGroup(
@@ -450,19 +377,19 @@ public class RegisterEmployeeFrame extends JFrame {
 							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblVoter)
 								.addComponent(txVoter, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDriverLicense)
 								.addComponent(txDriverLicense, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(cbDriverLicenseCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblDriverLicenseCategory))
+								.addComponent(lblDriverLicenseCategory)
+								.addComponent(lblDriverLicense))
 							.addGap(18)
 							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblReservistCategory)
-								.addComponent(cbReservistCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txReservistCategory, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(txReservist, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblSchooling)
 								.addComponent(cbSchooling, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 								.addComponent(lblReservist))))
-					.addContainerGap(539, Short.MAX_VALUE))
+					.addContainerGap(81, Short.MAX_VALUE))
 		);
 		personalDataPanel.setLayout(layout);
 
@@ -475,13 +402,13 @@ public class RegisterEmployeeFrame extends JFrame {
 	private void initializeContactDataPanel() {
 		
 		contactDataPanel = new JPanel();
-		
-		
+				
 		JLabel lblAddress = new JLabel("Endereço");
 		txAddress = new JTextField();
 		
 		JLabel lblCep = new JLabel("CEP");
-		txCep = new JTextField();
+		try { txCep = new JFormattedTextField(new MaskFormatter("##.###-###")); }
+		catch (ParseException e) { e.printStackTrace(); }
 		
 		JLabel lblState = new JLabel("Estado");
 		cbState = new JComboBox<State>();
@@ -494,10 +421,12 @@ public class RegisterEmployeeFrame extends JFrame {
 		txNeighborhood = new JTextField();	
 		
 		JLabel lblPhone = new JLabel("Telefone");
-		txPhone = new JTextField();
+		try { txPhone = new JFormattedTextField(new MaskFormatter("(##) ####-####")); }
+		catch (ParseException e) { e.printStackTrace(); }
 		
 		JLabel lblCellphone = new JLabel("Celular");
-		txCellphone = new JTextField();
+		try { txCellphone = new JFormattedTextField(new MaskFormatter("(##) #####-####")); }
+		catch (ParseException e) { e.printStackTrace(); }
 		
 		GroupLayout layout = new GroupLayout(contactDataPanel);
 		layout.setHorizontalGroup(
@@ -598,17 +527,16 @@ public class RegisterEmployeeFrame extends JFrame {
 		
 		jobDataPanel = new JPanel();
 		
-		
 		JLabel lblAdmissionDate = new JLabel("Data de Admissão");
-		
-		txAdmissionDate = new JTextField();
-		txAdmissionDate.setColumns(10);
+		txAdmissionDate = new DateField();
+		txAdmissionDate.setValue(null);
 		
 		JLabel lblJob = new JLabel("Natureza do Cargo");
 		cbJob = new JComboBox<CBO>();
 		
 		JLabel lblCbo = new JLabel("CBO");
 		txCbo = new JTextField();
+		txCbo.setEditable(false);
 		
 		JLabel lblSalary = new JLabel("Salário Inicial R$");
 		txSalary = new JTextField();
@@ -616,6 +544,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		JLabel lblPayment = new JLabel("Forma de Pagamento");
 		cbPayment = new JComboBox<String>();
 		cbPayment.setModel(new DefaultComboBoxModel<String>(new String[] {"Mensal", "Horista", "Contrato", "Semanal", "Quinzenal"}));
+		cbPayment.setSelectedIndex(-1);
 		
 		JPanel guaranteeFundDataPanel = new JPanel();
 		guaranteeFundDataPanel.setBorder(new TitledBorder("Fundo de Garanntia por Tempo de Serviço"));
@@ -630,28 +559,32 @@ public class RegisterEmployeeFrame extends JFrame {
 					.addContainerGap()
 					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
 						.addComponent(bankingDataPanel, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
+						.addComponent(guaranteeFundDataPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
 						.addGroup(jobDataPanelLayout.createSequentialGroup()
-							.addComponent(lblAdmissionDate)
+							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(jobDataPanelLayout.createSequentialGroup()
+									.addComponent(lblSalary)
+									.addGap(18)
+									.addComponent(txSalary, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lblPayment))
+								.addGroup(jobDataPanelLayout.createSequentialGroup()
+									.addComponent(lblAdmissionDate)
+									.addGap(18)
+									.addComponent(txAdmissionDate, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(lblJob)))
 							.addGap(18)
-							.addComponent(txAdmissionDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblJob)
-							.addGap(18)
-							.addComponent(cbJob, 0, 342, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblCbo)
-							.addGap(18)
-							.addComponent(txCbo, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
-						.addGroup(jobDataPanelLayout.createSequentialGroup()
-							.addComponent(lblSalary)
-							.addGap(18)
-							.addComponent(txSalary, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblPayment)
-							.addGap(18)
-							.addComponent(cbPayment, 0, 161, Short.MAX_VALUE)
-							.addGap(318))
-						.addComponent(guaranteeFundDataPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE))
+							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
+								.addGroup(jobDataPanelLayout.createSequentialGroup()
+									.addComponent(cbJob, 0, 350, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(lblCbo)
+									.addGap(18)
+									.addComponent(txCbo, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
+								.addGroup(jobDataPanelLayout.createSequentialGroup()
+									.addComponent(cbPayment, 0, 161, Short.MAX_VALUE)
+									.addGap(318)))))
 					.addContainerGap())
 		);
 		jobDataPanelLayout.setVerticalGroup(
@@ -661,10 +594,10 @@ public class RegisterEmployeeFrame extends JFrame {
 					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblAdmissionDate)
 						.addComponent(txAdmissionDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblJob)
 						.addComponent(cbJob, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txCbo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCbo))
+						.addComponent(lblCbo)
+						.addComponent(lblJob))
 					.addGap(18)
 					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblSalary)
@@ -722,13 +655,15 @@ public class RegisterEmployeeFrame extends JFrame {
 		bankingDataPanel.setLayout(bankingDataPanellayout);
 		
 		JLabel lblRetractionDate = new JLabel("Data de Retratação");
-		txRetractionDate = new JTextField();
+		txRetractionDate = new DateField();
+		txRetractionDate.setValue(null);
 		
 		JLabel lblDepositaryBank = new JLabel("Banco Depositário");
 		cbDepositaryBank = new JComboBox<Bank>();
 		
 		JLabel lblOptionDate = new JLabel("Data de Opção");
-		txOptionDate = new JTextField();
+		txOptionDate = new DateField();
+		txOptionDate.setValue(null);		
 		
 		GroupLayout guaranteeFundDataPanelLayout = new GroupLayout(guaranteeFundDataPanel);
 		guaranteeFundDataPanelLayout.setHorizontalGroup(
@@ -768,9 +703,84 @@ public class RegisterEmployeeFrame extends JFrame {
 	}
 	
 	/**
+	 * Inicializa os componentes gráficos para registro de progrmas de integração social
+	 */
+	private void initializeSocialIntegrationProgramPanel() {
+		
+		socialIntegrationProgramPanel = new JPanel();
+		
+		JLabel lblCadastreDate = new JLabel("Data de Cadastro");
+		txCadastreDate = new DateField();
+		txCadastreDate.setValue(null);
+		
+		JLabel lblCadastreNumber = new JLabel("Número de Cadastro");
+		txCadastreNumber = new JTextField();
+		
+		JLabel lblSocialIntegrationBank = new JLabel("Banco");
+		cbSocialIntegrationBank = new JComboBox<Bank>();
+		
+		JLabel lblSocialIntegrationAgency = new JLabel("Agência");
+		txSocialIntegrationBank = new JTextField();
+		
+		JLabel lblSocialIntegrationAddress = new JLabel("Endereço");
+		txSocialIntegrationAddress = new JTextField();
+		
+		GroupLayout socialIntegrationProgramPanellayout = new GroupLayout(socialIntegrationProgramPanel);
+		socialIntegrationProgramPanellayout.setHorizontalGroup(
+			socialIntegrationProgramPanellayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(socialIntegrationProgramPanellayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
+							.addComponent(lblSocialIntegrationBank)
+							.addGap(18)
+							.addComponent(cbSocialIntegrationBank, 0, 170, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblSocialIntegrationAgency)
+							.addGap(18)
+							.addComponent(txSocialIntegrationBank, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblSocialIntegrationAddress)
+							.addGap(26)
+							.addComponent(txSocialIntegrationAddress, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+							.addGap(117))
+						.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
+							.addComponent(lblCadastreDate)
+							.addGap(18)
+							.addComponent(txCadastreDate, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblCadastreNumber)
+							.addGap(18)
+							.addComponent(txCadastreNumber, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
+							.addGap(208))))
+		);
+		socialIntegrationProgramPanellayout.setVerticalGroup(
+			socialIntegrationProgramPanellayout.createParallelGroup(Alignment.LEADING)
+				.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(socialIntegrationProgramPanellayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCadastreDate)
+						.addComponent(txCadastreDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCadastreNumber)
+						.addComponent(txCadastreNumber, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(socialIntegrationProgramPanellayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblSocialIntegrationBank)
+						.addComponent(cbSocialIntegrationBank, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblSocialIntegrationAgency)
+						.addComponent(txSocialIntegrationBank, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txSocialIntegrationAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblSocialIntegrationAddress))
+					.addContainerGap(233, Short.MAX_VALUE))
+		);
+		socialIntegrationProgramPanel.setLayout(socialIntegrationProgramPanellayout);
+		
+	}
+	
+	/**
 	 * Inicializa os componentes ggráficos dos botões inferiores
 	 */
-	private void initializaButtonsPanel() {
+	private void initializeButtonsPanel() {
 		
 		buttonsPanel = new JPanel();
 		
@@ -787,6 +797,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		buttonsPanel.add(btnConfirme);
 		
 	}
+	
 
 	/**
 	 * Define as ações dos elementos gráficos
@@ -807,18 +818,15 @@ public class RegisterEmployeeFrame extends JFrame {
             }
         });
 		
-		ComboBoxEditor editor = cbJob.getEditor();
-		Component component = editor.getEditorComponent();
-		
-		component.addFocusListener(new FocusAdapter() {  
-			public void focusLost(FocusEvent e) {  
-		        
-				CBO cbo = (CBO) cbJob.getSelectedItem();
-		    	
-		    }  
-		});  
+		lblPicture.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				controller.loadProfilePicture();
+			}			
+		});
 		
 	}
+	
 	
 	/**
 	 * Trata o evento de tecla pressionada sobre a tabela 
