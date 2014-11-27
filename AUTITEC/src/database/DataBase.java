@@ -136,7 +136,7 @@ public class DataBase {
 	/**
 	 * Finaliza a conexão com o banco de dados
 	 */
-	public void disconnect() {
+	public void close() {
 		
 		try {
 			connection.close();	
@@ -156,7 +156,7 @@ public class DataBase {
 		String message = "Ocorreu um erro ao comunicar-se ao Banco de Dados.\n";
 		message = message + "Por favor consulte o suporte.";
 		
-		ShowMessage.showError(null, title, message);
+		ShowMessage.errorMessage(null, title, message);
 		
 	}
 		

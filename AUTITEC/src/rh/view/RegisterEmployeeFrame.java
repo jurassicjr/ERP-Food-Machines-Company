@@ -1,19 +1,23 @@
 package rh.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.ParseException;
+import java.util.HashMap;
+import java.util.Map;
 
-import javax.swing.ComboBoxEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -77,7 +81,7 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JTextField txAgency;
 	private JTextField txAccount;
 	private JTextField txCadastreNumber;
-	private JTextField txSocialIntegrationBank;
+	private JTextField txSocialIntegrationAgency;
 	private JTextField txSocialIntegrationAddress;
 	private JTextField txReservistCategory;
 	private JFormattedTextField txRg;
@@ -114,6 +118,7 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JButton btnCancel;
 	private JButton btnConfirme;
 	
+	private String picturePath;
 	private RegisterEmployeeController controller;
 	
 	/**
@@ -121,6 +126,7 @@ public class RegisterEmployeeFrame extends JFrame {
 	 */
 	public RegisterEmployeeFrame() {
 		controller = new RegisterEmployeeController(this);
+		picturePath = null;
 		initialize();
 		setListeners();
 	}
@@ -134,7 +140,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setMinimumSize(new Dimension(829, 404));
 		setTitle("Registro de Funcionário");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -168,7 +174,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		new ComboBoxAutoCompletion(cbBank);
 		new ComboBoxAutoCompletion(cbDepositaryBank);
 		new ComboBoxAutoCompletion(cbSocialIntegrationBank);
-		
+				
 	}
 	
 	/**
@@ -197,7 +203,8 @@ public class RegisterEmployeeFrame extends JFrame {
 		catch (ParseException e) { e.printStackTrace(); }
 		
 		JLabel lblReservist = new JLabel("Reservista");
-		txReservist = new JTextField();		
+		txReservist = new JTextField();
+		txReservist.setEditable(false);
 		
 		JLabel lblCode = new JLabel("Código");
 		txCode = new JTextField();
@@ -237,6 +244,8 @@ public class RegisterEmployeeFrame extends JFrame {
 		
 		JLabel lblReservistCategory = new JLabel("Categoria");
 		txReservistCategory = new JTextField();
+		txReservistCategory.setEditable(false);
+		
 		
 		JLabel lblSchooling = new JLabel("Escolaridade");
 		cbSchooling = new JComboBox<String>();
@@ -392,7 +401,6 @@ public class RegisterEmployeeFrame extends JFrame {
 					.addContainerGap(81, Short.MAX_VALUE))
 		);
 		personalDataPanel.setLayout(layout);
-
 		
 	}
 
@@ -720,7 +728,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		cbSocialIntegrationBank = new JComboBox<Bank>();
 		
 		JLabel lblSocialIntegrationAgency = new JLabel("Agência");
-		txSocialIntegrationBank = new JTextField();
+		txSocialIntegrationAgency = new JTextField();
 		
 		JLabel lblSocialIntegrationAddress = new JLabel("Endereço");
 		txSocialIntegrationAddress = new JTextField();
@@ -738,7 +746,7 @@ public class RegisterEmployeeFrame extends JFrame {
 							.addGap(18)
 							.addComponent(lblSocialIntegrationAgency)
 							.addGap(18)
-							.addComponent(txSocialIntegrationBank, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+							.addComponent(txSocialIntegrationAgency, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblSocialIntegrationAddress)
 							.addGap(26)
@@ -768,7 +776,7 @@ public class RegisterEmployeeFrame extends JFrame {
 						.addComponent(lblSocialIntegrationBank)
 						.addComponent(cbSocialIntegrationBank, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblSocialIntegrationAgency)
-						.addComponent(txSocialIntegrationBank, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txSocialIntegrationAgency, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txSocialIntegrationAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblSocialIntegrationAddress))
 					.addContainerGap(233, Short.MAX_VALUE))
@@ -798,11 +806,17 @@ public class RegisterEmployeeFrame extends JFrame {
 		
 	}
 	
-
 	/**
 	 * Define as ações dos elementos gráficos
 	 */
 	private void setListeners() {
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.closeFrame();
+			}
+		});
 		
 		dependentTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
@@ -825,9 +839,40 @@ public class RegisterEmployeeFrame extends JFrame {
 			}			
 		});
 		
+		
+		ActionListener btnListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(e.getSource().equals(btnCancel)) controller.closeFrame();
+				else if(e.getSource().equals(btnConfirme)) registerEmployee();
+				
+			}
+		};
+		
+		btnCancel.addActionListener(btnListener);
+		btnConfirme.addActionListener(btnListener);
+		
+		cbGender.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				
+				if(cbGender.getSelectedIndex() == 0) {
+					txReservist.setEditable(true);
+					txReservistCategory.setEditable(true);
+				}
+				else {
+					txReservist.setEditable(false);
+					txReservistCategory.setEditable(false);
+				}
+				
+			}
+		});
+					
 	}
-	
-	
+		
 	/**
 	 * Trata o evento de tecla pressionada sobre a tabela 
 	 * 
@@ -843,4 +888,56 @@ public class RegisterEmployeeFrame extends JFrame {
         }
 		
 	}
+
+	/**
+	 * Invoca o método para registrar o funcionário
+	 */
+	private void registerEmployee() {
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		data.put("name", txName.getText());
+		data.put("code", txCode.getText());
+		data.put("birth", txBirth.getValue());
+		data.put("gender", cbGender.getSelectedItem());
+		data.put("maritial_status", cbMaritalStatus.getSelectedItem());
+		data.put("nacionality", txNacionality.getText());
+		data.put("birth_place", txBirthPlace.getText());
+		data.put("rg", txRg.getText());
+		data.put("cpf", txCpf.getText());
+		data.put("cpts", txCtps.getText());
+		data.put("cpts_category", txCptsCategory.getText());
+		data.put("voter", txVoter.getText());
+		data.put("driver_license", txDriverLicense.getText());
+		data.put("driver_license_category", cbDriverLicenseCategory.getSelectedItem());
+		data.put("schooling", cbSchooling.getSelectedItem());
+		data.put("reservist", txReservist.getText());
+		data.put("reservist_category", txReservistCategory.getText());
+		data.put("picture", picturePath);
+		data.put("address", txAddress.getText());
+		data.put("neighborhood", txNeighborhood.getText());
+		data.put("cep", txCep.getText());
+		data.put("city", cbCity.getSelectedItem());
+		data.put("phone", txPhone.getText());
+		data.put("cellphone", txCellphone.getText());
+		data.put("admission_date", txAdmissionDate.getValue());
+		data.put("job", cbJob.getSelectedItem());
+		data.put("salary", txSalary.getText());
+		data.put("payment", cbPayment.getSelectedItem());
+		data.put("bank", cbBank.getSelectedItem());
+		data.put("agency", txAgency);
+		data.put("account", txAccount);
+		data.put("option_date", txOptionDate.getValue());
+		data.put("retraction_date", txRetractionDate.getValue());
+		data.put("depositary_bank", cbDepositaryBank.getSelectedItem());
+		data.put("cadastre_date", txCadastreDate.getValue());
+		data.put("social_integration_bank", cbSocialIntegrationBank.getSelectedItem());
+		data.put("social_integration_agency", txSocialIntegrationAgency.getText());
+		data.put("social_integration_address", txSocialIntegrationAddress.getText());
+		data.put("dependents", dependentTable);
+		
+		controller.registerEmployee(data);
+		
+	}
+	
 }
