@@ -41,15 +41,15 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import model.Bank;
+import model.CBO;
+import model.City;
+import model.State;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import net.sf.nachocalendar.table.JTableCustomizer;
 import rh.controller.RegisterEmployeeController;
 import userInterface.components.ComboBoxAutoCompletion;
-import core.Bank;
-import core.CBO;
-import core.City;
-import core.State;
 
 /**
  * Representa o frame de registro de funcionários
@@ -555,7 +555,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		cbPayment.setSelectedIndex(-1);
 		
 		JPanel guaranteeFundDataPanel = new JPanel();
-		guaranteeFundDataPanel.setBorder(new TitledBorder("Fundo de Garanntia por Tempo de Serviço"));
+		guaranteeFundDataPanel.setBorder(new TitledBorder(null, "Fundo de Garantia por Tempo de Servi\u00E7o", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		JPanel bankingDataPanel = new JPanel();
 		bankingDataPanel.setBorder(new TitledBorder("Dados Bancários"));
@@ -705,8 +705,6 @@ public class RegisterEmployeeFrame extends JFrame {
 					.addContainerGap(16, Short.MAX_VALUE))
 		);
 		guaranteeFundDataPanel.setLayout(guaranteeFundDataPanelLayout);
-		
-		
 
 	}
 	
@@ -893,9 +891,8 @@ public class RegisterEmployeeFrame extends JFrame {
 	 * Invoca o método para registrar o funcionário
 	 */
 	private void registerEmployee() {
-		
+						
 		Map<String, Object> data = new HashMap<String, Object>();
-		
 		data.put("name", txName.getText());
 		data.put("code", txCode.getText());
 		data.put("birth", txBirth.getValue());
@@ -925,12 +922,13 @@ public class RegisterEmployeeFrame extends JFrame {
 		data.put("salary", txSalary.getText());
 		data.put("payment", cbPayment.getSelectedItem());
 		data.put("bank", cbBank.getSelectedItem());
-		data.put("agency", txAgency);
-		data.put("account", txAccount);
+		data.put("agency", txAgency.getText());
+		data.put("account", txAccount.getText());
 		data.put("option_date", txOptionDate.getValue());
 		data.put("retraction_date", txRetractionDate.getValue());
 		data.put("depositary_bank", cbDepositaryBank.getSelectedItem());
 		data.put("cadastre_date", txCadastreDate.getValue());
+		data.put("social_integration_cadastre_number", txCadastreNumber.getText());
 		data.put("social_integration_bank", cbSocialIntegrationBank.getSelectedItem());
 		data.put("social_integration_agency", txSocialIntegrationAgency.getText());
 		data.put("social_integration_address", txSocialIntegrationAddress.getText());
