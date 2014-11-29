@@ -111,7 +111,7 @@ public class RegisterEmployeeController {
 		
 		try {
 			
-			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM CITY WHERE city.state = ?", new Object[]{state.getId()});
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM city WHERE city.state = ?", new Object[]{state.getId()});
 			
 			while(resultSet.next()) {
 				

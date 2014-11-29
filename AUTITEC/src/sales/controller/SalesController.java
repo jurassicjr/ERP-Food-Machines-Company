@@ -156,7 +156,7 @@ private void setCities(State state, JComboBox<City> cities) {
 		
 		try {
 			
-			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM CITY WHERE city.state = ?", new Object[]{state.getId()});
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM city WHERE city.state = ?", new Object[]{state.getId()});
 			
 			while(resultSet.next()) {
 				
