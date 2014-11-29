@@ -80,11 +80,12 @@ public class RegisterSuppliersFrame extends JFrame {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		initializeSub();
+		initializePanel();
 		initializeContact();
 		tabbedPane.addTab("Contato",panel);
-		initializePanel();
 		tabbedPane.addTab("Certificações", panelCe);
-		initializeSub();
+		controller.fillStateAndCity(cboState, cboCity);
 	}
 
 	private void initializeSub() {
@@ -100,7 +101,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		btnCancelar.setIcon(new ImageIcon(RegisterSuppliersFrame.class.getResource("/resources/cancel.png")));
 		panelRodape.add(btnCancelar);
 		
-		controller.fillStateAndCity(cboState, cboCity);
+		
 	}
 
 	private void initializePanel() {

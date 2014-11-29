@@ -6,6 +6,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Scanner;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,10 +29,14 @@ public class SalesController {
 
 	public SalesController(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
+		dataBase = new DataBase();
+		dataBase.connect();
+		
 	}
 
 	public SalesController() {
-
+		dataBase = new DataBase();
+		dataBase.connect();
 	}
 
 	public void ApprovalOfSuppliers() {
@@ -70,6 +75,7 @@ public class SalesController {
 				RegisterSuppliersFrame frame = new RegisterSuppliersFrame();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
+				
 
 			}
 		});
@@ -143,6 +149,7 @@ public class SalesController {
 		}
 
 	}
+	
 private void setCities(State state, JComboBox<City> cities) {
 		
 		cities.removeAllItems();

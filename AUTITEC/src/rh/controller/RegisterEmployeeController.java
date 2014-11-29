@@ -287,7 +287,7 @@ public class RegisterEmployeeController {
 		Bank depositaryBank = (Bank) data.get("depositary_bank");
 		Date cadastreDate = (Date) data.get("cadastre_date");
 		String socialIntegrationCadastreNumber = (String) data.get("social_integration_cadastre_number");
-		String socialIntegrationBank = (String) data.get("social_integration_bank");
+		Bank socialIntegrationBank = (Bank) data.get("social_integration_bank");
 		String socialIntegrationAgency = (String) data.get("social_integration_agency");
 		String socialIntegrationAddress = (String) data.get("social_integration_address");
 		
@@ -330,11 +330,13 @@ public class RegisterEmployeeController {
 		else if(account == null || account.isEmpty()) label = "Conta";
 		else if(optionDate == null) label = "Data de Opção";
 		else if(depositaryBank == null) label = "Banco Depositário";
-		else if(cadastreDate != null || (socialIntegrationBank != null && !socialIntegrationBank.isEmpty()) || 
-				(socialIntegrationAgency != null && !socialIntegrationAgency.isEmpty()) || (socialIntegrationAddress != null && !socialIntegrationAddress.isEmpty()) ||
-				(socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty())) {
-			label = "Dados do Programa de Inclusão social";
-		}		
+//		else if(cadastreDate != null || socialIntegrationBank != null 
+//				
+////				|| (socialIntegrationAgency != null && !socialIntegrationAgency.isEmpty()) ||
+////				(socialIntegrationAddress != null && !socialIntegrationAddress.isEmpty()) || 
+////				(socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty())) {
+////			label = "Dados do Programa de Inclusão social";
+//		}		
 		else flag = true;
 		
 		if(!flag) {

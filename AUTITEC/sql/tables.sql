@@ -27,6 +27,7 @@ CREATE TABLE employee (
 	job INT(11) NOT NULL,
 	baking_data INT(11) NOT NULL,
 	social_integration INT(11) NOT NULL,
+	picture VARCHAR(250)
 
 	FOREIGN KEY(address) REFERENCES address(id),
 	FOREIGN KEY(job) REFERENCES job(id),

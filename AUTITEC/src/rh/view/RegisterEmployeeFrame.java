@@ -69,7 +69,6 @@ public class RegisterEmployeeFrame extends JFrame {
 	
 	private JTextField txName;
 	private JTextField txReservist;
-	private JTextField txCode;
 	private JTextField txBirthPlace;
 	private JTextField txNacionality;
 	private JTextField txCtps;
@@ -206,10 +205,6 @@ public class RegisterEmployeeFrame extends JFrame {
 		txReservist = new JTextField();
 		txReservist.setEditable(false);
 		
-		JLabel lblCode = new JLabel("Código");
-		txCode = new JTextField();
-		txCode.setEditable(false);
-		
 		JLabel lblMaritalStatus = new JLabel("Estado Civil");
 		cbMaritalStatus = new JComboBox<String>();
 		cbMaritalStatus.setModel(new DefaultComboBoxModel<String>(new String[] {"Solteiro(a)", "Casado(a)", "Divorciado(a)", "Viúvo(a)"}));
@@ -274,11 +269,7 @@ public class RegisterEmployeeFrame extends JFrame {
 								.addGroup(layout.createSequentialGroup()
 									.addComponent(lblName)
 									.addGap(18)
-									.addComponent(txName, GroupLayout.DEFAULT_SIZE, 456, Short.MAX_VALUE)
-									.addGap(21)
-									.addComponent(lblCode)
-									.addGap(18)
-									.addComponent(txCode, GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE))
+									.addComponent(txName, GroupLayout.DEFAULT_SIZE, 636, Short.MAX_VALUE))
 								.addGroup(layout.createSequentialGroup()
 									.addComponent(lblBirth)
 									.addGap(18)
@@ -355,9 +346,7 @@ public class RegisterEmployeeFrame extends JFrame {
 						.addGroup(layout.createSequentialGroup()
 							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblName)
-								.addComponent(txName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-								.addComponent(lblCode))
+								.addComponent(txName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 							.addGap(18)
 							.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 								.addComponent(lblBirth)
@@ -894,7 +883,6 @@ public class RegisterEmployeeFrame extends JFrame {
 						
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("name", txName.getText());
-		data.put("code", txCode.getText());
 		data.put("birth", txBirth.getValue());
 		data.put("gender", cbGender.getSelectedItem());
 		data.put("maritial_status", cbMaritalStatus.getSelectedItem());
