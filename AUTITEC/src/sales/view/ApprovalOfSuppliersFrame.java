@@ -1,9 +1,12 @@
 package sales.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -23,11 +26,19 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 
+import model.Produto;
+import net.sf.nachocalendar.CalendarFactory;
+import net.sf.nachocalendar.components.DateField;
+import sales.controller.SalesController;
+
 public class ApprovalOfSuppliersFrame extends JFrame {
 	private JButton btnCancelar;
 	private ApprovalOfSuppliersFrame frame = this;
-public ApprovalOfSuppliersFrame() {
-		this.intialize();
+	private SalesController controller;
+
+	public ApprovalOfSuppliersFrame() {
+		controller = new SalesController();
+		this.initizalize();
 		this.setListeners();
 	}
 
@@ -35,53 +46,93 @@ public ApprovalOfSuppliersFrame() {
 	 * 
 	 */
 	private static final long serialVersionUID = -8366385217334396998L;
-	private JTextField textField;
-	private JTextField textField_1;
+	private DateField txtDataQuali_1;
+	private JTextField txtNomeFornecedor;
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
 	private JTextField textField_6;
 	private JTextField textField_7;
 	private JTextField textField_8;
-	private JTextField textField_9;
+	private ButtonGroup bg1;
+	private ButtonGroup bg2;
+	private ButtonGroup bg3;
+	private ButtonGroup bg4;
+	private ButtonGroup bg5;
+	private ButtonGroup bg6;
+	private JLabel deAprovao;
+	private JLabel lblTipoDoProcesso;
+	private JLabel lblNomeDoFornecedor;
+	private JLabel lblMaterial;
+	private JLabel lblDescrioDoServiomaterial;
+	private JLabel lblQualificao;
+	private JPanel panelBotao;
+	private JButton btnConfirmar;
+	private JLabel lblNewLabel_1;
+	private JRadioButton rdbtnSimEleSt;
+	private JPanel panelJust;
+	private JPanel panel;
+	private JRadioButton rdbtnSim;
+	private JRadioButton rdbtnNo;
+	private JLabel lblHistricoDoFornecimento;
+	private JRadioButton rdbtnSim_1;
+	private JRadioButton rdbtnNo_1;
+	private JRadioButton rdbtnNa_1;
+	private JLabel lblCapacitaoDoFornecedor;
+	private JRadioButton rdbtnSim_2;
+	private JRadioButton rdbtnNo_2;
+	private JComboBox<Produto> cboMaterial;
+	private JComboBox<String> comboBox_2;
+	private JLabel lblCliente;
+	private JComboBox<String> comboBox_3;
+	private JLabel lblPreo;
+	private JRadioButton rdbtnBom;
+	private JRadioButton rdbtnRuim;
+	private JRadioButton rdbtnPssimo;
+	private JLabel lblQualidade;
+	private JRadioButton rdbtnBom_1;
+	private JRadioButton rdbtnRuim_1;
+	private JRadioButton rdbtnPssimo_1;
+	private JLabel lblAtendimento;
+	private JRadioButton rdbtnBom_2;
+	private JRadioButton rdbtnRuim_2;
+	private JRadioButton rdbtnPssimo_2;
+	private JRadioButton rdbtnNoPelosMotivos;
+	private JScrollPane scrollPane_1;
 
-	private void intialize() {
-		getContentPane().setLayout(new BorderLayout(0, 0));
-		JTabbedPane tab = new JTabbedPane();
+	private void initizalize() {
+		setLocationRelativeTo(null);
+		this.setBounds(100, 100, 680, 530);
+		setMinimumSize(new Dimension(680, 530));
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setTitle("Homologação de Fornecedores");
+		getContentPane().setLayout(new BorderLayout(0, 0));
 		ImageIcon img = new ImageIcon(getClass().getResource("/resources/Logo Frontal.png"));
 		this.setIconImage(img.getImage());
+		JTabbedPane tab = new JTabbedPane();
 		getContentPane().add(tab, BorderLayout.CENTER);
-		JPanel panelBotao = new JPanel();
-		FlowLayout fl = new FlowLayout();
-		fl.setAlignment(FlowLayout.RIGHT);
-		panelBotao.setLayout(fl);
-		getContentPane().add(panelBotao, BorderLayout.SOUTH);
-
-		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(getClass().getResource("/resources/cancel.png")));
-		panelBotao.add(btnCancelar);
-
-		JButton btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setIcon(new ImageIcon(ApprovalOfSuppliersFrame.class.getResource("/resources/ok.png")));
-		panelBotao.add(btnConfirmar);
-		JPanel panel = new JPanel();
+		initializeLaudo();
 		tab.addTab("Laudo", panel);
-		JPanel panelJust = new JPanel();
+		initializeFinalization();
 		tab.addTab("Finalização", panelJust);
+		initializeSub();
+	}
 
-		JLabel lblNewLabel_1 = new JLabel(
+	private void initializeFinalization() {
+		panelJust = new JPanel();
+
+		lblNewLabel_1 = new JLabel(
 		        "O fornecedor acima mencionado está qualificado para o fornecimento à Autitec Industrial?");
 
-		JRadioButton rdbtnSimEleSt = new JRadioButton("Sim ele está habilitado!");
+		rdbtnSimEleSt = new JRadioButton("Sim ele está habilitado!");
 
-		JRadioButton rdbtnNoPelosMotivos = new JRadioButton("Não, pelos motivos na justificativa a baixo!");
+		rdbtnNoPelosMotivos = new JRadioButton("Não, pelos motivos na justificativa a baixo!");
 
 		ButtonGroup bg7 = new ButtonGroup();
 		bg7.add(rdbtnNoPelosMotivos);
 		bg7.add(rdbtnSimEleSt);
 
-		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1 = new JScrollPane();
 		scrollPane_1.setBorder(new TitledBorder("JUSTIFICATIVA"));
 
 		GroupLayout gl_panelJust = new GroupLayout(panelJust);
@@ -117,7 +168,7 @@ public ApprovalOfSuppliersFrame() {
 		                                                                .createSequentialGroup()
 		                                                                .addContainerGap()
 		                                                                .addComponent(scrollPane_1,
-		                                                                        GroupLayout.DEFAULT_SIZE, 776,
+		                                                                        GroupLayout.DEFAULT_SIZE, 618,
 		                                                                        Short.MAX_VALUE))).addContainerGap()));
 		gl_panelJust.setVerticalGroup(gl_panelJust.createParallelGroup(Alignment.LEADING).addGroup(
 		        gl_panelJust
@@ -128,7 +179,7 @@ public ApprovalOfSuppliersFrame() {
 		                .addGroup(
 		                        gl_panelJust.createParallelGroup(Alignment.BASELINE).addComponent(rdbtnSimEleSt)
 		                                .addComponent(rdbtnNoPelosMotivos)).addGap(18)
-		                .addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 298, Short.MAX_VALUE).addGap(80)));
+		                .addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE).addGap(80)));
 
 		JTextArea textArea_1 = new JTextArea();
 		textArea_1.setLineWrap(true);
@@ -136,27 +187,65 @@ public ApprovalOfSuppliersFrame() {
 
 		scrollPane_1.setViewportView(textArea_1);
 		panelJust.setLayout(gl_panelJust);
-		JLabel lblDataDeAprovao = new JLabel("Data da Qualificação");
 
-		JLabel lblTipoDoProcesso = new JLabel("Tipo do Processo de Qualificação");
+		new DateField();
 
-		JLabel lblNomeDoFornecedor = new JLabel("Nome do Fornecedor");
+	}
 
-		JLabel lblMaterial = new JLabel("Material");
+	private void setListeners() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+			    controller.closeFrame(frame);
+			}
+		});
+		ActionListener ButtonListeners = new ActionListener() {
 
-		JLabel lblDescrioDoServiomaterial = new JLabel("Descrição do Serviço/Material");
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource().equals(btnCancelar))controller.closeFrame(frame);
 
-		JLabel lblQualificao = new JLabel("Qualificação:");
+			}
+		};
+		btnCancelar.addActionListener(ButtonListeners);
+	}
 
-		textField = new JTextField();
-		textField.setColumns(10);
+	private void initializeLaudo() {
+
+		panel = new JPanel();
+
+		bg1 = new ButtonGroup();
+
+		bg2 = new ButtonGroup();
+
+		bg3 = new ButtonGroup();
+
+		bg4 = new ButtonGroup();
+
+		bg5 = new ButtonGroup();
+
+		bg6 = new ButtonGroup();
+
+		deAprovao = new JLabel("Data da Qualificação");
+
+		lblTipoDoProcesso = new JLabel("Tipo do Processo de Qualificação");
+
+		lblNomeDoFornecedor = new JLabel("Nome do Fornecedor");
+
+		lblMaterial = new JLabel("Material");
+
+		lblDescrioDoServiomaterial = new JLabel("Descrição do Serviço/Material");
+
+		lblQualificao = new JLabel("Qualificação:");
+		txtDataQuali_1 = CalendarFactory.createDateField();
+		txtDataQuali_1.setValue(null);
 
 		JComboBox<Object> comboBox = new JComboBox<Object>();
 		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "Fornecedor Novo", "Fornecedor Tradicional",
 		        "Requalificação" }));
 
-		textField_1 = new JTextField();
-		textField_1.setColumns(10);
+		txtNomeFornecedor = new JTextField();
+		txtNomeFornecedor.setColumns(10);
 
 		JLabel lblServio = new JLabel("Serviço");
 
@@ -168,13 +257,11 @@ public ApprovalOfSuppliersFrame() {
 
 		JLabel lblSistemaDeQualidade = new JLabel("Sistema de Qualidade");
 
-		JRadioButton rdbtnSim = new JRadioButton("Sim");
+		rdbtnSim = new JRadioButton("Sim");
 
-		JRadioButton rdbtnNo = new JRadioButton("Não");
+		rdbtnNo = new JRadioButton("Não");
 
 		JRadioButton rdbtnNa = new JRadioButton("NA");
-
-		ButtonGroup bg1 = new ButtonGroup();
 		bg1.add(rdbtnNa);
 		bg1.add(rdbtnNo);
 		bg1.add(rdbtnSim);
@@ -185,15 +272,13 @@ public ApprovalOfSuppliersFrame() {
 		textField_4 = new JTextField();
 		textField_4.setColumns(10);
 
-		JLabel lblHistricoDoFornecimento = new JLabel("Histórico do Fornecimento");
+		lblHistricoDoFornecimento = new JLabel("Histórico do Fornecimento");
 
-		JRadioButton rdbtnSim_1 = new JRadioButton("Sim");
+		rdbtnSim_1 = new JRadioButton("Sim");
 
-		JRadioButton rdbtnNo_1 = new JRadioButton("Não");
+		rdbtnNo_1 = new JRadioButton("Não");
 
-		JRadioButton rdbtnNa_1 = new JRadioButton("NA");
-
-		ButtonGroup bg2 = new ButtonGroup();
+		rdbtnNa_1 = new JRadioButton("NA");
 		bg2.add(rdbtnNa_1);
 		bg2.add(rdbtnNo_1);
 		bg2.add(rdbtnSim_1);
@@ -204,15 +289,13 @@ public ApprovalOfSuppliersFrame() {
 		textField_6 = new JTextField();
 		textField_6.setColumns(10);
 
-		JLabel lblCapacitaoDoFornecedor = new JLabel("Capacitação do Fornecedor");
+		lblCapacitaoDoFornecedor = new JLabel("Capacitação do Fornecedor");
 
-		JRadioButton rdbtnSim_2 = new JRadioButton("Sim");
+		rdbtnSim_2 = new JRadioButton("Sim");
 
-		JRadioButton rdbtnNo_2 = new JRadioButton("Não");
+		rdbtnNo_2 = new JRadioButton("Não");
 
 		JRadioButton rdbtnNa_2 = new JRadioButton("NA");
-
-		ButtonGroup bg3 = new ButtonGroup();
 		bg3.add(rdbtnNa_2);
 		bg3.add(rdbtnNo_2);
 		bg3.add(rdbtnSim_2);
@@ -223,59 +306,53 @@ public ApprovalOfSuppliersFrame() {
 		textField_8 = new JTextField();
 		textField_8.setColumns(10);
 
-		JComboBox<String> comboBox_1 = new JComboBox<String>();
+		cboMaterial = new JComboBox<Produto>();
 
-		JComboBox<String> comboBox_2 = new JComboBox<String>();
+		comboBox_2 = new JComboBox<String>();
 
-		JLabel lblCliente = new JLabel("Cliente");
+		lblCliente = new JLabel("Cliente");
 
-		JComboBox<String> comboBox_3 = new JComboBox<String>();
+		comboBox_3 = new JComboBox<String>();
 
-		JLabel lblData = new JLabel("Data");
+		lblPreo = new JLabel("Preço");
 
-		textField_9 = new JTextField();
-		textField_9.setColumns(10);
+		rdbtnBom = new JRadioButton("Bom");
 
-		JLabel lblPreo = new JLabel("Preço");
+		rdbtnRuim = new JRadioButton("Ruim");
 
-		JRadioButton rdbtnBom = new JRadioButton("Bom");
-
-		JRadioButton rdbtnRuim = new JRadioButton("Ruim");
-
-		JRadioButton rdbtnPssimo = new JRadioButton("Péssimo");
-
-		ButtonGroup bg4 = new ButtonGroup();
+		rdbtnPssimo = new JRadioButton("Péssimo");
 		bg4.add(rdbtnRuim);
 		bg4.add(rdbtnPssimo);
 		bg4.add(rdbtnBom);
 
-		JLabel lblQualidade = new JLabel("Qualidade");
+		lblQualidade = new JLabel("Qualidade");
 
-		JRadioButton rdbtnBom_1 = new JRadioButton("Bom");
+		rdbtnBom_1 = new JRadioButton("Bom");
 
-		JRadioButton rdbtnRuim_1 = new JRadioButton("Ruim");
+		rdbtnRuim_1 = new JRadioButton("Ruim");
 
-		JRadioButton rdbtnPssimo_1 = new JRadioButton("Péssimo");
-
-		ButtonGroup bg5 = new ButtonGroup();
+		rdbtnPssimo_1 = new JRadioButton("Péssimo");
 		bg5.add(rdbtnBom_1);
 		bg5.add(rdbtnPssimo_1);
 		bg5.add(rdbtnRuim_1);
 
-		JLabel lblAtendimento = new JLabel("Atendimento");
+		lblAtendimento = new JLabel("Atendimento");
 
-		JRadioButton rdbtnBom_2 = new JRadioButton("Bom");
+		rdbtnBom_2 = new JRadioButton("Bom");
 
-		JRadioButton rdbtnRuim_2 = new JRadioButton("Ruim");
+		rdbtnRuim_2 = new JRadioButton("Ruim");
 
-		JRadioButton rdbtnPssimo_2 = new JRadioButton("Péssimo");
-
-		ButtonGroup bg6 = new ButtonGroup();
+		rdbtnPssimo_2 = new JRadioButton("Péssimo");
 		bg6.add(rdbtnPssimo_2);
 		bg6.add(rdbtnRuim_2);
 		bg6.add(rdbtnBom_2);
 
 		JScrollPane scrollPane = new JScrollPane();
+
+		JTextArea textArea = new JTextArea();
+		textArea.setLineWrap(true);
+		textArea.setWrapStyleWord(true);
+		scrollPane.setViewportView(textArea);
 
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel
@@ -287,62 +364,39 @@ public ApprovalOfSuppliersFrame() {
 		                                gl_panel.createParallelGroup(Alignment.TRAILING)
 		                                        .addGroup(
 		                                                gl_panel.createSequentialGroup()
-		                                                        .addGroup(
-		                                                                gl_panel.createParallelGroup(Alignment.TRAILING)
-		                                                                        .addComponent(lblData)
-		                                                                        .addGroup(
-		                                                                                gl_panel.createSequentialGroup()
-		                                                                                        .addComponent(rdbtnBom)
-		                                                                                        .addPreferredGap(
-		                                                                                                ComponentPlacement.RELATED)
-		                                                                                        .addComponent(rdbtnRuim)
-		                                                                                        .addPreferredGap(
-		                                                                                                ComponentPlacement.RELATED)
-		                                                                                        .addComponent(
-		                                                                                                rdbtnPssimo)
-		                                                                                        .addGap(79)
-		                                                                                        .addComponent(
-		                                                                                                rdbtnBom_1)
-		                                                                                        .addPreferredGap(
-		                                                                                                ComponentPlacement.UNRELATED)
-		                                                                                        .addGroup(
-		                                                                                                gl_panel.createParallelGroup(
-		                                                                                                        Alignment.LEADING)
-		                                                                                                        .addComponent(
-		                                                                                                                lblQualidade)
-		                                                                                                        .addGroup(
-		                                                                                                                gl_panel.createSequentialGroup()
-		                                                                                                                        .addComponent(
-		                                                                                                                                rdbtnRuim_1)
-		                                                                                                                        .addPreferredGap(
-		                                                                                                                                ComponentPlacement.UNRELATED)
-		                                                                                                                        .addComponent(
-		                                                                                                                                rdbtnPssimo_1)))))
+		                                                        .addComponent(rdbtnBom)
+		                                                        .addPreferredGap(ComponentPlacement.RELATED)
+		                                                        .addComponent(rdbtnRuim)
+		                                                        .addPreferredGap(ComponentPlacement.RELATED)
+		                                                        .addComponent(rdbtnPssimo)
+		                                                        .addGap(79)
+		                                                        .addComponent(rdbtnBom_1)
 		                                                        .addPreferredGap(ComponentPlacement.UNRELATED)
 		                                                        .addGroup(
-		                                                                gl_panel.createParallelGroup(Alignment.TRAILING)
-		                                                                        .addComponent(textField_9,
-		                                                                                GroupLayout.PREFERRED_SIZE,
-		                                                                                201, GroupLayout.PREFERRED_SIZE)
+		                                                                gl_panel.createParallelGroup(Alignment.LEADING)
+		                                                                        .addComponent(lblQualidade)
 		                                                                        .addGroup(
 		                                                                                gl_panel.createSequentialGroup()
 		                                                                                        .addComponent(
-		                                                                                                rdbtnBom_2)
+		                                                                                                rdbtnRuim_1)
 		                                                                                        .addPreferredGap(
 		                                                                                                ComponentPlacement.UNRELATED)
-		                                                                                        .addGroup(
-		                                                                                                gl_panel.createParallelGroup(
-		                                                                                                        Alignment.LEADING)
-		                                                                                                        .addComponent(
-		                                                                                                                lblAtendimento)
-		                                                                                                        .addGroup(
-		                                                                                                                gl_panel.createSequentialGroup()
-		                                                                                                                        .addComponent(
-		                                                                                                                                rdbtnRuim_2)
-		                                                                                                                        .addPreferredGap(
-		                                                                                                                                ComponentPlacement.UNRELATED)
-		                                                                                                                        .addComponent(
-		                                                                                                                                rdbtnPssimo_2)))))
+		                                                                                        .addComponent(
+		                                                                                                rdbtnPssimo_1)))
+		                                                        .addGap(46)
+		                                                        .addComponent(rdbtnBom_2)
+		                                                        .addPreferredGap(ComponentPlacement.UNRELATED)
+		                                                        .addGroup(
+		                                                                gl_panel.createParallelGroup(Alignment.LEADING)
+		                                                                        .addComponent(lblAtendimento)
+		                                                                        .addGroup(
+		                                                                                gl_panel.createSequentialGroup()
+		                                                                                        .addComponent(
+		                                                                                                rdbtnRuim_2)
+		                                                                                        .addPreferredGap(
+		                                                                                                ComponentPlacement.UNRELATED)
+		                                                                                        .addComponent(
+		                                                                                                rdbtnPssimo_2)))
 		                                                        .addGap(176))
 		                                        .addGroup(
 		                                                gl_panel.createSequentialGroup()
@@ -351,20 +405,20 @@ public ApprovalOfSuppliersFrame() {
 		                                                                        .addGroup(
 		                                                                                gl_panel.createSequentialGroup()
 		                                                                                        .addComponent(
-		                                                                                                lblDataDeAprovao,
+		                                                                                                deAprovao,
 		                                                                                                GroupLayout.PREFERRED_SIZE,
 		                                                                                                100,
 		                                                                                                GroupLayout.PREFERRED_SIZE)
 		                                                                                        .addPreferredGap(
 		                                                                                                ComponentPlacement.UNRELATED)
 		                                                                                        .addComponent(
-		                                                                                                textField,
+		                                                                                                txtDataQuali_1,
 		                                                                                                GroupLayout.PREFERRED_SIZE,
 		                                                                                                94,
 		                                                                                                GroupLayout.PREFERRED_SIZE)
 		                                                                                        .addPreferredGap(
 		                                                                                                ComponentPlacement.RELATED,
-		                                                                                                GroupLayout.DEFAULT_SIZE,
+		                                                                                                6,
 		                                                                                                Short.MAX_VALUE)
 		                                                                                        .addComponent(
 		                                                                                                lblTipoDoProcesso)
@@ -467,17 +521,17 @@ public ApprovalOfSuppliersFrame() {
 		                                                                                                        .addComponent(
 		                                                                                                                textField_7,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
-		                                                                                                                106,
+		                                                                                                                108,
 		                                                                                                                Short.MAX_VALUE)
 		                                                                                                        .addComponent(
 		                                                                                                                textField_3,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
-		                                                                                                                106,
+		                                                                                                                108,
 		                                                                                                                Short.MAX_VALUE)
 		                                                                                                        .addComponent(
 		                                                                                                                textField_5,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
-		                                                                                                                106,
+		                                                                                                                108,
 		                                                                                                                Short.MAX_VALUE))
 		                                                                                        .addGap(41)
 		                                                                                        .addGroup(
@@ -516,16 +570,16 @@ public ApprovalOfSuppliersFrame() {
 		                                                                                                                gl_panel.createSequentialGroup()
 		                                                                                                                        .addComponent(
 		                                                                                                                                lblNewLabel)
-		                                                                                                                        .addGap(122)
+		                                                                                                                        .addGap(113)
 		                                                                                                                        .addComponent(
 		                                                                                                                                lblObservao)
-		                                                                                                                        .addGap(49))
+		                                                                                                                        .addGap(56))
 		                                                                                                        .addComponent(
 		                                                                                                                scrollPane))))
 		                                                        .addGap(175))))
 		        .addGroup(
 		                gl_panel.createSequentialGroup().addGap(68).addComponent(lblPreo)
-		                        .addContainerGap(701, Short.MAX_VALUE))
+		                        .addContainerGap(703, Short.MAX_VALUE))
 		        .addGroup(
 		                gl_panel.createSequentialGroup()
 		                        .addContainerGap()
@@ -536,7 +590,7 @@ public ApprovalOfSuppliersFrame() {
 		                                                        .addComponent(lblMaterial, GroupLayout.PREFERRED_SIZE,
 		                                                                43, GroupLayout.PREFERRED_SIZE)
 		                                                        .addPreferredGap(ComponentPlacement.RELATED)
-		                                                        .addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE,
+		                                                        .addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE,
 		                                                                255, GroupLayout.PREFERRED_SIZE)
 		                                                        .addPreferredGap(ComponentPlacement.UNRELATED)
 		                                                        .addComponent(lblServio)
@@ -548,30 +602,30 @@ public ApprovalOfSuppliersFrame() {
 		                                                gl_panel.createSequentialGroup()
 		                                                        .addComponent(lblNomeDoFornecedor)
 		                                                        .addPreferredGap(ComponentPlacement.RELATED)
-		                                                        .addComponent(textField_1, GroupLayout.PREFERRED_SIZE,
+		                                                        .addComponent(txtNomeFornecedor, GroupLayout.PREFERRED_SIZE,
 		                                                                509, GroupLayout.PREFERRED_SIZE)))
-		                        .addContainerGap(173, Short.MAX_VALUE)));
+		                        .addContainerGap(175, Short.MAX_VALUE)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(
 		        gl_panel.createSequentialGroup()
 		                .addGap(20)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblDataDeAprovao)
-		                                .addComponent(textField, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
+		                                .addComponent(deAprovao)
+		                                .addComponent(txtDataQuali_1, GroupLayout.PREFERRED_SIZE,
+		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		                                .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 		                                        GroupLayout.PREFERRED_SIZE).addComponent(lblTipoDoProcesso))
 		                .addGap(18)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                .addComponent(lblNomeDoFornecedor)
-		                                .addComponent(textField_1, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(txtNomeFornecedor, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		                .addGap(18)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                .addComponent(lblMaterial)
-		                                .addComponent(comboBox_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                .addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 		                                        GroupLayout.PREFERRED_SIZE)
 		                                .addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 20,
 		                                        GroupLayout.PREFERRED_SIZE).addComponent(lblServio))
@@ -585,22 +639,11 @@ public ApprovalOfSuppliersFrame() {
 		                                                .addGap(18)
 		                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 54,
 		                                                        GroupLayout.PREFERRED_SIZE)))
+		                .addGap(18)
 		                .addGroup(
-		                        gl_panel.createParallelGroup(Alignment.LEADING)
-		                                .addGroup(
-		                                        gl_panel.createSequentialGroup()
-		                                                .addGap(18)
-		                                                .addGroup(
-		                                                        gl_panel.createParallelGroup(Alignment.BASELINE)
-		                                                                .addComponent(lblAtende)
-		                                                                .addComponent(lblQualificao)))
-		                                .addGroup(
-		                                        gl_panel.createSequentialGroup()
-		                                                .addGap(18)
-		                                                .addGroup(
-		                                                        gl_panel.createParallelGroup(Alignment.BASELINE)
-		                                                                .addComponent(lblObservao)
-		                                                                .addComponent(lblNewLabel))))
+		                        gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblAtende)
+		                                .addComponent(lblQualificao).addComponent(lblObservao)
+		                                .addComponent(lblNewLabel))
 		                .addGap(9)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
@@ -633,10 +676,7 @@ public ApprovalOfSuppliersFrame() {
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                .addComponent(lblCliente)
 		                                .addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblData)
-		                                .addComponent(textField_9, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		                                        GroupLayout.PREFERRED_SIZE))
 		                .addGap(18)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblPreo)
@@ -647,23 +687,25 @@ public ApprovalOfSuppliersFrame() {
 		                                .addComponent(rdbtnRuim).addComponent(rdbtnPssimo).addComponent(rdbtnPssimo_2)
 		                                .addComponent(rdbtnRuim_2).addComponent(rdbtnBom_2).addComponent(rdbtnPssimo_1)
 		                                .addComponent(rdbtnRuim_1).addComponent(rdbtnBom_1))
-		                .addContainerGap(39, Short.MAX_VALUE)));
+		                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
 
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		scrollPane.setViewportView(textArea);
 		panel.setLayout(gl_panel);
 	}
 
-	private void setListeners() {
-		ActionListener buttonListeners = new ActionListener() {
+	private void initializeSub() {
+		panelBotao = new JPanel();
+		FlowLayout fl = new FlowLayout();
+		fl.setAlignment(FlowLayout.RIGHT);
+		panelBotao.setLayout(fl);
+		getContentPane().add(panelBotao, BorderLayout.SOUTH);
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				frame.dispose();
-			}
-		};
-		btnCancelar.addActionListener(buttonListeners);
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setIcon(new ImageIcon(getClass().getResource("/resources/cancel.png")));
+		panelBotao.add(btnCancelar);
+
+		btnConfirmar = new JButton("Confirmar");
+		btnConfirmar.setIcon(new ImageIcon(ApprovalOfSuppliersFrame.class.getResource("/resources/ok.png")));
+		panelBotao.add(btnConfirmar);
+
 	}
 }

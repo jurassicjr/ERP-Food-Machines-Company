@@ -21,25 +21,27 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = -1016369432346974527L;
 	
 	private MainFrameController controller;
-	
 	private JMenuItem mntmRegisterEmployee;
 	private JMenuItem mntmApprovalOfSuppliers;
 	private JMenuItem mntmSalesRequisition;
+	private JMenuItem mntmResgisterOfSuppliers;
+	private JMenuItem mntmSalesOrder;
+	
 	/**
 	 * Cria a janela principal da aplicação
 	 */
+	
 	public MainFrame() {
-		
 		controller = new MainFrameController(this);
-		
 		setLookAndFell();
 		initialize();
 		setListeners();
 	}
-
+	
 	/**
 	 * Inicializa os elemento gráficos da aplicação
 	 */
+	
 	private void initialize() {
 				
 		setBounds(100, 100, 850, 500);
@@ -57,18 +59,26 @@ public class MainFrame extends JFrame {
 		JMenu mnSales = new JMenu("Vendas");
 		menuBar.add(mnSales);
 		
+		JMenu mnRegister = new JMenu("Cadastros");
 		
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
+		mnSales.add(mnRegister);
+		
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
-		mnSales.add(mntmApprovalOfSuppliers);
+		mnRegister.add(mntmApprovalOfSuppliers);
+		mntmResgisterOfSuppliers = new JMenuItem("Cadastro de fornecedores");
+		mnRegister.add(mntmResgisterOfSuppliers);
 		mntmSalesRequisition = new JMenuItem("Requisição de Compra");
 		mnSales.add(mntmSalesRequisition);
+		mntmSalesOrder = new JMenuItem("Pedido de Compra");
+		mnSales.add(mntmSalesOrder);
 	}
 
 	/**
 	 * Define os listeners dos menus e botões da interface
 	 */
+	
 	private void setListeners() {
 				
 		ActionListener menuListeners = new ActionListener() {
@@ -77,28 +87,28 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();			
-				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.ApprovalOfSuppliers();	
-				else if (e.getSource().equals(mntmSalesRequisition)) controller.SalesRequisition();
+				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(mntmApprovalOfSuppliers.getText());	
+				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(mntmSalesRequisition.getText());
+				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(mntmResgisterOfSuppliers.getText());
+				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(mntmSalesOrder.getText());
 			}
 		};
-		
+		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmRegisterEmployee.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
-		mntmSalesRequisition.addActionListener(menuListeners);
-		
+		mntmSalesRequisition.addActionListener(menuListeners);	
+		mntmSalesOrder.addActionListener(menuListeners);
 	}
 	
 	/**
 	 * Define o look and fell (aparência) da aplicação para a aparência do sistema operacional 
 	 */
+	
 	private void setLookAndFell() {
-		
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
 			e.printStackTrace();
-		}
-		
+		}	
 	}
-
 }

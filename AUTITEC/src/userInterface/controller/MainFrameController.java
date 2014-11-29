@@ -1,11 +1,9 @@
 package userInterface.controller;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import rh.view.RegisterEmployeeFrame;
-import sales.view.ApprovalOfSuppliersFrame;
-import sales.view.SalesRequisitionFrame;
+import sales.controller.SalesController;
 import userInterface.view.MainFrame;
 
 /**
@@ -44,17 +42,17 @@ public class MainFrameController {
 
 	}
 
-	public void ApprovalOfSuppliers() {
-		ApprovalOfSuppliersFrame frame = new ApprovalOfSuppliersFrame();
-		frame.setVisible(true);
-		frame.pack();
-		frame.setLocationRelativeTo(mainFrame);
-	}
-	public void SalesRequisition() {
-		SalesRequisitionFrame frameReq = new SalesRequisitionFrame();
-		frameReq.setVisible(true);
-		frameReq.setMinimumSize(new Dimension(750,320));
-		frameReq.setLocationRelativeTo(mainFrame);
+	public void Sales(String s) {
+		SalesController controller = new SalesController(mainFrame);
+		if(s.equals("Homologar Fornecedores")) {
+			controller.ApprovalOfSuppliers();
+		}else if(s.equals("Requisição de Compra")) {
+			controller.salesRequisition();
+		}else if(s.equals("Cadastro de fornecedores")) {
+			controller.registerOfSuppliers();
+		}else if(s.equals("Pedido de Compra")) {
+			controller.salesOrder();
+		}
 	}
 
 }
