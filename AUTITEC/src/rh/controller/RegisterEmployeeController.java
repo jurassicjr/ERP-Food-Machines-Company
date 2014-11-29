@@ -330,13 +330,11 @@ public class RegisterEmployeeController {
 		else if(account == null || account.isEmpty()) label = "Conta";
 		else if(optionDate == null) label = "Data de Opção";
 		else if(depositaryBank == null) label = "Banco Depositário";
-//		else if(cadastreDate != null || socialIntegrationBank != null 
-//				
-////				|| (socialIntegrationAgency != null && !socialIntegrationAgency.isEmpty()) ||
-////				(socialIntegrationAddress != null && !socialIntegrationAddress.isEmpty()) || 
-////				(socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty())) {
-////			label = "Dados do Programa de Inclusão social";
-//		}		
+		else if(cadastreDate != null || socialIntegrationBank != null || (socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty())) {
+			if(cadastreDate == null || socialIntegrationBank == null || socialIntegrationCadastreNumber == null || socialIntegrationCadastreNumber.isEmpty()) { 
+				label = "Dados do Programa de Inclusão social";
+			}
+		}
 		else flag = true;
 		
 		if(!flag) {
