@@ -4,9 +4,9 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Scanner;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -14,6 +14,7 @@ import javax.swing.JOptionPane;
 
 import model.City;
 import model.State;
+import model.Supplier;
 import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.RegisterSuppliersFrame;
 import sales.view.SalesOrderFrame;
@@ -21,6 +22,7 @@ import sales.view.SalesRequisitionFrame;
 import userInterface.view.MainFrame;
 import util.ShowMessage;
 import database.DataBase;
+import database.dao.SuppliersDAO;
 
 public class SalesController {
 
@@ -176,4 +178,14 @@ private void setCities(State state, JComboBox<City> cities) {
 		}
 		
 	}	
+
+	public void doSupplierRegister(Supplier supplier) throws SQLException {
+		dataBase.connect();
+		try(Connection con = dataBase.getConnection()){
+			SuppliersDAO supDAO = new SuppliersDAO(con);
+			supDAO.registerSupplier(supplier);
+		}
+		dataBase.close();
+	}
+
 }

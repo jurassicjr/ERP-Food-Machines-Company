@@ -87,10 +87,10 @@ public class MainFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();			
-				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(mntmApprovalOfSuppliers.getText());	
-				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(mntmSalesRequisition.getText());
-				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(mntmResgisterOfSuppliers.getText());
-				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(mntmSalesOrder.getText());
+				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(controller.approvalOfSupliers);	
+				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
+				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(controller.registerOfSuppliers);
+				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(controller.salesOrder);
 			}
 		};
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);

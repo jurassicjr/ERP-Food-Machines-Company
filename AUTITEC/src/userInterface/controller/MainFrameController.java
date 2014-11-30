@@ -10,7 +10,10 @@ import userInterface.view.MainFrame;
  * Classe controladora do frame principal do sistema
  */
 public class MainFrameController {
-
+	public static final int approvalOfSupliers = 0;
+	public static final int salesRequisition = 1;
+	public static final int registerOfSuppliers = 2;
+	public static final int salesOrder = 3;
 	private MainFrame mainFrame;
 
 	/**
@@ -42,15 +45,15 @@ public class MainFrameController {
 
 	}
 
-	public void Sales(String s) {
+	public void Sales(int i) {
 		SalesController controller = new SalesController(mainFrame);
-		if(s.equals("Homologar Fornecedores")) {
+		if(i == 0) {
 			controller.ApprovalOfSuppliers();
-		}else if(s.equals("Requisição de Compra")) {
+		}else if(i == 1) {
 			controller.salesRequisition();
-		}else if(s.equals("Cadastro de fornecedores")) {
+		}else if(i == 2) {
 			controller.registerOfSuppliers();
-		}else if(s.equals("Pedido de Compra")) {
+		}else if(i == 3) {
 			controller.salesOrder();
 		}
 	}
