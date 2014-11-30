@@ -180,12 +180,12 @@ private void setCities(State state, JComboBox<City> cities) {
 	}	
 
 	public void doSupplierRegister(Supplier supplier) throws SQLException {
-		dataBase.connect();
-		try(Connection con = dataBase.getConnection()){
-			SuppliersDAO supDAO = new SuppliersDAO(con);
-			supDAO.registerSupplier(supplier);
-		}
-		dataBase.close();
+//		dataBase.connect();
+//		try(Connection con = dataBase.getConnection()){
+//			SuppliersDAO supDAO = new SuppliersDAO(con);
+//			supDAO.registerSupplier(supplier);
+//		}
+//		dataBase.close();
 	}
 
 }

@@ -14,6 +14,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Date;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
@@ -879,7 +880,55 @@ public class RegisterEmployeeFrame extends JFrame {
 	/**
 	 * Invoca o método para registrar o funcionário
 	 */
+	@SuppressWarnings("deprecation")
 	private void registerEmployee() {
+		
+		txName.setText("nome teste");
+		txBirth.setValue(new Date(1993, 0, 22));
+		cbGender.setSelectedIndex(0);
+		cbMaritalStatus.setSelectedIndex(0);
+		txNacionality.setText("brasileiro");
+		txBirthPlace.setText("assis");
+		txRg.setText("12.123.123-5");
+		txCpf.setText("123.123.123-99");
+		txCtps.setText("13245");
+		txCptsCategory.setText("categoria");
+		txVoter.setText("2311 0319 3193 0910");
+		txDriverLicense.setText("13201939103");
+		cbDriverLicenseCategory.setSelectedIndex(0);
+		cbSchooling.setSelectedIndex(0);
+		txReservist.setText("reservista");
+		txReservistCategory.setText("reservista-categoria");
+		txAddress.setText("endereço");
+		txNeighborhood.setText("bairro");
+		txCep.setText("12.123-123");
+		cbState.setSelectedIndex(0);
+		txPhone.setText("(12) 3131-0939");
+		txCellphone.setText("(13) 20931-0930");
+		txAdmissionDate.setValue(new Date(22, 1, 2005));
+		cbJob.setSelectedIndex(0);
+		txSalary.setText("20.00");
+		cbPayment.setSelectedIndex(0);
+		cbBank.setSelectedIndex(0);
+		txAgency.setText("agency");
+		txAccount.setText("account");
+		txOptionDate.setValue(new Date(22, 1, 2004));
+		txRetractionDate.setValue(new Date(22, 1, 2004));
+		cbDepositaryBank.setSelectedIndex(0);
+		txCadastreDate.setValue(new Date(22, 4, 1993));
+		txCadastreNumber.setText("1234");
+		cbSocialIntegrationBank.setSelectedIndex(0);
+		txSocialIntegrationAgency.setText("agency si");
+		txSocialIntegrationAddress.setText("endereço si");
+		cbCity.setSelectedIndex(0);
+		DefaultTableModel model = (DefaultTableModel) dependentTable.getModel();
+		model.addRow(new Object[]{"nome1", "parentesco1", new Date(22, 01, 1993)});
+		model.addRow(new Object[]{"nome2", null, new Date(23, 01, 1993)});
+		model.addRow(new Object[]{"nome3", "parentesco1", null});
+		model.addRow(new Object[]{null, null, null});
+		model.addRow(new Object[]{"nome4", "parentesco4", new Date(22, 01, 1998)});
+		
+		
 						
 		Map<String, Object> data = new HashMap<String, Object>();
 		data.put("name", txName.getText());
@@ -923,6 +972,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		data.put("dependents", dependentTable);
 		
 		controller.registerEmployee(data);
+	
 		
 	}
 	

@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.Map;
 
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import model.Bank;
 import model.CBO;
@@ -72,24 +73,29 @@ public class EmployeeDAO {
 		String socialIntegrationAgency = (String) data.get("social_integration_agency");
 		String socialIntegrationAddress = (String) data.get("social_integration_address");
 		JTable dependentTable = (JTable) data.get("dependents");
+				
+		Integer socialIntegrationId = null;
+		Integer guaranteeFundId = null;
+		Integer addressId = null;
+		Integer jobId = null;
+		Integer employeeId = null;
 		
-		String sql;
-		Object insertData[];
-		
-//		if(socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty()){
-//			registerSocialIntegrationProgram(soc, cadastreNumber, socialIntegrationBank);
-//		}
-		
-		sql  = "INSERT INTO guarantee_fund (option_date, retraction_date, depositary_bank) VALUES (?, ?, ?)";
-		insertData = new Object[]{new java.sql.Date(optionDate.getTime()), new java.sql.Date(retractionDate.getTime())};
-		
-		
-//		String sql = "INSERT INTO employee (name, birth, gender, marital_status, nacionality, birth_place, rg, cpf, cpts, cpts_category,"
-//				+ "voter, driver_license, driver_license_category, schooling, reservist, reservist_category, address, phone, cellphone, job, baking_data,"
-//				+ "social_integration, picture";
+		employeeId = dataBase.getAutoIncrementValue("employee");
+				
+		if(socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty()){
+			socialIntegrationId = registerSocialIntegrationProgram(cadastreDate, socialIntegrationCadastreNumber, socialIntegrationBank, socialIntegrationAgency, socialIntegrationAddress);
+		}
 //		
-//		Object inserts[] = new Object[]{name, birth, gender, maritialStatus, nacionality, birthPlace, rg, cpf, cpts, cptsCategory, voter, driverLicense, driverLicenseCategory,
-//				schooling, reservist, reservistCategory, address, phone, cellphone, job.getId(), bank.getId()};
+//		guaranteeFundId = registerGuaranteeFund(optionDate, retractionDate, depositaryBank);
+//		addressId = registerAddress(address, neighborhood, cep, city);
+//		jobId = registerJob(admissionDate, job, Double.parseDouble(salary), payment);
+//		registerDependets(dependentTable, employeeId);
+		
+		//String sql = "INSERT INTO employee (name, birth, gender, marital_status, nacionality, birth_place, rg, cpf, cpts, cpts_category,"
+				//+ "voter, driver_license, driver_license_category, schooling, reservist, reservist_category, address, phone, cellphone, job, baking_data,"
+				//+ "social_integration, picture";
+		
+		//Object inserts[] = new Object[]{name, bi};
 		
 	}	
 	
@@ -99,20 +105,151 @@ public class EmployeeDAO {
 	 * @param registerDate A data de registro no programa
 	 * @param cadastreNumber O número de registristro no programa
 	 * @param bank O banco associado ao registro
+	 * @param agency A agência em que se recebe o benefício
+	 * @param account A conta em que se recebe o benefício
+	 * 
+	 * @return O ID da tupla criada
 	 */
-	private void registerSocialIntegrationProgram(Date registerDate, String cadastreNumber, Bank bank) {
+	private int registerSocialIntegrationProgram(Date registerDate, String cadastreNumber, Bank bank, String agency, String address) {
 		
 		String sql = "INSERT INTO  social_integration (dadastre_date, cadastre_number, baking_data) VALUES (?, ?, ?)";
 		Object insertData[];
 		
-		int BankId = (bank != null) ? bank.getId() : null;
-		java.sql.Date date = (registerDate != null) ? new java.sql.Date(registerDate.getTime()) : null;
+		java.sql.Date date = (registerDate != null) ? new java.sql.Date(registerDate.getTime()) : null;		
+		int idBankinkData = registerBankingData(bank, agency, null);
+				
+		int socialIntegrationId = dataBase.getAutoIncrementValue("social_integration");
 		
-		insertData = new Object[]{date, cadastreNumber, BankId};
+		insertData = new Object[]{date, cadastreNumber, idBankinkData};
 		
-		dataBase.executeQuery(sql, insertData);
+		dataBase.executeUpdateQuery(sql, insertData);	
 		
+		return socialIntegrationId;
+	}
+	
+	/**
+	 * Registra os dados bancários de uma conta
+	 * 
+	 * @param bank O banco em que pertence os dados
+	 * @param agency A agência dos dados bancários
+	 * @param account A conta dos dados bancários
+	 * 
+	 * @return O ID da tupla criada
+	 */
+	private int registerBankingData(Bank bank, String agency, String account) {
+						
+		String sql = "INSERT INTO banking_data (bank, agency, account) VALUES (?, ?, ?)";
+		Object insertData[] = new Object[]{bank.getId(), agency, null};
+		
+		int id = dataBase.getAutoIncrementValue("banking_data");
+								
+		dataBase.executeUpdateQuery(sql, insertData);
+		
+		return id;
 		
 	}
 
+	/**
+	 * Registra os dados de um fundo de garantia
+	 * 
+	 * @param optionDate A data de opção do fundo de garantia
+	 * @param retractionDate A data de retratação do fundo de garantia
+	 * @param depositaryBank O Banco depositário do fundo de garantia
+	 * 
+	 * @return O ID da tupla criada
+	 */
+	private int registerGuaranteeFund(Date optionDate, Date retractionDate, Bank depositaryBank) {
+		
+		int id = dataBase.getAutoIncrementValue("guarantee_fund");
+		
+		java.sql.Date opDate = (optionDate != null) ? new java.sql.Date(optionDate.getTime()) : null;
+		java.sql.Date rtDate = (retractionDate != null) ? new java.sql.Date(retractionDate.getTime()) : null;
+		int bankId = depositaryBank.getId();
+		
+		String sql  = "INSERT INTO guarantee_fund (option_date, retraction_date, depositary_bank) VALUES (?, ?, ?)";
+		Object insertData[] = new Object[]{opDate, rtDate, bankId};
+		
+		dataBase.executeQuery(sql, insertData);
+		
+		return id;
+		
+	}
+	
+	/**
+	 * Registra os dados de um endereço
+	 * 
+	 * @param address O endereço a ser registrado
+	 * @param neighborhood O bairro do endereço
+	 * @param cep O CEP do endereço
+	 * @param city A cidade em que o endereço se encontra
+	 *  
+	 * @return O ID da tupla criada
+	 */
+	private int registerAddress(String address, String neighborhood, String cep, City city) {
+		
+		int id = dataBase.getAutoIncrementValue("address");
+		
+		String sql = "INSERT INTO address (address, neighborhood, cep, city)";
+		Object insertData[] = new Object[]{address, neighborhood, cep, city.getId()};
+		
+		dataBase.executeQuery(sql, insertData);
+				
+		return id;
+		
+	}
+
+	/**
+	 * Registra os dados de um cargo
+	 * 
+	 * @param admissionDate A data de admissão
+	 * @param cbo O Objeto contendo os dados CBO do cargo
+	 * @param initialSalary O salário inicial do cargo
+	 * @param payment A forma de pagamento do salário
+	 * 
+	 * @return O ID da tupla criada
+	 */
+	private int registerJob(Date admissionDate, CBO cbo, double initialSalary, String payment) {
+		
+		int id = dataBase.getAutoIncrementValue("job");
+		
+		java.util.Date adDate = (admissionDate != null) ? new java.util.Date(admissionDate.getTime()) : null;
+		
+		String sql = "INSERT INTO job (admission_date, cbo, initial_salary, payment)";
+		Object insertData[] = new Object[]{adDate, cbo.getId(), initialSalary, payment};
+		
+		dataBase.executeQuery(sql, insertData);
+		
+		return id;
+		
+	}
+
+	/**
+	 * Registra os dados dos dependentes
+	 * 
+	 * @param dependents A tabela contendo os dependentes
+	 * @param employeeId O id do usuario
+	 */
+	private void registerDependets(JTable dependents, int employeeId) {
+		
+		DefaultTableModel model = (DefaultTableModel) dependents.getModel();
+
+		for(int i = 0; i < model.getRowCount(); ++i) {
+			
+			String name = (String) model.getValueAt(i, 0);
+			String relationship = (String) model.getValueAt(i, 1);
+			Date date = (Date) model.getValueAt(i, 2);
+			
+			if((name == null || name.isEmpty()) && (relationship == null || relationship.isEmpty()) && (date == null)) continue;
+			
+			java.sql.Date birthWeddinDate = (date != null) ? new java.sql.Date(date.getTime()) : null;
+			
+			String sql = "INSERT INTO dependents (employee, name, relationship, birth_wedding_date";
+			Object inserData[] = new Object[]{employeeId, name, relationship, birthWeddinDate};
+			
+			dataBase.executeQuery(sql, inserData);
+			
+		}
+		
+	}
+	
 }

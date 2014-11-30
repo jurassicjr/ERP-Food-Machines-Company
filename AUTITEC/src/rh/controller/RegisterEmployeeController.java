@@ -24,6 +24,7 @@ import model.State;
 import rh.view.RegisterEmployeeFrame;
 import util.ShowMessage;
 import database.DataBase;
+import database.dao.EmployeeDAO;
 
 /**
  * Classe controladora do frame de registro de funcionários
@@ -239,7 +240,7 @@ public class RegisterEmployeeController {
 			int response = ShowMessage.questionMessage(frame, title, message);
 			
 			if(response == JOptionPane.YES_OPTION) {
-				
+				new EmployeeDAO(data);
 			}
 			
 		}				
@@ -288,8 +289,6 @@ public class RegisterEmployeeController {
 		Date cadastreDate = (Date) data.get("cadastre_date");
 		String socialIntegrationCadastreNumber = (String) data.get("social_integration_cadastre_number");
 		Bank socialIntegrationBank = (Bank) data.get("social_integration_bank");
-		String socialIntegrationAgency = (String) data.get("social_integration_agency");
-		String socialIntegrationAddress = (String) data.get("social_integration_address");
 		
 		Matcher matcherCpf = Pattern.compile("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}").matcher(cpf);
 		Matcher matcherRg = Pattern.compile("\\d{2}\\.\\d{3}\\.\\d{3}-\\w{1}").matcher(rg);
@@ -309,12 +308,14 @@ public class RegisterEmployeeController {
 		else if(cpts == null || cpts.isEmpty()) label = "CPTS";
 		else if(cptsCategory == null || cptsCategory.isEmpty()) label = "Categoria do CPTS";
 		else if(voter == null || voter.isEmpty() || !matcherVoter.find()) label = "Título de Eleitor";
-		else if(matcherDriverLicense.find()) {
+		else if(driverLicense != null && matcherDriverLicense.find()) {
 			if(driverLicenseCategory == null || driverLicenseCategory.isEmpty()) label = "Categoria da Habilitação";
+			else flag = true;
 		}
 		else if(schooling == null || schooling.isEmpty()) label = "Escolaridade";
 		else if(gender.toUpperCase().equals("MASCULINO")) {
 			if(reservist == null || reservist.isEmpty()) label = "Carteira de Reservista";
+			else flag = true;
 		}
 		else if(address == null || address.isEmpty()) label = "Endereço";
 		else if(neighborhood == null || neighborhood.isEmpty()) label = "Bairro";
@@ -334,8 +335,11 @@ public class RegisterEmployeeController {
 			if(cadastreDate == null || socialIntegrationBank == null || socialIntegrationCadastreNumber == null || socialIntegrationCadastreNumber.isEmpty()) { 
 				label = "Dados do Programa de Inclusão social";
 			}
+			else flag = true;
 		}
-		else flag = true;
+		else{
+			flag = true;
+		}
 		
 		if(!flag) {
 			String title = "Erro ao registrar funcionário";
