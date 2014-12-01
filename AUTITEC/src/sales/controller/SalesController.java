@@ -4,9 +4,10 @@ import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,6 +29,7 @@ public class SalesController {
 
 	private MainFrame mainFrame;
 	private DataBase dataBase;
+	private SuppliersDAO sDAo;
 
 	public SalesController(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
@@ -180,12 +182,21 @@ private void setCities(State state, JComboBox<City> cities) {
 	}	
 
 	public void doSupplierRegister(Supplier supplier) throws SQLException {
-//		dataBase.connect();
-//		try(Connection con = dataBase.getConnection()){
-//			SuppliersDAO supDAO = new SuppliersDAO(con);
-//			supDAO.registerSupplier(supplier);
-//		}
-//		dataBase.close();
+		Map<String, Object> mapa = new HashMap<String, Object>();
+		mapa.put("companyName", supplier.getCompanyName());
+		mapa.put("CNPJ", supplier.getCNPJ());
+		mapa.put("city", supplier.getCity().getId());
+		mapa.put("state", supplier.getState().getId());
+		mapa.put("street", supplier.getStreet());
+		mapa.put("neighborhood", supplier.getNeighborhood());
+		mapa.put("certificate", supplier.isCertificated());
+		mapa.put("stateRegistration", supplier.getStateRegistration());
+		mapa.put("registerDate", supplier.getRegisterDate());
+		mapa.put("fiscalClassification", supplier.getFiscalClassification());
+		mapa.put("materialCertification", supplier.isMaterialCertication());
+		mapa.put("justicative", supplier.getJustificative());
+		sDAo = new SuppliersDAO(mapa);
+		
 	}
 
 }
