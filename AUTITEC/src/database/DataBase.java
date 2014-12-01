@@ -91,8 +91,8 @@ public class DataBase {
 				else if(data[i] instanceof Double) statement.setDouble(i + 1, (double) data[i]);
 				else if(data[i] instanceof String) statement.setString(i + 1, (String) data[i]);
 				else if(data[i] instanceof Date) statement.setDate(i + 1, (Date) data[i]);
+				else if(data[i] instanceof Boolean) statement.setBoolean(i+1, (boolean) data[i]);
 				else if(data[i] == null) statement.setNull(i + 1, Types.NULL);
-				
 			}
 			
 			ResultSet resultSet = statement.executeQuery();

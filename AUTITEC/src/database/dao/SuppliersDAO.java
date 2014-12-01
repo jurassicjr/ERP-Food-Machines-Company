@@ -1,11 +1,8 @@
 package database.dao;
 
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
-
-import javax.swing.JOptionPane;
 
 import database.DataBase;
 
@@ -19,13 +16,13 @@ public class SuppliersDAO {
 	 * @throws SQLException 
 	 */
 
-	public SuppliersDAO(Map<String, Object> data) throws SQLException {
+	public SuppliersDAO(Map<String, Object> data, Date dt) throws SQLException {
 		dataBase = new DataBase();
 		dataBase.connect();
-		persist(data);
+		persist(data, dt);
 	}
 
-	private void persist(Map<String, Object> data) throws SQLException {
+	private void persist(Map<String, Object> data, Date dt) throws SQLException {
 
 		Object insertData[];
 		String companyName = (String) data.get("companyName");
@@ -37,7 +34,7 @@ public class SuppliersDAO {
 		boolean certificate = (boolean) data.get("certificate");
 		String email = (String) data.get("email");
 		String stateRegistration = (String) data.get("stateRegistration");
-		Date registerDate = (Date) data.get("registerDate");
+		java.sql.Date registerDate = (dt != null) ? new java.sql.Date(dt.getTime()) : null;;
 		String fiscalClassification = (String) data.get("fiscalClassification");
 		boolean materialCertificate = (boolean) data.get("materialCertification");
 		String justificative = (String) data.get("justificative");
@@ -47,11 +44,6 @@ public class SuppliersDAO {
 		        + ", neighborhood, certificate, email, state_registration, register_data,"
 		        + " fical_classification, material_certificate,"
 		        + " justificative) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		JOptionPane.showMessageDialog(null, "teste");
-		ResultSet rs = dataBase.executeQuery(sql, insertData);
-		if(rs.next()) {
-			rs.getInt(0);
-		}
-		
+		dataBase.executeQuery(sql, insertData);
 	}
 }

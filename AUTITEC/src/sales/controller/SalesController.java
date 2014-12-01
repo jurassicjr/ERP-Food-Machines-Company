@@ -108,7 +108,7 @@ public class SalesController {
 
 		if (response == JOptionPane.YES_OPTION) {
 			frame.dispose();
-			// dataBase.close();
+			dataBase.close();
 		}
 
 	}
@@ -191,12 +191,10 @@ private void setCities(State state, JComboBox<City> cities) {
 		mapa.put("neighborhood", supplier.getNeighborhood());
 		mapa.put("certificate", supplier.isCertificated());
 		mapa.put("stateRegistration", supplier.getStateRegistration());
-		mapa.put("registerDate", supplier.getRegisterDate());
+		//mapa.put("registerDate", supplier.getRegisterDate());
 		mapa.put("fiscalClassification", supplier.getFiscalClassification());
 		mapa.put("materialCertification", supplier.isMaterialCertication());
 		mapa.put("justicative", supplier.getJustificative());
-		sDAo = new SuppliersDAO(mapa);
-		
+		sDAo = new SuppliersDAO(mapa, supplier.getRegisterDate());	
 	}
-
 }
