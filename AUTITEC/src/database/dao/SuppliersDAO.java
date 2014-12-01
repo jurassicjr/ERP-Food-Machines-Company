@@ -7,7 +7,6 @@ import java.util.Map;
 
 import javax.swing.JOptionPane;
 
-import model.City;
 import database.DataBase;
 
 public class SuppliersDAO {
@@ -31,9 +30,9 @@ public class SuppliersDAO {
 		Object insertData[];
 		String companyName = (String) data.get("companyName");
 		String CNPJ = (String) data.get("CNPJ");
-		City city = (City) data.get("city");
+		int city = (int) data.get("city");
 		int state = (int) data.get("state");
-		int street = (int) data.get("street");
+		String street = (String) data.get("street");
 		String neighborhood = (String) data.get("neighborhood");
 		boolean certificate = (boolean) data.get("certificate");
 		String email = (String) data.get("email");
