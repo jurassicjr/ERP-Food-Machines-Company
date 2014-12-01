@@ -5,7 +5,6 @@ CREATE TABLE employee (
 
 	id INT(11) NOT NULL AUTO_INCREMENT, 
 	name VARCHAR(150) NOT NULL,
-	code INT(11) NOT NULL, 
 	birth DATE NOT NULL,
 	gender CHAR NOT NULL,
 	marital_status VARCHAR(20) NOT NULL,
@@ -27,7 +26,7 @@ CREATE TABLE employee (
 	job INT(11) NOT NULL,
 	baking_data INT(11) NOT NULL,
 	social_integration INT(11) NOT NULL,
-	picture VARCHAR(250)
+	picture VARCHAR(250),
 
 	FOREIGN KEY(address) REFERENCES address(id),
 	FOREIGN KEY(job) REFERENCES job(id),

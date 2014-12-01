@@ -508,7 +508,7 @@ public class RegisterEmployeeFrame extends JFrame {
         dependentTable.getTableHeader().setReorderingAllowed(false);
 		
 		dependentTable.setModel(new DefaultTableModel(
-			new String[][] {{"", "", ""},},
+			new Object[][] {{"", "", ""},},
 			new String[] {"Nome", "Relação", "Data de Nascimento/Casamento"}
 		));
 		
@@ -882,7 +882,7 @@ public class RegisterEmployeeFrame extends JFrame {
 	 */
 	@SuppressWarnings("deprecation")
 	private void registerEmployee() {
-		
+				
 		txName.setText("nome teste");
 		txBirth.setValue(new Date(1993, 0, 22));
 		cbGender.setSelectedIndex(0);
@@ -922,12 +922,9 @@ public class RegisterEmployeeFrame extends JFrame {
 		txSocialIntegrationAddress.setText("endereço si");
 		cbCity.setSelectedIndex(0);
 		DefaultTableModel model = (DefaultTableModel) dependentTable.getModel();
-		model.addRow(new Object[]{"nome1", "parentesco1", new Date(22, 01, 1993)});
-		model.addRow(new Object[]{"nome2", null, new Date(23, 01, 1993)});
-		model.addRow(new Object[]{"nome3", "parentesco1", null});
-		model.addRow(new Object[]{null, null, null});
-		model.addRow(new Object[]{"nome4", "parentesco4", new Date(22, 01, 1998)});
-		
+		model.removeRow(0);
+		model.addRow(new Object[]{"nome1", "parentesco1", new Date(System.currentTimeMillis())});
+		model.addRow(new Object[]{"nome2", "parentesco2", new Date(System.currentTimeMillis())});
 		
 						
 		Map<String, Object> data = new HashMap<String, Object>();
@@ -971,8 +968,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		data.put("social_integration_address", txSocialIntegrationAddress.getText());
 		data.put("dependents", dependentTable);
 		
-		controller.registerEmployee(data);
-	
+		controller.registerEmployee(data);	
 		
 	}
 	

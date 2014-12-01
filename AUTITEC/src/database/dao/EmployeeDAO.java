@@ -79,23 +79,37 @@ public class EmployeeDAO {
 		Integer addressId = null;
 		Integer jobId = null;
 		Integer employeeId = null;
+		Integer bankingId = null;
 		
 		employeeId = dataBase.getAutoIncrementValue("employee");
 				
 		if(socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty()){
 			socialIntegrationId = registerSocialIntegrationProgram(cadastreDate, socialIntegrationCadastreNumber, socialIntegrationBank, socialIntegrationAgency, socialIntegrationAddress);
 		}
-//		
-//		guaranteeFundId = registerGuaranteeFund(optionDate, retractionDate, depositaryBank);
-//		addressId = registerAddress(address, neighborhood, cep, city);
-//		jobId = registerJob(admissionDate, job, Double.parseDouble(salary), payment);
-//		registerDependets(dependentTable, employeeId);
 		
-		//String sql = "INSERT INTO employee (name, birth, gender, marital_status, nacionality, birth_place, rg, cpf, cpts, cpts_category,"
-				//+ "voter, driver_license, driver_license_category, schooling, reservist, reservist_category, address, phone, cellphone, job, baking_data,"
-				//+ "social_integration, picture";
+		guaranteeFundId = registerGuaranteeFund(optionDate, retractionDate, depositaryBank);
+		addressId = registerAddress(address, neighborhood, cep, city);
+		jobId = registerJob(admissionDate, job, Double.parseDouble(salary), payment);
+		bankingId = registerBankingData(bank, agency, account);
 		
-		//Object inserts[] = new Object[]{name, bi};
+		//registerDependets(dependentTable, employeeId);
+		
+		java.sql.Date birthDate = (birth != null) ? new java.sql.Date(birth.getTime()) : null;
+		rg = rg.replaceAll("\\.|-", "");
+		cpf = cpf.replaceAll("\\.|-", "");
+		voter = voter.replaceAll(" ", "");
+		phone = phone.replaceAll(" |\\(|\\)|-", "");
+		cellphone = cellphone.replaceAll(" |\\(|\\)|-", "");
+				
+		String sql = "INSERT INTO employee (name, birth, gender, marital_status, nacionality, birth_place, rg, cpf, cpts, cpts_category, voter, "
+				+ "driver_license, driver_license_category, schooling, reservist, reservist_category, address, phone, cellphone, job, baking_data, "
+				+ "social_integration, picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		
+		Object inserts[] = new Object[]{name, birthDate, gender, maritialStatus, nacionality, birthPlace, rg, cpf, cpts, cptsCategory, voter,
+				driverLicense, driverLicenseCategory, schooling, reservist, reservistCategory, address, phone, cellphone, jobId, bankingId,
+				socialIntegrationId, picuturePath};
+		
+		dataBase.executeUpdate(sql, data);
 		
 	}	
 	
@@ -122,7 +136,7 @@ public class EmployeeDAO {
 		
 		insertData = new Object[]{date, cadastreNumber, idBankinkData};
 		
-		dataBase.executeUpdateQuery(sql, insertData);	
+		dataBase.executeUpdate(sql, insertData);	
 		
 		return socialIntegrationId;
 	}
@@ -143,7 +157,7 @@ public class EmployeeDAO {
 		
 		int id = dataBase.getAutoIncrementValue("banking_data");
 								
-		dataBase.executeUpdateQuery(sql, insertData);
+		dataBase.executeUpdate(sql, insertData);
 		
 		return id;
 		
@@ -169,7 +183,7 @@ public class EmployeeDAO {
 		String sql  = "INSERT INTO guarantee_fund (option_date, retraction_date, depositary_bank) VALUES (?, ?, ?)";
 		Object insertData[] = new Object[]{opDate, rtDate, bankId};
 		
-		dataBase.executeQuery(sql, insertData);
+		dataBase.executeUpdate(sql, insertData);
 		
 		return id;
 		
@@ -189,10 +203,12 @@ public class EmployeeDAO {
 		
 		int id = dataBase.getAutoIncrementValue("address");
 		
-		String sql = "INSERT INTO address (address, neighborhood, cep, city)";
+		cep = cep.replaceAll("\\.|-", "");
+		
+		String sql = "INSERT INTO address (address, neighborhood, cep, city) VALUES (?, ?, ?, ?)";
 		Object insertData[] = new Object[]{address, neighborhood, cep, city.getId()};
 		
-		dataBase.executeQuery(sql, insertData);
+		dataBase.executeUpdate(sql, insertData);
 				
 		return id;
 		
@@ -212,12 +228,12 @@ public class EmployeeDAO {
 		
 		int id = dataBase.getAutoIncrementValue("job");
 		
-		java.util.Date adDate = (admissionDate != null) ? new java.util.Date(admissionDate.getTime()) : null;
-		
-		String sql = "INSERT INTO job (admission_date, cbo, initial_salary, payment)";
+		java.util.Date adDate = (admissionDate != null) ? new java.sql.Date(admissionDate.getTime()) : null;
+				
+		String sql = "INSERT INTO job (admission_date, cbo, initial_salary, payment) VALUES (?, ?, ?, ?)";
 		Object insertData[] = new Object[]{adDate, cbo.getId(), initialSalary, payment};
 		
-		dataBase.executeQuery(sql, insertData);
+		dataBase.executeUpdate(sql, insertData);
 		
 		return id;
 		
@@ -237,16 +253,17 @@ public class EmployeeDAO {
 			
 			String name = (String) model.getValueAt(i, 0);
 			String relationship = (String) model.getValueAt(i, 1);
-			Date date = (Date) model.getValueAt(i, 2);
+			Object date =  model.getValueAt(i, 2);
 			
 			if((name == null || name.isEmpty()) && (relationship == null || relationship.isEmpty()) && (date == null)) continue;
+			if(date instanceof String) continue;
+						
+			java.sql.Date birthWeddinDate = (date != null) ? new java.sql.Date(((Date) date).getTime()) : null;
 			
-			java.sql.Date birthWeddinDate = (date != null) ? new java.sql.Date(date.getTime()) : null;
-			
-			String sql = "INSERT INTO dependents (employee, name, relationship, birth_wedding_date";
+			String sql = "INSERT INTO dependents (employee, name, relationship, birth_wedding_date) VALUES (?, ?, ?, ?)";
 			Object inserData[] = new Object[]{employeeId, name, relationship, birthWeddinDate};
 			
-			dataBase.executeQuery(sql, inserData);
+			dataBase.executeUpdate(sql, inserData);
 			
 		}
 		

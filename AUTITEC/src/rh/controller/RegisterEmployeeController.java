@@ -15,7 +15,9 @@ import java.util.regex.Pattern;
 import javax.swing.ComboBoxEditor;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import model.Bank;
 import model.CBO;
@@ -289,6 +291,7 @@ public class RegisterEmployeeController {
 		Date cadastreDate = (Date) data.get("cadastre_date");
 		String socialIntegrationCadastreNumber = (String) data.get("social_integration_cadastre_number");
 		Bank socialIntegrationBank = (Bank) data.get("social_integration_bank");
+		JTable dependents = (JTable) data.get("dependents");
 		
 		Matcher matcherCpf = Pattern.compile("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}").matcher(cpf);
 		Matcher matcherRg = Pattern.compile("\\d{2}\\.\\d{3}\\.\\d{3}-\\w{1}").matcher(rg);
@@ -340,6 +343,21 @@ public class RegisterEmployeeController {
 		else{
 			flag = true;
 		}
+		
+		DefaultTableModel model = (DefaultTableModel) dependents.getModel();
+		for(int i = 0; i < model.getRowCount(); ++i) {
+			
+			String nameDependent = (String) model.getValueAt(i, 0);
+			String relationship = (String) model.getValueAt(i, 1);
+			Object date =  model.getValueAt(i, 2);
+			
+			if((nameDependent == null || nameDependent.isEmpty()) || (relationship == null || relationship.isEmpty()) || date == null) {
+				label = "Dados dos Dependentes";
+				System.out.println("aqui");
+				flag = false;
+			}
+			
+		}		
 		
 		if(!flag) {
 			String title = "Erro ao registrar funcionário";

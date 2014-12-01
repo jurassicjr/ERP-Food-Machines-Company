@@ -178,7 +178,7 @@ public class DataBase {
 	 * @param query A query da consulta sql 
 	 * @param data Os dados de parametros da consulta
 	 */
-	public void executeUpdateQuery(String query, Object data[]) {
+	public void executeUpdate(String query, Object data[]) {
 		
 		try {
 			
@@ -191,6 +191,7 @@ public class DataBase {
 				else if(data[i] instanceof String) statement.setString(i + 1, (String) data[i]);
 				else if(data[i] instanceof Date) statement.setDate(i + 1, (Date) data[i]);
 				else if(data[i] == null) statement.setNull(i + 1, Types.NULL);
+				else System.out.println(data[i].getClass().getName());
 				
 			}
 			
