@@ -51,7 +51,7 @@ public class Supplier {
 		this.material = material;
 	}
 
-	public String getRua() {
+	public String getStreet() {
 		return street;
 	}
 
@@ -59,7 +59,7 @@ public class Supplier {
 		this.street = rua;
 	}
 
-	public boolean isCertificado() {
+	public boolean isCertificated() {
 		return certificate;
 	}
 
@@ -67,7 +67,7 @@ public class Supplier {
 		this.certificate = certificado;
 	}
 
-	public String getBairro() {
+	public String getNeighborhood() {
 		return neighborhood;
 	}
 
@@ -83,7 +83,7 @@ public class Supplier {
 		this.email = email;
 	}
 
-	public String getInscEstadual() {
+	public String getStateRegistration() {
 		return stateRegistration;
 	}
 
@@ -91,7 +91,7 @@ public class Supplier {
 		this.stateRegistration = inscEstadual;
 	}
 
-	public String getRazaoSocial() {
+	public String getCompanyName() {
 		return corporateName;
 	}
 

@@ -1,45 +1,49 @@
 package database.dao;
 
-import java.sql.Connection;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
+import java.util.Date;
+import java.util.Map;
 
-import model.Supplier;
+import database.DataBase;
 
 public class SuppliersDAO {
+	private DataBase dataBase;
 
-	private Connection con;
-	public SuppliersDAO(Connection connection) {
-		this.con = connection;
+	/**
+	 * Controi o objeto para a persistência de um fornecedor
+	 * 
+	 * @param data
+	 * @throws SQLException 
+	 */
+
+	public SuppliersDAO(Map<String, Object> data, Date dt) throws SQLException {
+		dataBase = new DataBase();
+		dataBase.connect();
+		persist(data, dt);
 	}
-	
-	public void registerSupplier(Supplier supplier) throws SQLException {
-		String sql = "NSERT INTO suppliers (corporate_name, CNPJ, city, state, street, neighborhood, certificate, email, state_registration, register_data, fical_classification, material_certificate, justificative) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		try (PreparedStatement pst = con.prepareStatement(sql,
-				Statement.RETURN_GENERATED_KEYS)) {
-			pst.setString(1, supplier.getRazaoSocial());
-			pst.setString(2, supplier.getCNPJ());
-			pst.setInt(3, supplier.getCity().getId());
-			pst.setInt(4, supplier.getState().getId());
-			pst.setString(5, supplier.getRua());
-			pst.setString(6, supplier.getBairro());
-			pst.setBoolean(7, supplier.isCertificado());
-			pst.setString(8, supplier.getEmail());
-			pst.setString(9, supplier.getInscEstadual());
-			pst.setDate(10, (Date)supplier.getRegisterDate());
-			pst.setString(11, supplier.getFiscalClassification());
-			pst.setBoolean(12, supplier.isMaterialCertication());
-			pst.setString(13, supplier.getJustificative());
-			pst.execute();
-			try (ResultSet rs = pst.getGeneratedKeys()) {
-				if (rs.next()) {
-					int i = rs.getInt("id");
-					supplier.setId(i);
-				}
-			}
-		}
+
+	private void persist(Map<String, Object> data, Date dt) throws SQLException {
+
+		Object insertData[];
+		String companyName = (String) data.get("companyName");
+		String CNPJ = (String) data.get("CNPJ");
+		int city = (int) data.get("city");
+		int state = (int) data.get("state");
+		String street = (String) data.get("street");
+		String neighborhood = (String) data.get("neighborhood");
+		boolean certificate = (boolean) data.get("certificate");
+		String email = (String) data.get("email");
+		String stateRegistration = (String) data.get("stateRegistration");
+		java.sql.Date registerDate = (dt != null) ? new java.sql.Date(dt.getTime()) : null;;
+		String fiscalClassification = (String) data.get("fiscalClassification");
+		boolean materialCertificate = (boolean) data.get("materialCertification");
+		String justificative = (String) data.get("justificative");
+
+		insertData = new Object[] {companyName, CNPJ, city, state, street, neighborhood, certificate, email, stateRegistration, registerDate, fiscalClassification, materialCertificate, justificative};
+		String sql = "NSERT INTO suppliers (corporate_name, CNPJ, city, state, street"
+		        + ", neighborhood, certificate, email, state_registration, register_data,"
+		        + " fical_classification, material_certificate,"
+		        + " justificative) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		dataBase.executeQuery(sql, insertData);
 	}
 }
