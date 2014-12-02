@@ -17,21 +17,23 @@ CREATE TABLE employee (
 	voter VARCHAR(16) NOT NULL,
 	driver_license VARCHAR(11),
 	driver_license_category VARCHAR(2),
-	schooling VARCHAR(20) NOT NULL,
-	reservist VARCHAR(20) NOT NULL,
-	reservist_category VARCHAR(15) NOT NULL,
+	schooling VARCHAR(50) NOT NULL,
+	reservist VARCHAR(20),
+	reservist_category VARCHAR(50),
 	address INT(11) NOT NULL,
 	phone VARCHAR(10) NOT NULL,
 	cellphone VARCHAR(11),
 	job INT(11) NOT NULL,
-	baking_data INT(11) NOT NULL,
-	social_integration INT(11) NOT NULL,
+	banking_data INT(11) NOT NULL,
+	social_integration INT(11),
+	guarantee_fund INT(11) NOT NULL,
 	picture VARCHAR(250),
 
 	FOREIGN KEY(address) REFERENCES address(id),
 	FOREIGN KEY(job) REFERENCES job(id),
 	FOREIGN KEY(baking_data) REFERENCES baking_data(id),
 	FOREIGN KEY(social_integration) REFERENCES social_integration(id),
+	FOREIGN KEY(guarantee_fund) REFERENCES guarantee_fund(id),
 
 	PRIMARY KEY(id, cpf)
 	
@@ -60,7 +62,6 @@ CREATE TABLE job (
 	FOREIGN KEY(cbo) REFERENCES cbo(id)
 );
 
-
 CREATE TABLE baking_data (
 
 	ID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -70,7 +71,6 @@ CREATE TABLE baking_data (
 
 	FOREIGN KEY(bank) REFERENCES bank(id)
 );
-
 
 CREATE TABLE guarantee_fund (
 
@@ -93,7 +93,6 @@ CREATE TABLE social_integration (
 	FOREIGN KEY(baking_data) REFERENCES baking_data(id)
 );
 
-
 CREATE TABLE dependents (
 
 	ID INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -103,5 +102,4 @@ CREATE TABLE dependents (
 	birth_wedding_date DATE,
 
 	FOREIGN KEY(employee) REFERENCES employee(id)
-
 );

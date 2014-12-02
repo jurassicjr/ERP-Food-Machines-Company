@@ -91,7 +91,7 @@ public class DataBase {
 				else if(data[i] instanceof Double) statement.setDouble(i + 1, (double) data[i]);
 				else if(data[i] instanceof String) statement.setString(i + 1, (String) data[i]);
 				else if(data[i] instanceof Date) statement.setDate(i + 1, (Date) data[i]);
-				else if(data[i] instanceof Boolean) statement.setBoolean(i+1, (boolean) data[i]);
+				else if(data[i] instanceof Boolean) statement.setBoolean(i + 1, (boolean) data[i]);
 				else if(data[i] == null) statement.setNull(i + 1, Types.NULL);
 			}
 			
@@ -128,6 +128,7 @@ public class DataBase {
 			else if(data instanceof Double) statement.setDouble(1, (double) data);
 			else if(data instanceof String) statement.setString(1, (String) data);
 			else if(data instanceof Date) statement.setDate(1, (Date) data);
+			else if(data instanceof Boolean) statement.setBoolean(1, (boolean) data);
 			else if(data == null) statement.setNull(1, Types.NULL);
 			
 			ResultSet resultSet = statement.executeQuery();
@@ -190,8 +191,8 @@ public class DataBase {
 				else if(data[i] instanceof Double) statement.setDouble(i + 1, (double) data[i]);
 				else if(data[i] instanceof String) statement.setString(i + 1, (String) data[i]);
 				else if(data[i] instanceof Date) statement.setDate(i + 1, (Date) data[i]);
+				else if(data[i] instanceof Boolean) statement.setBoolean(i + 1, (boolean) data[i]);
 				else if(data[i] == null) statement.setNull(i + 1, Types.NULL);
-				else System.out.println(data[i].getClass().getName());
 				
 			}
 			
@@ -242,6 +243,7 @@ public class DataBase {
 			else if(data instanceof Double) statement.setDouble(1, (double) data);
 			else if(data instanceof String) statement.setString(1, (String) data);
 			else if(data instanceof Date) statement.setDate(1, (Date) data);
+			else if(data instanceof Boolean) statement.setBoolean(1, (boolean) data);
 			else if(data == null) statement.setNull(1, Types.NULL);
 			
 			statement.executeUpdate();

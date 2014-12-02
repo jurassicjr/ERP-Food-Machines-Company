@@ -91,25 +91,28 @@ public class EmployeeDAO {
 		addressId = registerAddress(address, neighborhood, cep, city);
 		jobId = registerJob(admissionDate, job, Double.parseDouble(salary), payment);
 		bankingId = registerBankingData(bank, agency, account);
-		
-		//registerDependets(dependentTable, employeeId);
-		
+				
 		java.sql.Date birthDate = (birth != null) ? new java.sql.Date(birth.getTime()) : null;
 		rg = rg.replaceAll("\\.|-", "");
 		cpf = cpf.replaceAll("\\.|-", "");
 		voter = voter.replaceAll(" ", "");
 		phone = phone.replaceAll(" |\\(|\\)|-", "");
 		cellphone = cellphone.replaceAll(" |\\(|\\)|-", "");
-				
-		String sql = "INSERT INTO employee (name, birth, gender, marital_status, nacionality, birth_place, rg, cpf, cpts, cpts_category, voter, "
-				+ "driver_license, driver_license_category, schooling, reservist, reservist_category, address, phone, cellphone, job, baking_data, "
-				+ "social_integration, picture) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		gender = gender.substring(0, 1);
+		driverLicenseCategory = driverLicenseCategory.split(" ")[1];
 		
-		Object inserts[] = new Object[]{name, birthDate, gender, maritialStatus, nacionality, birthPlace, rg, cpf, cpts, cptsCategory, voter,
-				driverLicense, driverLicenseCategory, schooling, reservist, reservistCategory, address, phone, cellphone, jobId, bankingId,
-				socialIntegrationId, picuturePath};
+						
+		String sql = "INSERT INTO employee (name, birth, gender, marital_status, nacionality, birth_place, rg, cpf, cpts, cpts_category, voter, driver_license, "
+				+ "driver_license_category, schooling, reservist, reservist_category, address, phone, cellphone, job, banking_data, social_integration, guarantee_fund, picture)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
-		dataBase.executeUpdate(sql, data);
+		Object inserts[] = new Object[]{name, birthDate, gender, maritialStatus, nacionality, birthPlace, rg, cpf, cpts, cptsCategory, voter, driverLicense,
+				driverLicenseCategory, schooling, reservist, reservistCategory, addressId, phone, cellphone, jobId, bankingId, socialIntegrationId, guaranteeFundId, 
+				picuturePath};
+		
+		dataBase.executeUpdate(sql, inserts);
+		
+		registerDependets(dependentTable, employeeId);
 		
 	}	
 	
