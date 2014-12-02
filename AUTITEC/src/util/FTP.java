@@ -98,6 +98,14 @@ public class FTP {
 			
 			FileInputStream fis = new FileInputStream(file);
 			ftp.changeWorkingDirectory(FTPPath + folder);
+			
+			if(file.getAbsolutePath().endsWith(".txt")) {
+				ftp.setFileType(FTPClient.ASCII_FILE_TYPE);
+			}
+			else {
+				ftp.setFileType(FTPClient.BINARY_FILE_TYPE); 	
+			}		
+			
 			boolean b = ftp.storeFile(fileName, fis);
 			
 			disconnect();
@@ -129,6 +137,13 @@ public class FTP {
 			
 			ftp.changeWorkingDirectory(FTPPath + folder);
 			FileOutputStream fos = new FileOutputStream(file);
+			
+			if(file.getAbsolutePath().endsWith(".txt")) {
+				ftp.setFileType(FTPClient.ASCII_FILE_TYPE);
+			}
+			else {
+				ftp.setFileType(FTPClient.BINARY_FILE_TYPE); 	
+			}
 			
 			boolean b = ftp.retrieveFile(fileName, fos);
 			

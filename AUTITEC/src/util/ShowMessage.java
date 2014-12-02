@@ -67,24 +67,4 @@ public class ShowMessage {
 		
 	}
 	
-	/**
-	 * Exibe mensagem de sucesso em forma de popup
-	 * 
-	 * @param c O componente para servir de posição relativa
-	 * @param title O título da mensagem
-	 * @param message A messagem a ser exibida
-	 * 
-	 * @return A opção selecionada
-	 */
-	
-public static void successMEssage(Component c, String title, String message) {
-		
-		if(c == null) c = JFrame.getFrames()[0];
-		
-		message = message.replaceAll("\n", "<br>");
-		message = "<html><p align='center'>" + message + "</p></html>";
-		
-		JOptionPane.showMessageDialog(c, message, title, JOptionPane.OK_OPTION, null);
-	}
-	
 }

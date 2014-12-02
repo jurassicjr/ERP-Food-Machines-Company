@@ -1,19 +1,24 @@
 package rh.controller;
 
 import java.awt.Component;
+import java.awt.Image;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.ComboBoxEditor;
+import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -24,6 +29,9 @@ import model.CBO;
 import model.City;
 import model.State;
 import rh.view.RegisterEmployeeFrame;
+import userInterface.components.FileChooser;
+import userInterface.components.filters.ImageFilter;
+import util.FTP;
 import util.ShowMessage;
 import database.DataBase;
 import database.dao.EmployeeDAO;
@@ -243,6 +251,7 @@ public class RegisterEmployeeController {
 			
 			if(response == JOptionPane.YES_OPTION) {
 				new EmployeeDAO(data);
+				frame.dispose();
 			}
 			
 		}				
@@ -352,12 +361,28 @@ public class RegisterEmployeeController {
 			Object date =  model.getValueAt(i, 2);
 			
 			if((nameDependent == null || nameDependent.isEmpty()) || (relationship == null || relationship.isEmpty()) || date == null) {
-				label = "Dados dos Dependentes";
-				System.out.println("aqui");
-				flag = false;
+				if (!(nameDependent == null || nameDependent.isEmpty()) && (relationship == null || relationship.isEmpty()) && date == null) {
+					label = "Dados dos Dependentes";
+					flag = false;	
+				}				
 			}
 			
-		}		
+		}
+		
+		String formatedCPF = cpf.replaceAll("\\.|-", "");
+		ResultSet resultSet = dataBase.executeQuery("SELECT * FROM employee WHERE employee.cpf = ?", formatedCPF);
+		
+		try {
+						
+			if(resultSet.next()) {
+				flag = false;
+				label = "Já existe Funcionário registrado com este CPF";
+			}	
+			
+		} catch (SQLException e) {
+			DataBase.showDataBaseErrorMessage();
+			e.printStackTrace();
+		}
 		
 		if(!flag) {
 			String title = "Erro ao registrar funcionário";
@@ -369,8 +394,56 @@ public class RegisterEmployeeController {
 		return flag;		
 	}
 	
-	public void loadProfilePicture() {
-		System.out.println("teste");
+	/**
+	 * Carrega uma imagem para o perfil do usuário e a carrega no servidor FTP
+	 * 
+	 * @param fileChooser O objeto para selecionar a imagem a ser carregada
+	 * @param picture O Jlabel que representa a imagem para o usuário
+	 * 
+	 * @return O nome do arquivo carregado no servidor
+	 */
+	public String loadProfilePicture(FileChooser fileChooser, JLabel picture) {
+						
+		fileChooser.showOpenDialog(new ImageFilter());
+		
+		if(fileChooser.hasSelectedFile()) {
+			
+			File file = fileChooser.getSelectedFile();
+			String tokens[] = file.getName().split("\\.");
+			String fileName = UUID.randomUUID().toString() + "." + tokens[tokens.length - 1];
+									
+			new Thread(new Runnable() {
+				
+				@Override
+				public void run() {					
+					
+					FTP ftp = new FTP();					
+					boolean up = ftp.upload(file, fileName, "pictures");
+					
+					if(!up) {
+						ShowMessage.errorMessage(null, "Erro ao subir o arquivo", "Houve um erro ao subir o arquivo.\nPor favor, consulte o suporte");
+					}
+					
+					ImageIcon image = new ImageIcon(fileChooser.getSelectedPathFile());
+					ImageIcon thumbnail = null;
+					
+					if(image.getIconWidth() > picture.getWidth()){       
+						thumbnail = new ImageIcon(image.getImage().getScaledInstance(picture.getWidth(), -1, Image.SCALE_DEFAULT));  
+					}
+					else thumbnail = image;
+					
+					picture.setIcon(thumbnail);
+										
+				}
+				
+			}).start();
+			
+			return fileName;
+		
+		}
+		
+		return null;
+		
 	}
 	
 }

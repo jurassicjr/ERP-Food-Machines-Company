@@ -31,7 +31,7 @@ CREATE TABLE employee (
 
 	FOREIGN KEY(address) REFERENCES address(id),
 	FOREIGN KEY(job) REFERENCES job(id),
-	FOREIGN KEY(baking_data) REFERENCES baking_data(id),
+	FOREIGN KEY(banking_data) REFERENCES banking_data(id),
 	FOREIGN KEY(social_integration) REFERENCES social_integration(id),
 	FOREIGN KEY(guarantee_fund) REFERENCES guarantee_fund(id),
 

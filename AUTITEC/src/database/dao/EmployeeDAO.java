@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Bank;
 import model.CBO;
 import model.City;
+import util.ShowMessage;
 import database.DataBase;
 
 /**
@@ -113,6 +114,10 @@ public class EmployeeDAO {
 		dataBase.executeUpdate(sql, inserts);
 		
 		registerDependets(dependentTable, employeeId);
+		
+		ShowMessage.successMessage(null, "Funcionário Registrado", "O Funcionário foi Registrado com sucesso");
+		
+		dataBase.close();
 		
 	}	
 	
