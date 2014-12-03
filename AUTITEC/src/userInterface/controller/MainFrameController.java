@@ -3,6 +3,7 @@ package userInterface.controller;
 import java.awt.EventQueue;
 
 import rh.view.RegisterEmployeeFrame;
+import rh.view.TechnicalStandardFrame;
 import sales.controller.SalesController;
 import userInterface.view.MainFrame;
 
@@ -10,6 +11,7 @@ import userInterface.view.MainFrame;
  * Classe controladora do frame principal do sistema
  */
 public class MainFrameController {
+	
 	public static final int approvalOfSupliers = 0;
 	public static final int salesRequisition = 1;
 	public static final int registerOfSuppliers = 2;
@@ -43,6 +45,25 @@ public class MainFrameController {
 			}
 		});		
 
+	}
+	
+	/**
+	 * Inicializa o frame para registro de Norma Técnica
+	 */
+	public void technicalStandard() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+							
+				TechnicalStandardFrame frame = new TechnicalStandardFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});		
+		
 	}
 
 	public void Sales(int i) {

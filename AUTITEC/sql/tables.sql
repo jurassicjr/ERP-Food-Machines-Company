@@ -103,3 +103,20 @@ CREATE TABLE dependents (
 
 	FOREIGN KEY(employee) REFERENCES employee(id)
 );
+
+CREATE TABLE technical_standard (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	technical_standard VARCHAR(200)	NOT NULL
+);
+
+CREATE TABLE technical_standard_version (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	file VARCHAR(300) NOT NULL, 
+	date_update DATE NOT NULL,
+	technical_standard INT(11) NOT NULL,
+
+	FOREIGN KEY(technical_standard) REFERENCES technical_standard(id)
+
+);

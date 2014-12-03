@@ -21,7 +21,10 @@ public class MainFrame extends JFrame {
 	private static final long serialVersionUID = -1016369432346974527L;
 	
 	private MainFrameController controller;
+	
 	private JMenuItem mntmRegisterEmployee;
+	private JMenuItem mntmTechnicalStandard;
+	
 	private JMenuItem mntmApprovalOfSuppliers;
 	private JMenuItem mntmSalesRequisition;
 	private JMenuItem mntmResgisterOfSuppliers;
@@ -63,8 +66,12 @@ public class MainFrame extends JFrame {
 		
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
-		mnSales.add(mnRegister);
 		
+		mntmTechnicalStandard = new JMenuItem("Norma Técnica");
+		mnRh.add(mntmTechnicalStandard);
+		
+		
+		mnSales.add(mnRegister);
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
 		mnRegister.add(mntmApprovalOfSuppliers);
 		mntmResgisterOfSuppliers = new JMenuItem("Cadastro de fornecedores");
@@ -86,15 +93,19 @@ public class MainFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();			
+				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();
+				else if(e.getSource().equals(mntmTechnicalStandard)) controller.technicalStandard();
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(controller.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
 				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(controller.registerOfSuppliers);
 				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(controller.salesOrder);
 			}
 		};
-		mntmResgisterOfSuppliers.addActionListener(menuListeners);
+		
 		mntmRegisterEmployee.addActionListener(menuListeners);
+		mntmTechnicalStandard.addActionListener(menuListeners);
+		
+		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
 		mntmSalesRequisition.addActionListener(menuListeners);	
 		mntmSalesOrder.addActionListener(menuListeners);
