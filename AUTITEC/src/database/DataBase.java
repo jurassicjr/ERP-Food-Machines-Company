@@ -197,7 +197,7 @@ public class DataBase {
 			}
 			
 			statement.executeUpdate();
-						
+			ShowMessage.successMessage(null, "Gravação", "Gravação concluida com sucesso!");		
 		} catch (SQLException e) {
 			showDataBaseErrorMessage();
 			e.printStackTrace();

@@ -194,7 +194,10 @@ private void setCities(State state, JComboBox<City> cities) {
 		//mapa.put("registerDate", supplier.getRegisterDate());
 		mapa.put("fiscalClassification", supplier.getFiscalClassification());
 		mapa.put("materialCertification", supplier.isMaterialCertication());
-		mapa.put("justicative", supplier.getJustificative());
+		mapa.put("justificative", supplier.getJustificative());
+		mapa.put("email", supplier.getEmail());
+		mapa.put("phone", supplier.getPhone());
+		mapa.put("cep", supplier.getCep());
 		sDAo = new SuppliersDAO(mapa, supplier.getRegisterDate());	
 	}
 }
