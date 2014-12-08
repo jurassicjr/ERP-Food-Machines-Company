@@ -9,6 +9,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.Date;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -35,6 +36,8 @@ import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import sales.controller.SalesController;
+import util.ShowMessage;
+import util.Validator;
 
 public class RegisterSuppliersFrame extends JFrame {
 	private JTextField textField_8;
@@ -71,6 +74,9 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JTextField txtStreet;
 	private JTextArea txtJustifacao;
 	private JComboBox<String> cboFiscalCertification;
+	private Validator validator;
+	private ShowMessage message;
+	private Date data;
 
 	public RegisterSuppliersFrame() {
 		controller = new SalesController();
@@ -121,7 +127,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		cboFiscalCertification = new JComboBox<String>();
 		cboFiscalCertification.setModel(new DefaultComboBoxModel<String>(
 		        new String[] { "Lucro Presumido", "Lucro Real", "Simples" }));
-
+		cboFiscalCertification.setSelectedIndex(-1);
 		cboCertification = new JComboBox<String>();
 		cboCertification.setModel(new DefaultComboBoxModel<String>(new String[] { "ISO 9001:2008" }));
 		cboCertification.setSelectedIndex(-1);
@@ -434,9 +440,44 @@ public class RegisterSuppliersFrame extends JFrame {
 		btnRegistrar.addActionListener(buttonListener);
 	}
 	private Supplier makeSupplier() {
-		String cnpj =  txtCNPJ.getText().replaceAll("\\.", "").replaceAll("-", "").replaceAll("/", "");
+		data = new Date();
+		message = new ShowMessage();
+		data = (Date) txtdataExpiracao.getValue();
+		String cnpj =  txtCNPJ.getText().replaceAll("\\.", "").replaceAll("-", "").replaceAll("/", "").replaceAll(" ", "");
+		String stateRegister = txtStateRegister.getText().replaceAll("\\.", "").replaceAll(" ", "");
+		String CEP = txtCEP.getText().replaceAll("\\.", "").replaceAll("-", "").replaceAll(" ", "");
+		String justicacao = txtJustifacao.getText();
+		if(cnpj.isEmpty()) {
+			message.errorMessage(this, "Erro", "Insira o CNPJ");
+			return null;
+		}else if(getTxtCompanyName().getText().isEmpty()) {
+			message.errorMessage(this, "Erro", "Insira o a Razão Social");
+			return null;
+		}else if(stateRegister.isEmpty()){
+			message.errorMessage(this, "Erro", "Insira a inscrição estadual");
+			return null;
+		}else if(cboCity.getSelectedIndex() == -1) {
+			message.errorMessage(this, "Erro", "Selecione uma cidade");
+			return null;
+		}else if(cboState.getSelectedIndex()== -1) {
+			message.errorMessage(this, "Erro", "Selecione um estado");
+			return null;
+		}else if(txtStreet.getText().isEmpty()) {
+			message.errorMessage(this, "Erro", "Insira a rua da empresa");
+			return null;
+		}else if(CEP.isEmpty()) {
+			message.errorMessage(this, "Erro", "Insira os CEP");
+			return null;
+		}else if(rdbtnNo.isSelected()) {
+			if(justicacao.isEmpty()) {
+				message.errorMessage(this, "Erro", "Insira a justificativa");
+				return null;
+			}
+		}else if(txtdataExpiracao.getValue().equals(null)) {
+			message.errorMessage(this, "Erro", "Insira a data de expiração do Certificado");
+			return null;
+		}
 		String companyName = getTxtCompanyName().getText();
-		String stateRegister = txtStateRegister.getText().replaceAll("\\.", "");
 		Supplier supplier = new Supplier(companyName, cnpj);
 		supplier.setInscEstadual(stateRegister);
 		supplier.setCityState((City)cboCity.getSelectedItem(), (State)cboState.getSelectedItem());
@@ -456,7 +497,8 @@ public class RegisterSuppliersFrame extends JFrame {
 		}
 		supplier.setJustificative(txtJustifacao.getText());
 		supplier.setPhone(txtPhone.getText().replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", ""));
-		supplier.setCep(txtCEP.getText().replaceAll("\\.", "").replaceAll("-", ""));
+		supplier.setCep(CEP);
+		//supplier.setExpireCertificateDate(data);
 		clear();
 		return supplier;
 	}
@@ -474,6 +516,8 @@ public class RegisterSuppliersFrame extends JFrame {
 		txtBairro.setText(null);
 		cboCertification.setSelectedIndex(-1);
 		txtJustifacao.setText(null);
+		txtdataExpiracao.setValue(null);
+		cboFiscalCertification.setSelectedItem(-1);
 	}
 	public JTextField getTxtCompanyName() {
 	    return txtCompanyName;

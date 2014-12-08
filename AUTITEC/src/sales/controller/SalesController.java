@@ -35,7 +35,7 @@ public class SalesController {
 		this.mainFrame = mainFrame;
 		dataBase = new DataBase();
 		dataBase.connect();
-		
+
 	}
 
 	public SalesController() {
@@ -79,7 +79,6 @@ public class SalesController {
 				RegisterSuppliersFrame frame = new RegisterSuppliersFrame();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
-				
 
 			}
 		});
@@ -153,51 +152,61 @@ public class SalesController {
 		}
 
 	}
-	
-private void setCities(State state, JComboBox<City> cities) {
-		
+
+	private void setCities(State state, JComboBox<City> cities) {
+
 		cities.removeAllItems();
-		
+
 		try {
-			
-			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM city WHERE city.state = ?", new Object[]{state.getId()});
-			
-			while(resultSet.next()) {
-				
+
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM city WHERE city.state = ?",
+			        new Object[] { state.getId() });
+
+			while (resultSet.next()) {
+
 				City city = new City(resultSet.getInt("id"), resultSet.getString("name"), state);
 				cities.addItem(city);
-				
+
 			}
-			
+
 			resultSet.close();
-			
+
 			cities.setSelectedIndex(-1);
 			cities.setEnabled(true);
-			
+
 		} catch (SQLException e) {
 			DataBase.showDataBaseErrorMessage();
 			e.printStackTrace();
 		}
-		
-	}	
+
+	}
 
 	public void doSupplierRegister(Supplier supplier) throws SQLException {
-		Map<String, Object> mapa = new HashMap<String, Object>();
-		mapa.put("companyName", supplier.getCompanyName());
-		mapa.put("CNPJ", supplier.getCNPJ());
-		mapa.put("city", supplier.getCity().getId());
-		mapa.put("state", supplier.getState().getId());
-		mapa.put("street", supplier.getStreet());
-		mapa.put("neighborhood", supplier.getNeighborhood());
-		mapa.put("certificate", supplier.isCertificated());
-		mapa.put("stateRegistration", supplier.getStateRegistration());
-		//mapa.put("registerDate", supplier.getRegisterDate());
-		mapa.put("fiscalClassification", supplier.getFiscalClassification());
-		mapa.put("materialCertification", supplier.isMaterialCertication());
-		mapa.put("justificative", supplier.getJustificative());
-		mapa.put("email", supplier.getEmail());
-		mapa.put("phone", supplier.getPhone());
-		mapa.put("cep", supplier.getCep());
-		sDAo = new SuppliersDAO(mapa, supplier.getRegisterDate());	
+		try {
+			if (supplier.equals(null)) {
+				throw new Exception();
+			} else {
+				Map<String, Object> mapa = new HashMap<String, Object>();
+				mapa.put("companyName", supplier.getCompanyName());
+				mapa.put("CNPJ", supplier.getCNPJ());
+				mapa.put("city", supplier.getCity().getId());
+				mapa.put("state", supplier.getState().getId());
+				mapa.put("street", supplier.getStreet());
+				mapa.put("neighborhood", supplier.getNeighborhood());
+				mapa.put("certificate", supplier.isCertificated());
+				mapa.put("stateRegistration", supplier.getStateRegistration());
+				// mapa.put("registerDate", supplier.getRegisterDate());
+				mapa.put("fiscalClassification", supplier.getFiscalClassification());
+				mapa.put("materialCertification", supplier.isMaterialCertication());
+				mapa.put("justificative", supplier.getJustificative());
+				mapa.put("email", supplier.getEmail());
+				mapa.put("phone", supplier.getPhone());
+				mapa.put("cep", supplier.getCep());
+				mapa.put("expirationDate", supplier.getExpireCertificateDate());
+				sDAo = new SuppliersDAO(mapa, supplier.getRegisterDate());
+			}
+		} catch (Exception e) {
+			System.out.println("No Supplier");
+		}
 	}
 }

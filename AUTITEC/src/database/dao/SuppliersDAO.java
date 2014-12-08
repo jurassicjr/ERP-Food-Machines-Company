@@ -40,6 +40,7 @@ public class SuppliersDAO {
 		String justificative = (String) data.get("justificative");
 		String cep = (String) data.get("cep");
 		String phone = (String) data.get("phone");
+		//java.sql.Date expireCertificateDate = (java.sql.Date) data.get("expirationDate");
 
 		insertData = new Object[] {companyName, CNPJ, city, state, street, neighborhood, certificate, email, stateRegistration, registerDate, fiscalClassification, materialCertificate, justificative, cep, phone};
 		String sql = "INSERT INTO suppliers (corporate_name, CNPJ, city, state, street"

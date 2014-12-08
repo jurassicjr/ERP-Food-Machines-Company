@@ -21,7 +21,7 @@ public class Supplier {
 	private Calendar registerDate;
 	private String fiscalClassification;
 	private boolean materialCertication;
-	private Calendar expireCertificateDate;
+	private Date expireCertificateDate;
 	private String justificative;
 	private String cep;
 	private String phone;
@@ -127,11 +127,11 @@ public class Supplier {
 	    this.materialCertication = materialCertication;
     }
 
-	public Calendar getExpireCertificateDate() {
+	public Date getExpireCertificateDate() {
 	    return expireCertificateDate;
     }
 
-	public void setExpireCertificateDate(Calendar expireCertificateDate) {
+	public void setExpireCertificateDate(Date expireCertificateDate) {
 	    this.expireCertificateDate = expireCertificateDate;
     }
 
