@@ -38,12 +38,14 @@ public class SuppliersDAO {
 		String fiscalClassification = (String) data.get("fiscalClassification");
 		boolean materialCertificate = (boolean) data.get("materialCertification");
 		String justificative = (String) data.get("justificative");
+		String cep = (String) data.get("cep");
+		String phone = (String) data.get("phone");
 
-		insertData = new Object[] {companyName, CNPJ, city, state, street, neighborhood, certificate, email, stateRegistration, registerDate, fiscalClassification, materialCertificate, justificative};
-		String sql = "NSERT INTO suppliers (corporate_name, CNPJ, city, state, street"
+		insertData = new Object[] {companyName, CNPJ, city, state, street, neighborhood, certificate, email, stateRegistration, registerDate, fiscalClassification, materialCertificate, justificative, cep, phone};
+		String sql = "INSERT INTO suppliers (corporate_name, CNPJ, city, state, street"
 		        + ", neighborhood, certificate, email, state_registration, register_data,"
 		        + " fical_classification, material_certificate,"
-		        + " justificative) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		dataBase.executeQuery(sql, insertData);
+		        + " justificative, cep, phone) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		dataBase.executeUpdate(sql, insertData);
 	}
 }

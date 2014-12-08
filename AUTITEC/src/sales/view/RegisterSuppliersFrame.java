@@ -262,7 +262,7 @@ public class RegisterSuppliersFrame extends JFrame {
 
 		JLabel lblInscest = new JLabel("Insc.Est");
 		try {
-			txtStateRegister = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
+			txtStateRegister = new JFormattedTextField(new MaskFormatter("###.###.###"));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
@@ -270,7 +270,12 @@ public class RegisterSuppliersFrame extends JFrame {
 
 		JLabel lblTelefone = new JLabel("Telefone");
 
-		txtPhone = new JTextField();
+		try {
+	        txtPhone = new JFormattedTextField(new MaskFormatter("(##)####-####"));
+        } catch (ParseException e1) {
+	        // TODO Auto-generated catch block
+	        e1.printStackTrace();
+        }
 		txtPhone.setColumns(10);
 
 		JLabel lblCep = new JLabel("CEP");
@@ -429,9 +434,9 @@ public class RegisterSuppliersFrame extends JFrame {
 		btnRegistrar.addActionListener(buttonListener);
 	}
 	private Supplier makeSupplier() {
-		String cnpj =  txtCNPJ.getText().replaceAll(".", "").replaceAll("-", "").replaceAll("/", "");
+		String cnpj =  txtCNPJ.getText().replaceAll("\\.", "").replaceAll("-", "").replaceAll("/", "");
 		String companyName = getTxtCompanyName().getText();
-		String stateRegister = txtStateRegister.getText().replaceAll(".", "").replaceAll("-", "").replaceAll("/", "");
+		String stateRegister = txtStateRegister.getText().replaceAll("\\.", "");
 		Supplier supplier = new Supplier(companyName, cnpj);
 		supplier.setInscEstadual(stateRegister);
 		supplier.setCityState((City)cboCity.getSelectedItem(), (State)cboState.getSelectedItem());
@@ -450,9 +455,26 @@ public class RegisterSuppliersFrame extends JFrame {
 			supplier.setMaterialCertication(false);
 		}
 		supplier.setJustificative(txtJustifacao.getText());
+		supplier.setPhone(txtPhone.getText().replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", ""));
+		supplier.setCep(txtCEP.getText().replaceAll("\\.", "").replaceAll("-", ""));
+		clear();
 		return supplier;
 	}
 
+	private void clear() {
+		txtCNPJ.setText(null);
+		txtCompanyName.setText(null);
+		txtStateRegister.setText(null);
+		cboCity.setSelectedIndex(-1);
+		cboState.setSelectedIndex(-1);
+		txtStreet.setText(null);
+		txtEmail.setText(null);
+		txtPhone.setText(null);
+		txtCEP.setText(null);
+		txtBairro.setText(null);
+		cboCertification.setSelectedIndex(-1);
+		txtJustifacao.setText(null);
+	}
 	public JTextField getTxtCompanyName() {
 	    return txtCompanyName;
     }

@@ -23,6 +23,8 @@ public class Supplier {
 	private boolean materialCertication;
 	private Calendar expireCertificateDate;
 	private String justificative;
+	private String cep;
+	private String phone;
 	
 	public Supplier(String razaoSocial, String CNPJ) {
 		this.corporateName = razaoSocial;
@@ -139,5 +141,21 @@ public class Supplier {
 
 	public void setJustificative(String justificative) {
 	    this.justificative = justificative;
+    }
+
+	public String getPhone() {
+	    return phone;
+    }
+
+	public void setPhone(String phone) {
+	    this.phone = phone;
+    }
+
+	public String getCep() {
+	    return cep;
+    }
+
+	public void setCep(String cep) {
+	    this.cep = cep;
     }
 }
