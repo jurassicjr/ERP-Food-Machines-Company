@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class TechnicalStandard {
@@ -57,6 +58,31 @@ public class TechnicalStandard {
 	 */
 	public ArrayList<TechnicalStandardVersion> getVersions() {
 		return versions;
+	}
+	
+	/**
+	 * Retorna a última atualização de norma técnica
+	 * 
+	 * @return A última atualização de norma técnica
+	 */
+	public TechnicalStandardVersion getLastUpdate() {
+		
+		if(versions == null || versions.size() == 0) return null;
+		
+		Date last = versions.get(0).getDateUpdate();
+		TechnicalStandardVersion lastVersion = versions.get(0); 
+		
+		for(int i = 1; i < versions.size(); ++i) {
+			
+			if(last.before(versions.get(i).getDateUpdate())) {
+				last = versions.get(i).getDateUpdate(); 
+				lastVersion = versions.get(i);
+			}
+			
+		}
+		
+		return lastVersion;
+		
 	}
 
 	@Override

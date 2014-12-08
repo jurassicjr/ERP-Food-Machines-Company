@@ -33,7 +33,6 @@ public class FileChooser extends JFileChooser {
          
         selectedFile = false;
         
-        if(frame == null) frame = (JFrame) JFrame.getFrames()[0];
         int result = showSaveDialog(frame);
          
         if(result == JFileChooser.APPROVE_OPTION){
@@ -57,7 +56,6 @@ public class FileChooser extends JFileChooser {
          
         selectedFile = false;
         
-        if(frame == null) frame = (JFrame) JFrame.getFrames()[0];
         int result = showOpenDialog(frame);
          
         if(result == JFileChooser.APPROVE_OPTION){

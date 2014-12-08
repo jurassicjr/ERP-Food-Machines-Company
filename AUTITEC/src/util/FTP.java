@@ -33,6 +33,7 @@ public class FTP {
 		user = properties.getPropertie("FTPUser");
 		password = properties.getPropertie("FTPPass");
 		FTPPath = properties.getPropertie("FTPPath");
+		
         
 	}
 	
@@ -159,5 +160,32 @@ public class FTP {
 				
 	}
 
+	/**
+	 * Remove o arquivo armazenado no servidor FTP 
+	 * 
+	 * @param fileName O nome do arquivo que será removido
+	 * @param folder A pasta que contém o arquivo que será removido
+	 * 
+	 * @return true se o arquivo foi deletado e false caso o arquivo não foi deletado
+	 */
+	public boolean deleteFile(String fileName, String folder) {
+		
+		try {
+			
+			if(!connect()) return false;
+			
+			ftp.changeWorkingDirectory(FTPPath + folder);
+			
+			if(!new File(fileName).exists()) return true; //o arquivo não existe e não precisa ser deletado
+			
+			return ftp.deleteFile(fileName);
+		}
+		catch (IOException e) {
+			ShowMessage.errorMessage(null, "Erro ao subir o arquivo", "Houve um erro ao subir o arquivo.\nPor favor, consulte o suporte");
+			e.printStackTrace();
+			return false;
+		}		
+		
+	}
 
 }

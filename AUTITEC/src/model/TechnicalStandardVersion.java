@@ -38,7 +38,7 @@ public class TechnicalStandardVersion {
 	 * 
 	 * @return A localização do arquivo da norma técnica
 	 */
-	public String getFilePath() {
+	public String getFileName() {
 		return filePath;
 	}
 

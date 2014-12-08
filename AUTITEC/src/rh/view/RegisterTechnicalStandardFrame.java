@@ -5,25 +5,31 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.io.File;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
-import javax.swing.ImageIcon;
 
+import model.TechnicalStandard;
 import rh.controller.RegisterTechnicalStandardFrameController;
+import util.ShowMessage;
 
 /**
  * Classe para o registro de uma nova Norma Técnica
  */
-public class RegisterTechnicalStandardFrame extends JFrame {
+public class RegisterTechnicalStandardFrame extends Thread {
 	
-	private static final long serialVersionUID = -6409333598021749949L;
+	private JFrame frame;	
 	
 	private JPanel contentPane;
 	
@@ -34,6 +40,12 @@ public class RegisterTechnicalStandardFrame extends JFrame {
 	private JButton btnCancel;
 	private JButton btnRegister;
 	
+	private boolean registered;
+	private boolean update;
+	private String technicalStandard;
+	private File file;
+		
+	private TechnicalStandard ts;
 	private RegisterTechnicalStandardFrameController controller;
 
 	/**
@@ -41,31 +53,56 @@ public class RegisterTechnicalStandardFrame extends JFrame {
 	 */
 	public RegisterTechnicalStandardFrame() {
 		
+		frame = new JFrame();
+		controller = new RegisterTechnicalStandardFrameController(this);
+		registered = false;
+		update = false;
+		
+		initialize(null);
+		setListeners();
+	}
+	
+	/**
+	 * Cria o frame para a atualização de uma Norma Técnica
+	 */
+	public RegisterTechnicalStandardFrame(TechnicalStandard technicalStandard) {
+		
+		frame = new JFrame();
 		controller = new RegisterTechnicalStandardFrameController(this);
 		
-		initialize();
+		ts = technicalStandard;
+		registered = false;
+		update = true;
+		
+		initialize(technicalStandard.getTechnicalStandard());
 		setListeners();
+		
 	}
 	
 	/**
 	 * Inicializa os componentes gráficos do frame
 	 */
-	private void initialize() {
+	private void initialize(String technicalStandard) {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 521, 186);
-		setMinimumSize(new Dimension(521, 186));
+		frame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		frame.setBounds(100, 100, 521, 186);
+		frame.setMinimumSize(new Dimension(521, 186));
+		frame.setTitle("Registro de Norma Técnica");
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		frame.setContentPane(contentPane);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		
 		JLabel lblTechnicalStandard = new JLabel("Norma Técnica:");
 		txTechicalStandard = new JTextField();
+		if(technicalStandard != null && !technicalStandard.isEmpty()) {
+			txTechicalStandard.setEditable(false);
+			txTechicalStandard.setText(technicalStandard);
+		}
 		
 		JLabel lblFile = new JLabel("Arquivo:");
 		txFile = new JTextField();
@@ -133,17 +170,61 @@ public class RegisterTechnicalStandardFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(e.getSource().equals(btnCancel));
+				if(e.getSource().equals(btnCancel)) closeFrame();
 				else if(e.getSource().equals(btnFile)) controller.selectFile();
-				else if(e.getSource().equals(btnCancel)) controller.register();
+				else if(e.getSource().equals(btnRegister)) {
+					if(update) update();
+					else register();
+				}
 				
 			}
 		};
 		
 		btnCancel.addActionListener(buttonsListeners);
 		btnFile.addActionListener(buttonsListeners);
-		btnRegister.addActionListener(buttonsListeners);		
+		btnRegister.addActionListener(buttonsListeners);
 		
+		frame.addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				closeFrame();
+			}
+			
+		});
+		
+	}
+	
+	/**
+	 * Registra no banco de dados a norma técnica
+	 */
+	private void register() {
+		
+		registered = controller.register(txTechicalStandard.getText(), new File(txFile.getText()));
+		
+		if(registered) {
+			file = new File(txFile.getText());
+			technicalStandard = txTechicalStandard.getText();
+		}
+		
+		start();
+	}
+	
+	/**
+	 * Registra uma nova versão da norma técnica
+	 */
+	private void update() {
+				
+		registered = controller.update(ts, new File(txFile.getText()));
+		
+		start();		
+	}
+	
+	@Override
+	public void run() {
+		synchronized (this) {
+			notifyAll();
+		}
 	}
 	
 	/**
@@ -154,4 +235,64 @@ public class RegisterTechnicalStandardFrame extends JFrame {
 	public void setFilePath(String filePath) {
 		txFile.setText(filePath);
 	}
+	
+	/**
+	 * Retorna o frame do registro de norma técnica 
+	 * 
+	 * @return O frame do registro de norma técnica
+	 */
+	public JFrame getFrame() {
+		return frame;
+	}
+
+	/**
+	 * Verifica se houve o registro de uma norma técnica
+	 * 
+	 * @return true se houve o registro de uma norma técnica ou false se não houve registro de norma técnica
+	 */
+	public boolean isRegistered() {
+		return registered;
+	}
+	
+	/**
+	 * Retorna o nome da norma técnica registrada
+	 * 
+	 * @return O nome da norma técnica registrada
+	 */
+	public String getTechnicalStandard() {
+		return technicalStandard;
+	}
+	
+	/**
+	 * Retorna o arquivo selecionado para a norma técnica
+	 * 
+	 * @return O arquivo selecionado para a norma técnica
+	 */
+	public File getFile() {
+		return file;
+	}
+	
+	/**
+	 * Fecha a janela de registro da norma técnica
+	 */
+	private void closeFrame() {
+		
+		int response = ShowMessage.questionMessage(frame, "Cancelar o registro", "Deseja cancelar o registro da Norma Técnica?\nOs dados da Norma Técnica serão perdidos");
+		
+		if(response == JOptionPane.YES_OPTION) {
+			registered = false;
+			start();	
+		}
+		
+	}
+	
+	/**
+	 * Verifica se a norma técnica foi registrada ou não
+	 * 
+	 * @return true se a norma técnica foi registrado e false se nenhuma norma técnica foi registrada
+	 */
+	public boolean isRegistred() {
+		return registered;
+	}
+
 }

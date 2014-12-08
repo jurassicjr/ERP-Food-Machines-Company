@@ -2,7 +2,6 @@ package util;
 
 import java.awt.Component;
 
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 /**
@@ -18,9 +17,7 @@ public class ShowMessage {
 	 * @param message A messagem a ser exibida
 	 */
 	public static void errorMessage(Component c, String title, String message) {
-		
-		if(c == null) c = JFrame.getFrames()[0];
-		
+				
 		message = message.replaceAll("\n", "<br>");
 		message = "<html><p align='center'>" + message + "</p></html>";
 		
@@ -35,13 +32,11 @@ public class ShowMessage {
 	 * @param message A messagem a ser exibida
 	 */
 	public static void successMessage(Component c, String title, String message) {
-		
-		if(c == null) c = JFrame.getFrames()[0];
-		
+			
 		message = message.replaceAll("\n", "<br>");
 		message = "<html><p align='center'>" + message + "</p></html>";
 		
-		JOptionPane.showMessageDialog(c, message, title, JOptionPane.PLAIN_MESSAGE, null);
+		JOptionPane.showMessageDialog(c, message, title, JOptionPane.INFORMATION_MESSAGE, null);
 		
 	}
 	
@@ -55,9 +50,7 @@ public class ShowMessage {
 	 * @return A opção selecionada
 	 */
 	public static int questionMessage(Component c, String title, String message) {
-		
-		if(c == null) c = JFrame.getFrames()[0];
-		
+				
 		message = message.replaceAll("\n", "<br>");
 		message = "<html><p align='center'>" + message + "</p></html>";
 		

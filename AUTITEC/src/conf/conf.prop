@@ -1,7 +1,7 @@
-DataBaseServer=152.250.254.226
+DataBaseServer=localhost
 DataBaseName=autitec
 DataBaseUser=root
-DataBasePass=eganmuw6
+DataBasePass=pedro2201
 FTPServer=152.250.254.226
 FTPUser=suporte
 FTPPass=eganmuw6
