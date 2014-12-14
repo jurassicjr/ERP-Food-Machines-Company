@@ -1,5 +1,6 @@
 import java.awt.EventQueue;
 
+import login.view.LoginFrame;
 import userInterface.view.MainFrame;
 
 
@@ -9,12 +10,13 @@ import userInterface.view.MainFrame;
 public class Main {
 
 	public static void main(String[] args) {
-								
+										
 		EventQueue.invokeLater(new Runnable() {
 
 			@Override
 			public void run() {
-				MainFrame frame = new MainFrame();
+				//MainFrame frame = new MainFrame();
+				LoginFrame frame = new LoginFrame();
 				frame.setVisible(true);
 			}
 		});

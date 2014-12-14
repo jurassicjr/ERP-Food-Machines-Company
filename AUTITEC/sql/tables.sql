@@ -120,3 +120,11 @@ CREATE TABLE technical_standard_version (
 	FOREIGN KEY(technical_standard) REFERENCES technical_standard(id)
 
 );
+
+CREATE TABLE user (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	permission INT(11) NOT NULL,
+	employee INT(11) NOT NULL,
+	password VARCHAR(32) NOT NULL
+);

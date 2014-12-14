@@ -24,6 +24,7 @@ public class MainFrame extends JFrame {
 	
 	private JMenuItem mntmRegisterEmployee;
 	private JMenuItem mntmTechnicalStandard;
+	private JMenuItem mntmRegisterUser;
 	
 	private JMenuItem mntmApprovalOfSuppliers;
 	private JMenuItem mntmSalesRequisition;
@@ -67,8 +68,11 @@ public class MainFrame extends JFrame {
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
 		
-		mntmTechnicalStandard = new JMenuItem("Norma Técnica");
+		mntmTechnicalStandard = new JMenuItem("Normas Técnicas");
 		mnRh.add(mntmTechnicalStandard);
+		
+		mntmRegisterUser = new JMenuItem("Registrar Usuário");
+		mnRh.add(mntmRegisterUser);
 		
 		
 		mnSales.add(mnRegister);
@@ -95,6 +99,8 @@ public class MainFrame extends JFrame {
 				
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();
 				else if(e.getSource().equals(mntmTechnicalStandard)) controller.technicalStandard();
+				else if(e.getSource().equals(mntmRegisterUser)) controller.registerUser();
+				
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(controller.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
 				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(controller.registerOfSuppliers);
@@ -104,6 +110,7 @@ public class MainFrame extends JFrame {
 		
 		mntmRegisterEmployee.addActionListener(menuListeners);
 		mntmTechnicalStandard.addActionListener(menuListeners);
+		mntmRegisterUser.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

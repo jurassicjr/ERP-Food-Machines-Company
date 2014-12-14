@@ -3,6 +3,7 @@ package userInterface.controller;
 import java.awt.EventQueue;
 
 import rh.view.RegisterEmployeeFrame;
+import rh.view.RegisterUserFrame;
 import rh.view.TechnicalStandardFrame;
 import sales.controller.SalesController;
 import userInterface.view.MainFrame;
@@ -45,6 +46,26 @@ public class MainFrameController {
 			}
 		});		
 
+	}
+
+	/**
+	 * Exibe o frame para o registro de usuário
+	 */
+	public void registerUser() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				RegisterUserFrame frame = new RegisterUserFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});		
+
+		
 	}
 	
 	/**
