@@ -15,3 +15,9 @@ state_registration VARCHAR(9) NOT NULL,
  FOREIGN KEY (city) REFERENCES city(id),
  FOREIGN KEY(state) REFERENCES state(id)
 )
+
+ALTER TABLE suppliers ADD material_certificate bool AFTER fical_classification;
+ALTER TABLE suppliers ADD justificative VARCHAR(350) AFTER material_certificate;
+ALTER TABLE suppliers ADD phone VARCHAR(10) AFTER justificative;
+ALTER TABLE suppliers ADD cep VARCHAR(8) AFTER phone;
+ALTER TABLE suppliers ADD expireCertificationDate DATE AFTER cep;

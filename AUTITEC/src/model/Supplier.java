@@ -21,7 +21,7 @@ public class Supplier {
 	private Calendar registerDate;
 	private String fiscalClassification;
 	private boolean materialCertication;
-	private Date expireCertificateDate;
+	private java.sql.Date expireCertificateDate;
 	private String justificative;
 	private String cep;
 	private String phone;
@@ -131,7 +131,7 @@ public class Supplier {
 	    return expireCertificateDate;
     }
 
-	public void setExpireCertificateDate(Date expireCertificateDate) {
+	public void setExpireCertificateDate(java.sql.Date expireCertificateDate) {
 	    this.expireCertificateDate = expireCertificateDate;
     }
 

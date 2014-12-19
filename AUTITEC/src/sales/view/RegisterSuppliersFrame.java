@@ -25,17 +25,21 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import model.City;
+import model.Produto;
 import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import sales.controller.SalesController;
+import util.ClearFrame;
 import util.ShowMessage;
 import util.Validator;
 
@@ -77,7 +81,9 @@ public class RegisterSuppliersFrame extends JFrame {
 	private Validator validator;
 	private ShowMessage message;
 	private Date data;
-
+	private ClearFrame faxineira;
+	private JTable table;
+	private JScrollPane scrollPaneProductTable;
 	public RegisterSuppliersFrame() {
 		controller = new SalesController();
 		initialize();
@@ -317,62 +323,82 @@ public class RegisterSuppliersFrame extends JFrame {
 		
 		txtStreet = new JTextField();
 		txtStreet.setColumns(10);
+		
+		JLabel lblProdutos = new JLabel("Produtos");
+		
+		JComboBox<Produto> cboProduto = new JComboBox<Produto>();
+		
+		JButton btnAdicionar = new JButton("Adicionar");
+		
+		scrollPaneProductTable = new JScrollPane();
 
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblRazoSocial)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtCompanyName, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
+							.addComponent(scrollPaneProductTable, GroupLayout.DEFAULT_SIZE, 459, Short.MAX_VALUE)
+							.addContainerGap())
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblTelefone)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtPhone))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblCnpj)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtCNPJ, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)))
-							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblInscest)
+									.addComponent(lblRazoSocial)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtStateRegister, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+									.addComponent(txtCompanyName, GroupLayout.DEFAULT_SIZE, 399, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblCep)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtCEP, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))))
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblEstado)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboState, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-							.addGap(10)
-							.addComponent(lblCidade)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboCity, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
-							.addGap(5)
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblRua)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, 435, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblBairro)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtBairro, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblTelefone)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtPhone))
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblCnpj)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtCNPJ, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)))
 									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(lblEmail)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblInscest)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtStateRegister, GroupLayout.DEFAULT_SIZE, 171, Short.MAX_VALUE))
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblCep)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtCEP, GroupLayout.DEFAULT_SIZE, 191, Short.MAX_VALUE))))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(lblEstado)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)))))
-					.addGap(10))
+									.addComponent(cboState, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+									.addGap(10)
+									.addComponent(lblCidade)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cboCity, GroupLayout.PREFERRED_SIZE, 283, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addGap(5)
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblRua)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, 435, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblBairro)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtBairro, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblEmail)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE)))))
+							.addGap(10))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(lblProdutos)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnAdicionar)
+							.addGap(125))))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -409,8 +435,33 @@ public class RegisterSuppliersFrame extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRua)
 						.addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(108, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblProdutos)
+						.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAdicionar))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPaneProductTable, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addContainerGap())
 		);
+		
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Material", "Descri\u00E7\u00E3o"
+			}
+		) {
+			Class[] columnTypes = new Class[] {
+				String.class, Object.class
+			};
+			@Override
+            public Class getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+		});
+		scrollPaneProductTable.setViewportView(table);
 		panel.setLayout(gl_panel);
 	}
 
@@ -498,8 +549,10 @@ public class RegisterSuppliersFrame extends JFrame {
 		supplier.setJustificative(txtJustifacao.getText());
 		supplier.setPhone(txtPhone.getText().replaceAll("\\(", "").replaceAll("\\)", "").replaceAll("-", ""));
 		supplier.setCep(CEP);
-		//supplier.setExpireCertificateDate(data);
-		clear();
+		java.sql.Date sqlDate = new java.sql.Date(data.getTime());
+		supplier.setExpireCertificateDate(sqlDate);
+		faxineira = new ClearFrame(frame);
+		faxineira.clear();
 		return supplier;
 	}
 

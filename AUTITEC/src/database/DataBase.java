@@ -25,6 +25,7 @@ public class DataBase {
 	private String database;
 	
 	private Connection connection;
+	private ShowMessage message;
 	
 	/**
 	 * Cria o objeto para manipulação do banco de dados
@@ -197,7 +198,7 @@ public class DataBase {
 			}
 			
 			statement.executeUpdate();
-					
+			message.successMessage(null, "Sucesso", "Gravação concluida com sucesso");		
 		} catch (SQLException e) {
 			showDataBaseErrorMessage();
 			e.printStackTrace();

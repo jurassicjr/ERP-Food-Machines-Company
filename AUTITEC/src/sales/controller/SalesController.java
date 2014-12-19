@@ -14,6 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.City;
+import model.Produto;
 import model.State;
 import model.Supplier;
 import sales.view.ApprovalOfSuppliersFrame;
@@ -111,7 +112,20 @@ public class SalesController {
 		}
 
 	}
-
+	
+	public void fillProducts(JComboBox<Produto> product) {
+		try {
+			ResultSet rs = dataBase.executeQuery("SELECT *FROM Produto");
+			while(rs.next()) {
+				Produto produto = new Produto();
+				produto.setName(rs.getString("nome"));
+				product.addItem(produto);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void fillStateAndCity(JComboBox<State> states, JComboBox<City> cities) {
 
 		setStates(states, cities);
