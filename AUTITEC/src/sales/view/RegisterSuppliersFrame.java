@@ -84,6 +84,9 @@ public class RegisterSuppliersFrame extends JFrame {
 	private ClearFrame faxineira;
 	private JTable table;
 	private JScrollPane scrollPaneProductTable;
+	private JComboBox<Produto> cboProduto;
+	private JButton btnAdicionar;
+	
 	public RegisterSuppliersFrame() {
 		controller = new SalesController();
 		initialize();
@@ -105,6 +108,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		tabbedPane.addTab("Contato",panel);
 		tabbedPane.addTab("Certificações", panelCe);
 		controller.fillStateAndCity(cboState, cboCity);
+		controller.fillProducts(cboProduto);
 	}
 
 	private void initializeSub() {
@@ -326,9 +330,9 @@ public class RegisterSuppliersFrame extends JFrame {
 		
 		JLabel lblProdutos = new JLabel("Produtos");
 		
-		JComboBox<Produto> cboProduto = new JComboBox<Produto>();
+		cboProduto = new JComboBox<Produto>();
 		
-		JButton btnAdicionar = new JButton("Adicionar");
+		btnAdicionar = new JButton("Adicionar");
 		
 		scrollPaneProductTable = new JScrollPane();
 
@@ -484,9 +488,14 @@ public class RegisterSuppliersFrame extends JFrame {
                     } catch (SQLException e1) {
 	                    e1.printStackTrace();
                     }
+				}else if(e.getSource().equals(btnAdicionar)) {
+					DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+					Produto produto = (Produto) cboProduto.getSelectedItem();
+					tbl.addRow(new Object[] {produto.getName(), produto.getDescricao()});
 				}
 			}
 		};
+		btnAdicionar.addActionListener(buttonListener);
 		btnCancelar.addActionListener(buttonListener);
 		btnRegistrar.addActionListener(buttonListener);
 	}

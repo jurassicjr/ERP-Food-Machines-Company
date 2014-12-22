@@ -18,12 +18,14 @@ import model.Produto;
 import model.State;
 import model.Supplier;
 import sales.view.ApprovalOfSuppliersFrame;
+import sales.view.RegisterOfProductFrame;
 import sales.view.RegisterSuppliersFrame;
 import sales.view.SalesOrderFrame;
 import sales.view.SalesRequisitionFrame;
 import userInterface.view.MainFrame;
 import util.ShowMessage;
 import database.DataBase;
+import database.dao.ProductDAO;
 import database.dao.SuppliersDAO;
 
 public class SalesController {
@@ -31,6 +33,7 @@ public class SalesController {
 	private MainFrame mainFrame;
 	private DataBase dataBase;
 	private SuppliersDAO sDAo;
+	private ProductDAO produtoDAO;
 
 	public SalesController(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
@@ -99,6 +102,19 @@ public class SalesController {
 		});
 	}
 
+	public void RegisterofProduct() {
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				RegisterOfProductFrame frame = new RegisterOfProductFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	}
+
 	public void closeFrame(JFrame frame) {
 
 		String title = "Sair";
@@ -112,20 +128,21 @@ public class SalesController {
 		}
 
 	}
-	
+
 	public void fillProducts(JComboBox<Produto> product) {
 		try {
-			ResultSet rs = dataBase.executeQuery("SELECT *FROM Produto");
-			while(rs.next()) {
+			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product");
+			while (rs.next()) {
 				Produto produto = new Produto();
-				produto.setName(rs.getString("nome"));
+				produto.setName(rs.getString("name"));
+				produto.setDescricao(rs.getString("descricao"));
 				product.addItem(produto);
 			}
-		}catch(SQLException e) {
+		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void fillStateAndCity(JComboBox<State> states, JComboBox<City> cities) {
 
 		setStates(states, cities);
@@ -193,6 +210,22 @@ public class SalesController {
 			e.printStackTrace();
 		}
 
+	}
+	public void doProductRegister(Produto product) {
+		try {
+			if(product.equals(null)) {
+				throw new Exception();
+			}
+			else {
+				Map<String, Object> mapa = new HashMap<String, Object>();
+				mapa.put("name", product.getName());
+				mapa.put("quantidade", product.getQuantidade());
+				mapa.put("descricao", product.getDescricao());
+				produtoDAO = new ProductDAO(mapa);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void doSupplierRegister(Supplier supplier) throws SQLException {

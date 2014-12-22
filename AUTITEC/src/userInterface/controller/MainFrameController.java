@@ -17,6 +17,7 @@ public class MainFrameController {
 	public static final int salesRequisition = 1;
 	public static final int registerOfSuppliers = 2;
 	public static final int salesOrder = 3;
+	public static final int registerOfProduct = 4;
 	private MainFrame mainFrame;
 
 	/**
@@ -97,6 +98,8 @@ public class MainFrameController {
 			controller.registerOfSuppliers();
 		}else if(i == 3) {
 			controller.salesOrder();
+		}else if(i==4) {
+			controller.RegisterofProduct();
 		}
 	}
 

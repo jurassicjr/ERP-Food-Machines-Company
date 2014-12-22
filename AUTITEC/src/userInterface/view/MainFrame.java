@@ -30,6 +30,7 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmSalesRequisition;
 	private JMenuItem mntmResgisterOfSuppliers;
 	private JMenuItem mntmSalesOrder;
+	private JMenuItem mntmRegisterOfProduct;
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -84,6 +85,8 @@ public class MainFrame extends JFrame {
 		mnSales.add(mntmSalesRequisition);
 		mntmSalesOrder = new JMenuItem("Pedido de Compra");
 		mnSales.add(mntmSalesOrder);
+		mntmRegisterOfProduct = new JMenuItem("Cadastro de Material/Produto");
+		mnRegister.add(mntmRegisterOfProduct);
 	}
 
 	/**
@@ -96,7 +99,7 @@ public class MainFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
+					
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();
 				else if(e.getSource().equals(mntmTechnicalStandard)) controller.technicalStandard();
 				else if(e.getSource().equals(mntmRegisterUser)) controller.registerUser();
@@ -105,6 +108,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
 				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(controller.registerOfSuppliers);
 				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(controller.salesOrder);
+				else if (e.getSource().equals(mntmRegisterOfProduct)) controller.Sales(controller.registerOfProduct);
 			}
 		};
 		
@@ -116,6 +120,7 @@ public class MainFrame extends JFrame {
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
 		mntmSalesRequisition.addActionListener(menuListeners);	
 		mntmSalesOrder.addActionListener(menuListeners);
+		mntmRegisterOfProduct.addActionListener(menuListeners);
 	}
 	
 	/**

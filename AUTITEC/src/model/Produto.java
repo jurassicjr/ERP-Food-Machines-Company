@@ -3,7 +3,7 @@ package model;
 public class Produto {
 	private int id;
 	private String name;
-	private double quantidade;
+	private int quantidade;
 	private String descricao;
 
 	public int getId() {
@@ -22,11 +22,11 @@ public class Produto {
 		this.name = name;
 	}
 
-	public double getQuantidade() {
+	public int getQuantidade() {
 		return quantidade;
 	}
 
-	public void setQuantidade(double quantidade) {
+	public void setQuantidade(int quantidade) {
 		this.quantidade = quantidade;
 	}
 
@@ -36,5 +36,9 @@ public class Produto {
 
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
+	}
+	@Override
+	public String toString() {
+	    return this.name;
 	}
 }
