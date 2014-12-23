@@ -18,6 +18,7 @@ import model.Produto;
 import model.State;
 import model.Supplier;
 import sales.view.ApprovalOfSuppliersFrame;
+import sales.view.ProductUpdateFrame;
 import sales.view.RegisterOfProductFrame;
 import sales.view.RegisterSuppliersFrame;
 import sales.view.SalesOrderFrame;
@@ -87,6 +88,19 @@ public class SalesController {
 			}
 		});
 	}
+	
+	public void updateOfProducts() {
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ProductUpdateFrame frame = new ProductUpdateFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	}
 
 	public void salesOrder() {
 		EventQueue.invokeLater(new Runnable() {
@@ -102,7 +116,7 @@ public class SalesController {
 		});
 	}
 
-	public void RegisterofProduct() {
+	public void registerOfProduct() {
 		EventQueue.invokeLater(new Runnable() {
 
 			@Override
@@ -130,12 +144,15 @@ public class SalesController {
 	}
 
 	public void fillProducts(JComboBox<Produto> product) {
+		product.removeAllItems();
 		try {
 			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product");
 			while (rs.next()) {
 				Produto produto = new Produto();
 				produto.setName(rs.getString("name"));
 				produto.setDescricao(rs.getString("descricao"));
+				produto.setId(rs.getInt("id"));
+				produto.setQuantidade(rs.getInt("quantidade"));
 				product.addItem(produto);
 			}
 		} catch (SQLException e) {

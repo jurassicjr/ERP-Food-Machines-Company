@@ -31,6 +31,18 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmResgisterOfSuppliers;
 	private JMenuItem mntmSalesOrder;
 	private JMenuItem mntmRegisterOfProduct;
+
+	private JMenu mnSales;
+
+	private JMenuBar menuBar;
+
+	private JMenu mnRh;
+
+	private JMenu mnRegister;
+
+	private JMenu mnUpdates;
+
+	private JMenuItem mntmProductUpdate;
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -55,17 +67,18 @@ public class MainFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		JMenuBar menuBar = new JMenuBar();
+		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
 		
-		JMenu mnRh = new JMenu("RH");
+		mnRh = new JMenu("RH");
 		menuBar.add(mnRh);
 		
-		JMenu mnSales = new JMenu("Vendas");
+		mnSales = new JMenu("Vendas");
 		menuBar.add(mnSales);
 		
-		JMenu mnRegister = new JMenu("Cadastros");
+		mnRegister = new JMenu("Cadastros");
 		
+		mnUpdates = new JMenu("Atualizar/Deletar");
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
 		
@@ -87,6 +100,9 @@ public class MainFrame extends JFrame {
 		mnSales.add(mntmSalesOrder);
 		mntmRegisterOfProduct = new JMenuItem("Cadastro de Material/Produto");
 		mnRegister.add(mntmRegisterOfProduct);
+		mnSales.add(mnUpdates);
+		mntmProductUpdate = new JMenuItem("Produtos/Material");
+		mnUpdates.add(mntmProductUpdate);
 	}
 
 	/**
@@ -109,6 +125,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(controller.registerOfSuppliers);
 				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(controller.salesOrder);
 				else if (e.getSource().equals(mntmRegisterOfProduct)) controller.Sales(controller.registerOfProduct);
+				else if (e.getSource().equals(mntmProductUpdate)) controller.Sales(controller.updateOfProduct);
 			}
 		};
 		
@@ -121,6 +138,7 @@ public class MainFrame extends JFrame {
 		mntmSalesRequisition.addActionListener(menuListeners);	
 		mntmSalesOrder.addActionListener(menuListeners);
 		mntmRegisterOfProduct.addActionListener(menuListeners);
+		mntmProductUpdate.addActionListener(menuListeners);
 	}
 	
 	/**
