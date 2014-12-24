@@ -1,14 +1,21 @@
 package database.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.Map;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import com.mysql.fabric.xmlrpc.base.Data;
+
 import model.Bank;
 import model.CBO;
+import model.CNPJ;
 import model.City;
+import model.Employee;
+import model.Job;
 import util.ShowMessage;
 import database.DataBase;
 
@@ -30,6 +37,11 @@ public class EmployeeDAO {
 		persist(data);		
 	}
 	
+	public EmployeeDAO() {
+		dataBase = new DataBase();
+		dataBase.connect();
+	}
+	
 	/**
 	 * Realiza a persistência do empregado
 	 */
@@ -37,8 +49,8 @@ public class EmployeeDAO {
 		
 		String name = (String) data.get("name");
 		Date birth = (Date) data.get("birth");
-		String gender = (String) data.get("gender");
-		String maritialStatus = (String) data.get("maritial_status");
+		int gender = (int) data.get("gender");
+		int maritialStatus = (int) data.get("maritial_status");
 		String nacionality = (String) data.get("nacionality");
 		String birthPlace = (String) data.get("birth_place");
 		String rg = (String) data.get("rg");
@@ -47,11 +59,11 @@ public class EmployeeDAO {
 		String cptsCategory = (String) data.get("cpts_category");
 		String voter = (String) data.get("voter");
 		String driverLicense = (String) data.get("driver_license");
-		String driverLicenseCategory = (String) data.get("driver_license_category");
-		String schooling = (String) data.get("schooling");
+		int driverLicenseCategory = (int) data.get("driver_license_category");
+		int schooling = (int) data.get("schooling");
 		String reservist = (String) data.get("reservist");
 		String reservistCategory = (String) data.get("reservist_category");
-		String picuturePath = (String) data.get("picture");
+		String picturePath = (String) data.get("picture");
 		String address = (String) data.get("address");
 		String neighborhood = (String) data.get("neighborhood");
 		String cep = (String) data.get("cep");
@@ -60,21 +72,22 @@ public class EmployeeDAO {
 		String cellphone = (String) data.get("cellphone");
 		Date admissionDate = (Date) data.get("admission_date");
 		CBO job = (CBO) data.get("job");
+		CNPJ registrationCnpj = (CNPJ) data.get("registration_cnpj");
 		String salary = (String) data.get("salary");
-		String payment = (String) data.get("payment");
+		int payment = (int) data.get("payment");
 		Bank bank = (Bank) data.get("bank");
 		String agency = (String) data.get("agency");
 		String account = (String) data.get("account");
 		Date optionDate = (Date) data.get("option_date");
-		Bank depositaryBank = (Bank) data.get("depositary_bank");
 		Date retractionDate = (Date) data.get("retraction_date");
+		Bank depositaryBank = (Bank) data.get("depositary_bank");
 		Date cadastreDate = (Date) data.get("cadastre_date");
 		String socialIntegrationCadastreNumber = (String) data.get("social_integration_cadastre_number");
 		Bank socialIntegrationBank = (Bank) data.get("social_integration_bank");
 		String socialIntegrationAgency = (String) data.get("social_integration_agency");
 		String socialIntegrationAddress = (String) data.get("social_integration_address");
-		JTable dependentTable = (JTable) data.get("dependents");
-				
+		JTable dependents = (JTable) data.get("dependents");
+						
 		Integer socialIntegrationId = null;
 		Integer guaranteeFundId = null;
 		Integer addressId = null;
@@ -98,22 +111,20 @@ public class EmployeeDAO {
 		cpf = cpf.replaceAll("\\.|-", "");
 		voter = voter.replaceAll(" ", "");
 		phone = phone.replaceAll(" |\\(|\\)|-", "");
-		cellphone = cellphone.replaceAll(" |\\(|\\)|-", "");
-		gender = gender.substring(0, 1);
-		driverLicenseCategory = driverLicenseCategory.split(" ")[1];
-		
+		cellphone = cellphone.replaceAll(" |\\(|\\)|-", "");		
 						
 		String sql = "INSERT INTO employee (name, birth, gender, marital_status, nacionality, birth_place, rg, cpf, cpts, cpts_category, voter, driver_license, "
-				+ "driver_license_category, schooling, reservist, reservist_category, address, phone, cellphone, job, banking_data, social_integration, guarantee_fund, picture)"
-				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+				+ "driver_license_category, schooling, reservist, reservist_category, address, phone, cellphone, job, banking_data, social_integration, guarantee_fund, "
+				+ "picture, active, register_cnpj)"
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		Object inserts[] = new Object[]{name, birthDate, gender, maritialStatus, nacionality, birthPlace, rg, cpf, cpts, cptsCategory, voter, driverLicense,
 				driverLicenseCategory, schooling, reservist, reservistCategory, addressId, phone, cellphone, jobId, bankingId, socialIntegrationId, guaranteeFundId, 
-				picuturePath};
+				picturePath, 1, registrationCnpj.getId()};
 		
 		dataBase.executeUpdate(sql, inserts);
 		
-		registerDependets(dependentTable, employeeId);
+		registerDependets(dependents, employeeId);
 		
 		ShowMessage.successMessage(null, "Funcionário Registrado", "O Funcionário foi Registrado com sucesso");
 		
@@ -134,7 +145,7 @@ public class EmployeeDAO {
 	 */
 	private int registerSocialIntegrationProgram(Date registerDate, String cadastreNumber, Bank bank, String agency, String address) {
 		
-		String sql = "INSERT INTO  social_integration (dadastre_date, cadastre_number, baking_data) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO social_integration (dadastre_date, cadastre_number, baking_data) VALUES (?, ?, ?)";
 		Object insertData[];
 		
 		java.sql.Date date = (registerDate != null) ? new java.sql.Date(registerDate.getTime()) : null;		
@@ -232,7 +243,7 @@ public class EmployeeDAO {
 	 * 
 	 * @return O ID da tupla criada
 	 */
-	private int registerJob(Date admissionDate, CBO cbo, double initialSalary, String payment) {
+	private int registerJob(Date admissionDate, CBO cbo, double initialSalary, int payment) {
 		
 		int id = dataBase.getAutoIncrementValue("job");
 		
@@ -274,6 +285,36 @@ public class EmployeeDAO {
 			dataBase.executeUpdate(sql, inserData);
 			
 		}
+		
+	}
+	
+	/**
+	 * Retorna um objeto do empregado registrado no banco de dados de acordo com o id
+	 * 
+	 * @return id O id do empregado no banco de dados
+	 */
+	public Employee getEmployeeById(int id) {
+		
+		Employee employee = null;
+		
+		try {
+		
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM employee WHERE id = ?", id);
+			
+			if(resultSet.next()) {
+				
+				String name = resultSet.getString("name");
+				String cpf = resultSet.getString("cpf");
+				//Job job =;
+				
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			DataBase.showDataBaseErrorMessage();
+		}
+		
+		return employee;
 		
 	}
 	

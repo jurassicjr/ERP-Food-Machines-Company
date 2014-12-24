@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -43,6 +44,7 @@ import javax.swing.text.MaskFormatter;
 
 import model.Bank;
 import model.CBO;
+import model.CNPJ;
 import model.City;
 import model.State;
 import net.sf.nachocalendar.CalendarFactory;
@@ -51,6 +53,8 @@ import net.sf.nachocalendar.table.JTableCustomizer;
 import rh.controller.RegisterEmployeeController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.FileChooser;
+import userInterface.components.UpperCaseEditor;
+import userInterface.components.UpperTextField;
 
 /**
  * Representa o frame de registro de funcionários
@@ -68,22 +72,22 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JPanel socialIntegrationProgramPanel;
 	private JScrollPane dependentScrollPane;
 	
-	private JTextField txName;
-	private JTextField txReservist;
-	private JTextField txBirthPlace;
-	private JTextField txNacionality;
-	private JTextField txCtps;
-	private JTextField txCptsCategory;
-	private JTextField txAddress;
-	private JTextField txNeighborhood;
-	private JTextField txCbo;
-	private JTextField txSalary;
-	private JTextField txAgency;
-	private JTextField txAccount;
-	private JTextField txCadastreNumber;
-	private JTextField txSocialIntegrationAgency;
-	private JTextField txSocialIntegrationAddress;
-	private JTextField txReservistCategory;
+	private UpperTextField txName;
+	private UpperTextField txReservist;
+	private UpperTextField txBirthPlace;
+	private UpperTextField txNacionality;
+	private UpperTextField txCtps;
+	private UpperTextField txCptsCategory;
+	private UpperTextField txAddress;
+	private UpperTextField txNeighborhood;
+	private JTextField txCbo; 
+	private JTextField txSalary; 
+	private UpperTextField txAgency; 
+	private UpperTextField txAccount;
+	private UpperTextField txCadastreNumber; 
+	private UpperTextField txSocialIntegrationAgency; 
+	private UpperTextField txSocialIntegrationAddress; 
+	private UpperTextField txReservistCategory; 
 	private JFormattedTextField txRg;
 	private JFormattedTextField txVoter;
 	private JFormattedTextField txCpf;
@@ -110,6 +114,7 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JComboBox<CBO> cbJob;
 	private JComboBox<String> cbPayment;
 	private JComboBox<Bank> cbSocialIntegrationBank;
+	private JComboBox<CNPJ> cbRegisterCnpj;
 	
 	private JLabel lblPicture;
 	
@@ -132,7 +137,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		fileChooser = new FileChooser(this);
 		
 		initialize();
-		setListeners();
+		setListeners();		
 	}
 
 	/**
@@ -171,6 +176,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		controller.fillBanks(cbBank);
 		controller.fillBanks(cbDepositaryBank);
 		controller.fillBanks(cbSocialIntegrationBank);
+		controller.fillCnpj(cbRegisterCnpj);	
 
 		new ComboBoxAutoCompletion(cbState);
 		new ComboBoxAutoCompletion(cbCity);
@@ -178,6 +184,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		new ComboBoxAutoCompletion(cbBank);
 		new ComboBoxAutoCompletion(cbDepositaryBank);
 		new ComboBoxAutoCompletion(cbSocialIntegrationBank);
+		new ComboBoxAutoCompletion(cbRegisterCnpj);
 				
 	}
 	
@@ -189,14 +196,14 @@ public class RegisterEmployeeFrame extends JFrame {
 		personalDataPanel = new JPanel();
 		
 		JLabel lblName = new JLabel("Nome");
-		txName = new JTextField();
+		txName = new UpperTextField();
 		
 		JLabel lblBirth = new JLabel("Data de Nascimento");
 		txBirth = CalendarFactory.createDateField();
 		txBirth.setValue(null);
 		
 		JLabel lblNacionality = new JLabel("Nacionalidade");
-		txNacionality = new JTextField();
+		txNacionality = new UpperTextField();
 		
 		JLabel lblRg = new JLabel("Registro Geral (RG)");
 		try { txRg = new JFormattedTextField(new MaskFormatter("##.###.###-A")); }
@@ -207,7 +214,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		catch (ParseException e) { e.printStackTrace(); }
 		
 		JLabel lblReservist = new JLabel("Reservista");
-		txReservist = new JTextField();
+		txReservist = new UpperTextField();
 		txReservist.setEditable(false);
 		
 		JLabel lblMaritalStatus = new JLabel("Estado Civil");
@@ -216,7 +223,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		cbMaritalStatus.setSelectedIndex(-1);
 		
 		JLabel lblBirthPlace = new JLabel("Local de Nascimento");
-		txBirthPlace = new JTextField();
+		txBirthPlace = new UpperTextField();
 		
 		JLabel lblCpf = new JLabel("CPF");
 		try { txCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##")); } 
@@ -232,10 +239,10 @@ public class RegisterEmployeeFrame extends JFrame {
 		cbDriverLicenseCategory.setSelectedIndex(-1);
 		
 		JLabel lblCtps = new JLabel("CTPS");
-		txCtps = new JTextField();
+		txCtps = new UpperTextField();
 		
 		JLabel lblCptsCategory = new JLabel("Categoria");
-		txCptsCategory = new JTextField();
+		txCptsCategory = new UpperTextField();
 		
 		JLabel lblGender = new JLabel("Sexo");
 		cbGender = new JComboBox<String>();
@@ -243,9 +250,8 @@ public class RegisterEmployeeFrame extends JFrame {
 		cbGender.setSelectedIndex(-1);
 		
 		JLabel lblReservistCategory = new JLabel("Categoria");
-		txReservistCategory = new JTextField();
+		txReservistCategory = new UpperTextField();
 		txReservistCategory.setEditable(false);
-		
 		
 		JLabel lblSchooling = new JLabel("Escolaridade");
 		cbSchooling = new JComboBox<String>();
@@ -406,7 +412,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		contactDataPanel = new JPanel();
 				
 		JLabel lblAddress = new JLabel("Endereço");
-		txAddress = new JTextField();
+		txAddress = new UpperTextField();
 		
 		JLabel lblCep = new JLabel("CEP");
 		try { txCep = new JFormattedTextField(new MaskFormatter("##.###-###")); }
@@ -420,7 +426,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		cbCity.setEnabled(false);
 		
 		JLabel lblNeighborhood = new JLabel("Bairro");
-		txNeighborhood = new JTextField();	
+		txNeighborhood = new UpperTextField();	
 		
 		JLabel lblPhone = new JLabel("Telefone");
 		try { txPhone = new JFormattedTextField(new MaskFormatter("(##) ####-####")); }
@@ -514,14 +520,25 @@ public class RegisterEmployeeFrame extends JFrame {
 		dependentTable.setModel(new DefaultTableModel(
 			new Object[][] {{"", "", ""},},
 			new String[] {"Nome", "Relação", "Data de Nascimento/Casamento"}
-		));
+		){
+			
+			private static final long serialVersionUID = -7331676150193648559L;
+			
+			Class<?>[] columnTypes = new Class[] {String.class, String.class, Date.class};
+			
+			public Class<?> getColumnClass(int columnIndex) {
+				return columnTypes[columnIndex];
+			}
+			
+		});
 		
 		JTableCustomizer.setEditorForRow(dependentTable, 2);
+		dependentTable.setDefaultEditor(String.class, new UpperCaseEditor());
 		
 		dependentScrollPane.setViewportView(dependentTable);	
 		
 	}
-	
+		
 	/**
 	 * Inicializa os componentes gráficos para registro das opções do cargo
 	 */
@@ -554,14 +571,17 @@ public class RegisterEmployeeFrame extends JFrame {
 		JPanel bankingDataPanel = new JPanel();
 		bankingDataPanel.setBorder(new TitledBorder("Dados Bancários"));
 		
+		JLabel lblRegisterCnpj = new JLabel("CNPJ de Registro");
+		cbRegisterCnpj = new JComboBox<CNPJ>();
+		
 		GroupLayout jobDataPanelLayout = new GroupLayout(jobDataPanel);
 		jobDataPanelLayout.setHorizontalGroup(
 			jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(jobDataPanelLayout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
+						.addComponent(guaranteeFundDataPanel, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
 						.addComponent(bankingDataPanel, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
-						.addComponent(guaranteeFundDataPanel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 788, Short.MAX_VALUE)
 						.addGroup(jobDataPanelLayout.createSequentialGroup()
 							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
 								.addGroup(jobDataPanelLayout.createSequentialGroup()
@@ -573,7 +593,7 @@ public class RegisterEmployeeFrame extends JFrame {
 								.addGroup(jobDataPanelLayout.createSequentialGroup()
 									.addComponent(lblAdmissionDate)
 									.addGap(18)
-									.addComponent(txAdmissionDate, GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
+									.addComponent(txAdmissionDate, GroupLayout.DEFAULT_SIZE, 78, Short.MAX_VALUE)
 									.addGap(18)
 									.addComponent(lblJob)))
 							.addGap(18)
@@ -586,7 +606,11 @@ public class RegisterEmployeeFrame extends JFrame {
 									.addComponent(txCbo, GroupLayout.PREFERRED_SIZE, 72, GroupLayout.PREFERRED_SIZE))
 								.addGroup(jobDataPanelLayout.createSequentialGroup()
 									.addComponent(cbPayment, 0, 161, Short.MAX_VALUE)
-									.addGap(318)))))
+									.addGap(318))))
+						.addGroup(jobDataPanelLayout.createSequentialGroup()
+							.addComponent(lblRegisterCnpj)
+							.addGap(18)
+							.addComponent(cbRegisterCnpj, 0, 558, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		jobDataPanelLayout.setVerticalGroup(
@@ -607,10 +631,14 @@ public class RegisterEmployeeFrame extends JFrame {
 						.addComponent(lblPayment)
 						.addComponent(cbPayment, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
+					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblRegisterCnpj)
+						.addComponent(cbRegisterCnpj, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
 					.addComponent(bankingDataPanel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(guaranteeFundDataPanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(52, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		jobDataPanel.setLayout(jobDataPanelLayout);
 		
@@ -618,10 +646,10 @@ public class RegisterEmployeeFrame extends JFrame {
 		cbBank = new JComboBox<Bank>();
 		
 		JLabel lblAgency = new JLabel("Agência");
-		txAgency = new JTextField();
+		txAgency = new UpperTextField();
 		
 		JLabel lblAccount = new JLabel("Conta");
-		txAccount = new JTextField();
+		txAccount = new UpperTextField();
 		
 		GroupLayout bankingDataPanellayout = new GroupLayout(bankingDataPanel);
 		bankingDataPanellayout.setHorizontalGroup(
@@ -714,16 +742,16 @@ public class RegisterEmployeeFrame extends JFrame {
 		txCadastreDate.setValue(null);
 		
 		JLabel lblCadastreNumber = new JLabel("Número de Cadastro");
-		txCadastreNumber = new JTextField();
+		txCadastreNumber = new UpperTextField();
 		
 		JLabel lblSocialIntegrationBank = new JLabel("Banco");
 		cbSocialIntegrationBank = new JComboBox<Bank>();
 		
 		JLabel lblSocialIntegrationAgency = new JLabel("Agência");
-		txSocialIntegrationAgency = new JTextField();
+		txSocialIntegrationAgency = new UpperTextField();
 		
 		JLabel lblSocialIntegrationAddress = new JLabel("Endereço");
-		txSocialIntegrationAddress = new JTextField();
+		txSocialIntegrationAddress = new UpperTextField();
 		
 		GroupLayout socialIntegrationProgramPanellayout = new GroupLayout(socialIntegrationProgramPanel);
 		socialIntegrationProgramPanellayout.setHorizontalGroup(
@@ -809,7 +837,7 @@ public class RegisterEmployeeFrame extends JFrame {
 				controller.closeFrame();
 			}
 		});
-		
+				
 		dependentTable.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent arg0) {
@@ -880,17 +908,18 @@ public class RegisterEmployeeFrame extends JFrame {
         }
 		
 	}
-
+	
 	/**
 	 * Invoca o método para registrar o funcionário
 	 */
-	private void registerEmployee() {			
+	private void registerEmployee() {
 						
 		Map<String, Object> data = new HashMap<String, Object>();
+		
 		data.put("name", txName.getText());
 		data.put("birth", txBirth.getValue());
-		data.put("gender", cbGender.getSelectedItem());
-		data.put("maritial_status", cbMaritalStatus.getSelectedItem());
+		data.put("gender", cbGender.getSelectedIndex());
+		data.put("maritial_status", cbMaritalStatus.getSelectedIndex());
 		data.put("nacionality", txNacionality.getText());
 		data.put("birth_place", txBirthPlace.getText());
 		data.put("rg", txRg.getText());
@@ -899,8 +928,8 @@ public class RegisterEmployeeFrame extends JFrame {
 		data.put("cpts_category", txCptsCategory.getText());
 		data.put("voter", txVoter.getText());
 		data.put("driver_license", txDriverLicense.getText());
-		data.put("driver_license_category", cbDriverLicenseCategory.getSelectedItem());
-		data.put("schooling", cbSchooling.getSelectedItem());
+		data.put("driver_license_category", cbDriverLicenseCategory.getSelectedIndex());
+		data.put("schooling", cbSchooling.getSelectedIndex());
 		data.put("reservist", txReservist.getText());
 		data.put("reservist_category", txReservistCategory.getText());
 		data.put("picture", picturePath);
@@ -912,8 +941,9 @@ public class RegisterEmployeeFrame extends JFrame {
 		data.put("cellphone", txCellphone.getText());
 		data.put("admission_date", txAdmissionDate.getValue());
 		data.put("job", cbJob.getSelectedItem());
+		data.put("registration_cnpj", cbRegisterCnpj.getSelectedItem());
 		data.put("salary", txSalary.getText());
-		data.put("payment", cbPayment.getSelectedItem());
+		data.put("payment", cbPayment.getSelectedIndex());
 		data.put("bank", cbBank.getSelectedItem());
 		data.put("agency", txAgency.getText());
 		data.put("account", txAccount.getText());
@@ -930,5 +960,4 @@ public class RegisterEmployeeFrame extends JFrame {
 		controller.registerEmployee(data);	
 		
 	}
-	
 }

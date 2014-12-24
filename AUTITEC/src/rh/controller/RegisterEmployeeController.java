@@ -26,13 +26,16 @@ import javax.swing.table.DefaultTableModel;
 
 import model.Bank;
 import model.CBO;
+import model.CNPJ;
 import model.City;
+import model.Employee;
 import model.State;
 import rh.view.RegisterEmployeeFrame;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.ImageFilter;
 import util.FTP;
 import util.ShowMessage;
+import util.Validator;
 import database.DataBase;
 import database.dao.EmployeeDAO;
 
@@ -221,6 +224,36 @@ public class RegisterEmployeeController {
 	}
 	
 	/**
+	 * Recupera do banco e define no combobox os valores dos cnpjs
+	 * 
+	 * @param cnpjs O ComboBox responsável pelos cnpjs presentes no banco de dados
+	 */
+	public void fillCnpj(JComboBox<CNPJ> cnpjs) {
+				
+		try {
+			
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM cnpj");
+			
+			while(resultSet.next()) {
+				
+				int id = resultSet.getInt("id");
+				String cnpj = resultSet.getString("cnpj");
+				String corporateName = resultSet.getString("corporate_name");
+				
+				cnpjs.addItem(new CNPJ(id, cnpj, corporateName));
+								
+			}
+			
+			cnpjs.setSelectedIndex(-1);
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			DataBase.showDataBaseErrorMessage();
+		}
+		
+	}
+	
+	/**
 	 * Fecha o frame, encerrando sua execução
 	 */
 	public void closeFrame() {
@@ -241,7 +274,7 @@ public class RegisterEmployeeController {
 	 * Registra o Funcionário no Banco de Dados
 	 */
 	public void registerEmployee(Map<String, Object> data) {
-				
+						
 		if(validateDataEmployee(data)) {
 			
 			String title = "Registro Funcionário";
@@ -270,8 +303,8 @@ public class RegisterEmployeeController {
 		
 		String name = (String) data.get("name");
 		Date birth = (Date) data.get("birth");
-		String gender = (String) data.get("gender");
-		String maritialStatus = (String) data.get("maritial_status");
+		int gender = (int) data.get("gender");
+		int maritialStatus = (int) data.get("maritial_status");
 		String nacionality = (String) data.get("nacionality");
 		String birthPlace = (String) data.get("birth_place");
 		String rg = (String) data.get("rg");
@@ -280,8 +313,8 @@ public class RegisterEmployeeController {
 		String cptsCategory = (String) data.get("cpts_category");
 		String voter = (String) data.get("voter");
 		String driverLicense = (String) data.get("driver_license");
-		String driverLicenseCategory = (String) data.get("driver_license_category");
-		String schooling = (String) data.get("schooling");
+		int driverLicenseCategory = (int) data.get("driver_license_category");
+		int schooling = (int) data.get("schooling");
 		String reservist = (String) data.get("reservist");
 		String address = (String) data.get("address");
 		String neighborhood = (String) data.get("neighborhood");
@@ -290,8 +323,9 @@ public class RegisterEmployeeController {
 		String phone = (String) data.get("phone");
 		Date admissionDate = (Date) data.get("admission_date");
 		CBO job = (CBO) data.get("job");
+		CNPJ registrationCnpj = (CNPJ) data.get("registration_cnpj");
 		String salary = (String) data.get("salary");
-		String payment = (String) data.get("payment");
+		int payment = (int) data.get("payment");
 		Bank bank = (Bank) data.get("bank");
 		String agency = (String) data.get("agency");
 		String account = (String) data.get("account");
@@ -301,7 +335,7 @@ public class RegisterEmployeeController {
 		String socialIntegrationCadastreNumber = (String) data.get("social_integration_cadastre_number");
 		Bank socialIntegrationBank = (Bank) data.get("social_integration_bank");
 		JTable dependents = (JTable) data.get("dependents");
-		
+						
 		Matcher matcherCpf = Pattern.compile("\\d{3}\\.\\d{3}\\.\\d{3}-\\d{2}").matcher(cpf);
 		Matcher matcherRg = Pattern.compile("\\d{2}\\.\\d{3}\\.\\d{3}-\\w{1}").matcher(rg);
 		Matcher matcherVoter = Pattern.compile("\\d{4}\\s\\d{4}\\s\\d{4}\\s\\d{4}").matcher(voter);
@@ -311,8 +345,8 @@ public class RegisterEmployeeController {
 		
 		if(name == null || name.isEmpty()) label = "Nome do Funcionário";
 		else if(birth == null) label = "Data de Nascimento";
-		else if(gender == null || gender.isEmpty()) label = "Sexo";
-		else if(maritialStatus == null || maritialStatus.isEmpty()) label = "Estado Civil";
+		else if(gender == -1) label = "Sexo";
+		else if(maritialStatus == -1) label = "Estado Civil";
 		else if(nacionality == null || nacionality.isEmpty()) label = "Nacionalidade";
 		else if(birthPlace == null || birthPlace.isEmpty()) label = "Local de Nascimento";
 		else if(rg == null || rg.isEmpty() || !matcherRg.find()) label = "RG";
@@ -320,15 +354,14 @@ public class RegisterEmployeeController {
 		else if(cpts == null || cpts.isEmpty()) label = "CPTS";
 		else if(cptsCategory == null || cptsCategory.isEmpty()) label = "Categoria do CPTS";
 		else if(voter == null || voter.isEmpty() || !matcherVoter.find()) label = "Título de Eleitor";
-		else if(driverLicense != null && matcherDriverLicense.find()) {
-			if(driverLicenseCategory == null || driverLicenseCategory.isEmpty()) label = "Categoria da Habilitação";
-			else flag = true;
+		else if(driverLicense != null && matcherDriverLicense.matches() && driverLicenseCategory == -1) {
+			label = "Categoria da Habilitação";
 		}
-		else if(schooling == null || schooling.isEmpty()) label = "Escolaridade";
-		else if(gender.toUpperCase().equals("MASCULINO")) {
-			if(reservist == null || reservist.isEmpty()) label = "Carteira de Reservista";
-			else flag = true;
+		else if(matcherDriverLicense.reset() != null && driverLicenseCategory != -1 && (driverLicense == null || !matcherDriverLicense.matches())) {
+			label = "Carteira de Habilitação";
 		}
+		else if(schooling == -1) label = "Escolaridade";
+		else if(gender == Employee.MALE && reservist == null || reservist.isEmpty()) label = "Carteira de Reservista";
 		else if(address == null || address.isEmpty()) label = "Endereço";
 		else if(neighborhood == null || neighborhood.isEmpty()) label = "Bairro";
 		else if(cep == null || cep.isEmpty() || !matcherCep.find()) label = "CEP";
@@ -336,60 +369,71 @@ public class RegisterEmployeeController {
 		else if(phone == null || phone.isEmpty() || !matcherPhone.find()) label = "Telefone";
 		else if(admissionDate == null) label = "Data de Admissão";
 		else if(job == null) label = "Natureza do Cargo";
+		else if(registrationCnpj == null) label = "CNPJ de Registro";
 		else if(salary == null || salary.isEmpty()) label = "Salário Inicial";
-		else if(payment == null || payment.isEmpty()) label = "Forma de Pagamento";
+		else if(payment == -1) label = "Forma de Pagamento";
 		else if(bank == null) label = "Banco";
 		else if(agency == null || agency.isEmpty()) label = "Agência";
 		else if(account == null || account.isEmpty()) label = "Conta";
 		else if(optionDate == null) label = "Data de Opção";
 		else if(depositaryBank == null) label = "Banco Depositário";
-		else if(cadastreDate != null || socialIntegrationBank != null || (socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty())) {
-			if(cadastreDate == null || socialIntegrationBank == null || socialIntegrationCadastreNumber == null || socialIntegrationCadastreNumber.isEmpty()) { 
-				label = "Dados do Programa de Inclusão social";
-			}
-			else flag = true;
+		else if((cadastreDate != null || socialIntegrationBank != null || (socialIntegrationCadastreNumber != null && !socialIntegrationCadastreNumber.isEmpty())) &&
+				(cadastreDate == null || socialIntegrationBank == null || socialIntegrationCadastreNumber == null || socialIntegrationCadastreNumber.isEmpty())) {
+			label = "Dados do Programa de Inclusão social";
 		}
-		else{
-			flag = true;
-		}
+		else flag = true;		
 		
 		DefaultTableModel model = (DefaultTableModel) dependents.getModel();
 		for(int i = 0; i < model.getRowCount(); ++i) {
 			
-			String nameDependent = (String) model.getValueAt(i, 0);
+			String dependentName = (String) model.getValueAt(i, 0);
 			String relationship = (String) model.getValueAt(i, 1);
-			Object date =  model.getValueAt(i, 2);
-			
-			if((nameDependent == null || nameDependent.isEmpty()) || (relationship == null || relationship.isEmpty()) || date == null) {
-				if (!(nameDependent == null || nameDependent.isEmpty()) && (relationship == null || relationship.isEmpty()) && date == null) {
-					label = "Dados dos Dependentes";
-					flag = false;	
-				}				
-			}
-			
-		}
-		
-		String formatedCPF = cpf.replaceAll("\\.|-", "");
-		ResultSet resultSet = dataBase.executeQuery("SELECT * FROM employee WHERE employee.cpf = ?", formatedCPF);
-		
-		try {
+			Object date = model.getValueAt(i, 2);
 						
-			if(resultSet.next()) {
-				flag = false;
-				label = "Já existe Funcionário registrado com este CPF";
+			if((dependentName == null || dependentName.isEmpty()) || (relationship == null || relationship.isEmpty()) || date == null) {
+				if(!((dependentName == null || dependentName.isEmpty()) && (relationship == null || relationship.isEmpty()) && (date == null || !(date instanceof Date)))) {
+					
+					label = "Dados dos Dependentes";
+					flag = false;
+					break;
+				}
 			}	
 			
-		} catch (SQLException e) {
-			DataBase.showDataBaseErrorMessage();
-			e.printStackTrace();
 		}
+				
+		String formatedCPF = cpf.replaceAll("\\.|-", "");
+		
+		if(flag && !new Validator().isCPF(formatedCPF)) {
+			label = "CPF Inválido";
+			flag = false;
+		}
+		
+		if(flag) {
+						
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM employee WHERE employee.cpf = ?", formatedCPF);
+			
+			try {
+							
+				if(resultSet.next()) {
+					flag = false;
+					label = "Já existe Funcionário registrado com este CPF";
+				}	
+				
+			} catch (SQLException e) {
+				DataBase.showDataBaseErrorMessage();
+				e.printStackTrace();
+			} finally {
+				try { resultSet.close(); }
+				catch (SQLException e) { e.printStackTrace(); }
+			}
+						
+		}		
 		
 		if(!flag) {
 			String title = "Erro ao registrar funcionário";
 			String message = "Por favor verifique o seguinte campo para registro do funcionário:\n" + label;
 			ShowMessage.errorMessage(frame, title, message);
-		}
-		
+		}		
 		
 		return flag;		
 	}

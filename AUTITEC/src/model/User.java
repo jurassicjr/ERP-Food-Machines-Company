@@ -22,6 +22,11 @@ public class User {
 		this.password = password;
 		this.permission = permission;
 	}
+	
+	public User(Employee employee, int permission) {
+		this.employee = employee;
+		this.permission = permission;
+	}
 
 	public Employee getEmployee() {
 		return employee;

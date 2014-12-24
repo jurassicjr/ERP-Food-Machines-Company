@@ -4,6 +4,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import login.view.LoginFrame;
+import model.Employee;
+import model.Job;
+import model.Session;
+import model.User;
 import userInterface.view.MainFrame;
 import util.MD5;
 import util.ShowMessage;
@@ -48,6 +52,20 @@ public class LoginFrameController {
 			
 			if(resultSet.next()) {
 				
+				//Employee e = new 
+				
+//				private int id;
+//				private String name;
+//				private String cpf;
+//				private Job job;
+//				
+//				int employeeId = resultSet.getInt(columnLabel)
+				
+				
+				int permission = resultSet.getInt("permission");
+				
+				createSession(new User(null, permission));
+				
 				frame.dispose();
 				
 				MainFrame mainFrame = new MainFrame();
@@ -65,5 +83,16 @@ public class LoginFrameController {
 		}
 				
 	}	
+	
+	/**
+	 * Cria a sessão para o usuário logado
+	 * 
+	 * @param User O usuário logado
+	 */
+	private void createSession(User user) {
+		
+		//Session.getInstance().ser
+		
+	}
 
 }

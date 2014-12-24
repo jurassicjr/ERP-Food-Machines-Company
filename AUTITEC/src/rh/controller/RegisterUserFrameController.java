@@ -65,7 +65,7 @@ public class RegisterUserFrameController {
 			ResultSet resultSet = dataBase.executeQuery("SELECT COUNT(*) FROM user");
 			resultSet.next();
 			int numUsers = resultSet.getInt(1);
-			
+						
 			if(numUsers == 0) resultSet = dataBase.executeQuery("SELECT employee.* FROM employee"); 
 			else resultSet = dataBase.executeQuery("SELECT employee.* FROM employee, user WHERE user.employee <> employee.id;");
 			
@@ -75,7 +75,7 @@ public class RegisterUserFrameController {
 				String name = resultSet.getString("name");
 				String cpf = resultSet.getString("cpf");
 				int jobId = resultSet.getInt("job");
-				
+								
 				Job job = getJobById(jobId);
 								
 				Employee employee = new Employee(id, name, cpf, job);
@@ -125,7 +125,7 @@ public class RegisterUserFrameController {
 			String payment = resultSet.getString("payment");
 						
 			resultSet.close();
-			resultSet = dataBase.executeQuery("SELECT * FROM CBO WHERE id = ?", idCBO);
+			resultSet = dataBase.executeQuery("SELECT * FROM cbo WHERE id = ?", idCBO);
 			if(!resultSet.next()) return null;
 			
 			String cboCode = resultSet.getString("code");
@@ -201,6 +201,6 @@ public class RegisterUserFrameController {
 		
 		return valid;
 	}
-	
+
 	
 }
