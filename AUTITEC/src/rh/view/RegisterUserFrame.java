@@ -1,6 +1,7 @@
 package rh.view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -222,8 +223,14 @@ public class RegisterUserFrame extends JFrame {
 	 * Aciona o controlador para registro do usuário
 	 */
 	private void register() {
+		
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  
+		
 		Employee employee = (Employee) cbEmployee.getSelectedItem();
 		controller.register(employee, cbAccessLevel.getSelectedIndex(), String.valueOf(txPassword.getPassword()));
+		
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		
 	}
 	
 	

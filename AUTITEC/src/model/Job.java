@@ -7,9 +7,9 @@ public class Job {
 	private Date admissionDate;
 	private CBO cbo;
 	private double salary;
-	private String payment;
+	private int payment;
 	
-	public Job(Date admissionDate, CBO cbo, double salary, String payment) {
+	public Job(Date admissionDate, CBO cbo, double salary, int payment) {
 		this.admissionDate = admissionDate;
 		this.cbo = cbo;
 		this.salary = salary;
@@ -40,12 +40,16 @@ public class Job {
 		this.salary = salary;
 	}
 
-	public String getPayment() {
+	public int getPayment() {
 		return payment;
 	}
 
-	public void setPayment(String payment) {
+	public void setPayment(int payment) {
 		this.payment = payment;
+	}
+	
+	public String toString() {
+		return cbo.getTitle() + " " + admissionDate + " " + salary;
 	}
 
 }

@@ -1,6 +1,7 @@
 package login.view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -67,7 +68,7 @@ public class LoginFrame extends JFrame {
 			
 			@Override
 			public void keyPressed(KeyEvent e) {
-				if(e.getKeyCode() == KeyEvent.VK_ENTER) controller.login(txCpf.getText(), String.valueOf(txPassword.getPassword()));
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) login();
 			}
 			
 		};
@@ -81,7 +82,7 @@ public class LoginFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource().equals(btnExit)) exit();
-				else if(e.getSource().equals(btnLogin)) controller.login(txCpf.getText(), String.valueOf(txPassword.getPassword()));
+				else if(e.getSource().equals(btnLogin)) login();
 				
 			}
 		};
@@ -106,7 +107,7 @@ public class LoginFrame extends JFrame {
 	private void initialize() {
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 450, 185);
+		setBounds(100, 100, 450, 177);
 		setLocationRelativeTo(null);
 		setTitle("Login");
 		
@@ -127,7 +128,7 @@ public class LoginFrame extends JFrame {
 		
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
+			layout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup(Alignment.LEADING)
@@ -152,7 +153,7 @@ public class LoginFrame extends JFrame {
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPassword)
 						.addComponent(txPassword, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(155, Short.MAX_VALUE))
+					.addContainerGap(57, Short.MAX_VALUE))
 		);
 		panel.setLayout(layout);
 		
@@ -183,6 +184,13 @@ public class LoginFrame extends JFrame {
 		}		
 		
 	}
+
+	private void login() {
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  
+		controller.login(txCpf.getText(), String.valueOf(txPassword.getPassword()));
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
+	
 	
 	/**
 	 * Define o look and fell (aparência) da aplicação para a aparência do sistema operacional 
@@ -191,5 +199,4 @@ public class LoginFrame extends JFrame {
 		try { UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName()); }
 		catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) { e.printStackTrace(); }	
 	}
-
 }

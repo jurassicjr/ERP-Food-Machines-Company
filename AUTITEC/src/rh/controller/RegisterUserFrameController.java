@@ -1,6 +1,5 @@
 package rh.controller;
 
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -8,7 +7,6 @@ import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import model.CBO;
 import model.Employee;
 import model.Job;
 import model.User;
@@ -16,6 +14,7 @@ import rh.view.RegisterUserFrame;
 import util.MD5;
 import util.ShowMessage;
 import database.DataBase;
+import database.dao.JobDAO;
 import database.dao.UserDAO;
 
 /**
@@ -66,8 +65,9 @@ public class RegisterUserFrameController {
 			resultSet.next();
 			int numUsers = resultSet.getInt(1);
 						
-			if(numUsers == 0) resultSet = dataBase.executeQuery("SELECT employee.* FROM employee"); 
-			else resultSet = dataBase.executeQuery("SELECT employee.* FROM employee, user WHERE user.employee <> employee.id;");
+			if(numUsers == 0) resultSet = dataBase.executeQuery("SELECT employee.* FROM employee WHERE employee.active = 1");
+			
+			else resultSet = dataBase.executeQuery("SELECT employee.* FROM employee, user WHERE user.employee <> employee.id AND employee.active = 1 GROUP BY employee.id;");
 			
 			while(resultSet.next()) {
 								
@@ -76,7 +76,7 @@ public class RegisterUserFrameController {
 				String cpf = resultSet.getString("cpf");
 				int jobId = resultSet.getInt("job");
 								
-				Job job = getJobById(jobId);
+				Job job = JobDAO.getJobById(jobId);
 								
 				Employee employee = new Employee(id, name, cpf, job);
 				employes.addItem(employee);
@@ -103,49 +103,7 @@ public class RegisterUserFrameController {
 		
 		txCpf.setText(cpf);
 	}
-	
-	/**
-	 * Retorna uma referência de um objeto Job através de um ID
-	 * 
-	 * @param id O id do objeto job 
-	 * 
-	 * @return A referencia do objeto do tarbalho de id vinculado
-	 */
-	public Job getJobById(int id) {
-				
-		try {
-			
-			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM job WHERE ID = ?", id);
-			
-			if(!resultSet.next()) return null;
-			
-			Date admissionDate = resultSet.getDate("admission_date");
-			int idCBO = resultSet.getInt("cbo");
-			double salary = resultSet.getDouble("initial_salary");
-			String payment = resultSet.getString("payment");
-						
-			resultSet.close();
-			resultSet = dataBase.executeQuery("SELECT * FROM cbo WHERE id = ?", idCBO);
-			if(!resultSet.next()) return null;
-			
-			String cboCode = resultSet.getString("code");
-			String title = resultSet.getString("title");
-			
-			CBO cbo = new CBO(idCBO, cboCode, title);
-			Job job = new Job(admissionDate, cbo, salary, payment);
-			
-			resultSet.close();
-			
-			return job;
-			
-		} catch(SQLException e) {
-			DataBase.showDataBaseErrorMessage();
-			e.printStackTrace();
-			return null;
-		}
 		
-	}
-	
 	/**
 	 * Registra o usuário no sistema definindo sua permissão de acesso
 	 * 

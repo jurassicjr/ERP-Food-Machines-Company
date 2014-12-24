@@ -5,13 +5,13 @@ import java.sql.SQLException;
 
 import login.view.LoginFrame;
 import model.Employee;
-import model.Job;
 import model.Session;
 import model.User;
 import userInterface.view.MainFrame;
 import util.MD5;
 import util.ShowMessage;
 import database.DataBase;
+import database.dao.EmployeeDAO;
 
 /**
  * Classe para controlar o frame de login
@@ -41,30 +41,23 @@ public class LoginFrameController {
 	 * @param password A senha do usuário que deseja logar-se
 	 */
 	public void login(String cpf, String password) {
-		
+						
 		password = MD5.getMD5Code(password);
 		cpf = cpf.replaceAll("\\.|-", "");
-		
+			
 		try {
 			
-			String sql = "SELECT * FROM user, employee WHERE user.employee = employee.id AND employee.cpf = ?;";
+			String sql = "SELECT user.*, employee.id as 'id_employee' FROM user, employee WHERE user.employee = employee.id AND employee.cpf = ?;";
 			ResultSet resultSet = dataBase.executeQuery(sql, cpf);
-			
+												
 			if(resultSet.next()) {
 				
-				//Employee e = new 
-				
-//				private int id;
-//				private String name;
-//				private String cpf;
-//				private Job job;
-//				
-//				int employeeId = resultSet.getInt(columnLabel)
-				
-				
+				int employeeId = resultSet.getInt("id_employee");
+				Employee employee = EmployeeDAO.getEmployeeById(employeeId);
+								
 				int permission = resultSet.getInt("permission");
-				
-				createSession(new User(null, permission));
+								
+				createSession(new User(employee, permission));
 				
 				frame.dispose();
 				
@@ -90,9 +83,7 @@ public class LoginFrameController {
 	 * @param User O usuário logado
 	 */
 	private void createSession(User user) {
-		
-		//Session.getInstance().ser
-		
+		Session.getInstance().setUser(user);		
 	}
 
 }

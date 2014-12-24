@@ -1,6 +1,6 @@
 import java.awt.EventQueue;
 
-import userInterface.view.MainFrame;
+import login.view.LoginFrame;
 
 
 /**
@@ -14,8 +14,8 @@ public class Main {
 
 			@Override
 			public void run() {
-				MainFrame frame = new MainFrame();
-				//LoginFrame frame = new LoginFrame();
+				//MainFrame frame = new MainFrame();
+				LoginFrame frame = new LoginFrame();
 				frame.setVisible(true);
 			}
 		});

@@ -8,8 +8,6 @@ import java.util.Map;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import com.mysql.fabric.xmlrpc.base.Data;
-
 import model.Bank;
 import model.CBO;
 import model.CNPJ;
@@ -36,12 +34,7 @@ public class EmployeeDAO {
 		dataBase.connect();
 		persist(data);		
 	}
-	
-	public EmployeeDAO() {
-		dataBase = new DataBase();
-		dataBase.connect();
-	}
-	
+		
 	/**
 	 * Realiza a persistência do empregado
 	 */
@@ -293,7 +286,10 @@ public class EmployeeDAO {
 	 * 
 	 * @return id O id do empregado no banco de dados
 	 */
-	public Employee getEmployeeById(int id) {
+	public static Employee getEmployeeById(int id) {
+		
+		DataBase dataBase = new DataBase();
+		dataBase.connect();
 		
 		Employee employee = null;
 		
@@ -305,7 +301,9 @@ public class EmployeeDAO {
 				
 				String name = resultSet.getString("name");
 				String cpf = resultSet.getString("cpf");
-				//Job job =;
+				Job job = JobDAO.getJobById(resultSet.getInt("job"));
+				
+				employee = new Employee(id, name, cpf, job);
 				
 			}
 			

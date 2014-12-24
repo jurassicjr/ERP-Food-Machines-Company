@@ -1,6 +1,7 @@
 package rh.view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -957,7 +958,9 @@ public class RegisterEmployeeFrame extends JFrame {
 		data.put("social_integration_address", txSocialIntegrationAddress.getText());
 		data.put("dependents", dependentTable);
 		
-		controller.registerEmployee(data);	
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  
+		controller.registerEmployee(data);
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		
 	}
 }
