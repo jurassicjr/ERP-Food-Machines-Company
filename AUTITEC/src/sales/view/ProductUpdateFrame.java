@@ -19,28 +19,42 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
 import model.Produto;
 import sales.controller.SalesController;
 import userInterface.components.ComboBoxAutoCompletion;
+import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import database.DataBase;
 
 public class ProductUpdateFrame extends JFrame {
-	private JTextField txtName;
+	
+	/**
+	 * 
+	 */
+    private static final long serialVersionUID = 2859084917577254070L;
+
+	private JFrame frame = this;
+	
+	private UpperTextField txtName;
+	
 	private JLabel lblProdutomaterial;
-	private JComboBox<Produto> cboProduto;
 	private JLabel lblNome;
 	private JLabel lblDescrio;
-	SalesController controller;
+	
+	private JComboBox<Produto> cboProduto;
+
+	private SalesController controller;
+	
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
 	private JButton btnApagar;
-	private JFrame frame = this;
+	
 	private DataBase dataBase;
+	
 	private JTextArea txtDescricao;
+	
 	private ClearFrame faxineira;
 
 	public ProductUpdateFrame() {
@@ -74,7 +88,7 @@ public class ProductUpdateFrame extends JFrame {
 
 		lblNome = new JLabel("Nome");
 
-		txtName = new JTextField();
+		txtName = new UpperTextField();
 		txtName.setColumns(10);
 
 		lblDescrio = new JLabel("Descrição");

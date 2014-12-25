@@ -39,53 +39,66 @@ import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import sales.controller.SalesController;
+import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.ShowMessage;
-import util.Validator;
 
 public class RegisterSuppliersFrame extends JFrame {
-	private JTextField textField_8;
-	private JFrame frame = this;
-	private JButton btnCancelar;
+	
 	private static final long serialVersionUID = -3611459763736774158L;
-	private JTextField txtCompanyName;
+	
+	private JFrame frame = this;
+
+	private JPanel panel;
+	private JPanel panelRodape;
+	private JPanel panelCe;
+
+	private JTabbedPane tabbedPane;
+
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPaneProductTable;
+
+	private JLabel lblClassificaoFiscal;
+	private JLabel lblCertificado;
+	private JLabel lblDataDeExpirao;
+	private JLabel lblCertificadoDoMaterial;
+	private JLabel lblJustificado;
+	private JLabel lblRua;
+	
+	private UpperTextField textField_8;
+	private UpperTextField txtCompanyName;
+	private UpperTextField txtBairro;
+	private UpperTextField txtEmail;
+	private UpperTextField txtStreet;
+
 	private JTextField txtCNPJ;
 	private JTextField txtStateRegister;
 	private JTextField txtPhone;
 	private JTextField txtCEP;
-	private JTextField txtBairro;
-	private JTextField txtEmail;
-	private DateField txtdataExpiracao;
-	private JPanel panel;
-	private JPanel panelRodape;
-	private JLabel lblClassificaoFiscal;
-	private JLabel lblCertificado;
+
+	private JButton btnCancelar;
 	private JButton btnRegistrar;
-	private JPanel panelCe;
-	private JLabel lblDataDeExpirao;
-	private JLabel lblCertificadoDoMaterial;
+	private JButton btnAnexarCertificado;
+	private JButton btnAdicionar;
+	
+	private DateField txtdataExpiracao;
+	
 	private JRadioButton rdbtnSim;
 	private JRadioButton rdbtnNo;
-	private JButton btnAnexarCertificado;
-	private JLabel lblJustificado;
-	private JScrollPane scrollPane;
-	private JTabbedPane tabbedPane;
 	private SalesController controller;
+
 	private JComboBox<City> cboCity;
 	private JComboBox<State> cboState;
 	private JComboBox<String> cboCertification;
-	private JLabel lblRua;
-	private JTextField txtStreet;
-	private JTextArea txtJustifacao;
+	private JComboBox<Produto> cboProduto;
 	private JComboBox<String> cboFiscalCertification;
-	private Validator validator;
+
+	private JTextArea txtJustifacao;
+
 	private ShowMessage message;
 	private Date data;
 	private ClearFrame faxineira;
 	private JTable table;
-	private JScrollPane scrollPaneProductTable;
-	private JComboBox<Produto> cboProduto;
-	private JButton btnAdicionar;
 	
 	public RegisterSuppliersFrame() {
 		controller = new SalesController();
@@ -265,7 +278,7 @@ public class RegisterSuppliersFrame extends JFrame {
 
 		JLabel lblRazoSocial = new JLabel("Razão Social");
 
-		setTxtCompanyName(new JTextField());
+		setTxtCompanyName(new UpperTextField());
 		getTxtCompanyName().setColumns(10);
 
 		JLabel lblCnpj = new JLabel("CNPJ");
@@ -306,15 +319,15 @@ public class RegisterSuppliersFrame extends JFrame {
 
 		JLabel lblBairro = new JLabel("Bairro");
 
-		txtBairro = new JTextField();
+		txtBairro = new UpperTextField();
 		txtBairro.setColumns(10);
 
 		JLabel lblEmail = new JLabel("E-mail");
 
-		txtEmail = new JTextField();
+		txtEmail = new UpperTextField();
 		txtEmail.setColumns(10);
 
-		textField_8 = new JTextField();
+		textField_8 = new UpperTextField() ;
 		textField_8.setColumns(10);
 		
 		JLabel lblEstado = new JLabel("Estado");
@@ -325,7 +338,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		
 		lblRua = new JLabel("Rua");
 		
-		txtStreet = new JTextField();
+		txtStreet = new UpperTextField();
 		txtStreet.setColumns(10);
 		
 		JLabel lblProdutos = new JLabel("Produtos");
@@ -585,7 +598,7 @@ public class RegisterSuppliersFrame extends JFrame {
 	    return txtCompanyName;
     }
 
-	public void setTxtCompanyName(JTextField txtCompanyName) {
-	    this.txtCompanyName = txtCompanyName;
+	public void setTxtCompanyName(UpperTextField txtCompanyName) {
+	    this.txtCompanyName =  txtCompanyName;
     }
 }

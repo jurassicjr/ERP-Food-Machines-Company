@@ -60,7 +60,7 @@ public class MainFrame extends JFrame {
 	 */
 	
 	private void initialize() {
-				
+		this.setExtendedState(MAXIMIZED_BOTH);
 		setBounds(100, 100, 850, 500);
 		setMinimumSize(new Dimension(850, 500));
 		setTitle("Sistema de Gestão Empresarial - AUTITEC");

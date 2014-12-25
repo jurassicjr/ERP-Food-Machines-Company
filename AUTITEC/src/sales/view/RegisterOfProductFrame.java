@@ -22,6 +22,7 @@ import javax.swing.ScrollPaneConstants;
 
 import model.Produto;
 import sales.controller.SalesController;
+import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.ShowMessage;
 
@@ -30,15 +31,21 @@ public class RegisterOfProductFrame extends JFrame {
 	 * 
 	 */
     private static final long serialVersionUID = 532262099381038089L;
-	private JPanel principalPanel;
-	private JTextField txtName;
+	
+    private JPanel principalPanel;
+    private JPanel bottonPanel;
+	
+    private UpperTextField txtName;
 	private JTextField txtQuantidade;
+	
 	private JLabel lblQuantidade;
-	private JPanel bottonPanel;
+	private JLabel lblDescrio;
+
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
-	private JLabel lblDescrio;
+	
 	private JTextArea txtDescricao;
+	
 	private SalesController controller;
 	private RegisterOfProductFrame frame;
 	private ShowMessage message = new ShowMessage();
@@ -50,6 +57,9 @@ public class RegisterOfProductFrame extends JFrame {
 	setListeners();
 	}
 	
+	/**
+	 * Inicializa os elemento gráficos da aplicação
+	 */
 	
 	private void initializePrincipal() {
 		this.setTitle("Cadastro de Produto");		
@@ -62,7 +72,7 @@ public class RegisterOfProductFrame extends JFrame {
 		
 		JLabel lblNome = new JLabel("Nome");
 		
-		txtName = new JTextField();
+		txtName = new UpperTextField();
 		txtName.setColumns(10);
 		
 		lblQuantidade = new JLabel("Quantidade");
@@ -115,6 +125,11 @@ public class RegisterOfProductFrame extends JFrame {
 		principalPanel.setLayout(gl_principalPanel);
 		initializeBotton();
 	}
+	
+	/**
+	 * Inicializa o Jpanel inferior com os componentes de confirmar e sair.
+	 */
+	
 	private void initializeBotton() {
 		bottonPanel = new JPanel();
 		this.getContentPane().add(bottonPanel, BorderLayout.SOUTH);
@@ -128,6 +143,10 @@ public class RegisterOfProductFrame extends JFrame {
 		btnConfirmar.setIcon(new ImageIcon(RegisterOfProductFrame.class.getResource("/resources/ok.png")));
 		bottonPanel.add(btnConfirmar);
 	}
+	
+	/**
+	 * Adiciona os listeners aos componentes da classe.
+	 */
 	
 	private void setListeners() {
 		addWindowListener(new WindowAdapter() {

@@ -28,6 +28,7 @@ public class MainFrameController {
 	 *            O Frame a ser controlado
 	 */
 	public MainFrameController(MainFrame mainFrame) {
+		
 		this.mainFrame = mainFrame;
 	}
 

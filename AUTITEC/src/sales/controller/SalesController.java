@@ -35,6 +35,10 @@ public class SalesController {
 	private DataBase dataBase;
 	private SuppliersDAO sDAo;
 	private ProductDAO produtoDAO;
+	
+	/**
+	 * Construtor para determinar o MainFrame.
+	 */
 
 	public SalesController(MainFrame mainFrame) {
 		this.mainFrame = mainFrame;
@@ -42,11 +46,19 @@ public class SalesController {
 		dataBase.connect();
 
 	}
+	
+	/**
+	 * Construto padrão, faz a conexão com o DataBase.
+	 */
 
 	public SalesController() {
 		dataBase = new DataBase();
 		dataBase.connect();
 	}
+	
+	/**
+	 * Inicializa o JFrame de aprovação de fornecedores.
+	 */
 
 	public void ApprovalOfSuppliers() {
 		EventQueue.invokeLater(new Runnable() {
@@ -60,6 +72,10 @@ public class SalesController {
 			}
 		});
 	}
+	
+	/**
+	 * Inicializa o JFrame de requisição de compra.
+	 */
 
 	public void salesRequisition() {
 		EventQueue.invokeLater(new Runnable() {
@@ -76,6 +92,10 @@ public class SalesController {
 
 	}
 
+	/**
+	 * Inicializa o Jframe de registro de fornecedores.
+	 */
+	
 	public void registerOfSuppliers() {
 		EventQueue.invokeLater(new Runnable() {
 
@@ -89,6 +109,10 @@ public class SalesController {
 		});
 	}
 	
+	/**
+	 * Inicializa o JFrame de atualização de produtos.
+	 */
+	
 	public void updateOfProducts() {
 		EventQueue.invokeLater(new Runnable() {
 			
@@ -101,6 +125,11 @@ public class SalesController {
 			}
 		});
 	}
+	
+	/**
+	 * Inicializa o JFrame de pedidos de compra.
+	 */
+	
 
 	public void salesOrder() {
 		EventQueue.invokeLater(new Runnable() {
@@ -115,6 +144,10 @@ public class SalesController {
 			}
 		});
 	}
+	
+	/**
+	 * Inicializa o JFrame de registro de produtos.
+	 */
 
 	public void registerOfProduct() {
 		EventQueue.invokeLater(new Runnable() {
@@ -128,6 +161,10 @@ public class SalesController {
 			}
 		});
 	}
+	
+	/**
+	 * fecha o JFrame passado como parametro.
+	 */
 
 	public void closeFrame(JFrame frame) {
 
@@ -142,6 +179,10 @@ public class SalesController {
 		}
 
 	}
+	
+	/**
+	 * Popula o JComboBox<Produto> com produtos do banco.
+	 */
 
 	public void fillProducts(JComboBox<Produto> product) {
 		product.removeAllItems();
@@ -160,6 +201,10 @@ public class SalesController {
 		}
 	}
 
+	/**
+	 * Popula os JComboBox com estado e cidades
+	 */
+	
 	public void fillStateAndCity(JComboBox<State> states, JComboBox<City> cities) {
 
 		setStates(states, cities);
@@ -177,6 +222,10 @@ public class SalesController {
 		states.addItemListener(comboboxListener);
 
 	}
+	
+	/**
+	 * configura os estados que irão ser populados no JComboBox.
+	 */
 
 	private void setStates(JComboBox<State> states, JComboBox<City> cities) {
 
@@ -201,6 +250,10 @@ public class SalesController {
 
 	}
 
+	/**
+	 * Configura as cidades para popularem o JComboBox.
+	 */
+	
 	private void setCities(State state, JComboBox<City> cities) {
 
 		cities.removeAllItems();
@@ -228,6 +281,11 @@ public class SalesController {
 		}
 
 	}
+	
+	/**
+	 * Reaçiza o registro de produtos
+	 */
+	
 	public void doProductRegister(Produto product) {
 		try {
 			if(product.equals(null)) {
@@ -244,6 +302,10 @@ public class SalesController {
 			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * Realiza os registro de fornecedores.
+	 */
 
 	public void doSupplierRegister(Supplier supplier) throws SQLException {
 		try {

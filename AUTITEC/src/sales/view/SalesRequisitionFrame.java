@@ -9,7 +9,6 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -26,10 +25,12 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
+import model.Produto;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import sales.controller.SalesController;
 import userInterface.components.ComboBoxAutoCompletion;
+import userInterface.components.UpperTextField;
 
 public class SalesRequisitionFrame extends JFrame {
 
@@ -37,31 +38,43 @@ public class SalesRequisitionFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 7516160610003247856L;
-	private JButton btnCancelar;
-	private JTextField textField;
-	private DateField txtDate;
-	private JTable table;
-	private JTable table_1;
-	private JTextField txtQuantidade;
-	private JButton btnInserir;
-	private JComboBox<String> cboProduto;
+
 	private JFrame frame = this;
+
 	private JPanel panelRequisition;
+	private JScrollPane scrollPane;
+	private JScrollPane scrollPane_1;
+
+	private JTextField txtResponsable;
+
+	private DateField txtDate;
+
 	private JLabel lblNome;
-	private JComboBox<String> cboPrioridade;
 	private JLabel lblNDoPedido;
 	private JLabel label;
 	private JLabel lblSetro;
-	private JComboBox<String> cboSetor;
 	private JLabel lblResponsvel;
 	private JLabel lblData;
 	private JLabel lblInserirProduto;
-	private ComboBoxAutoCompletion cbac;
-	private JScrollPane scrollPane;
-	private JButton btnAdicionarAPedidos;
-	private JScrollPane scrollPane_1;
 	private JLabel lblQuantidade;
+
+	private JTextField txtQuantidade;
+
+	private JComboBox<String> cboSetor;
+	private JComboBox<Produto> cboProduto;
+	private JComboBox<String> cboPrioridade;
+	private JComboBox<String> cboName;
+	private ComboBoxAutoCompletion cbac;
+
+	private JButton btnInserir;
+	private JButton btnCancelar;
+	private JButton btnAdicionarAPedidos;
+
+	private JTable table;
+	private JTable table_1;
+
 	private SalesController controller;
+
 
 	public SalesRequisitionFrame() {
 		controller = new SalesController();
@@ -69,6 +82,10 @@ public class SalesRequisitionFrame extends JFrame {
 		setListeners();
 
 	}
+	
+	/**
+	 * Inicializa os elemento gráficos da aplicação
+	 */
 
 	private void initialize() {
 		this.setName("Requisição de compras");
@@ -79,7 +96,7 @@ public class SalesRequisitionFrame extends JFrame {
 
 		lblNome = new JLabel("Nome");
 
-		JComboBox<String> comboBox = new JComboBox<String>();
+		cboName = new JComboBox<String>();
 
 		JLabel lblPrioridade = new JLabel("Prioridade");
 
@@ -106,8 +123,8 @@ public class SalesRequisitionFrame extends JFrame {
 
 		lblResponsvel = new JLabel("Responsável");
 
-		textField = new JTextField();
-		textField.setColumns(10);
+		txtResponsable = new UpperTextField();
+		txtResponsable.setColumns(10);
 
 		lblData = new JLabel("Data");
 
@@ -116,14 +133,11 @@ public class SalesRequisitionFrame extends JFrame {
 
 		lblInserirProduto = new JLabel("Inserir Produto:");
 
-		cboProduto = new JComboBox<String>();
-		cboProduto.setModel(new DefaultComboBoxModel<String>(new String[] { "Valvula Borboleta", "Valvula Solenoie",
-		        "Tubulação de 1/2 em aço inox" }));
-		cboProduto.setEditable(true);
-		// comboBox_3.showPopup();
+		cboProduto = new JComboBox<Produto>();
+		controller.fillProducts(cboProduto);
 		cboProduto.setSelectedIndex(-1);
 		cbac = new ComboBoxAutoCompletion(cboProduto);
-		// AutoCompleteDecorator.decorate(comboBox_3);
+				
 		btnInserir = new JButton("Inserir");
 
 		scrollPane = new JScrollPane();
@@ -136,6 +150,7 @@ public class SalesRequisitionFrame extends JFrame {
 
 		txtQuantidade = new JTextField();
 		txtQuantidade.setColumns(10);
+		
 		GroupLayout gl_panel = new GroupLayout(panelRequisition);
 		gl_panel.setHorizontalGroup(gl_panel
 		        .createParallelGroup(Alignment.LEADING)
@@ -166,7 +181,7 @@ public class SalesRequisitionFrame extends JFrame {
 		                                                                                        .addPreferredGap(
 		                                                                                                ComponentPlacement.RELATED)
 		                                                                                        .addComponent(
-		                                                                                                comboBox,
+		                                                                                                cboName,
 		                                                                                                GroupLayout.PREFERRED_SIZE,
 		                                                                                                225,
 		                                                                                                GroupLayout.PREFERRED_SIZE))
@@ -210,7 +225,7 @@ public class SalesRequisitionFrame extends JFrame {
 		                                                                                                                        .addPreferredGap(
 		                                                                                                                                ComponentPlacement.RELATED)
 		                                                                                                                        .addComponent(
-		                                                                                                                                textField,
+		                                                                                                                                txtResponsable,
 		                                                                                                                                GroupLayout.PREFERRED_SIZE,
 		                                                                                                                                159,
 		                                                                                                                                GroupLayout.PREFERRED_SIZE)
@@ -276,7 +291,7 @@ public class SalesRequisitionFrame extends JFrame {
 		                                .addGroup(
 		                                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                                .addComponent(lblNome)
-		                                                .addComponent(comboBox, GroupLayout.PREFERRED_SIZE,
+		                                                .addComponent(cboName, GroupLayout.PREFERRED_SIZE,
 		                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		                                                .addComponent(lblPrioridade)))
 		                .addGap(18)
@@ -288,7 +303,7 @@ public class SalesRequisitionFrame extends JFrame {
 		                                                .addComponent(cboSetor, GroupLayout.PREFERRED_SIZE,
 		                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		                                                .addComponent(lblResponsvel)
-		                                                .addComponent(textField, GroupLayout.PREFERRED_SIZE,
+		                                                .addComponent(txtResponsable, GroupLayout.PREFERRED_SIZE,
 		                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		                                                .addComponent(lblData)
 		                                                .addComponent(txtDate, GroupLayout.PREFERRED_SIZE,
@@ -364,6 +379,10 @@ public class SalesRequisitionFrame extends JFrame {
 		btnGeraPedidoDe.setIcon(new ImageIcon(SalesRequisitionFrame.class.getResource("/resources/ok.png")));
 		panel_1.add(btnGeraPedidoDe);
 	}
+	
+	/**
+	 * Adiciona Listener aos componetes da classe
+	 */
 
 	private void setListeners() {
 		addWindowListener(new WindowAdapter() {
