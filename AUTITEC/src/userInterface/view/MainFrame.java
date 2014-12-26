@@ -1,15 +1,23 @@
 package userInterface.view;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BoxLayout;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import userInterface.controller.MainFrameController;
 
@@ -22,6 +30,8 @@ public class MainFrame extends JFrame {
 	
 	private MainFrameController controller;
 	
+	private JPanel notificationPanel;
+				
 	private JMenuItem mntmRegisterEmployee;
 	private JMenuItem mntmTechnicalStandard;
 	private JMenuItem mntmRegisterUser;
@@ -49,19 +59,21 @@ public class MainFrame extends JFrame {
 	
 	/**
 	 * Cria a janela principal da aplicação
-	 */
-	
+	 */	
 	public MainFrame() {
+		
 		controller = new MainFrameController(this);
+		
 		setLookAndFell();
 		initialize();
 		setListeners();
+		
+		controller.setFinancialNotifications(notificationPanel);
 	}
 	
 	/**
 	 * Inicializa os elemento gráficos da aplicação
-	 */
-	
+	 */	
 	private void initialize() {
 		
 		this.setExtendedState(MAXIMIZED_BOTH);
@@ -112,13 +124,21 @@ public class MainFrame extends JFrame {
 		mnRegister.add(mntmRegisterOfProduct);
 		mnSales.add(mnUpdates);
 		mntmProductUpdate = new JMenuItem("Produtos/Material");
-		mnUpdates.add(mntmProductUpdate);
+		mnUpdates.add(mntmProductUpdate);			
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(new Dimension(150, 150));
+		scrollPane.setBorder(new TitledBorder("Notificações"));
+		getContentPane().add(scrollPane, BorderLayout.WEST);
+	
+		notificationPanel = new JPanel();
+		notificationPanel.setLayout(new BoxLayout(notificationPanel, BoxLayout.Y_AXIS));
+		scrollPane.setViewportView(notificationPanel);					
 	}
 
 	/**
 	 * Define os listeners dos menus e botões da interface
-	 */
-	
+	 */	
 	private void setListeners() {
 				
 		ActionListener menuListeners = new ActionListener() {
@@ -156,7 +176,6 @@ public class MainFrame extends JFrame {
 	/**
 	 * Define o look and fell (aparência) da aplicação para a aparência do sistema operacional 
 	 */
-	
 	private void setLookAndFell() {
 		try {
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());

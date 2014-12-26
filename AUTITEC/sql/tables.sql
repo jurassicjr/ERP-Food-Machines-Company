@@ -146,5 +146,5 @@ CREATE TABLE installment (
 	paid INT(11) NOT NULL,
 	bill INT(11) NOT NULL,
 
-	FOREIGN KEY bill REFERENCES bill(id)
+	FOREIGN KEY (bill) REFERENCES bill(id)
 );

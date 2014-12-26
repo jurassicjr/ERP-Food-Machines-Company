@@ -1,13 +1,24 @@
 package userInterface.controller;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 
-import financial.view.RegisterBillFrame;
+import javax.swing.Box;
+import javax.swing.JPanel;
+
+import model.FinancialNotification;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.TechnicalStandardFrame;
 import sales.controller.SalesController;
+import userInterface.components.NotificationButton;
 import userInterface.view.MainFrame;
+import database.DataBase;
+import financial.view.RegisterBillFrame;
 
 /**
  * Classe controladora do frame principal do sistema
@@ -107,6 +118,51 @@ public class MainFrameController {
 		
 	}
 
+	public void setFinancialNotifications(JPanel notificationPanel) {
+		
+		DataBase database = new DataBase();
+		database.connect();
+		
+		ArrayList<FinancialNotification> notifications = new ArrayList<FinancialNotification>();
+		
+		try {
+			
+			//todas as contas não pagas ou para vencerem num intervalo de 30 dias
+			String sql = "SELECT installment.*, bill.bill as 'bill_name' "
+					+ "FROM installment, bill "
+					+ "WHERE ((date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 31 DAY)) OR date < NOW()) AND paid = 0 AND installment.bill = bill.id "
+					+ "ORDER BY(installment.date);"; 
+			
+			ResultSet resultSet = database.executeQuery(sql);
+			
+			while(resultSet.next()) {
+				
+				String bill = resultSet.getString("bill_name");
+				Date date = resultSet.getDate("date");
+				
+				notifications.add(new FinancialNotification(bill, date));
+				
+			}			
+			
+			resultSet.close();
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			DataBase.showDataBaseErrorMessage();
+		}
+		
+		database.close();
+		
+		for(FinancialNotification notification : notifications) {
+			
+			NotificationButton button = new NotificationButton(notification.toString(), notification.isUrgent());
+			notificationPanel.add(button);
+			notificationPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+						
+		}
+				
+	}
+	
 	public void Sales(int i) {
 		SalesController controller = new SalesController(mainFrame);
 		if(i == 0) {
