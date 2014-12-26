@@ -35,8 +35,7 @@ CREATE TABLE employee (
 	FOREIGN KEY(social_integration) REFERENCES social_integration(id),
 	FOREIGN KEY(guarantee_fund) REFERENCES guarantee_fund(id),
 
-	PRIMARY KEY(id, cpf)
-	
+	PRIMARY KEY(id, cpf)	
 );
 
 
@@ -118,7 +117,6 @@ CREATE TABLE technical_standard_version (
 	technical_standard INT(11) NOT NULL,
 
 	FOREIGN KEY(technical_standard) REFERENCES technical_standard(id)
-
 );
 
 CREATE TABLE user (
@@ -126,5 +124,27 @@ CREATE TABLE user (
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	permission INT(11) NOT NULL,
 	employee INT(11) NOT NULL,
-	password VARCHAR(32) NOT NULL
+	password VARCHAR(32) NOT NULL,
+
+	FOREIGN KEY employee REFERENCES employee(id)
+);
+
+
+CREATE TABLE bill (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	bill VARCHAR(100) NOT NULL,
+	creditor VARCHAR(100) NOT NULL,
+	observation TEXT NOT NULL
+);
+
+
+CREATE TABLE installment (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	date DATE NOT NULL,
+	paid INT(11) NOT NULL,
+	bill INT(11) NOT NULL,
+
+	FOREIGN KEY bill REFERENCES bill(id)
 );

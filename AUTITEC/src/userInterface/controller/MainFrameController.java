@@ -2,6 +2,7 @@ package userInterface.controller;
 
 import java.awt.EventQueue;
 
+import financial.view.RegisterBillFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.TechnicalStandardFrame;
@@ -87,6 +88,22 @@ public class MainFrameController {
 				
 			}
 		});		
+		
+	}
+	
+	public void registerBill() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+							
+				RegisterBillFrame frame = new RegisterBillFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});	
 		
 	}
 

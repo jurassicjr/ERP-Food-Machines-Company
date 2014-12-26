@@ -26,17 +26,20 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmTechnicalStandard;
 	private JMenuItem mntmRegisterUser;
 	
+	private JMenuItem mntmRegisterBill;
+	
 	private JMenuItem mntmApprovalOfSuppliers;
 	private JMenuItem mntmSalesRequisition;
 	private JMenuItem mntmResgisterOfSuppliers;
 	private JMenuItem mntmSalesOrder;
 	private JMenuItem mntmRegisterOfProduct;
-
-	private JMenu mnSales;
-
+	
 	private JMenuBar menuBar;
 
 	private JMenu mnRh;
+	private JMenu mnFinancial;
+	
+	private JMenu mnSales;
 
 	private JMenu mnRegister;
 
@@ -60,6 +63,7 @@ public class MainFrame extends JFrame {
 	 */
 	
 	private void initialize() {
+		
 		this.setExtendedState(MAXIMIZED_BOTH);
 		setBounds(100, 100, 850, 500);
 		setMinimumSize(new Dimension(850, 500));
@@ -72,6 +76,9 @@ public class MainFrame extends JFrame {
 		
 		mnRh = new JMenu("RH");
 		menuBar.add(mnRh);
+		
+		mnFinancial = new JMenu("Financeiro");
+		menuBar.add(mnFinancial);
 		
 		mnSales = new JMenu("Vendas");
 		menuBar.add(mnSales);
@@ -87,6 +94,9 @@ public class MainFrame extends JFrame {
 		
 		mntmRegisterUser = new JMenuItem("Registrar Usuário");
 		mnRh.add(mntmRegisterUser);
+		
+		mntmRegisterBill = new JMenuItem("Registrar Conta a Pagar");
+		mnFinancial.add(mntmRegisterBill);
 		
 		
 		mnSales.add(mnRegister);
@@ -119,6 +129,7 @@ public class MainFrame extends JFrame {
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();
 				else if(e.getSource().equals(mntmTechnicalStandard)) controller.technicalStandard();
 				else if(e.getSource().equals(mntmRegisterUser)) controller.registerUser();
+				else if(e.getSource().equals(mntmRegisterBill)) controller.registerBill();
 				
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(controller.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
@@ -132,6 +143,7 @@ public class MainFrame extends JFrame {
 		mntmRegisterEmployee.addActionListener(menuListeners);
 		mntmTechnicalStandard.addActionListener(menuListeners);
 		mntmRegisterUser.addActionListener(menuListeners);
+		mntmRegisterBill.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
