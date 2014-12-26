@@ -26,15 +26,14 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 
-import model.Produto;
+import model.Product;
+import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import sales.controller.SalesController;
+import util.ShowMessage;
 
 public class ApprovalOfSuppliersFrame extends JFrame {
-	private JButton btnCancelar;
-	private ApprovalOfSuppliersFrame frame = this;
-	private SalesController controller;
 
 	public ApprovalOfSuppliersFrame() {
 		controller = new SalesController();
@@ -46,59 +45,84 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = -8366385217334396998L;
+
+	private ApprovalOfSuppliersFrame frame = this;
+	private SalesController controller;
+
+	private JPanel panelBotao;
+	private JPanel panelJust;
+	private JPanel panel;
+
+	private JScrollPane scrollPane_1;
+	private JScrollPane scrollPane;
+
 	private DateField txtDataQuali_1;
-	private JTextField txtNomeFornecedor;
-	private JTextField textField_3;
-	private JTextField textField_4;
-	private JTextField textField_5;
-	private JTextField textField_6;
-	private JTextField textField_7;
-	private JTextField textField_8;
+
+	private JTextField txtEvidence;
+	private JTextField txtObservation_1;
+	private JTextField txtEvidence_2;
+	private JTextField txtObservation_2;
+	private JTextField txtEvidence_3;
+	private JTextField txtObservation_3;
+
 	private ButtonGroup bg1;
 	private ButtonGroup bg2;
 	private ButtonGroup bg3;
 	private ButtonGroup bg4;
 	private ButtonGroup bg5;
 	private ButtonGroup bg6;
+
 	private JLabel deAprovao;
 	private JLabel lblTipoDoProcesso;
 	private JLabel lblNomeDoFornecedor;
 	private JLabel lblMaterial;
 	private JLabel lblDescrioDoServiomaterial;
 	private JLabel lblQualificao;
-	private JPanel panelBotao;
-	private JButton btnConfirmar;
 	private JLabel lblNewLabel_1;
+	private JLabel lblHistricoDoFornecimento;
+	private JLabel lblCapacitaoDoFornecedor;
+	private JLabel lblCliente;
+	private JLabel lblPreo;
+	private JLabel lblQualidade;
+	private JLabel lblAtendimento;
+	private JLabel lblService;
+	private JLabel lblAtende;
+	private JLabel lblNewLabel;
+	private JLabel lblObservao;
+	private JLabel lblSistemaDeQualidade;
+
+	private JButton btnConfirmar;
+	private JButton btnCancelar;
+
 	private JRadioButton rdbtnSimEleSt;
-	private JPanel panelJust;
-	private JPanel panel;
 	private JRadioButton rdbtnSim;
 	private JRadioButton rdbtnNo;
-	private JLabel lblHistricoDoFornecimento;
 	private JRadioButton rdbtnSim_1;
 	private JRadioButton rdbtnNo_1;
 	private JRadioButton rdbtnNa_1;
-	private JLabel lblCapacitaoDoFornecedor;
 	private JRadioButton rdbtnSim_2;
 	private JRadioButton rdbtnNo_2;
-	private JComboBox<Produto> cboMaterial;
-	private JComboBox<String> comboBox_2;
-	private JLabel lblCliente;
-	private JComboBox<String> comboBox_3;
-	private JLabel lblPreo;
 	private JRadioButton rdbtnBom;
 	private JRadioButton rdbtnRuim;
 	private JRadioButton rdbtnPssimo;
-	private JLabel lblQualidade;
 	private JRadioButton rdbtnBom_1;
 	private JRadioButton rdbtnRuim_1;
 	private JRadioButton rdbtnPssimo_1;
-	private JLabel lblAtendimento;
 	private JRadioButton rdbtnBom_2;
 	private JRadioButton rdbtnRuim_2;
 	private JRadioButton rdbtnPssimo_2;
 	private JRadioButton rdbtnNoPelosMotivos;
-	private JScrollPane scrollPane_1;
+	private JRadioButton rdbtnNa;
+	private JRadioButton rdbtnNa_2;
+
+	private JComboBox<Product> cboMaterial;
+	private JComboBox<String> cboService;
+	private JComboBox<String> cboClient;
+	private JComboBox<Object> cboQualificationProcess;
+	private JComboBox<Supplier> cboSupplier;
+
+	private JTextArea txtMaterialDescription;
+	private JTextArea txtJustification;
 
 	private void initizalize() {
 		setLocationRelativeTo(null);
@@ -107,8 +131,9 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setTitle("Homologação de Fornecedores");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		ImageIcon img = new ImageIcon(getClass().getResource("/resources/Logo Frontal.png"));
-		this.setIconImage(img.getImage());
+		// ImageIcon img = new
+		// ImageIcon(getClass().getResource("/resources/Logo Frontal.png"));
+		// this.setIconImage(img.getImage());
 		JTabbedPane tab = new JTabbedPane();
 		getContentPane().add(tab, BorderLayout.CENTER);
 		initializeLaudo();
@@ -181,33 +206,15 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                .addComponent(rdbtnNoPelosMotivos)).addGap(18)
 		                .addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE).addGap(80)));
 
-		JTextArea textArea_1 = new JTextArea();
-		textArea_1.setLineWrap(true);
-		textArea_1.setWrapStyleWord(true);
+		txtJustification = new JTextArea();
+		txtJustification.setLineWrap(true);
+		txtJustification.setWrapStyleWord(true);
 
-		scrollPane_1.setViewportView(textArea_1);
+		scrollPane_1.setViewportView(txtJustification);
 		panelJust.setLayout(gl_panelJust);
 
 		new DateField();
 
-	}
-
-	private void setListeners() {
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-			    controller.closeFrame(frame);
-			}
-		});
-		ActionListener ButtonListeners = new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if (e.getSource().equals(btnCancelar))controller.closeFrame(frame);
-
-			}
-		};
-		btnCancelar.addActionListener(ButtonListeners);
 	}
 
 	private void initializeLaudo() {
@@ -240,37 +247,35 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		txtDataQuali_1 = CalendarFactory.createDateField();
 		txtDataQuali_1.setValue(null);
 
-		JComboBox<Object> comboBox = new JComboBox<Object>();
-		comboBox.setModel(new DefaultComboBoxModel<Object>(new String[] { "Fornecedor Novo", "Fornecedor Tradicional",
-		        "Requalificação" }));
+		cboQualificationProcess = new JComboBox<Object>();
+		cboQualificationProcess.setModel(new DefaultComboBoxModel<Object>(new String[] { "Fornecedor Novo",
+		        "Fornecedor Tradicional", "Requalificação" }));
 
-		txtNomeFornecedor = new JTextField();
-		txtNomeFornecedor.setColumns(10);
+		lblService = new JLabel("Serviço");
 
-		JLabel lblServio = new JLabel("Serviço");
+		lblAtende = new JLabel("Atende");
 
-		JLabel lblAtende = new JLabel("Atende");
+		lblNewLabel = new JLabel("Evidencia");
 
-		JLabel lblNewLabel = new JLabel("Evidencia");
+		lblObservao = new JLabel("Observação");
 
-		JLabel lblObservao = new JLabel("Observação");
-
-		JLabel lblSistemaDeQualidade = new JLabel("Sistema de Qualidade");
+		lblSistemaDeQualidade = new JLabel("Sistema de Qualidade");
 
 		rdbtnSim = new JRadioButton("Sim");
 
 		rdbtnNo = new JRadioButton("Não");
 
-		JRadioButton rdbtnNa = new JRadioButton("NA");
+		rdbtnNa = new JRadioButton("NA");
+
 		bg1.add(rdbtnNa);
 		bg1.add(rdbtnNo);
 		bg1.add(rdbtnSim);
 
-		textField_3 = new JTextField();
-		textField_3.setColumns(10);
+		txtEvidence = new JTextField();
+		txtEvidence.setColumns(10);
 
-		textField_4 = new JTextField();
-		textField_4.setColumns(10);
+		txtObservation_1 = new JTextField();
+		txtObservation_1.setColumns(10);
 
 		lblHistricoDoFornecimento = new JLabel("Histórico do Fornecimento");
 
@@ -283,11 +288,11 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		bg2.add(rdbtnNo_1);
 		bg2.add(rdbtnSim_1);
 
-		textField_5 = new JTextField();
-		textField_5.setColumns(10);
+		txtEvidence_2 = new JTextField();
+		txtEvidence_2.setColumns(10);
 
-		textField_6 = new JTextField();
-		textField_6.setColumns(10);
+		txtObservation_2 = new JTextField();
+		txtObservation_2.setColumns(10);
 
 		lblCapacitaoDoFornecedor = new JLabel("Capacitação do Fornecedor");
 
@@ -295,24 +300,25 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 
 		rdbtnNo_2 = new JRadioButton("Não");
 
-		JRadioButton rdbtnNa_2 = new JRadioButton("NA");
+		rdbtnNa_2 = new JRadioButton("NA");
+
 		bg3.add(rdbtnNa_2);
 		bg3.add(rdbtnNo_2);
 		bg3.add(rdbtnSim_2);
 
-		textField_7 = new JTextField();
-		textField_7.setColumns(10);
+		txtEvidence_3 = new JTextField();
+		txtEvidence_3.setColumns(10);
 
-		textField_8 = new JTextField();
-		textField_8.setColumns(10);
+		txtObservation_3 = new JTextField();
+		txtObservation_3.setColumns(10);
 
-		cboMaterial = new JComboBox<Produto>();
+		cboMaterial = new JComboBox<Product>();
 
-		comboBox_2 = new JComboBox<String>();
+		cboService = new JComboBox<String>();
 
 		lblCliente = new JLabel("Cliente");
 
-		comboBox_3 = new JComboBox<String>();
+		cboClient = new JComboBox<String>();
 
 		lblPreo = new JLabel("Preço");
 
@@ -321,6 +327,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		rdbtnRuim = new JRadioButton("Ruim");
 
 		rdbtnPssimo = new JRadioButton("Péssimo");
+
 		bg4.add(rdbtnRuim);
 		bg4.add(rdbtnPssimo);
 		bg4.add(rdbtnBom);
@@ -343,16 +350,19 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		rdbtnRuim_2 = new JRadioButton("Ruim");
 
 		rdbtnPssimo_2 = new JRadioButton("Péssimo");
+
 		bg6.add(rdbtnPssimo_2);
 		bg6.add(rdbtnRuim_2);
 		bg6.add(rdbtnBom_2);
 
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 
-		JTextArea textArea = new JTextArea();
-		textArea.setLineWrap(true);
-		textArea.setWrapStyleWord(true);
-		scrollPane.setViewportView(textArea);
+		txtMaterialDescription = new JTextArea();
+		txtMaterialDescription.setLineWrap(true);
+		txtMaterialDescription.setWrapStyleWord(true);
+		scrollPane.setViewportView(txtMaterialDescription);
+
+		cboSupplier = new JComboBox<Supplier>();
 
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel
@@ -410,7 +420,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                                                                100,
 		                                                                                                GroupLayout.PREFERRED_SIZE)
 		                                                                                        .addPreferredGap(
-		                                                                                                ComponentPlacement.UNRELATED)
+		                                                                                                ComponentPlacement.RELATED)
 		                                                                                        .addComponent(
 		                                                                                                txtDataQuali_1,
 		                                                                                                GroupLayout.PREFERRED_SIZE,
@@ -418,14 +428,14 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                                                                GroupLayout.PREFERRED_SIZE)
 		                                                                                        .addPreferredGap(
 		                                                                                                ComponentPlacement.RELATED,
-		                                                                                                6,
+		                                                                                                12,
 		                                                                                                Short.MAX_VALUE)
 		                                                                                        .addComponent(
 		                                                                                                lblTipoDoProcesso)
 		                                                                                        .addPreferredGap(
 		                                                                                                ComponentPlacement.RELATED)
 		                                                                                        .addComponent(
-		                                                                                                comboBox,
+		                                                                                                cboQualificationProcess,
 		                                                                                                GroupLayout.PREFERRED_SIZE,
 		                                                                                                242,
 		                                                                                                GroupLayout.PREFERRED_SIZE))
@@ -475,7 +485,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                                                                                        .addPreferredGap(
 		                                                                                                                                ComponentPlacement.RELATED)
 		                                                                                                                        .addComponent(
-		                                                                                                                                comboBox_3,
+		                                                                                                                                cboClient,
 		                                                                                                                                0,
 		                                                                                                                                226,
 		                                                                                                                                Short.MAX_VALUE))
@@ -519,17 +529,17 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                                                                gl_panel.createParallelGroup(
 		                                                                                                        Alignment.LEADING)
 		                                                                                                        .addComponent(
-		                                                                                                                textField_7,
+		                                                                                                                txtEvidence_3,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
 		                                                                                                                108,
 		                                                                                                                Short.MAX_VALUE)
 		                                                                                                        .addComponent(
-		                                                                                                                textField_3,
+		                                                                                                                txtEvidence,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
 		                                                                                                                108,
 		                                                                                                                Short.MAX_VALUE)
 		                                                                                                        .addComponent(
-		                                                                                                                textField_5,
+		                                                                                                                txtEvidence_2,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
 		                                                                                                                108,
 		                                                                                                                Short.MAX_VALUE))
@@ -538,17 +548,17 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                                                                gl_panel.createParallelGroup(
 		                                                                                                        Alignment.LEADING)
 		                                                                                                        .addComponent(
-		                                                                                                                textField_8,
+		                                                                                                                txtObservation_3,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
 		                                                                                                                152,
 		                                                                                                                Short.MAX_VALUE)
 		                                                                                                        .addComponent(
-		                                                                                                                textField_6,
+		                                                                                                                txtObservation_2,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
 		                                                                                                                152,
 		                                                                                                                Short.MAX_VALUE)
 		                                                                                                        .addComponent(
-		                                                                                                                textField_4,
+		                                                                                                                txtObservation_1,
 		                                                                                                                Alignment.TRAILING,
 		                                                                                                                GroupLayout.DEFAULT_SIZE,
 		                                                                                                                152,
@@ -570,10 +580,10 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                                                                                gl_panel.createSequentialGroup()
 		                                                                                                                        .addComponent(
 		                                                                                                                                lblNewLabel)
-		                                                                                                                        .addGap(113)
+		                                                                                                                        .addGap(116)
 		                                                                                                                        .addComponent(
 		                                                                                                                                lblObservao)
-		                                                                                                                        .addGap(56))
+		                                                                                                                        .addGap(54))
 		                                                                                                        .addComponent(
 		                                                                                                                scrollPane))))
 		                                                        .addGap(175))))
@@ -584,51 +594,51 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                gl_panel.createSequentialGroup()
 		                        .addContainerGap()
 		                        .addGroup(
-		                                gl_panel.createParallelGroup(Alignment.LEADING, false)
+		                                gl_panel.createParallelGroup(Alignment.LEADING)
 		                                        .addGroup(
 		                                                gl_panel.createSequentialGroup()
 		                                                        .addComponent(lblMaterial, GroupLayout.PREFERRED_SIZE,
 		                                                                43, GroupLayout.PREFERRED_SIZE)
 		                                                        .addPreferredGap(ComponentPlacement.RELATED)
 		                                                        .addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE,
-		                                                                255, GroupLayout.PREFERRED_SIZE)
-		                                                        .addPreferredGap(ComponentPlacement.UNRELATED)
-		                                                        .addComponent(lblServio)
-		                                                        .addPreferredGap(ComponentPlacement.RELATED,
-		                                                                GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-		                                                        .addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE,
-		                                                                254, GroupLayout.PREFERRED_SIZE))
+		                                                                255, GroupLayout.PREFERRED_SIZE))
 		                                        .addGroup(
 		                                                gl_panel.createSequentialGroup()
 		                                                        .addComponent(lblNomeDoFornecedor)
 		                                                        .addPreferredGap(ComponentPlacement.RELATED)
-		                                                        .addComponent(txtNomeFornecedor, GroupLayout.PREFERRED_SIZE,
-		                                                                509, GroupLayout.PREFERRED_SIZE)))
-		                        .addContainerGap(175, Short.MAX_VALUE)));
+		                                                        .addComponent(cboSupplier, 0, GroupLayout.DEFAULT_SIZE,
+		                                                                Short.MAX_VALUE)))
+		                        .addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblService).addGap(4)
+		                        .addComponent(cboService, 0, 262, Short.MAX_VALUE).addGap(175)));
 		gl_panel.setVerticalGroup(gl_panel.createParallelGroup(Alignment.LEADING).addGroup(
 		        gl_panel.createSequentialGroup()
 		                .addGap(20)
 		                .addGroup(
-		                        gl_panel.createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(deAprovao)
+		                        gl_panel.createParallelGroup(Alignment.LEADING)
+		                                .addGroup(
+		                                        gl_panel.createParallelGroup(Alignment.BASELINE)
+		                                                .addComponent(deAprovao)
+		                                                .addComponent(cboQualificationProcess,
+		                                                        GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                                        GroupLayout.PREFERRED_SIZE)
+		                                                .addComponent(lblTipoDoProcesso))
 		                                .addComponent(txtDataQuali_1, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE).addComponent(lblTipoDoProcesso))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_panel.createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNomeDoFornecedor)
-		                                .addComponent(txtNomeFornecedor, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		                .addGap(18)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
+		                                .addComponent(lblNomeDoFornecedor)
+		                                .addComponent(cboSupplier, GroupLayout.PREFERRED_SIZE,
+		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+		                .addGap(11)
+		                .addGroup(
+		                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                .addComponent(lblMaterial)
-		                                .addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(comboBox_2, GroupLayout.PREFERRED_SIZE, 20,
-		                                        GroupLayout.PREFERRED_SIZE).addComponent(lblServio))
+		                                .addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE,
+		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		                                .addComponent(lblService)
+		                                .addComponent(cboService, GroupLayout.PREFERRED_SIZE, 20,
+		                                        GroupLayout.PREFERRED_SIZE))
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.LEADING)
 		                                .addGroup(
@@ -639,43 +649,54 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                .addGap(18)
 		                                                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 54,
 		                                                        GroupLayout.PREFERRED_SIZE)))
-		                .addGap(18)
 		                .addGroup(
-		                        gl_panel.createParallelGroup(Alignment.BASELINE).addComponent(lblAtende)
-		                                .addComponent(lblQualificao).addComponent(lblObservao)
-		                                .addComponent(lblNewLabel))
+		                        gl_panel.createParallelGroup(Alignment.LEADING)
+		                                .addGroup(
+		                                        gl_panel.createSequentialGroup()
+		                                                .addGap(18)
+		                                                .addGroup(
+		                                                        gl_panel.createParallelGroup(Alignment.BASELINE)
+		                                                                .addComponent(lblAtende)
+		                                                                .addComponent(lblQualificao)))
+		                                .addGroup(
+		                                        gl_panel.createSequentialGroup()
+		                                                .addGap(18)
+		                                                .addGroup(
+		                                                        gl_panel.createParallelGroup(Alignment.LEADING)
+		                                                                .addComponent(lblNewLabel)
+		                                                                .addComponent(lblObservao))))
 		                .addGap(9)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                .addComponent(lblSistemaDeQualidade)
-		                                .addComponent(textField_3, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(txtEvidence, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(textField_4, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(txtObservation_1, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		                                .addComponent(rdbtnNa).addComponent(rdbtnNo).addComponent(rdbtnSim))
 		                .addGap(18)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                .addComponent(lblHistricoDoFornecimento)
-		                                .addComponent(textField_5, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(txtEvidence_2, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(textField_6, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(txtObservation_2, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		                                .addComponent(rdbtnNa_1).addComponent(rdbtnNo_1).addComponent(rdbtnSim_1))
 		                .addGap(18)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                .addComponent(lblCapacitaoDoFornecedor)
-		                                .addComponent(textField_7, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(txtEvidence_3, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(textField_8, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(txtObservation_3, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		                                .addComponent(rdbtnNa_2).addComponent(rdbtnNo_2).addComponent(rdbtnSim_2))
 		                .addPreferredGap(ComponentPlacement.UNRELATED)
 		                .addGroup(
 		                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                .addComponent(lblCliente)
-		                                .addComponent(comboBox_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                .addComponent(cboClient, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
 		                                        GroupLayout.PREFERRED_SIZE))
 		                .addGap(18)
 		                .addGroup(
@@ -687,7 +708,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                .addComponent(rdbtnRuim).addComponent(rdbtnPssimo).addComponent(rdbtnPssimo_2)
 		                                .addComponent(rdbtnRuim_2).addComponent(rdbtnBom_2).addComponent(rdbtnPssimo_1)
 		                                .addComponent(rdbtnRuim_1).addComponent(rdbtnBom_1))
-		                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
+		                .addContainerGap(10, Short.MAX_VALUE)));
 
 		panel.setLayout(gl_panel);
 	}
@@ -706,6 +727,70 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		btnConfirmar = new JButton("Confirmar");
 		btnConfirmar.setIcon(new ImageIcon(ApprovalOfSuppliersFrame.class.getResource("/resources/ok.png")));
 		panelBotao.add(btnConfirmar);
+	}
 
+	private void setListeners() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.closeFrame(frame);
+			}
+		});
+		ActionListener ButtonListeners = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (e.getSource().equals(btnCancelar)) {
+					controller.closeFrame(frame);
+				} else if (e.getSource().equals(btnConfirmar)) {
+					if(isComplete()) {
+						
+					}
+				}
+			}
+		};
+		btnConfirmar.addActionListener(ButtonListeners);
+		btnCancelar.addActionListener(ButtonListeners);
+	}
+
+	private boolean isComplete() {
+		boolean complete = false;
+		String erro = null;
+		if (txtDataQuali_1.getValue().equals(null))
+			erro = "Insita a data da qualificação";
+		else if (txtMaterialDescription.getText() == "" || txtMaterialDescription.getText().equals(null))
+			erro = "Insira um descrição do material";
+		else if (txtJustification.getText() == "" || txtJustification.getText().equals(null))
+			erro = "Indira uma justificação";
+		else if (cboClient.getSelectedIndex() == -1)
+			erro = "Selecione um cliente";
+		else if (cboMaterial.getSelectedIndex() == -1)
+			erro = "Selecione um material";
+		else if (cboQualificationProcess.getSelectedIndex() == -1)
+			erro = "Selecione um processo de qualificação";
+		else if (cboService.getSelectedIndex() == -1)
+			erro = "Selecione um Seviço";
+		else if (cboSupplier.getSelectedIndex() == -1)
+			erro = "Selecione um fornecedor";
+		else if (bg1.getSelection().equals(null))
+			erro = "Selecione um opção para o sistema de qualidade";
+		else if (bg2.getSelection().equals(null))
+			erro = "Selecione uma opção para o histórico de fornecedor";
+		else if (bg3.getSelection().equals(null))
+			erro = "Selecione uma opção para a capacitação do fornecedor";
+		else if (bg4.getSelection().equals(null))
+			erro = "Selecione uma opção para o preço";
+		else if (bg5.getSelection().equals(null))
+			erro = "Selecione uma opção para a qualidade";
+		else if (bg6.getSelection().equals(null))
+			erro = "Selecione um opção para o atendimento";
+		else
+			complete = true;
+		if (!complete) {
+			String title = "Erro ao homologar fornecedor";
+			ShowMessage.errorMessage(frame, title, erro);
+			return complete;
+		}
+		return complete;
 	}
 }

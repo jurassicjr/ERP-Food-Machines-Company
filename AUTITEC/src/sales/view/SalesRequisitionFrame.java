@@ -25,7 +25,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 
-import model.Produto;
+import model.Product;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import sales.controller.SalesController;
@@ -61,7 +61,7 @@ public class SalesRequisitionFrame extends JFrame {
 	private JTextField txtQuantidade;
 
 	private JComboBox<String> cboSetor;
-	private JComboBox<Produto> cboProduto;
+	private JComboBox<Product> cboProduto;
 	private JComboBox<String> cboPrioridade;
 	private JComboBox<String> cboName;
 	private ComboBoxAutoCompletion cbac;
@@ -133,7 +133,7 @@ public class SalesRequisitionFrame extends JFrame {
 
 		lblInserirProduto = new JLabel("Inserir Produto:");
 
-		cboProduto = new JComboBox<Produto>();
+		cboProduto = new JComboBox<Product>();
 		controller.fillProducts(cboProduto);
 		cboProduto.setSelectedIndex(-1);
 		cbac = new ComboBoxAutoCompletion(cboProduto);

@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 
-import model.Produto;
+import model.Product;
 import sales.controller.SalesController;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
@@ -163,10 +163,10 @@ public class RegisterOfProductFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource().equals(btnCancelar)) controller.closeFrame(frame);
 				else if(e.getSource().equals(btnConfirmar)) {
-					Produto produto = new Produto();
-					produto.setDescricao(txtDescricao.getText());
+					Product produto = new Product();
+					produto.setDescrition(txtDescricao.getText());
 					produto.setName(txtName.getText());
-					produto.setQuantidade(Integer.parseInt(txtQuantidade.getText()));
+					produto.setAmmount(Integer.parseInt(txtQuantidade.getText()));
 					try {
 					controller.doProductRegister(produto);
 					faxineira = new ClearFrame(frame);

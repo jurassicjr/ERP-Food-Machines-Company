@@ -33,7 +33,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import model.City;
-import model.Produto;
+import model.Product;
 import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
@@ -90,7 +90,7 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JComboBox<City> cboCity;
 	private JComboBox<State> cboState;
 	private JComboBox<String> cboCertification;
-	private JComboBox<Produto> cboProduto;
+	private JComboBox<Product> cboProduto;
 	private JComboBox<String> cboFiscalCertification;
 
 	private JTextArea txtJustifacao;
@@ -343,7 +343,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		
 		JLabel lblProdutos = new JLabel("Produtos");
 		
-		cboProduto = new JComboBox<Produto>();
+		cboProduto = new JComboBox<Product>();
 		
 		btnAdicionar = new JButton("Adicionar");
 		
@@ -503,8 +503,8 @@ public class RegisterSuppliersFrame extends JFrame {
                     }
 				}else if(e.getSource().equals(btnAdicionar)) {
 					DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-					Produto produto = (Produto) cboProduto.getSelectedItem();
-					tbl.addRow(new Object[] {produto.getName(), produto.getDescricao()});
+					Product produto = (Product) cboProduto.getSelectedItem();
+					tbl.addRow(new Object[] {produto.getName(), produto.getDescrition()});
 				}
 			}
 		};
@@ -552,16 +552,16 @@ public class RegisterSuppliersFrame extends JFrame {
 		}
 		String companyName = getTxtCompanyName().getText();
 		Supplier supplier = new Supplier(companyName, cnpj);
-		supplier.setInscEstadual(stateRegister);
+		supplier.setStateRegistration(stateRegister);
 		supplier.setCityState((City)cboCity.getSelectedItem(), (State)cboState.getSelectedItem());
-		supplier.setRua(txtStreet.getText());
+		supplier.setStreet(txtStreet.getText());
 		supplier.setEmail(txtEmail.getText());
 		if(cboCertification.getSelectedIndex() != -1) {
-			supplier.setCertificado(false);			
+			supplier.setCertificated(false);			
 		}else {
-			supplier.setCertificado(true);
+			supplier.setCertificated(true);
 		}
-		supplier.setBairro(txtBairro.getText());
+		supplier.setNeighborhood(txtBairro.getText());
 		supplier.setFiscalClassification(cboFiscalCertification.getSelectedItem().toString());
 		if(rdbtnSim.isSelected()) {
 			supplier.setMaterialCertication(true);

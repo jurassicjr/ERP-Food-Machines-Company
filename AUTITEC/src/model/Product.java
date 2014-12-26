@@ -1,10 +1,10 @@
 package model;
 
-public class Produto {
+public class Product {
 	private int id;
 	private String name;
-	private int quantidade;
-	private String descricao;
+	private int ammount;
+	private String descrition;
 
 	public int getId() {
 		return id;
@@ -22,20 +22,20 @@ public class Produto {
 		this.name = name;
 	}
 
-	public int getQuantidade() {
-		return quantidade;
+	public int getAmmount() {
+		return ammount;
 	}
 
-	public void setQuantidade(int quantidade) {
-		this.quantidade = quantidade;
+	public void setAmmount(int quantidade) {
+		this.ammount = quantidade;
 	}
 
-	public String getDescricao() {
-		return descricao;
+	public String getDescrition() {
+		return descrition;
 	}
 
-	public void setDescricao(String descricao) {
-		this.descricao = descricao;
+	public void setDescrition(String descricao) {
+		this.descrition = descricao;
 	}
 	@Override
 	public String toString() {

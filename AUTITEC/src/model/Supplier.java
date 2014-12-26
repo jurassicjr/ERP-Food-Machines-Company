@@ -6,11 +6,11 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 public class Supplier {
-	
+
 	private int id;
 	private String corporateName;
 	private String CNPJ;
-	private List<Produto> material;
+	private List<Product> material;
 	private City city;
 	private State state;
 	private String street;
@@ -25,14 +25,14 @@ public class Supplier {
 	private String justificative;
 	private String cep;
 	private String phone;
-	
+
 	public Supplier(String razaoSocial, String CNPJ) {
 		this.corporateName = razaoSocial;
 		this.CNPJ = CNPJ;
 		registerDate = new GregorianCalendar();
 		registerDate.setTime(new Date());
 	}
-	
+
 	public Date getRegisterDate() {
 		return registerDate.getTime();
 	}
@@ -45,11 +45,11 @@ public class Supplier {
 		this.id = id;
 	}
 
-	public List<Produto> getMaterial() {
+	public List<Product> getMaterial() {
 		return material;
 	}
 
-	public void setMaterial(List<Produto> material) {
+	public void setMaterial(List<Product> material) {
 		this.material = material;
 	}
 
@@ -57,15 +57,15 @@ public class Supplier {
 		return street;
 	}
 
-	public void setRua(String rua) {
-		this.street = rua;
+	public void setStreet(String street) {
+		this.street = street;
 	}
 
 	public boolean isCertificated() {
 		return certificate;
 	}
 
-	public void setCertificado(boolean certificado) {
+	public void setCertificated(boolean certificado) {
 		this.certificate = certificado;
 	}
 
@@ -73,7 +73,7 @@ public class Supplier {
 		return neighborhood;
 	}
 
-	public void setBairro(String bairro) {
+	public void setNeighborhood(String bairro) {
 		this.neighborhood = bairro;
 	}
 
@@ -89,7 +89,7 @@ public class Supplier {
 		return stateRegistration;
 	}
 
-	public void setInscEstadual(String inscEstadual) {
+	public void setStateRegistration(String inscEstadual) {
 		this.stateRegistration = inscEstadual;
 	}
 
@@ -100,62 +100,65 @@ public class Supplier {
 	public String getCNPJ() {
 		return CNPJ;
 	}
+
 	public void setCityState(City cidade, State estado) {
 		this.city = cidade;
 		this.state = estado;
 	}
+
 	public City getCity() {
 		return this.city;
 	}
+
 	public State getState() {
 		return this.state;
 	}
 
 	public String getFiscalClassification() {
-	    return fiscalClassification;
-    }
+		return fiscalClassification;
+	}
 
 	public void setFiscalClassification(String fiscalClassification) {
-	    this.fiscalClassification = fiscalClassification;
-    }
+		this.fiscalClassification = fiscalClassification;
+	}
 
 	public boolean isMaterialCertication() {
-	    return materialCertication;
-    }
+		return materialCertication;
+	}
 
 	public void setMaterialCertication(boolean materialCertication) {
-	    this.materialCertication = materialCertication;
-    }
+		this.materialCertication = materialCertication;
+	}
 
 	public Date getExpireCertificateDate() {
-	    return expireCertificateDate;
-    }
+		return expireCertificateDate;
+	}
 
 	public void setExpireCertificateDate(java.sql.Date expireCertificateDate) {
-	    this.expireCertificateDate = expireCertificateDate;
-    }
+		this.expireCertificateDate = expireCertificateDate;
+	}
 
 	public String getJustificative() {
-	    return justificative;
-    }
+		return justificative;
+	}
 
 	public void setJustificative(String justificative) {
-	    this.justificative = justificative;
-    }
+		this.justificative = justificative;
+	}
 
 	public String getPhone() {
-	    return phone;
-    }
+		return phone;
+	}
 
 	public void setPhone(String phone) {
-	    this.phone = phone;
-    }
+		this.phone = phone;
+	}
 
 	public String getCep() {
-	    return cep;
-    }
+		return cep;
+	}
 
 	public void setCep(String cep) {
-	    this.cep = cep;
-    }
+		this.cep = cep;
+	}
 }

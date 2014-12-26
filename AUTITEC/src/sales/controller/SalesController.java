@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.City;
-import model.Produto;
+import model.Product;
 import model.State;
 import model.Supplier;
 import sales.view.ApprovalOfSuppliersFrame;
@@ -184,16 +184,16 @@ public class SalesController {
 	 * Popula o JComboBox<Produto> com produtos do banco.
 	 */
 
-	public void fillProducts(JComboBox<Produto> product) {
+	public void fillProducts(JComboBox<Product> product) {
 		product.removeAllItems();
 		try {
 			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product");
 			while (rs.next()) {
-				Produto produto = new Produto();
+				Product produto = new Product();
 				produto.setName(rs.getString("name"));
-				produto.setDescricao(rs.getString("descricao"));
+				produto.setDescrition(rs.getString("descricao"));
 				produto.setId(rs.getInt("id"));
-				produto.setQuantidade(rs.getInt("quantidade"));
+				produto.setAmmount(rs.getInt("quantidade"));
 				product.addItem(produto);
 			}
 		} catch (SQLException e) {
@@ -286,7 +286,7 @@ public class SalesController {
 	 * Reaçiza o registro de produtos
 	 */
 	
-	public void doProductRegister(Produto product) {
+	public void doProductRegister(Product product) {
 		try {
 			if(product.equals(null)) {
 				throw new Exception();
@@ -294,8 +294,8 @@ public class SalesController {
 			else {
 				Map<String, Object> mapa = new HashMap<String, Object>();
 				mapa.put("name", product.getName());
-				mapa.put("quantidade", product.getQuantidade());
-				mapa.put("descricao", product.getDescricao());
+				mapa.put("quantidade", product.getAmmount());
+				mapa.put("descricao", product.getDescrition());
 				produtoDAO = new ProductDAO(mapa);
 			}
 		}catch(Exception e) {

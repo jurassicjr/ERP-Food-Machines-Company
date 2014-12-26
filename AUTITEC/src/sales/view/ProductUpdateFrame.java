@@ -1,6 +1,7 @@
 package sales.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,8 +21,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.ScrollPaneConstants;
+import javax.swing.UIManager;
+import javax.swing.border.TitledBorder;
 
-import model.Produto;
+import model.Product;
 import sales.controller.SalesController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
@@ -41,9 +45,8 @@ public class ProductUpdateFrame extends JFrame {
 	
 	private JLabel lblProdutomaterial;
 	private JLabel lblNome;
-	private JLabel lblDescrio;
 	
-	private JComboBox<Produto> cboProduto;
+	private JComboBox<Product> cboProduto;
 
 	private SalesController controller;
 	
@@ -56,6 +59,10 @@ public class ProductUpdateFrame extends JFrame {
 	private JTextArea txtDescricao;
 	
 	private ClearFrame faxineira;
+
+	private JPanel panelDescrition;
+
+	private JPanel panelDescricao;
 
 	public ProductUpdateFrame() {
 		dataBase = new DataBase();
@@ -78,10 +85,11 @@ public class ProductUpdateFrame extends JFrame {
 		// Criar o panel e adiciona ao frame
 		JPanel principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
-
+	
+		
 		lblProdutomaterial = new JLabel("Produto/Material");
 
-		cboProduto = new JComboBox<Produto>();
+		cboProduto = new JComboBox<Product>();
 		controller.fillProducts(cboProduto);
 		ComboBoxAutoCompletion cboAutoCompletation = new ComboBoxAutoCompletion(cboProduto);
 		cboProduto.setSelectedIndex(-1);
@@ -90,59 +98,51 @@ public class ProductUpdateFrame extends JFrame {
 
 		txtName = new UpperTextField();
 		txtName.setColumns(10);
-
-		lblDescrio = new JLabel("Descrição");
-
-		JScrollPane scrollPane = new JScrollPane();
-
+		
+		panelDescricao = new JPanel();
+		panelDescricao.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Descri\u00E7\u00E3o", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		
 		// Determina o layout do panel
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel.setHorizontalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.LEADING)
-		                                .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createSequentialGroup()
-		                                                .addComponent(lblProdutomaterial)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 173,
-		                                                        GroupLayout.PREFERRED_SIZE))
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createSequentialGroup()
-		                                                .addComponent(lblNome)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383,
-		                                                        Short.MAX_VALUE)).addComponent(lblDescrio))
-		                .addContainerGap()));
-		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblProdutomaterial)
-		                                .addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNome)
-		                                .addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblDescrio)
-		                .addPreferredGap(ComponentPlacement.RELATED)
-		                .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE).addContainerGap()));
-
-		txtDescricao = new JTextArea();
-		scrollPane.setViewportView(txtDescricao);
+		gl_principalPanel.setHorizontalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(panelDescricao, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblProdutomaterial)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblNome)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_principalPanel.setVerticalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblProdutomaterial)
+						.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNome)
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(panelDescricao, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+					.addGap(22))
+		);
+		panelDescricao.setLayout(new BorderLayout(0, 0));
+		
+				JScrollPane scrollPane = new JScrollPane();
+				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+				panelDescricao.add(scrollPane, BorderLayout.CENTER);
+				
+						txtDescricao = new JTextArea();
+						scrollPane.setViewportView(txtDescricao);
 		principalPanel.setLayout(gl_principalPanel);
 
 		initializeSub();
@@ -182,7 +182,7 @@ public class ProductUpdateFrame extends JFrame {
 				if (cboProduto.getSelectedIndex() != -1) {
 					String sql = "SELECT *FROM Product WHERE name = ?";
 					try {
-						Produto produto = (Produto) cboProduto.getSelectedItem();
+						Product produto = (Product) cboProduto.getSelectedItem();
 						fillFields(dataBase.executeQuery(sql, produto.getName()));
 					} catch (SQLException e1) {
 						e1.printStackTrace();
@@ -199,13 +199,13 @@ public class ProductUpdateFrame extends JFrame {
 					controller.closeFrame(frame);
 				} else if (e.getSource().equals(btnConfirmar)) {
 					String sql = "UPDATE Product SET name = ?, descricao = ? WHERE id = ?";
-					Produto produto = (Produto) cboProduto.getSelectedItem();
+					Product produto = (Product) cboProduto.getSelectedItem();
 					insertData = new Object[] { txtName.getText(), txtDescricao.getText(), produto.getId() };
 					dataBase.executeUpdate(sql, insertData);
 					faxineira.clear();
 				} else if (e.getSource().equals(btnApagar)) {
 					String sql = "DELETE FROM Product WHERE id = ?";
-					Produto produto = (Produto) cboProduto.getSelectedItem();
+					Product produto = (Product) cboProduto.getSelectedItem();
 					dataBase.executeUpdate(sql, produto.getId());
 					faxineira.clear();
 					cboProduto.removeItem(produto);
@@ -224,5 +224,4 @@ public class ProductUpdateFrame extends JFrame {
 		txtName.setText(rs.getString(2));
 		txtDescricao.setText(rs.getString(3));
 	}
-
 }
