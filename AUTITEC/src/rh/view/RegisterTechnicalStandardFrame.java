@@ -22,6 +22,7 @@ import javax.swing.border.EmptyBorder;
 
 import model.TechnicalStandard;
 import rh.controller.RegisterTechnicalStandardFrameController;
+import util.Icon;
 import util.ShowMessage;
 
 /**
@@ -88,6 +89,7 @@ public class RegisterTechnicalStandardFrame extends Thread {
 		frame.setBounds(100, 100, 521, 186);
 		frame.setMinimumSize(new Dimension(521, 186));
 		frame.setTitle("Registro de Norma Técnica");
+		Icon.setIcon(frame);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

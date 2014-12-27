@@ -28,6 +28,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
 
 import login.controller.LoginFrameController;
+import util.Icon;
 import util.ShowMessage;
 
 /**
@@ -57,6 +58,7 @@ public class LoginFrame extends JFrame {
 		setLookAndFell();
 		initialize();
 		setListeners();
+		
 	}
 	
 	/**
@@ -110,6 +112,7 @@ public class LoginFrame extends JFrame {
 		setBounds(100, 100, 450, 177);
 		setLocationRelativeTo(null);
 		setTitle("Login");
+		Icon.setIcon(this);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

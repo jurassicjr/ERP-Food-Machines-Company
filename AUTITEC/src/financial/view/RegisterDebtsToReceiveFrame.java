@@ -27,9 +27,10 @@ import javax.swing.border.TitledBorder;
 import net.sf.nachocalendar.components.DateField;
 import userInterface.components.UpperTextField;
 import util.Icon;
+import financial.controller.RegisterDebtsToReceiveFrameController;
 import financial.controller.RegisterBillFrameController;
 
-public class RegisterBillFrame extends JFrame {
+public class RegisterDebtsToReceiveFrame extends JFrame {
 
 	private static final long serialVersionUID = -4336339858592180045L;
 	
@@ -47,14 +48,14 @@ public class RegisterBillFrame extends JFrame {
 	private JButton btnClear;
 	private JButton btnRegister;
 	
-	private RegisterBillFrameController controller;
+	private RegisterDebtsToReceiveFrameController controller;
 		
-	public RegisterBillFrame() {
+	public RegisterDebtsToReceiveFrame() {
 		
 		initialize();
 		setListeners();
 		
-		controller = new RegisterBillFrameController(this);		
+		controller = new RegisterDebtsToReceiveFrameController(this);		
 	}
 
 	/**
@@ -180,9 +181,9 @@ public class RegisterBillFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(e.getSource().equals(btnCancel)) controller.closeFrame();
-				else if(e.getSource().equals(btnClear)) controller.clear();
-				else if(e.getSource().equals(btnRegister)) register();
+//				if(e.getSource().equals(btnCancel)) controller.closeFrame();
+//				else if(e.getSource().equals(btnClear)) controller.clear();
+//				else if(e.getSource().equals(btnRegister)) register();
 				
 				
 			}
@@ -196,23 +197,23 @@ public class RegisterBillFrame extends JFrame {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				controller.closeFrame();
+				//controller.closeFrame();
 			}
 			
 		});
 		
 	}
 	
-	private void register() {
-		
-		String bill = txBill.getText();
-		String creditor = txCreditor.getText();
-		Date dueDate = (Date) txDueDate.getValue();
-		int installments = cbInstallments.getSelectedIndex() + 1;
-		String observation = txObservations.getText();
-		
-		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		controller.register(bill, creditor, dueDate, installments, observation);
-		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-	}
+//	private void register() {
+//		
+//		String bill = txBill.getText();
+//		String creditor = txCreditor.getText();
+//		Date dueDate = (Date) txDueDate.getValue();
+//		int installments = cbInstallments.getSelectedIndex() + 1;
+//		String observation = txObservations.getText();
+//		
+//		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+//		controller.register(bill, creditor, dueDate, installments, observation);
+//		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+//	}
 }

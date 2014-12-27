@@ -163,6 +163,22 @@ public class MainFrameController {
 				
 	}
 	
+	public void registerDebts() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+							
+				RegisterBillFrame frame = new RegisterBillFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});	
+		
+	}	
+	
 	public void Sales(int i) {
 		SalesController controller = new SalesController(mainFrame);
 		if(i == 0) {
