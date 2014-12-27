@@ -26,6 +26,7 @@ import javax.swing.border.EmptyBorder;
 import model.Employee;
 import rh.controller.RegisterUserFrameController;
 import userInterface.components.ComboBoxAutoCompletion;
+import util.Icon;
 
 /**
  * Registra um usuário para acessar ao sistema criando senha e nível de acesso
@@ -68,6 +69,7 @@ public class RegisterUserFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 600, 220);
 		setTitle("Registro de Usuário");
+		Icon.setIcon(this);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));

@@ -1,14 +1,13 @@
 package userInterface.view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import userInterface.controller.MainFrameController;
@@ -37,6 +35,7 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmRegisterUser;
 	
 	private JMenuItem mntmRegisterBill;
+	private JMenuItem mntmRegisterDebtsToReceive;
 	
 	private JMenuItem mntmApprovalOfSuppliers;
 	private JMenuItem mntmSalesRequisition;
@@ -61,10 +60,9 @@ public class MainFrame extends JFrame {
 	 * Cria a janela principal da aplicação
 	 */	
 	public MainFrame() {
-		
+				
 		controller = new MainFrameController(this);
 		
-		setLookAndFell();
 		initialize();
 		setListeners();
 		
@@ -110,6 +108,10 @@ public class MainFrame extends JFrame {
 		mntmRegisterBill = new JMenuItem("Registrar Conta a Pagar");
 		mnFinancial.add(mntmRegisterBill);
 		
+		mntmRegisterDebtsToReceive = new JMenuItem("Registrar Conta a Receber");
+		mnFinancial.add(mntmRegisterDebtsToReceive);
+		
+		
 		
 		mnSales.add(mnRegister);
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
@@ -150,6 +152,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmTechnicalStandard)) controller.technicalStandard();
 				else if(e.getSource().equals(mntmRegisterUser)) controller.registerUser();
 				else if(e.getSource().equals(mntmRegisterBill)) controller.registerBill();
+				else if(e.getSource().equals(mntmRegisterDebtsToReceive)) controller.registerDebts();
 				
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(controller.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
@@ -164,6 +167,7 @@ public class MainFrame extends JFrame {
 		mntmTechnicalStandard.addActionListener(menuListeners);
 		mntmRegisterUser.addActionListener(menuListeners);
 		mntmRegisterBill.addActionListener(menuListeners);
+		mntmRegisterDebtsToReceive.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
@@ -172,15 +176,5 @@ public class MainFrame extends JFrame {
 		mntmRegisterOfProduct.addActionListener(menuListeners);
 		mntmProductUpdate.addActionListener(menuListeners);
 	}
-	
-	/**
-	 * Define o look and fell (aparência) da aplicação para a aparência do sistema operacional 
-	 */
-	private void setLookAndFell() {
-		try {
-			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | UnsupportedLookAndFeelException e) {
-			e.printStackTrace();
-		}	
-	}
+
 }

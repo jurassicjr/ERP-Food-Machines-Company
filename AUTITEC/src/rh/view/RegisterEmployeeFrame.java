@@ -56,6 +56,7 @@ import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.FileChooser;
 import userInterface.components.UpperCaseEditor;
 import userInterface.components.UpperTextField;
+import util.Icon;
 
 /**
  * Representa o frame de registro de funcionários
@@ -151,6 +152,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		setMinimumSize(new Dimension(829, 404));
 		setTitle("Registro de Funcionário");
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		Icon.setIcon(this);
 		
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);

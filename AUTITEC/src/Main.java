@@ -1,6 +1,5 @@
-import java.awt.EventQueue;
-
-import userInterface.view.MainFrame;
+import login.view.LoginFrame;
+import userInterface.view.LoadingFrame;
 
 
 /**
@@ -8,18 +7,23 @@ import userInterface.view.MainFrame;
  */
 public class Main {
 
-	public static void main(String[] args) {
-										
-		EventQueue.invokeLater(new Runnable() {
-
-			@Override
-			public void run() {
-				MainFrame frame = new MainFrame();
-				//LoginFrame frame = new LoginFrame();
-				frame.setVisible(true);
-			}
+	public static void main(String[] args) {		
+		
+		LoadingFrame loadingFrame = new LoadingFrame();  
+	
+		javax.swing.SwingUtilities.invokeLater(new Runnable(){  
+		  
+			@Override  
+		    public void run() {  
+				loadingFrame.setVisible(true);  
+			}  
+		              
 		});
-
+		
+		new LoginFrame().setVisible(true);   
+		  
+		loadingFrame.dispose();
+		
 	}
 
 }

@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 import model.TechnicalStandard;
 import model.TechnicalStandardVersion;
 import rh.controller.TechnicalStandardFrameController;
+import util.Icon;
 
 /**
  * Representa o frama para adição, remoção, alteração e remoção das normas técnicas
@@ -53,6 +54,7 @@ public class TechnicalStandardFrame extends JFrame {
 			
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 650, 450);
+		Icon.setIcon(this);
 		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
