@@ -30,6 +30,7 @@ import sales.controller.SalesController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
+import util.Icon;
 import database.DataBase;
 
 public class ProductUpdateFrame extends JFrame {
@@ -40,6 +41,8 @@ public class ProductUpdateFrame extends JFrame {
     private static final long serialVersionUID = 2859084917577254070L;
 
 	private JFrame frame = this;
+	
+	Icon icon;
 	
 	private UpperTextField txtName;
 	
@@ -80,6 +83,9 @@ public class ProductUpdateFrame extends JFrame {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		// Adiciona o titulo
 		this.setTitle("Atualização de Produtos/Materiais");
+		//Logo
+		icon = new Icon();
+		icon.setIcon(frame);
 		// Determina o Layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		// Criar o panel e adiciona ao frame
@@ -154,7 +160,7 @@ public class ProductUpdateFrame extends JFrame {
 		bottonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
 		btnApagar = new JButton("Apagar");
-		btnApagar.setIcon(new ImageIcon(ProductUpdateFrame.class.getResource("/resources/1419366170_17-16.png")));
+		btnApagar.setIcon(new ImageIcon(ProductUpdateFrame.class.getResource("/resources/clear.png")));
 		bottonPanel.add(btnApagar);
 
 		btnCancelar = new JButton("Cancelar");
