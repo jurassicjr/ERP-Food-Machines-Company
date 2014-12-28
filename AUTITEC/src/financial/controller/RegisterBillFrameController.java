@@ -31,11 +31,11 @@ public class RegisterBillFrameController {
 		
 	}
 
-	public void register(String bill, String creditor, Date dueDate, int installments, String observation) {
+	public void register(String bill, String creditor, Date dueDate, int installments, String observation, double value) {
 		
-		if(!validateData(bill, creditor, dueDate, installments)) return; 
+		if(!validateData(bill, creditor, dueDate, installments, value)) return; 
 		
-		Bill b = new Bill(bill, creditor, dueDate, installments, observation);
+		Bill b = new Bill(bill, creditor, dueDate, installments, observation, value);
 		new BillDAO(b);
 		
 		ShowMessage.successMessage(null, "Conta Registrada", "A Conta a Pagar foi Registrada com sucesso");
@@ -57,15 +57,16 @@ public class RegisterBillFrameController {
 		
 	}
 
-	private boolean validateData(String bill, String creditor, Date dueDate, int installments) {
+	private boolean validateData(String bill, String creditor, Date dueDate, int installments, double value) {
 		
 		boolean validate = false;
 		String label = "";
 		
 		if(bill == null || bill.isEmpty()) label = "Conta a Pagar";
-		else if(creditor == null || creditor.isEmpty()) label = "Credor";
 		else if(dueDate == null) label = "Data de Vencimento";
 		else if(installments == 0) label = "Número de Parcelas";
+		else if(value <= 0.0) label = "Valor da Parcela";
+		else if(creditor == null || creditor.isEmpty()) label = "Credor";
 		else validate = true;
 		
 		if(!validate) {

@@ -14,7 +14,7 @@ public class Bill {
 	private String observation;
 	private ArrayList<Installment> installments;
 	
-	public Bill(String bill, String creditor, Date dueDate, int installmentsNumber, String observation) {
+	public Bill(String bill, String creditor, Date dueDate, int installmentsNumber, String observation, double value) {
 		
 		this.bill = bill;
 		this.creditor = creditor;
@@ -22,10 +22,10 @@ public class Bill {
 		this.observation = observation;
 		installments = new ArrayList<Installment>();
 		
-		createInstallments(dueDate);
+		createInstallments(dueDate, value);
 	}
 	
-	public void createInstallments(Date dueDate) {
+	public void createInstallments(Date dueDate, double value) {
 				
 		Calendar calendar = Calendar.getInstance();
 		Date date = new Date(dueDate.getTime());
@@ -33,7 +33,7 @@ public class Bill {
 		for(int i = 0; i < installmentsNumber; ++i) {
 			
 			calendar.setTime(dueDate);
-			installments.add(new Installment(date));
+			installments.add(new Installment(date, value));
 			
 			calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
 			dueDate = calendar.getTime();

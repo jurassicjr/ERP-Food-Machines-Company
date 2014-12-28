@@ -124,11 +124,12 @@ public class RegisterEmployeeFrame extends JFrame {
 	
 	private JButton btnCancel;
 	private JButton btnConfirme;
+	private JButton btnClear;
 	
 	private String picturePath;
 	private RegisterEmployeeController controller;
 	private FileChooser fileChooser;
-	
+		
 	/**
 	 * Cria o frame de registro de funcionário
 	 */
@@ -823,6 +824,10 @@ public class RegisterEmployeeFrame extends JFrame {
 		btnCancel.setIcon(new ImageIcon(getClass().getResource("/resources/cancel.png")));
 		buttonsPanel.add(btnCancel);
 		
+		btnClear = new JButton("Limpar Dados");
+		btnClear.setIcon(new ImageIcon(RegisterEmployeeFrame.class.getResource("/resources/clear.png")));
+		buttonsPanel.add(btnClear);
+		
 		btnConfirme = new JButton("Confirmar");
 		btnConfirme.setIcon(new ImageIcon(getClass().getResource("/resources/ok.png")));
 		buttonsPanel.add(btnConfirme);
@@ -870,12 +875,14 @@ public class RegisterEmployeeFrame extends JFrame {
 				
 				if(e.getSource().equals(btnCancel)) controller.closeFrame();
 				else if(e.getSource().equals(btnConfirme)) registerEmployee();
+				else if(e.getSource().equals(btnClear)) controller.clear();
 				
 			}
 		};
 		
 		btnCancel.addActionListener(btnListener);
 		btnConfirme.addActionListener(btnListener);
+		btnClear.addActionListener(btnListener);
 		
 		cbGender.addItemListener(new ItemListener() {
 			

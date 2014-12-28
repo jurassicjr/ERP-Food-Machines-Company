@@ -25,6 +25,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import net.sf.nachocalendar.components.DateField;
+import userInterface.components.RealNumberField;
 import userInterface.components.UpperTextField;
 import util.Icon;
 import financial.controller.RegisterBillFrameController;
@@ -38,16 +39,17 @@ public class RegisterBillFrame extends JFrame {
 	private UpperTextField txBill;
 	private DateField txDueDate;
 	private UpperTextField txCreditor;
+	private JTextArea txObservations;
+	private RealNumberField txParcelValue;
 	
 	private JComboBox<String> cbInstallments;
-	
-	private JTextArea txObservations;
 	
 	private JButton btnCancel;
 	private JButton btnClear;
 	private JButton btnRegister;
 	
 	private RegisterBillFrameController controller;
+	
 		
 	public RegisterBillFrame() {
 		
@@ -63,7 +65,7 @@ public class RegisterBillFrame extends JFrame {
 	private void initialize() {
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 506, 400);
+		setBounds(100, 100, 506, 463);
 		setMinimumSize(new Dimension(506, 400));
 		setTitle("Registrar Conta a Pagar");
 		Icon.setIcon(this);
@@ -97,18 +99,20 @@ public class RegisterBillFrame extends JFrame {
 		JLabel lblCreditor = new JLabel("Credor:");
 		txCreditor = new UpperTextField();
 		
+		JLabel lblParcelValue = new JLabel("Valor da Parcela");
+		txParcelValue = new RealNumberField();
+		
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(observationsPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblBill)
 							.addGap(18)
 							.addComponent(txBill, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblDueDate)
 							.addGap(18)
 							.addComponent(txDueDate, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
@@ -116,10 +120,15 @@ public class RegisterBillFrame extends JFrame {
 							.addComponent(lblInstallments)
 							.addGap(18)
 							.addComponent(cbInstallments, 0, 117, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblParcelValue)
+							.addGap(18)
+							.addComponent(txParcelValue, GroupLayout.PREFERRED_SIZE, 97, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblCreditor)
 							.addGap(18)
-							.addComponent(txCreditor, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)))
+							.addComponent(txCreditor, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
+						.addComponent(observationsPanel, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		layout.setVerticalGroup(
@@ -137,11 +146,15 @@ public class RegisterBillFrame extends JFrame {
 						.addComponent(cbInstallments, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblParcelValue)
+						.addComponent(txParcelValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCreditor)
 						.addComponent(txCreditor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(observationsPanel, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(observationsPanel, GroupLayout.PREFERRED_SIZE, 207, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(39, Short.MAX_VALUE))
 		);
 		observationsPanel.setLayout(new BorderLayout(0, 0));
 		
@@ -204,15 +217,16 @@ public class RegisterBillFrame extends JFrame {
 	}
 	
 	private void register() {
-		
+				
 		String bill = txBill.getText();
 		String creditor = txCreditor.getText();
 		Date dueDate = (Date) txDueDate.getValue();
 		int installments = cbInstallments.getSelectedIndex() + 1;
+		double value = txParcelValue.getValue();
 		String observation = txObservations.getText();
 		
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		controller.register(bill, creditor, dueDate, installments, observation);
+		controller.register(bill, creditor, dueDate, installments, observation, value);
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 }

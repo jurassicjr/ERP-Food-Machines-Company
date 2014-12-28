@@ -39,9 +39,10 @@ public class BillDAO {
 			
 			Date date = new Date(installment.getDate().getTime());
 			int paid = (installment.isPaid()) ? 1 : 0;
+			double value = installment.getValue();
 			
-			String sql = "INSERT INTO installment (date, paid, bill) VALUES(?, ?, ?);";
-			Object data[] = new Object[]{date, paid, billId};
+			String sql = "INSERT INTO installment (date, paid, bill, value) VALUES(?, ?, ?, ?);";
+			Object data[] = new Object[]{date, paid, billId, value};
 			
 			dataBase.executeUpdate(sql, data);
 		}

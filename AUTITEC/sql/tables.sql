@@ -129,7 +129,6 @@ CREATE TABLE user (
 	FOREIGN KEY employee REFERENCES employee(id)
 );
 
-
 CREATE TABLE bill (
 
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -137,7 +136,6 @@ CREATE TABLE bill (
 	creditor VARCHAR(100) NOT NULL,
 	observation TEXT NOT NULL
 );
-
 
 CREATE TABLE installment (
 
@@ -147,4 +145,14 @@ CREATE TABLE installment (
 	bill INT(11) NOT NULL,
 
 	FOREIGN KEY (bill) REFERENCES bill(id)
+);
+
+CREATE TABLE debt (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	debt VARCHAR(100) NOT NULL,
+	debtor VARCHAR(100)  NOT NULL,
+	observation TEXT NOT NULL,
+	date DATE NOT NULL,
+	paid INT(11) NOT NULL
 );

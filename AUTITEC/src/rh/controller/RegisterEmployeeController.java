@@ -33,6 +33,7 @@ import model.State;
 import rh.view.RegisterEmployeeFrame;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.ImageFilter;
+import util.ClearFrame;
 import util.FTP;
 import util.ShowMessage;
 import util.Validator;
@@ -488,6 +489,18 @@ public class RegisterEmployeeController {
 		
 		return null;
 		
+	}
+	
+	public void clear() {
+		
+		String title = "Limpar os Dados Inseridos";
+		String message = "Deseja realmente limpar os dados inseridos?";
+		
+		int response = ShowMessage.questionMessage(frame, title, message); 
+		
+		if(response == JOptionPane.YES_OPTION) {
+			new ClearFrame(frame).clear();
+		}
 	}
 	
 }

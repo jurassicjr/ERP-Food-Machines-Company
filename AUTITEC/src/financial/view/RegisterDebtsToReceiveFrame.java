@@ -15,7 +15,6 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,10 +24,10 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 import net.sf.nachocalendar.components.DateField;
+import userInterface.components.RealNumberField;
 import userInterface.components.UpperTextField;
 import util.Icon;
 import financial.controller.RegisterDebtsToReceiveFrameController;
-import financial.controller.RegisterBillFrameController;
 
 public class RegisterDebtsToReceiveFrame extends JFrame {
 
@@ -36,11 +35,10 @@ public class RegisterDebtsToReceiveFrame extends JFrame {
 	
 	private JPanel contentPane;
 	
-	private UpperTextField txBill;
+	private UpperTextField txDebt;
 	private DateField txDueDate;
-	private UpperTextField txCreditor;
-	
-	private JComboBox<String> cbInstallments;
+	private UpperTextField txDebtor;
+	private RealNumberField txValue;
 	
 	private JTextArea txObservations;
 	
@@ -66,7 +64,7 @@ public class RegisterDebtsToReceiveFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 506, 400);
 		setMinimumSize(new Dimension(506, 400));
-		setTitle("Registrar Conta a Pagar");
+		setTitle("Registrar Conta a Receber");
 		Icon.setIcon(this);
 		
 		contentPane = new JPanel();
@@ -77,50 +75,45 @@ public class RegisterDebtsToReceiveFrame extends JFrame {
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
 		
-		JLabel lblBill = new JLabel("Conta a Pagar");
-		txBill = new UpperTextField();
+		JLabel lblBill = new JLabel("Conta a Receber");
+		txDebt = new UpperTextField();
 		
-		JLabel lblDueDate = new JLabel("Data de Vencimento");
+		JLabel lblDueDate = new JLabel("Data de Recebimento");
 		txDueDate = new DateField();
 		txDueDate.setValue(null);
-		
-		JLabel lblInstallments = new JLabel("Número de Parcelas");
-		
-		cbInstallments = new JComboBox<String>();
-		for(int i = 1; i <= 24; ++i) {
-			cbInstallments.addItem(String.valueOf(i));
-		}
-		cbInstallments.setSelectedIndex(-1);
 		
 		JPanel observationsPanel = new JPanel();
 		observationsPanel.setBorder(new TitledBorder(null, "Observções", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
-		JLabel lblCreditor = new JLabel("Credor:");
-		txCreditor = new UpperTextField();
+		JLabel lblCreditor = new JLabel("Devedor:");
+		txDebtor = new UpperTextField();
+		
+		JLabel lblValue = new JLabel("Valor");
+		txValue = new RealNumberField();
 		
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(observationsPanel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addComponent(observationsPanel, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblBill)
 							.addGap(18)
-							.addComponent(txBill, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+							.addComponent(txDebt, GroupLayout.DEFAULT_SIZE, 361, Short.MAX_VALUE))
+						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblDueDate)
 							.addGap(18)
-							.addComponent(txDueDate, GroupLayout.DEFAULT_SIZE, 98, Short.MAX_VALUE)
+							.addComponent(txDueDate, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE)
 							.addGap(18)
-							.addComponent(lblInstallments)
+							.addComponent(lblValue)
 							.addGap(18)
-							.addComponent(cbInstallments, 0, 117, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+							.addComponent(txValue, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
+						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblCreditor)
 							.addGap(18)
-							.addComponent(txCreditor, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE)))
+							.addComponent(txDebtor, GroupLayout.PREFERRED_SIZE, 397, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		layout.setVerticalGroup(
@@ -129,19 +122,20 @@ public class RegisterDebtsToReceiveFrame extends JFrame {
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblBill)
-						.addComponent(txBill, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txDebt, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblDueDate)
+					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(txDueDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblInstallments)
-						.addComponent(cbInstallments, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(lblDueDate)
+						.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+							.addComponent(lblValue)
+							.addComponent(txValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addGap(18)
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCreditor)
-						.addComponent(txCreditor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txDebtor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(observationsPanel, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+					.addComponent(observationsPanel, GroupLayout.DEFAULT_SIZE, 182, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		observationsPanel.setLayout(new BorderLayout(0, 0));
@@ -172,6 +166,8 @@ public class RegisterDebtsToReceiveFrame extends JFrame {
 		btnRegister.setIcon(new ImageIcon(RegisterBillFrame.class.getResource("/resources/ok.png")));
 		buttonsPanel.add(btnRegister);
 		
+		Icon.setIcon(this);
+		
 	}
 
 	private void setListeners() {
@@ -181,9 +177,9 @@ public class RegisterDebtsToReceiveFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-//				if(e.getSource().equals(btnCancel)) controller.closeFrame();
-//				else if(e.getSource().equals(btnClear)) controller.clear();
-//				else if(e.getSource().equals(btnRegister)) register();
+				if(e.getSource().equals(btnCancel)) controller.closeFrame();
+				else if(e.getSource().equals(btnClear)) controller.clear();
+				else if(e.getSource().equals(btnRegister)) register();
 				
 				
 			}
@@ -197,23 +193,25 @@ public class RegisterDebtsToReceiveFrame extends JFrame {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-				//controller.closeFrame();
+				controller.closeFrame();
 			}
 			
 		});
 		
 	}
 	
-//	private void register() {
-//		
-//		String bill = txBill.getText();
-//		String creditor = txCreditor.getText();
-//		Date dueDate = (Date) txDueDate.getValue();
-//		int installments = cbInstallments.getSelectedIndex() + 1;
-//		String observation = txObservations.getText();
-//		
-//		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-//		controller.register(bill, creditor, dueDate, installments, observation);
-//		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-//	}
+	private void register() {
+		
+		txValue.format();
+		
+		String debt = txDebt.getText();
+		String debtor = txDebtor.getText();
+		Date dueDate = (Date) txDueDate.getValue();
+		String observation = txObservations.getText();
+		double value = txValue.getValue();
+		
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		controller.register(debt, debtor, dueDate, observation, value);
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+	}
 }

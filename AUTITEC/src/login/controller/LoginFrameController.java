@@ -67,7 +67,7 @@ public class LoginFrameController {
 				
 			}
 			else {
-				ShowMessage.errorMessage(frame, "Erro ao logar", "Usuário ou senha incorreto");
+				ShowMessage.errorMessage(frame, "Erro ao logar", "Usuário ou senha incorretos");
 			}
 									
 		} catch (SQLException e) {

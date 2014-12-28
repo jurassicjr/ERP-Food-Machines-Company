@@ -19,6 +19,7 @@ import userInterface.components.NotificationButton;
 import userInterface.view.MainFrame;
 import database.DataBase;
 import financial.view.RegisterBillFrame;
+import financial.view.RegisterDebtsToReceiveFrame;
 
 /**
  * Classe controladora do frame principal do sistema
@@ -170,7 +171,7 @@ public class MainFrameController {
 			@Override
 			public void run() {
 							
-				RegisterBillFrame frame = new RegisterBillFrame();
+				RegisterDebtsToReceiveFrame frame = new RegisterDebtsToReceiveFrame();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
 				

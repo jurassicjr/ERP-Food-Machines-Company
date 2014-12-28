@@ -15,6 +15,8 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
 
+import util.Icon;
+
 public class LoadingFrame extends JFrame {
 
 	private static final long serialVersionUID = 2004844933713613289L;
@@ -54,6 +56,7 @@ public class LoadingFrame extends JFrame {
 		getContentPane().add(progressBar, BorderLayout.SOUTH);
 		
 		setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		Icon.setIcon(this);
 		
 	}
 	
