@@ -1,9 +1,8 @@
 import javax.swing.SwingUtilities;
 
-import financial.view.RegisterBillFrame;
-import financial.view.RegisterDebtsToReceiveFrame;
-import login.view.LoginFrame;
+import financial.view.ListBillsFrame;
 import userInterface.view.LoadingFrame;
+import userInterface.view.MainFrame;
 
 /**
  * Classe principal, responsável por inicializar a aplicação.
@@ -20,7 +19,7 @@ public class Main {
 		
 		//new LoginFrame().setVisible(true);
 		//new MainFrame().setVisible(true);
-		//new RegisterDebtsToReceiveFrame().setVisible(true);
+		new ListBillsFrame().setVisible(true);
 		  
 		loadingFrame.dispose();
 		
