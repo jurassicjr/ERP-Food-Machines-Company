@@ -61,7 +61,6 @@ public class ProductUpdateFrame extends JFrame {
 	
 	private JTextArea txtDescricao;
 	
-	private ClearFrame faxineira;
 
 	private JPanel panelDescrition;
 
@@ -173,7 +172,9 @@ public class ProductUpdateFrame extends JFrame {
 	}
 
 	private void setListener() {
-		faxineira = new ClearFrame(frame);
+		
+		ClearFrame.clear(frame);
+		
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -208,12 +209,12 @@ public class ProductUpdateFrame extends JFrame {
 					Product produto = (Product) cboProduto.getSelectedItem();
 					insertData = new Object[] { txtName.getText(), txtDescricao.getText(), produto.getId() };
 					dataBase.executeUpdate(sql, insertData);
-					faxineira.clear();
+					ClearFrame.clear(frame);
 				} else if (e.getSource().equals(btnApagar)) {
 					String sql = "DELETE FROM Product WHERE id = ?";
 					Product produto = (Product) cboProduto.getSelectedItem();
 					dataBase.executeUpdate(sql, produto.getId());
-					faxineira.clear();
+					ClearFrame.clear(frame);
 					cboProduto.removeItem(produto);
 				}
 			}

@@ -1,23 +1,22 @@
 package userInterface.view;
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.TitledBorder;
 
 import userInterface.controller.MainFrameController;
+import util.Icon;
 
 /**
  * Classe responsável pela janela principal do sistema
@@ -34,7 +33,12 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmTechnicalStandard;
 	private JMenuItem mntmRegisterUser;
 	
+	private JMenu mnBill;
 	private JMenuItem mntmRegisterBill;
+	private JMenuItem mntmPayBill;
+	private JMenuItem mntmListBills;
+	
+	private JMenu mnDebtsToReceive;
 	private JMenuItem mntmRegisterDebtsToReceive;
 	
 	private JMenuItem mntmApprovalOfSuppliers;
@@ -55,6 +59,7 @@ public class MainFrame extends JFrame {
 	private JMenu mnUpdates;
 
 	private JMenuItem mntmProductUpdate;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -80,6 +85,7 @@ public class MainFrame extends JFrame {
 		setTitle("Sistema de Gestão Empresarial - AUTITEC");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		Icon.setIcon(this);
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);
@@ -105,11 +111,23 @@ public class MainFrame extends JFrame {
 		mntmRegisterUser = new JMenuItem("Registrar Usuário");
 		mnRh.add(mntmRegisterUser);
 		
+		mnBill = new JMenu("Contas a Pagar");
+		mnFinancial.add(mnBill);
+		
 		mntmRegisterBill = new JMenuItem("Registrar Conta a Pagar");
-		mnFinancial.add(mntmRegisterBill);
+		mnBill.add(mntmRegisterBill);
+		
+		mntmPayBill = new JMenuItem("Pagamento de Conta");
+		mnBill.add(mntmPayBill);
+		
+		mntmListBills = new JMenuItem("Listar Contas a Pagar");
+		mnBill.add(mntmListBills);
+		
+		mnDebtsToReceive = new JMenu("Contas a Receber");
+		mnFinancial.add(mnDebtsToReceive);
 		
 		mntmRegisterDebtsToReceive = new JMenuItem("Registrar Conta a Receber");
-		mnFinancial.add(mntmRegisterDebtsToReceive);
+		mnDebtsToReceive.add(mntmRegisterDebtsToReceive);
 		
 		
 		
@@ -128,14 +146,29 @@ public class MainFrame extends JFrame {
 		mntmProductUpdate = new JMenuItem("Produtos/Material");
 		mnUpdates.add(mntmProductUpdate);			
 		
-		JScrollPane scrollPane = new JScrollPane();
+		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(150, 150));
 		scrollPane.setBorder(new TitledBorder("Notificações"));
-		getContentPane().add(scrollPane, BorderLayout.WEST);
 	
 		notificationPanel = new JPanel();
 		notificationPanel.setLayout(new BoxLayout(notificationPanel, BoxLayout.Y_AXIS));
-		scrollPane.setViewportView(notificationPanel);					
+
+		scrollPane.setViewportView(notificationPanel);
+		
+		GroupLayout layout = new GroupLayout(getContentPane());
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 184, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(1178, Short.MAX_VALUE))
+		);
+		layout.setVerticalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 684, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
+		getContentPane().setLayout(layout);
 	}
 
 	/**
@@ -153,6 +186,8 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterUser)) controller.registerUser();
 				else if(e.getSource().equals(mntmRegisterBill)) controller.registerBill();
 				else if(e.getSource().equals(mntmRegisterDebtsToReceive)) controller.registerDebts();
+				else if(e.getSource().equals(mntmPayBill)) controller.payBill();
+				else if(e.getSource().equals(mntmListBills)) controller.listBills();
 				
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(controller.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
@@ -168,6 +203,8 @@ public class MainFrame extends JFrame {
 		mntmRegisterUser.addActionListener(menuListeners);
 		mntmRegisterBill.addActionListener(menuListeners);
 		mntmRegisterDebtsToReceive.addActionListener(menuListeners);
+		mntmPayBill.addActionListener(menuListeners);
+		mntmListBills.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

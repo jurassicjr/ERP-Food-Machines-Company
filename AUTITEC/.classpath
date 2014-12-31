@@ -5,5 +5,7 @@
 	<classpathentry kind="lib" path="lib/mysql-connector/mysql-connector.jar"/>
 	<classpathentry kind="lib" path="lib/nachocalendar/nachocalendar-0.23/lib/nachocalendar-0.23.jar"/>
 	<classpathentry kind="lib" path="lib/commons-net/commons-net-3.3.jar"/>
+	<classpathentry kind="lib" path="lib/itext/itextpdf-5.5.4.jar"/>
+	<classpathentry kind="lib" path="lib/xmlworker/xmlworker-5.4.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

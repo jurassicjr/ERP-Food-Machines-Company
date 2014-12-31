@@ -12,6 +12,7 @@ public class Bill {
 	private String creditor;
 	private int installmentsNumber;
 	private String observation;
+	private int id;
 	private ArrayList<Installment> installments;
 	
 	public Bill(String bill, String creditor, Date dueDate, int installmentsNumber, String observation, double value) {
@@ -23,6 +24,13 @@ public class Bill {
 		installments = new ArrayList<Installment>();
 		
 		createInstallments(dueDate, value);
+	}
+	
+	public Bill(String bill, String creditor, String observation, int id) {
+		this.bill = bill;
+		this.creditor = creditor;
+		this.observation = observation;
+		this.id = id;
 	}
 	
 	public void createInstallments(Date dueDate, double value) {
@@ -91,5 +99,13 @@ public class Bill {
 
 	public void setInstallments(ArrayList<Installment> installments) {
 		this.installments = installments;
+	}
+	
+	public int getId() {
+		return id;
+	}
+	
+	public String toString() {
+		return bill;
 	}
 }

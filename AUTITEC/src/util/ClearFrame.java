@@ -7,22 +7,18 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
-import javax.swing.JFrame;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import net.sf.nachocalendar.components.DateField;
 
 public class ClearFrame {
-
-	private JFrame frame;
-
-	public ClearFrame(JFrame frame) {
-	    this.frame = frame;
-    }
 	
-	public void clear() {
-		List<Component> components = this.getAllComponents(frame);
+	@SuppressWarnings("rawtypes")
+	public static void clear(Container c) {
+		
+		List<Component> components = getAllComponents(c);
+		
 		for (Component e : components) {
 	        if(e instanceof JTextField)((JTextField) e).setText(null);
 	        else if(e instanceof JComboBox) ((JComboBox) e).setSelectedIndex(-1);
@@ -30,10 +26,14 @@ public class ClearFrame {
 	        else if(e instanceof DateField) ((DateField) e).setValue(null);
 	        else if(e instanceof JTextArea) ((JTextArea) e).setText(null);
         }
+		
 	}
+	
 	private static List<Component> getAllComponents(final Container c) {
+		
 	    Component[] comps = c.getComponents();
 	    List<Component> compList = new ArrayList<Component>();
+	    
 	    for (Component comp : comps) {
 	        compList.add(comp);
 	        if (comp instanceof Container)
@@ -41,4 +41,5 @@ public class ClearFrame {
 	    }
 	    return compList;
 	}
+	
 }

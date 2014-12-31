@@ -45,7 +45,7 @@ public class RegisterDebtsToReceiveFrameController {
 		int response = ShowMessage.questionMessage(frame, title, message); 
 		
 		if(response == JOptionPane.YES_OPTION) {
-			new ClearFrame(frame).clear();
+			ClearFrame.clear(frame);
 		}
 	}
 

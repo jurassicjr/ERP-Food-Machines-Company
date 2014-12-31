@@ -134,15 +134,19 @@ CREATE TABLE bill (
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	bill VARCHAR(100) NOT NULL,
 	creditor VARCHAR(100) NOT NULL,
-	observation TEXT NOT NULL
+	observation TEXT NOT NULL,
+	payed INT(11) NOT NULL
 );
 
 CREATE TABLE installment (
 
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	date DATE NOT NULL,
+	payment_date DATE,
 	paid INT(11) NOT NULL,
 	bill INT(11) NOT NULL,
+	value REAL NOT NULL,
+	payed_value REAL,
 
 	FOREIGN KEY (bill) REFERENCES bill(id)
 );
@@ -154,5 +158,6 @@ CREATE TABLE debt (
 	debtor VARCHAR(100)  NOT NULL,
 	observation TEXT NOT NULL,
 	date DATE NOT NULL,
-	paid INT(11) NOT NULL
+	paid INT(11) NOT NULL,
+	value REAL NOT NULL
 );

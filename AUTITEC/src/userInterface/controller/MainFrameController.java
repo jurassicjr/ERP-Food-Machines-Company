@@ -18,6 +18,7 @@ import sales.controller.SalesController;
 import userInterface.components.NotificationButton;
 import userInterface.view.MainFrame;
 import database.DataBase;
+import financial.view.ListBillsFrame;
 import financial.view.RegisterBillFrame;
 import financial.view.RegisterDebtsToReceiveFrame;
 
@@ -179,6 +180,39 @@ public class MainFrameController {
 		});	
 		
 	}	
+	
+	public void payBill() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				ListBillsFrame frame = new ListBillsFrame(true);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
+	
+	public void listBills() {
+				
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				ListBillsFrame frame = new ListBillsFrame(false);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
+	
 	
 	public void Sales(int i) {
 		SalesController controller = new SalesController(mainFrame);

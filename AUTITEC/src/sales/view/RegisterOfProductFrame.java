@@ -169,8 +169,7 @@ public class RegisterOfProductFrame extends JFrame {
 					produto.setAmmount(Integer.parseInt(txtQuantidade.getText()));
 					try {
 					controller.doProductRegister(produto);
-					faxineira = new ClearFrame(frame);
-					faxineira.clear();
+					ClearFrame.clear(frame);
 					//message.successMessage(frame, "Gravação", "Gravação concluida com sucesso!");
 					}catch(Exception erro) {
 						erro.printStackTrace();

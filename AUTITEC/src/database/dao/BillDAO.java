@@ -22,8 +22,8 @@ public class BillDAO {
 	
 	private void persist(Bill bill) {
 		
-		String sql = "INSERT INTO bill (bill, creditor, observation) VALUES (?, ?, ?);";
-		Object data[] = new Object[]{bill.getBill(), bill.getCreditor(), bill.getObservation()};
+		String sql = "INSERT INTO bill (bill, creditor, observation, payed) VALUES (?, ?, ?, ?);";
+		Object data[] = new Object[]{bill.getBill(), bill.getCreditor(), bill.getObservation(), 0};
 		
 		int billId = dataBase.getAutoIncrementValue("bill");
 		
