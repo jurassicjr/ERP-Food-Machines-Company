@@ -57,6 +57,8 @@ public class MainFrame extends JFrame {
 	private JMenu mnRegister;
 
 	private JMenu mnUpdates;
+	
+	private JMenuItem mntmSupplierUpdate;
 
 	private JMenuItem mntmProductUpdate;
 	private JScrollPane scrollPane;
@@ -145,6 +147,8 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnUpdates);
 		mntmProductUpdate = new JMenuItem("Produtos/Material");
 		mnUpdates.add(mntmProductUpdate);			
+		mntmSupplierUpdate = new JMenuItem("Atualização/Remoção de Fornecedores");
+		mnUpdates.add(mntmSupplierUpdate);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(150, 150));
@@ -195,6 +199,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(controller.salesOrder);
 				else if (e.getSource().equals(mntmRegisterOfProduct)) controller.Sales(controller.registerOfProduct);
 				else if (e.getSource().equals(mntmProductUpdate)) controller.Sales(controller.updateOfProduct);
+				else if (e.getSource().equals(mntmSupplierUpdate)) controller.Sales(controller.updateOfSupplier);
 			}
 		};
 		
@@ -212,6 +217,7 @@ public class MainFrame extends JFrame {
 		mntmSalesOrder.addActionListener(menuListeners);
 		mntmRegisterOfProduct.addActionListener(menuListeners);
 		mntmProductUpdate.addActionListener(menuListeners);
+		mntmSupplierUpdate.addActionListener(menuListeners);
 	}
 
 }

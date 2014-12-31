@@ -33,6 +33,7 @@ public class MainFrameController {
 	public static final int salesOrder = 3;
 	public static final int registerOfProduct = 4;
 	public static final int updateOfProduct = 5;
+	public static final int updateOfSupplier = 6;
 	private MainFrame mainFrame;
 
 	/**
@@ -228,6 +229,8 @@ public class MainFrameController {
 			controller.registerOfProduct();
 		}else if(i==5) {
 			controller.updateOfProducts();
+		}else if(i==6) {
+			controller.supplierUpdateFrame();
 		}
 	}
 
