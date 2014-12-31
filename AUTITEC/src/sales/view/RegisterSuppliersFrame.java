@@ -573,8 +573,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		supplier.setCep(CEP);
 		java.sql.Date sqlDate = new java.sql.Date(data.getTime());
 		supplier.setExpireCertificateDate(sqlDate);
-		faxineira = new ClearFrame(frame);
-		faxineira.clear();
+		ClearFrame.clear(frame);
 		return supplier;
 	}
 

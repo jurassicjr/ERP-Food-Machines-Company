@@ -112,6 +112,7 @@ public class LoginFrame extends JFrame {
 		setBounds(100, 100, 450, 177);
 		setLocationRelativeTo(null);
 		setTitle("Login");
+		setLocationRelativeTo(getParent());
 		Icon.setIcon(this);
 		
 		contentPane = new JPanel();

@@ -1,9 +1,9 @@
-	package userInterface.components;
+package userInterface.components;
 
+import java.awt.Container;
 import java.io.File;
 
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileFilter;
 
@@ -14,14 +14,14 @@ public class FileChooser extends JFileChooser {
     private String pathFile;
     private File lastDir;
     private boolean selectedFile;
-    private JFrame frame;
+    private Container frame;
      
     public FileChooser() {
         setMultiSelectionEnabled(false);
         lastDir = null;
     }
     
-    public FileChooser(JFrame frame) {
+    public FileChooser(Container frame) {
         setMultiSelectionEnabled(false);
         lastDir = null;
         this.frame = frame;
