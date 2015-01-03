@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class DebtToReceive {
 	
+	private int id;
 	private String debt; 
 	private String debtor; 
 	private String observation;
@@ -12,6 +13,16 @@ public class DebtToReceive {
 	private double value;
 	
 	public DebtToReceive(String debt, String debtor, String observation, Date date, boolean paid, double value) {
+		this.debt = debt;
+		this.debtor = debtor;
+		this.observation = observation;
+		this.date = date;
+		this.paid = paid;
+		this.value = value;
+	}
+	
+	public DebtToReceive(int id, String debt, String debtor, String observation, Date date, boolean paid, double value) {
+		this.id = id;
 		this.debt = debt;
 		this.debtor = debtor;
 		this.observation = observation;
@@ -69,7 +80,15 @@ public class DebtToReceive {
 	}
 	
 	public String toString() {
-		return debt + "  " + value;
+		return debt;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 }

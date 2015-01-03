@@ -37,9 +37,13 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmRegisterBill;
 	private JMenuItem mntmPayBill;
 	private JMenuItem mntmListBills;
-	
+		
 	private JMenu mnDebtsToReceive;
 	private JMenuItem mntmRegisterDebtsToReceive;
+	private JMenuItem mntmReceiveDebt;
+	private JMenuItem mntmListDebts;
+	
+	private JMenuItem mntmGenerateReport;
 	
 	private JMenuItem mntmApprovalOfSuppliers;
 	private JMenuItem mntmSalesRequisition;
@@ -81,9 +85,9 @@ public class MainFrame extends JFrame {
 	 */	
 	private void initialize() {
 		
-		this.setExtendedState(MAXIMIZED_BOTH);
 		setBounds(100, 100, 850, 500);
 		setMinimumSize(new Dimension(850, 500));
+		setExtendedState(MAXIMIZED_BOTH);
 		setTitle("Sistema de Gestão Empresarial - AUTITEC");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -130,6 +134,15 @@ public class MainFrame extends JFrame {
 		
 		mntmRegisterDebtsToReceive = new JMenuItem("Registrar Conta a Receber");
 		mnDebtsToReceive.add(mntmRegisterDebtsToReceive);
+		
+		mntmReceiveDebt = new JMenuItem("Recebimento de Conta");
+		mnDebtsToReceive.add(mntmReceiveDebt);
+		
+		mntmListDebts = new JMenuItem("Listar Contas a Receber");
+		mnDebtsToReceive.add(mntmListDebts);
+		
+		mntmGenerateReport = new JMenuItem("Relatório Financeiro");
+		mnFinancial.add(mntmGenerateReport);
 		
 		
 		
@@ -192,6 +205,9 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterDebtsToReceive)) controller.registerDebts();
 				else if(e.getSource().equals(mntmPayBill)) controller.payBill();
 				else if(e.getSource().equals(mntmListBills)) controller.listBills();
+				else if(e.getSource().equals(mntmGenerateReport)) controller.generateReport();
+				else if(e.getSource().equals(mntmReceiveDebt)) controller.receiveDebt();
+				else if(e.getSource().equals(mntmListDebts)) controller.listDebts();
 				
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(controller.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
@@ -210,6 +226,9 @@ public class MainFrame extends JFrame {
 		mntmRegisterDebtsToReceive.addActionListener(menuListeners);
 		mntmPayBill.addActionListener(menuListeners);
 		mntmListBills.addActionListener(menuListeners);
+		mntmGenerateReport.addActionListener(menuListeners);
+		mntmReceiveDebt.addActionListener(menuListeners);
+		mntmListDebts.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

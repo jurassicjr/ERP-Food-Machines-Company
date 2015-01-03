@@ -18,7 +18,9 @@ import sales.controller.SalesController;
 import userInterface.components.NotificationButton;
 import userInterface.view.MainFrame;
 import database.DataBase;
+import financial.view.GenerateReportFrame;
 import financial.view.ListBillsFrame;
+import financial.view.ListDebtsFrame;
 import financial.view.RegisterBillFrame;
 import financial.view.RegisterDebtsToReceiveFrame;
 
@@ -214,7 +216,53 @@ public class MainFrameController {
 		
 	}
 	
+	public void generateReport() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				GenerateReportFrame frame = new GenerateReportFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
 	
+	public void receiveDebt() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				ListDebtsFrame frame = new ListDebtsFrame(true);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+	}
+	
+	public void listDebts() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				ListDebtsFrame frame = new ListDebtsFrame(false);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
+		
 	public void Sales(int i) {
 		SalesController controller = new SalesController(mainFrame);
 		if(i == 0) {

@@ -23,40 +23,37 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumnModel;
 
-import model.Bill;
-import util.Icon;
-import financial.controller.ListBillsFrameController;
+import model.DebtToReceive;
+import financial.controller.ListDebtsFrameController;
 
-public class ListBillsFrame extends JFrame {
+public class ListDebtsFrame extends JFrame {
+	
+	private static final long serialVersionUID = -1182431075673638709L;
 
-	private static final long serialVersionUID = -2945947774382521011L;
+	private JTable table;
 	
-	private JTable billsTable;
+	private boolean hasDebts;
+	private boolean allowsReceipt;
 	
-	private boolean hasBills;	
-	private boolean allowsPay;
+	private ListDebtsFrameController controller;
 	
-	private ListBillsFrameController controller;
-	
-	public ListBillsFrame(boolean allowsPay) {
+	public ListDebtsFrame(boolean allowsReceipt) {
 		
-		controller = new ListBillsFrameController(this);
-		this.allowsPay = allowsPay;
+		controller = new ListDebtsFrameController(this);
+		this.allowsReceipt = allowsReceipt;
 		
 		initialize();
 		setListeners();
 		
-		hasBills = controller.setBills(billsTable);	
-				
+		hasDebts = controller.setDebts(table);
 	}
 	
 	private void initialize() {
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 850, 350);
-		setMinimumSize(new Dimension(850, 350));
-		setTitle("Pagamento de Conta");
-		Icon.setIcon(this);
+		setBounds(100, 100, 800, 300);
+		setMinimumSize(new Dimension(800, 300));
+		setTitle("Recebimento de Contas");
 		
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -66,43 +63,40 @@ public class ListBillsFrame extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
-		String tableHeader[];
+		table = new JTable();
 		
-		if(allowsPay) tableHeader = new String[] {"Conta a Pagar", "Credor", "Valor", "Parcelas", "Pagar"};
-		else tableHeader = new String[] {"Conta a Pagar", "Credor", "Valor", "Parcelas"};
+		String header[];
+		if(allowsReceipt) header = new String[] {"Conta a Receber", "Devedor", "Valor", "Receber"};
+		else header = new String[] {"Conta a Receber", "Devedor", "Valor"};
 		
-		billsTable = new JTable();
-		billsTable.setModel(new DefaultTableModel(new Object[][] {}, tableHeader)
+		table.setModel(new DefaultTableModel(null, header)
 		{
 			
-			private static final long serialVersionUID = -2428534803601038088L;
+			private static final long serialVersionUID = -5279891303993431911L;
 			
 			boolean[] columnEditables = new boolean[] {
-					false, false, false, false, true
+				false, false, false, true
 			};
 			
-			@Override
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 			
 		});
 		
-		billsTable.getColumnModel().getColumn(0).setPreferredWidth(150);
-		billsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
-		billsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
-		billsTable.getColumnModel().getColumn(3).setPreferredWidth(30);
-		if(allowsPay) billsTable.getColumnModel().getColumn(4).setPreferredWidth(30);
+		scrollPane.setViewportView(table);
 		
-		billsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		billsTable.getTableHeader().setReorderingAllowed(false);
-		billsTable.getTableHeader().setResizingAllowed(false);
-		billsTable.setRowHeight(25);
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.getTableHeader().setReorderingAllowed(false);
+		table.getTableHeader().setResizingAllowed(false);
+		table.setRowHeight(25);
 		
-		scrollPane.setViewportView(billsTable);
-				
-		if(allowsPay) new ButtonColumnTechnicalStandard(billsTable, 4, new ImageIcon(getClass().getResource("/resources/payment.png")));
-				
+		table.getColumnModel().getColumn(0).setPreferredWidth(200);
+		table.getColumnModel().getColumn(1).setPreferredWidth(200);
+		table.getColumnModel().getColumn(2).setPreferredWidth(50);
+		if(allowsReceipt) table.getColumnModel().getColumn(3).setPreferredWidth(50);
+		
+		if(allowsReceipt) new ButtonColumnTechnicalStandard(table, 3, new ImageIcon(getClass().getResource("/resources/payment.png")));
 	}
 	
 	private void setListeners() {
@@ -111,12 +105,13 @@ public class ListBillsFrame extends JFrame {
 			
 			@Override
 			public void windowActivated(WindowEvent e) {
-				if(!hasBills) dispose();
+				if(!hasDebts) dispose();
 			}
 			
 		});		
-				
-	}	
+		
+		
+	}
 	
 	class ButtonColumnTechnicalStandard extends AbstractCellEditor implements TableCellRenderer, TableCellEditor, ActionListener {
 
@@ -205,15 +200,16 @@ public class ListBillsFrame extends JFrame {
 			fireEditingStopped();
 			
 			int row = table.getSelectedRow();
-			Bill bill = (Bill) table.getValueAt(row, 0);
+			DebtToReceive debtToReceive = (DebtToReceive) table.getValueAt(row, 0);
 			
 			String s = (String) table.getValueAt(row, 2);
-			double value = Double.parseDouble(s.substring(3).replaceAll(",", "."));
-								
-			controller.payBill(bill, value);
+			s = s.substring(3).replaceAll("\\.", "").replaceAll(",", ".");
+			double value = Double.parseDouble(s);
+			
+			controller.receiveDebt(debtToReceive, value);
 			
 		}
 				
 	}
-	
+
 }

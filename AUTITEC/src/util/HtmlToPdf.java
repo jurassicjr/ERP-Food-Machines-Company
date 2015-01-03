@@ -12,7 +12,7 @@ import com.itextpdf.tool.xml.XMLWorkerHelper;
 
 public class HtmlToPdf {
 	
-	public static boolean htmlToPdf(File input, File output) {
+	public static boolean convert(File input, File output) {
 		
         Document document = new Document();
         

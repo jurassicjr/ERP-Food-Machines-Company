@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.NumberFormat;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -23,36 +24,36 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
-import model.Bill;
+import model.DebtToReceive;
 import userInterface.components.RealNumberField;
 import util.Icon;
-import financial.controller.PayBillFrameController;
+import financial.controller.ReceiveDebtFrameController;
 
-public class PayBillFrame extends JDialog {
+public class ReceiveDebtFrame extends JDialog {
 
 	private static final long serialVersionUID = -5976359939392792276L;
 	
 	private JTextField txBill;
-	private JTextField txCreditor;
+	private JTextField txDebtor;
 	private JTextField txValue;
-	private RealNumberField txPayedValue;
+	private RealNumberField txReceivedValue;
 	private JTextArea txObservation;
 		
-	private Bill bill;
+	private DebtToReceive debtToReceive;
 	private double value;
 	
-	private JButton btnPay;
+	private JButton btnReceive;
 	private JButton btnCancel;
 	
-	private PayBillFrameController controller;
-
-	public PayBillFrame(Bill bill, double value) {
+	private ReceiveDebtFrameController controller;
+	
+	public ReceiveDebtFrame(DebtToReceive debtToReceive, double value) {
 		
-		this.bill = bill;
+		this.debtToReceive = debtToReceive;
 		this.value = value;
 		
-		controller = new PayBillFrameController(this);
-		
+		controller = new ReceiveDebtFrameController(this);
+				
 		initialize();
 		setListeners();
 				
@@ -79,23 +80,23 @@ public class PayBillFrame extends JDialog {
 		JLabel lblBill = new JLabel("Conta");
 		txBill = new JTextField();
 		txBill.setEditable(false);
-		txBill.setText(bill.getBill());
+		txBill.setText(debtToReceive.getDebt());
 		
-		JLabel lblCreditor = new JLabel("Credor");
-		txCreditor = new JTextField();
-		txCreditor.setEditable(false);
-		txCreditor.setText(bill.getCreditor());
+		JLabel lblDebtor = new JLabel("Credor");
+		txDebtor = new JTextField();
+		txDebtor.setEditable(false);
+		txDebtor.setText(debtToReceive.getDebtor());
 		
 		JLabel lblValue = new JLabel("Valor");
 		txValue = new JTextField();
 		txValue.setEditable(false);
-		txValue.setText("R$ " + value);
+		txValue.setText(NumberFormat.getCurrencyInstance().format(value));		
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBorder(new TitledBorder("Observações"));
 		
-		JLabel lblPayedValue = new JLabel("Valor Pago");
-		txPayedValue = new RealNumberField();
+		JLabel lblPayedValue = new JLabel("Valor Recebido");
+		txReceivedValue = new RealNumberField();
 		
 		GroupLayout panelLayout = new GroupLayout(panel);
 		panelLayout.setHorizontalGroup(
@@ -108,9 +109,9 @@ public class PayBillFrame extends JDialog {
 							.addGap(18)
 							.addComponent(txBill, GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE))
 						.addGroup(panelLayout.createSequentialGroup()
-							.addComponent(lblCreditor)
+							.addComponent(lblDebtor)
 							.addGap(18)
-							.addComponent(txCreditor, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
+							.addComponent(txDebtor, GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblValue)
 							.addGap(18)
@@ -118,7 +119,7 @@ public class PayBillFrame extends JDialog {
 						.addGroup(panelLayout.createSequentialGroup()
 							.addComponent(lblPayedValue)
 							.addGap(18)
-							.addComponent(txPayedValue, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
+							.addComponent(txReceivedValue, GroupLayout.PREFERRED_SIZE, 130, GroupLayout.PREFERRED_SIZE))
 						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
 					.addContainerGap())
 		);
@@ -131,14 +132,14 @@ public class PayBillFrame extends JDialog {
 						.addComponent(txBill, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(panelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblCreditor)
-						.addComponent(txCreditor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblDebtor)
+						.addComponent(txDebtor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblValue)
 						.addComponent(txValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(panelLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPayedValue)
-						.addComponent(txPayedValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txReceivedValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 183, GroupLayout.PREFERRED_SIZE)
 					.addContainerGap(19, Short.MAX_VALUE))
@@ -149,7 +150,7 @@ public class PayBillFrame extends JDialog {
 		txObservation = new JTextArea();
 		txObservation.setEditable(false);
 		txObservation.setBackground(panel.getBackground());
-		txObservation.setText(bill.getObservation());
+		txObservation.setText(debtToReceive.getObservation());
 		
 		scrollPane.setViewportView(txObservation);
 		
@@ -162,9 +163,9 @@ public class PayBillFrame extends JDialog {
 		btnCancel.setIcon(new ImageIcon(PayBillFrame.class.getResource("/resources/cancel.png")));
 		btnPanel.add(btnCancel);
 		
-		btnPay = new JButton("Pagar");
-		btnPay.setIcon(new ImageIcon(PayBillFrame.class.getResource("/resources/ok.png")));
-		btnPanel.add(btnPay);
+		btnReceive = new JButton("Receber");
+		btnReceive.setIcon(new ImageIcon(PayBillFrame.class.getResource("/resources/ok.png")));
+		btnPanel.add(btnReceive);
 		
 	}
 	
@@ -176,13 +177,13 @@ public class PayBillFrame extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource().equals(btnCancel)) controller.cancel();
-				else if(e.getSource().equals(btnPay)) pay();
+				else if(e.getSource().equals(btnReceive)) receive();
 				
 			}
 		};
 		
 		btnCancel.addActionListener(btnListern);
-		btnPay.addActionListener(btnListern);
+		btnReceive.addActionListener(btnListern);
 		
 		addWindowListener(new WindowAdapter() {
 			
@@ -195,12 +196,12 @@ public class PayBillFrame extends JDialog {
 		
 	}
 	
-	private void pay() {
+	private void receive() {
 		
-		double payedValue = txPayedValue.getValue();
-		
+		double receivedValue = txReceivedValue.getValue();
+						
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		controller.pay(bill, payedValue, value);
+		controller.receive(debtToReceive, value, receivedValue);
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 }

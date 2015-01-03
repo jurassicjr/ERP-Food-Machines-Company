@@ -59,6 +59,8 @@ public class RegisterDebtsToReceiveFrameController {
 		
 		ShowMessage.successMessage(null, "Conta Registrada", "A Conta a Receber foi Registrada com sucesso");
 		
+		frame.dispose();
+		
 	}
 	
 	public boolean validateData(String debt, String debtor, Date dueDate, String observation, double value) {

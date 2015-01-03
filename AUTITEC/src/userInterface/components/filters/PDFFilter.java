@@ -5,19 +5,11 @@ import java.util.ArrayList;
 
 import javax.swing.filechooser.FileFilter;
 
-/**
- * Implementa um filtro para a seleção de documentos em JFileChooser
- * 
- * @see javax.swing.JFileChooser
- */
-public class DocumentFilter extends FileFilter {
+public class PDFFilter extends FileFilter {
 	
 	private ArrayList<String> extensions;
 	
-	/**
-	 * Cria o objeto de filtros para imagem
-	 */
-	public DocumentFilter() {
+	public PDFFilter() {
 		super();
 		extensions = new ArrayList<String>();
 		setExtensions();
@@ -36,17 +28,10 @@ public class DocumentFilter extends FileFilter {
 
 	@Override
 	public String getDescription() {
-		return "Documentos [docx, docx, docx, odf, pdf]";
+		return "Documentos PDF";
 	}
 	
-	/**
-	 * Define as extenções permitidas para a seleção do arquivo
-	 */
 	private void setExtensions() {
-		extensions.add("docx");
-		extensions.add("docx");
-		extensions.add("docx");
-		extensions.add("odf");
 		extensions.add("pdf");
 	}
 
