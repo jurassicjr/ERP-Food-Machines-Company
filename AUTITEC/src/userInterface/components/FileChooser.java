@@ -36,7 +36,7 @@ public class FileChooser extends JFileChooser {
         int result = showSaveDialog(frame);
          
         if(result == JFileChooser.APPROVE_OPTION){
-             
+        	             
             selectedFile = true;
             lastDir = getSelectedFile().getAbsoluteFile();
             pathFile = getSelectedFile().getAbsolutePath();

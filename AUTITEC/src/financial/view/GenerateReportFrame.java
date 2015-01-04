@@ -1,6 +1,7 @@
 package financial.view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -49,10 +50,7 @@ public class GenerateReportFrame extends JFrame {
 	private FileChooser fileChooser;
 	
 	private GenerateReportFrameController controller;
-	
-	/**
-	 * Create the frame.
-	 */
+
 	public GenerateReportFrame() {
 		
 		controller = new GenerateReportFrameController(this);
@@ -62,11 +60,13 @@ public class GenerateReportFrame extends JFrame {
 		setListeners();
 		
 		txReportFile.setText("C:\\Users\\Pedro\\Desktop\\Grade Curricular.pdf");
-		cbBills.setSelectedIndex(1);
+		cbBills.setSelectedIndex(2);
 				
 		txStartDate.setValue(new GregorianCalendar(2014, 11, 31).getTime());
 		txEndDate.setValue(new GregorianCalendar(2015, 01, 01).getTime());
-		
+		//ckIncludeOpenBills.setSelected(true);
+		ckOpenFile.setSelected(true);
+		generateReport();
 	}
 	
 	private void initialize() {
@@ -213,7 +213,9 @@ public class GenerateReportFrame extends JFrame {
 		Date startDate = (Date) txStartDate.getValue();
 		Date endDate = (Date) txEndDate.getValue();
 				
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		controller.generateReport(reportFilePath, bills, includeOpenBills, openFile, startDate, endDate);
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		
 	}
 
