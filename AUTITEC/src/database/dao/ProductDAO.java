@@ -2,6 +2,7 @@ package database.dao;
 
 import java.util.Map;
 
+import util.ShowMessage;
 import database.DataBase;
 
 public class ProductDAO {
@@ -21,5 +22,6 @@ public class ProductDAO {
 		insertData = new Object[] {descricao, quantidade, nome};
 		String sql = "INSERT INTO Product(descricao, quantidade, name) VALUES (?, ?, ?)";
 		database.executeUpdate(sql, insertData);
+		ShowMessage.successMessage(null, "GRAVAÇÂO", "Gravação concluida com sucesso!");
 	}
 }

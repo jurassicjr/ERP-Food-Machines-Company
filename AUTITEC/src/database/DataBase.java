@@ -23,7 +23,6 @@ public class DataBase {
 	private String user;
 	private String password;
 	private String database;
-	
 	private Connection connection;
 	
 	/**
@@ -197,6 +196,7 @@ public class DataBase {
 			}
 			
 			statement.executeUpdate();
+			
 	
 		} catch (SQLException e) {
 			showDataBaseErrorMessage();

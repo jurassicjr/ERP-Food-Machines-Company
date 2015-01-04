@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
@@ -26,41 +27,42 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import model.Product;
-import sales.controller.SalesController;
+import sales.controller.ProductUpdateController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.Icon;
+import util.ShowMessage;
 import database.DataBase;
 
 public class ProductUpdateFrame extends JFrame {
-	
+
 	/**
 	 * 
 	 */
-    private static final long serialVersionUID = 2859084917577254070L;
+	private static final long serialVersionUID = 2859084917577254070L;
 
 	private JFrame frame = this;
-	
+
+	private ShowMessage showMessage;
 	Icon icon;
-	
+
 	private UpperTextField txtName;
-	
+
 	private JLabel lblProdutomaterial;
 	private JLabel lblNome;
-	
+
 	private JComboBox<Product> cboProduto;
 
-	private SalesController controller;
-	
+	private ProductUpdateController controller;
+
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
 	private JButton btnApagar;
-	
+
 	private DataBase dataBase;
-	
+
 	private JTextArea txtDescricao;
-	
 
 	private JPanel panelDescrition;
 
@@ -69,7 +71,7 @@ public class ProductUpdateFrame extends JFrame {
 	public ProductUpdateFrame() {
 		dataBase = new DataBase();
 		dataBase.connect();
-		controller = new SalesController();
+		controller = new ProductUpdateController();
 		initialize();
 		setListener();
 	}
@@ -82,7 +84,7 @@ public class ProductUpdateFrame extends JFrame {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		// Adiciona o titulo
 		this.setTitle("Atualização de Produtos/Materiais");
-		//Logo
+		// Logo
 		icon = new Icon();
 		icon.setIcon(frame);
 		// Determina o Layout
@@ -90,8 +92,7 @@ public class ProductUpdateFrame extends JFrame {
 		// Criar o panel e adiciona ao frame
 		JPanel principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
-	
-		
+
 		lblProdutomaterial = new JLabel("Produto/Material");
 
 		cboProduto = new JComboBox<Product>();
@@ -103,51 +104,63 @@ public class ProductUpdateFrame extends JFrame {
 
 		txtName = new UpperTextField();
 		txtName.setColumns(10);
-		
+
 		panelDescricao = new JPanel();
-		panelDescricao.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Descri\u00E7\u00E3o", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		
+		panelDescricao.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Descri\u00E7\u00E3o",
+		        TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+
 		// Determina o layout do panel
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel.setHorizontalGroup(
-			gl_principalPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_principalPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(panelDescricao, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblProdutomaterial)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblNome)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)))
-					.addContainerGap())
-		);
-		gl_principalPanel.setVerticalGroup(
-			gl_principalPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_principalPanel.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblProdutomaterial)
-						.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNome)
-						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(panelDescricao, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-					.addGap(22))
-		);
+		gl_principalPanel.setHorizontalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
+		        gl_principalPanel
+		                .createSequentialGroup()
+		                .addContainerGap()
+		                .addGroup(
+		                        gl_principalPanel
+		                                .createParallelGroup(Alignment.LEADING)
+		                                .addComponent(panelDescricao, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE,
+		                                        414, Short.MAX_VALUE)
+		                                .addGroup(
+		                                        gl_principalPanel
+		                                                .createSequentialGroup()
+		                                                .addComponent(lblProdutomaterial)
+		                                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                                .addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 173,
+		                                                        GroupLayout.PREFERRED_SIZE))
+		                                .addGroup(
+		                                        gl_principalPanel
+		                                                .createSequentialGroup()
+		                                                .addComponent(lblNome)
+		                                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                                .addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383,
+		                                                        Short.MAX_VALUE))).addContainerGap()));
+		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
+		        gl_principalPanel
+		                .createSequentialGroup()
+		                .addContainerGap()
+		                .addGroup(
+		                        gl_principalPanel
+		                                .createParallelGroup(Alignment.BASELINE)
+		                                .addComponent(lblProdutomaterial)
+		                                .addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                        GroupLayout.PREFERRED_SIZE))
+		                .addPreferredGap(ComponentPlacement.UNRELATED)
+		                .addGroup(
+		                        gl_principalPanel
+		                                .createParallelGroup(Alignment.BASELINE)
+		                                .addComponent(lblNome)
+		                                .addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                        GroupLayout.PREFERRED_SIZE)).addGap(18)
+		                .addComponent(panelDescricao, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+		                .addGap(22)));
 		panelDescricao.setLayout(new BorderLayout(0, 0));
-		
-				JScrollPane scrollPane = new JScrollPane();
-				scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-				panelDescricao.add(scrollPane, BorderLayout.CENTER);
-				
-						txtDescricao = new JTextArea();
-						scrollPane.setViewportView(txtDescricao);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		panelDescricao.add(scrollPane, BorderLayout.CENTER);
+
+		txtDescricao = new JTextArea();
+		scrollPane.setViewportView(txtDescricao);
 		principalPanel.setLayout(gl_principalPanel);
 
 		initializeSub();
@@ -172,9 +185,9 @@ public class ProductUpdateFrame extends JFrame {
 	}
 
 	private void setListener() {
-		
+
 		ClearFrame.clear(frame);
-		
+
 		addWindowListener(new WindowAdapter() {
 
 			@Override
@@ -205,17 +218,33 @@ public class ProductUpdateFrame extends JFrame {
 				if (e.getSource().equals(btnCancelar)) {
 					controller.closeFrame(frame);
 				} else if (e.getSource().equals(btnConfirmar)) {
-					String sql = "UPDATE Product SET name = ?, descricao = ? WHERE id = ?";
-					Product produto = (Product) cboProduto.getSelectedItem();
-					insertData = new Object[] { txtName.getText(), txtDescricao.getText(), produto.getId() };
-					dataBase.executeUpdate(sql, insertData);
-					ClearFrame.clear(frame);
+					int i = ShowMessage.questionMessage(frame, "Atualização", "Deseja realmente atualizar o produto \""
+					        + txtName.getText() + "\"");
+					if (i == JOptionPane.YES_OPTION) {
+						String sql = "UPDATE Product SET name = ?, descricao = ? WHERE id = ?";
+						Product produto = (Product) cboProduto.getSelectedItem();
+						insertData = new Object[] { txtName.getText(), txtDescricao.getText(), produto.getId() };
+						dataBase.executeUpdate(sql, insertData);
+						String title = "Atualização/Remoção";
+						String message = "Ação concluida com sucesso!";
+						showMessage = new ShowMessage();
+						ShowMessage.successMessage(frame, title, message);
+						ClearFrame.clear(frame);
+					} else {
+						txtName.requestFocus();
+					}
 				} else if (e.getSource().equals(btnApagar)) {
-					String sql = "DELETE FROM Product WHERE id = ?";
-					Product produto = (Product) cboProduto.getSelectedItem();
-					dataBase.executeUpdate(sql, produto.getId());
-					ClearFrame.clear(frame);
-					cboProduto.removeItem(produto);
+					int i = ShowMessage.questionMessage(frame, "APAGAR", "Deseja realmente apagar o produto \""
+					        + txtName.getText() + " \"");
+					if (i == JOptionPane.YES_OPTION) {
+						String sql = "DELETE FROM Product WHERE id = ?";
+						Product produto = (Product) cboProduto.getSelectedItem();
+						dataBase.executeUpdate(sql, produto.getId());
+						ClearFrame.clear(frame);
+						cboProduto.removeItem(produto);
+					} else {
+						txtName.requestFocus();
+					}
 				}
 			}
 

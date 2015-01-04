@@ -17,6 +17,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -32,11 +33,12 @@ import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
-import sales.controller.SalesController;
+import sales.controller.SupplierUpdateController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.Icon;
+import util.ShowMessage;
 
 public class SupplierUpdateFrame extends JFrame {
 
@@ -46,10 +48,12 @@ public class SupplierUpdateFrame extends JFrame {
 	private static final long serialVersionUID = -7777642677659733607L;
 
 	private JFrame frame;
+
+	private ShowMessage message;
 	private ClearFrame faxineira;
 	private Icon icon;
 
-	SalesController controller;
+	SupplierUpdateController controller;
 
 	private JPanel principalPanel;
 	private JPanel secundaryPane;
@@ -107,21 +111,34 @@ public class SupplierUpdateFrame extends JFrame {
 
 	private JTextArea txtJustification;
 
+	/**
+	 * Construtor inicialize a GUI o showMessage e o controller.
+	 */
+
 	public SupplierUpdateFrame() {
-		controller = new SalesController();
+		message = new ShowMessage();
+		controller = new SupplierUpdateController();
 		this.frame = this;
 		initialize();
 		setListeners();
 	}
+
+	/**
+	 * Função que define algumas propriedades do JFrame e controi a GUI.
+	 */
 
 	private void initialize() {
 		setTitle("Atualização/Remoção de fornecedores");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		icon = new Icon();
-		icon.setIcon(frame);
+		Icon.setIcon(frame);
 		initializePrincipal();
 	}
+
+	/**
+	 * Cria o JPanel Principal.
+	 */
 
 	private void initializePrincipal() {
 		principalPanel = new JPanel();
@@ -430,6 +447,10 @@ public class SupplierUpdateFrame extends JFrame {
 		initializeSecondPane();
 	}
 
+	/**
+	 * Inicializa o JPanel secundário.
+	 */
+
 	private void initializeSecondPane() {
 		secundaryPane = new JPanel();
 		tabbedPane.add("Informações de Certificados", secundaryPane);
@@ -437,10 +458,10 @@ public class SupplierUpdateFrame extends JFrame {
 		lblFiscalClassification = new JLabel("Classificação Fiscal");
 
 		cboFiscalClassification = new JComboBox<String>();
-		cboFiscalClassification.addItem("Lucro presumido");
+		cboFiscalClassification.addItem("Lucro Presumido");
 		cboFiscalClassification.addItem("Lucro Real");
 		cboFiscalClassification.addItem("Simples Social");
-
+		cboFiscalClassification.setSelectedIndex(-1);
 		lblCertificate = new JLabel("Certificado");
 
 		cboCertificate = new JComboBox<String>();
@@ -559,6 +580,10 @@ public class SupplierUpdateFrame extends JFrame {
 		initializeSub();
 	}
 
+	/**
+	 * Inicialize o JPanel inferior com os botões de "ação".
+	 */
+
 	private void initializeSub() {
 		subPanel = new JPanel();
 		getContentPane().add(subPanel, BorderLayout.SOUTH);
@@ -578,6 +603,10 @@ public class SupplierUpdateFrame extends JFrame {
 
 	}
 
+	/**
+	 * Configura os Listeners da "janela", botões e combobox.
+	 */
+
 	private void setListeners() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -592,9 +621,30 @@ public class SupplierUpdateFrame extends JFrame {
 				if (e.getSource().equals(btnCancelar))
 					controller.closeFrame(frame);
 				else if (e.getSource().equals(btnConfirmar)) {
-					controller.updateSupplier(newSupplier());
-					faxineira = new ClearFrame();
-					faxineira.clear(frame);
+
+					int i = ShowMessage.questionMessage(frame, "Atualização",
+					        "Deseja realmente atualizar as informações desse fornecedor ?");
+
+					if (i == JOptionPane.YES_OPTION) {
+						controller.updateSupplier(newSupplier());
+						faxineira = new ClearFrame();
+						controller.fillSuppliers(cboSupplier);
+						ClearFrame.clear(frame);
+					} else {
+						ClearFrame.clear(frame);
+					}
+				} else if (e.getSource().equals(btnApagar)) {
+					String title = "Exclusão";
+					String message = "Deseja realmente excluir o fornecedor \"" + txtCompanyName.getText() + "\"";
+					int i = ShowMessage.questionMessage(frame, title, message);
+					if (i == JOptionPane.YES_OPTION) {
+						controller.deleteSupplier((Supplier) cboSupplier.getSelectedItem());
+						controller.fillSuppliers(cboSupplier);
+						faxineira = new ClearFrame();
+						ClearFrame.clear(frame);
+					} else {
+						txtCompanyName.requestFocus();
+					}
 				}
 
 			}
@@ -606,13 +656,19 @@ public class SupplierUpdateFrame extends JFrame {
 				if (e.getSource().equals(cboSupplier)) {
 					fillField();
 				}
-
 			}
 		};
+
+		btnApagar.addActionListener(buttonListener);
 		btnConfirmar.addActionListener(buttonListener);
 		btnCancelar.addActionListener(buttonListener);
 		cboSupplier.addActionListener(cboListener);
 	}
+
+	/**
+	 * Preenche os campos da aplicação, após selecionado os fornecedor a partir
+	 * do JComboBox<Supplier>.
+	 */
 
 	private void fillField() {
 		if (cboSupplier.getSelectedIndex() != -1) {
@@ -637,13 +693,31 @@ public class SupplierUpdateFrame extends JFrame {
 			cboCity.setSelectedIndex(cityId);
 			txtPhone.setText(supplier.getPhone());
 			txtJustification.setText(supplier.getJustificative());
-			if(supplier.isMaterialCertication()) {
+			if (supplier.isMaterialCertication()) {
 				rdbtnSim.setSelected(true);
-			}else {
+			} else {
 				rdbtnNo.setSelected(true);
+			}
+			if (supplier.isCertificated()) {
+				cboCertificate.setSelectedIndex(0);
+			}
+			String fiscalClassification = supplier.getFiscalClassification();
+			if(fiscalClassification.equals("Lucro Presumido")) {
+				cboFiscalClassification.setSelectedIndex(0);
+			}else if(fiscalClassification.equals("Lucro Real")) {
+				cboFiscalClassification.setSelectedItem(1);
+			}else if(fiscalClassification.equals("Simples Social")) {
+				cboFiscalClassification.setSelectedItem(2);
+			}else {
+				cboFiscalClassification.setSelectedItem(-1);
 			}
 		}
 	}
+
+	/**
+	 * Cria um novo fornecedor com as informações contidas nos campos da
+	 * aplicação.
+	 */
 
 	private Supplier newSupplier() {
 		String razaoSocial = txtCompanyName.getText();
@@ -655,7 +729,8 @@ public class SupplierUpdateFrame extends JFrame {
 		City city = (City) cboCity.getSelectedItem();
 		String stateInscrition = txtStateInscrition.getText().replaceAll("\\.", "").replaceAll(" ", "");
 		String street = txtStreet.getText();
-		String phone = txtPhone.getText().replaceAll("\\(", "").replaceAll(" ", "").replaceAll("\\)", "").replaceAll("-", "");
+		String phone = txtPhone.getText().replaceAll("\\(", "").replaceAll(" ", "").replaceAll("\\)", "")
+		        .replaceAll("-", "");
 		String justificative = txtJustification.getText();
 		Boolean materialCertication;
 		if (rdbtnSim.isSelected()) {
