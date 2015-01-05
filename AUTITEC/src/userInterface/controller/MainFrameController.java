@@ -36,6 +36,7 @@ public class MainFrameController {
 	public static final int registerOfProduct = 4;
 	public static final int updateOfProduct = 5;
 	public static final int updateOfSupplier = 6;
+	public static final int supplierReport = 7;
 	private MainFrame mainFrame;
 
 	/**
@@ -279,6 +280,8 @@ public class MainFrameController {
 			controller.updateOfProducts();
 		}else if(i==6) {
 			controller.supplierUpdateFrame();
+		}else if(i==7) {
+			controller.supplierReportFrame();
 		}
 	}
 

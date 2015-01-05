@@ -23,6 +23,7 @@ import sales.view.RegisterOfProductFrame;
 import sales.view.RegisterSuppliersFrame;
 import sales.view.SalesOrderFrame;
 import sales.view.SalesRequisitionFrame;
+import sales.view.SupplierReportFrame;
 import sales.view.SupplierUpdateFrame;
 import userInterface.view.MainFrame;
 import util.ShowMessage;
@@ -34,7 +35,7 @@ public class SalesController {
 
 	private MainFrame mainFrame;
 	private DataBase dataBase;
-	private SuppliersDAO sDAo;
+	private SuppliersDAO sDao;
 	private ProductDAO produtoDAO;
 
 	/**
@@ -158,6 +159,20 @@ public class SalesController {
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	}
+	
+	public void supplierReportFrame() {
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				SupplierReportFrame frame = new SupplierReportFrame();
+				frame.pack();
+				frame.setLocationRelativeTo(mainFrame);
+				frame.setVisible(true);
+				
 			}
 		});
 	}
@@ -300,7 +315,7 @@ public class SalesController {
 				mapa.put("neighborhood", supplier.getNeighborhood());
 				mapa.put("certificate", supplier.isCertificated());
 				mapa.put("stateRegistration", supplier.getStateRegistration());
-				// mapa.put("registerDate", supplier.getRegisterDate());
+				mapa.put("registerDate", supplier.getRegisterDate());
 				mapa.put("fiscalClassification", supplier.getFiscalClassification());
 				mapa.put("materialCertification", supplier.isMaterialCertication());
 				mapa.put("justificative", supplier.getJustificative());
@@ -308,7 +323,8 @@ public class SalesController {
 				mapa.put("phone", supplier.getPhone());
 				mapa.put("cep", supplier.getCep());
 				mapa.put("expirationDate", supplier.getExpireCertificateDate());
-				sDAo = new SuppliersDAO(mapa, supplier.getRegisterDate());
+				sDao = new SuppliersDAO(mapa);
+				sDao.makeProductAssociation(supplier.getMaterial(), supplier);
 			}
 		} catch (Exception e) {
 			System.out.println("No Supplier");

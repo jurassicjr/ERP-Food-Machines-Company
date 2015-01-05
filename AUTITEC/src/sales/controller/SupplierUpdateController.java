@@ -101,7 +101,9 @@ public class SupplierUpdateController extends SalesController {
 
 	public void deleteSupplier(Supplier supplier) {
 	    String sql = "Delete FROM suppliers WHERE id = ?"; 
+	    String query = "DELETE FROM supplier_product_association where supplier = ?";
 	    int i = supplier.getId();
+	    dataBase.executeUpdate(query, i);
 	    dataBase.executeUpdate(sql, i);
     }
 }

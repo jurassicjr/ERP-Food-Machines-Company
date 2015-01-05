@@ -70,7 +70,7 @@ public class LoadingFrame extends JFrame {
 	
 	private void setLogo(JLabel logo) {
 		
-		ImageIcon image = new ImageIcon(getClass().getResource("/resources/logo.png"));
+		ImageIcon image = new ImageIcon(getClass().getResource("/resources/Splash_logo_III.png"));
 		ImageIcon thumbnail = null;
 		
 		if(image.getIconWidth() > logo.getWidth()){       

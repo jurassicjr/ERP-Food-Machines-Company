@@ -9,7 +9,9 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
@@ -112,9 +114,9 @@ public class RegisterSuppliersFrame extends JFrame {
 	}
 
 	private void initialize() {
-		// setBounds(100, 100, 496, 404);
+		setBounds(100, 100, 508, 470);
 		setLocationRelativeTo(null);
-		setMinimumSize(new Dimension(500, 404));
+		setMinimumSize(new Dimension(508, 470));
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setTitle("Registro de Fornecedores");
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -464,14 +466,24 @@ public class RegisterSuppliersFrame extends JFrame {
 		);
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Material", "Descri\u00E7\u00E3o" }) {
-			Class[] columnTypes = new Class[] { String.class, Object.class };
+		String[] header = new String[] {"Nome", "Descrição"};
+		table.setModel(new DefaultTableModel(null, header) {
 
+			/**
+			 * 
+			 */
+            private static final long serialVersionUID = -4143239579340526383L;
+			
+            boolean[] columnEditables = new boolean[] {
+					false, false
+			};
+			
 			@Override
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
 		});
+				
 		scrollPaneProductTable.setViewportView(table);
 		panel.setLayout(gl_panel);
 	}
@@ -504,7 +516,7 @@ public class RegisterSuppliersFrame extends JFrame {
 				} else if (e.getSource().equals(btnAdicionar)) {
 					DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 					Product produto = (Product) cboProduto.getSelectedItem();
-					tbl.addRow(new Object[] { produto.getName(), produto.getDescrition() });
+					tbl.addRow(new Object[] { produto, produto.getDescrition() });
 				}
 			}
 		};
@@ -558,9 +570,9 @@ public class RegisterSuppliersFrame extends JFrame {
 		supplier.setStreet(txtStreet.getText());
 		supplier.setEmail(txtEmail.getText());
 		if (cboCertification.getSelectedIndex() != -1) {
-			supplier.setCertificated(false);
-		} else {
 			supplier.setCertificated(true);
+		} else {
+			supplier.setCertificated(false);
 		}
 		supplier.setNeighborhood(txtBairro.getText());
 		supplier.setFiscalClassification(cboFiscalCertification.getSelectedItem().toString());
@@ -574,8 +586,16 @@ public class RegisterSuppliersFrame extends JFrame {
 		supplier.setCep(CEP);
 		java.sql.Date sqlDate = new java.sql.Date(data.getTime());
 		supplier.setExpireCertificateDate(sqlDate);
+		
+		List<Product> material = new ArrayList<Product>();
+			for(int i = 0; i < table.getRowCount(); i++) {
+				Product product = (Product) table.getValueAt(i, 0);
+				material.add(product);
+			}
+		supplier.setMaterial(material);
 		ClearFrame.clear(frame);
 		return supplier;
+		
 	}
 
 	public JTextField getTxtCompanyName() {

@@ -2,6 +2,7 @@ package sales.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -44,7 +45,6 @@ public class ProductUpdateFrame extends JFrame {
 
 	private JFrame frame = this;
 
-	private ShowMessage showMessage;
 	Icon icon;
 
 	private UpperTextField txtName;
@@ -84,9 +84,10 @@ public class ProductUpdateFrame extends JFrame {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		// Adiciona o titulo
 		this.setTitle("Atualização de Produtos/Materiais");
+		setBounds(100, 100, 450, 300);
+		setMinimumSize(new Dimension(450, 300));
 		// Logo
-		icon = new Icon();
-		icon.setIcon(frame);
+		Icon.setIcon(frame);
 		// Determina o Layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		// Criar o panel e adiciona ao frame
@@ -227,7 +228,7 @@ public class ProductUpdateFrame extends JFrame {
 						dataBase.executeUpdate(sql, insertData);
 						String title = "Atualização/Remoção";
 						String message = "Ação concluida com sucesso!";
-						showMessage = new ShowMessage();
+						new ShowMessage();
 						ShowMessage.successMessage(frame, title, message);
 						ClearFrame.clear(frame);
 					} else {

@@ -50,22 +50,21 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmResgisterOfSuppliers;
 	private JMenuItem mntmSalesOrder;
 	private JMenuItem mntmRegisterOfProduct;
+	private JMenuItem mntmSupplierUpdate;
+	private JMenuItem mntmProductUpdate;
+	private JMenuItem mntmSupplierReportFrame;
 	
 	private JMenuBar menuBar;
 
 	private JMenu mnRh;
 	private JMenu mnFinancial;
-	
 	private JMenu mnSales;
-
 	private JMenu mnRegister;
-
 	private JMenu mnUpdates;
+	private JMenu mnReports;
 	
-	private JMenuItem mntmSupplierUpdate;
-
-	private JMenuItem mntmProductUpdate;
 	private JScrollPane scrollPane;
+	
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -162,6 +161,10 @@ public class MainFrame extends JFrame {
 		mnUpdates.add(mntmProductUpdate);			
 		mntmSupplierUpdate = new JMenuItem("Atualização/Remoção de Fornecedores");
 		mnUpdates.add(mntmSupplierUpdate);
+		mnReports = new JMenu("Relátorios");
+		mnSales.add(mnReports);
+		mntmSupplierReportFrame = new JMenuItem("Relátorio de Fornecedores");
+		mnReports.add(mntmSupplierReportFrame);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(150, 150));
@@ -209,13 +212,14 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmReceiveDebt)) controller.receiveDebt();
 				else if(e.getSource().equals(mntmListDebts)) controller.listDebts();
 				
-				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(controller.approvalOfSupliers);	
-				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(controller.salesRequisition);
-				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(controller.registerOfSuppliers);
-				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(controller.salesOrder);
-				else if (e.getSource().equals(mntmRegisterOfProduct)) controller.Sales(controller.registerOfProduct);
-				else if (e.getSource().equals(mntmProductUpdate)) controller.Sales(controller.updateOfProduct);
-				else if (e.getSource().equals(mntmSupplierUpdate)) controller.Sales(controller.updateOfSupplier);
+				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
+				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
+				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(MainFrameController.registerOfSuppliers);
+				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(MainFrameController.salesOrder);
+				else if (e.getSource().equals(mntmRegisterOfProduct)) controller.Sales(MainFrameController.registerOfProduct);
+				else if (e.getSource().equals(mntmProductUpdate)) controller.Sales(MainFrameController.updateOfProduct);
+				else if (e.getSource().equals(mntmSupplierUpdate)) controller.Sales(MainFrameController.updateOfSupplier);
+				else if (e.getSource().equals(mntmSupplierReportFrame)) controller.Sales(MainFrameController.supplierReport);
 			}
 		};
 		
@@ -237,6 +241,7 @@ public class MainFrame extends JFrame {
 		mntmRegisterOfProduct.addActionListener(menuListeners);
 		mntmProductUpdate.addActionListener(menuListeners);
 		mntmSupplierUpdate.addActionListener(menuListeners);
+		mntmSupplierReportFrame.addActionListener(menuListeners);
 	}
 
 }

@@ -131,9 +131,6 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		this.setTitle("Homologação de Fornecedores");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		// ImageIcon img = new
-		// ImageIcon(getClass().getResource("/resources/Logo Frontal.png"));
-		// this.setIconImage(img.getImage());
 		JTabbedPane tab = new JTabbedPane();
 		getContentPane().add(tab, BorderLayout.CENTER);
 		initializeLaudo();

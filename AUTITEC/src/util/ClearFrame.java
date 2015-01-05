@@ -7,8 +7,10 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 import net.sf.nachocalendar.components.DateField;
 
@@ -25,6 +27,12 @@ public class ClearFrame {
 	        else if(e instanceof JFormattedTextField) ((JFormattedTextField) e).setText(null);
 	        else if(e instanceof DateField) ((DateField) e).setValue(null);
 	        else if(e instanceof JTextArea) ((JTextArea) e).setText(null);
+	        else if(e instanceof JTable) {
+	        	DefaultTableModel tbl = (DefaultTableModel) ((JTable) e).getModel();
+	        	for(int i = tbl.getRowCount() -1; i>=0; i--) {
+	        		tbl.removeRow(i);
+	        	}
+	        }
         }
 		
 	}
