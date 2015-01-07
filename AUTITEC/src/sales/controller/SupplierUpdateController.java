@@ -6,8 +6,11 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JComboBox;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import model.City;
+import model.Product;
 import model.State;
 import model.Supplier;
 import database.DataBase;
@@ -100,10 +103,37 @@ public class SupplierUpdateController extends SalesController {
 	}
 
 	public void deleteSupplier(Supplier supplier) {
-	    String sql = "Delete FROM suppliers WHERE id = ?"; 
-	    String query = "DELETE FROM supplier_product_association where supplier = ?";
-	    int i = supplier.getId();
-	    dataBase.executeUpdate(query, i);
-	    dataBase.executeUpdate(sql, i);
-    }
+		String sql = "Delete FROM suppliers WHERE id = ?";
+		String query = "DELETE FROM supplier_product_association where supplier = ?";
+		int i = supplier.getId();
+		dataBase.executeUpdate(query, i);
+		dataBase.executeUpdate(sql, i);
+	}
+
+	public void fillProductTable(JTable table, Supplier supplier) {
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		for(int i = tbl.getRowCount() -1; i>=0; i--) {
+    		tbl.removeRow(i);
+    	}
+		int id = supplier.getId();
+		ResultSet rs = dataBase.executeQuery("SELECT *FROM supplier_product_association where supplier = ?", id);
+		try {
+			while (rs.next()) {
+				int productId = rs.getInt("product");
+				ResultSet rs2 = dataBase.executeQuery("SELECT *FROM Product WHERE id = ?", productId);
+				while (rs2.next()) {
+					Product product = new Product();
+					product.setAmmount(rs2.getInt("quantidade"));
+					product.setName(rs2.getString("name"));
+					product.setId(rs2.getInt("id"));
+					product.setDescrition(rs2.getString("descricao"));
+					Object[] obj = new Object[] {product, product.getDescrition()};
+					tbl.addRow(obj);
+				}
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
 }

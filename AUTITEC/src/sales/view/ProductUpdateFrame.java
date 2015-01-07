@@ -238,11 +238,14 @@ public class ProductUpdateFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "APAGAR", "Deseja realmente apagar o produto \""
 					        + txtName.getText() + " \"");
 					if (i == JOptionPane.YES_OPTION) {
+						String query ="DELETE FROM supplier_product_association where product = ?";
 						String sql = "DELETE FROM Product WHERE id = ?";
 						Product produto = (Product) cboProduto.getSelectedItem();
+						dataBase.executeUpdate(query, produto.getId());
 						dataBase.executeUpdate(sql, produto.getId());
 						ClearFrame.clear(frame);
 						cboProduto.removeItem(produto);
+						ShowMessage.successMessage(frame, "Remoção", "Produto deletado com sucesso!");
 					} else {
 						txtName.requestFocus();
 					}

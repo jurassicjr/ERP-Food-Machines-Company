@@ -22,17 +22,21 @@ import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import model.City;
+import model.Product;
 import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
+import sales.controller.ProductUpdateController;
 import sales.controller.SupplierUpdateController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
@@ -49,12 +53,10 @@ public class SupplierUpdateFrame extends JFrame {
 
 	private JFrame frame;
 
-	private ShowMessage message;
-	private ClearFrame faxineira;
-	private Icon icon;
 
 	SupplierUpdateController controller;
-
+	ProductUpdateController productController;
+	
 	private JPanel principalPanel;
 	private JPanel secundaryPane;
 	private JTabbedPane tabbedPane;
@@ -110,14 +112,19 @@ public class SupplierUpdateFrame extends JFrame {
 	private int cityId = -1;
 
 	private JTextArea txtJustification;
+	private JTable table;
+
+	private JComboBox<Product> cboProduto;
+
+	private JButton btnAdicionar;
 
 	/**
 	 * Construtor inicialize a GUI o showMessage e o controller.
 	 */
 
 	public SupplierUpdateFrame() {
-		message = new ShowMessage();
 		controller = new SupplierUpdateController();
+		productController = new ProductUpdateController();
 		this.frame = this;
 		initialize();
 		setListeners();
@@ -131,7 +138,6 @@ public class SupplierUpdateFrame extends JFrame {
 		setTitle("Atualização/Remoção de fornecedores");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		icon = new Icon();
 		Icon.setIcon(frame);
 		initializePrincipal();
 	}
@@ -230,219 +236,152 @@ public class SupplierUpdateFrame extends JFrame {
 		}
 
 		txtCelPhone.setColumns(10);
+		
+		JLabel lblProdutos = new JLabel("Produtos");
+		
+		cboProduto = new JComboBox<Product>();
+		productController.fillProducts(cboProduto);
+		cboProduto.setSelectedIndex(-1);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		
+		btnAdicionar = new JButton("Adicionar");
 
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel
-		        .setHorizontalGroup(gl_principalPanel
-		                .createParallelGroup(Alignment.LEADING)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createSequentialGroup()
-		                                .addContainerGap()
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createParallelGroup(Alignment.LEADING)
-		                                                .addGroup(
-		                                                        gl_principalPanel
-		                                                                .createSequentialGroup()
-		                                                                .addComponent(lblSelectSupplier)
-		                                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                                .addComponent(cboSupplier,
-		                                                                        GroupLayout.PREFERRED_SIZE, 191,
-		                                                                        GroupLayout.PREFERRED_SIZE))
-		                                                .addGroup(
-		                                                        gl_principalPanel
-		                                                                .createSequentialGroup()
-		                                                                .addComponent(lblCompanyName)
-		                                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                                .addComponent(txtCompanyName,
-		                                                                        GroupLayout.PREFERRED_SIZE, 267,
-		                                                                        GroupLayout.PREFERRED_SIZE)
-		                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                                                                .addComponent(lblCnpj)
-		                                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                                .addComponent(txtCNPJ,
-		                                                                        GroupLayout.DEFAULT_SIZE, 165,
-		                                                                        Short.MAX_VALUE))
-		                                                .addGroup(
-		                                                        gl_principalPanel
-		                                                                .createSequentialGroup()
-		                                                                .addGroup(
-		                                                                        gl_principalPanel
-		                                                                                .createParallelGroup(
-		                                                                                        Alignment.LEADING,
-		                                                                                        false)
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblNeighborhood)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtNeighborhood))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblCep)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtCEP))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblState)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        cboState,
-		                                                                                                        0,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        Short.MAX_VALUE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblInscEst)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtStateInscrition,
-		                                                                                                        GroupLayout.PREFERRED_SIZE,
-		                                                                                                        176,
-		                                                                                                        GroupLayout.PREFERRED_SIZE)))
-		                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                                                                .addGroup(
-		                                                                        gl_principalPanel
-		                                                                                .createParallelGroup(
-		                                                                                        Alignment.LEADING)
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblPhone)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtPhone,
-		                                                                                                        GroupLayout.PREFERRED_SIZE,
-		                                                                                                        114,
-		                                                                                                        GroupLayout.PREFERRED_SIZE)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        lblCelPhone)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtCelPhone,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        105,
-		                                                                                                        Short.MAX_VALUE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblStreet)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtStreet,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        283,
-		                                                                                                        Short.MAX_VALUE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblEmail)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtEmail,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        274,
-		                                                                                                        Short.MAX_VALUE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblCity)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        cboCity,
-		                                                                                                        0,
-		                                                                                                        269,
-		                                                                                                        Short.MAX_VALUE)))))
-		                                .addContainerGap()));
-		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblSelectSupplier)
-		                                .addComponent(cboSupplier, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblCompanyName)
-		                                .addComponent(txtCompanyName, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblCnpj)
-		                                .addComponent(txtCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblInscEst)
-		                                .addComponent(txtStateInscrition, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblEmail)
-		                                .addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblState)
-		                                .addComponent(cboState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblCity)
-		                                .addComponent(cboCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblCep)
-		                                .addComponent(txtCEP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblStreet)
-		                                .addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNeighborhood)
-		                                .addComponent(txtNeighborhood, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblPhone)
-		                                .addComponent(txtPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblCelPhone)
-		                                .addComponent(txtCelPhone, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addContainerGap(168, Short.MAX_VALUE)));
+		gl_principalPanel.setHorizontalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblSelectSupplier)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboSupplier, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblCompanyName)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtCompanyName, GroupLayout.PREFERRED_SIZE, 267, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblCnpj)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtCNPJ, GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblProdutos)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cboProduto, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblNeighborhood)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtNeighborhood))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblCep)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtCEP))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblState)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cboState, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblInscEst)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtStateInscrition, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnAdicionar)
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblPhone)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtPhone, GroupLayout.PREFERRED_SIZE, 114, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblCelPhone)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtCelPhone, GroupLayout.DEFAULT_SIZE, 100, Short.MAX_VALUE))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblStreet)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtStreet, GroupLayout.DEFAULT_SIZE, 278, Short.MAX_VALUE))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblEmail)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtEmail, GroupLayout.DEFAULT_SIZE, 269, Short.MAX_VALUE))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblCity)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cboCity, 0, 264, Short.MAX_VALUE)))))
+					.addContainerGap())
+		);
+		gl_principalPanel.setVerticalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblSelectSupplier)
+						.addComponent(cboSupplier, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCompanyName)
+						.addComponent(txtCompanyName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCnpj)
+						.addComponent(txtCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblInscEst)
+						.addComponent(txtStateInscrition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblEmail)
+						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblState)
+						.addComponent(cboState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCity)
+						.addComponent(cboCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCep)
+						.addComponent(txtCEP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblStreet)
+						.addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNeighborhood)
+						.addComponent(txtNeighborhood, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblPhone)
+						.addComponent(txtPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCelPhone)
+						.addComponent(txtCelPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblProdutos)
+						.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAdicionar))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 103, Short.MAX_VALUE)
+					.addContainerGap())
+		);
+		
+		table = new JTable();
+		String[] header = new String[] {"Produto", "Descrição"};
+		table.setModel(new DefaultTableModel(null, header) {
+
+			/**
+			 * 
+			 */
+            private static final long serialVersionUID = 6076310227138893239L;
+            
+            boolean[] columnEditables = new boolean[] {
+					false, false
+			};
+			
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+			
+		});
+		
+		scrollPane_1.setViewportView(table);
 		principalPanel.setLayout(gl_principalPanel);
 		initializeSecondPane();
 	}
@@ -627,7 +566,6 @@ public class SupplierUpdateFrame extends JFrame {
 
 					if (i == JOptionPane.YES_OPTION) {
 						controller.updateSupplier(newSupplier());
-						faxineira = new ClearFrame();
 						controller.fillSuppliers(cboSupplier);
 						ClearFrame.clear(frame);
 					} else {
@@ -638,10 +576,14 @@ public class SupplierUpdateFrame extends JFrame {
 					String message = "Deseja realmente excluir o fornecedor \"" + txtCompanyName.getText() + "\"";
 					int i = ShowMessage.questionMessage(frame, title, message);
 					if (i == JOptionPane.YES_OPTION) {
+						try {
 						controller.deleteSupplier((Supplier) cboSupplier.getSelectedItem());
 						controller.fillSuppliers(cboSupplier);
-						faxineira = new ClearFrame();
+						ShowMessage.successMessage(frame, "Remoção", "O fornecedor foi deletado com sucesso!");
 						ClearFrame.clear(frame);
+						}catch(Exception e1) {
+							e1.printStackTrace();
+						}
 					} else {
 						txtCompanyName.requestFocus();
 					}
@@ -655,6 +597,7 @@ public class SupplierUpdateFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource().equals(cboSupplier)) {
 					fillField();
+					
 				}
 			}
 		};
@@ -711,6 +654,7 @@ public class SupplierUpdateFrame extends JFrame {
 			}else {
 				cboFiscalClassification.setSelectedItem(-1);
 			}
+			controller.fillProductTable(table, supplier);
 		}
 	}
 
@@ -732,6 +676,7 @@ public class SupplierUpdateFrame extends JFrame {
 		String phone = txtPhone.getText().replaceAll("\\(", "").replaceAll(" ", "").replaceAll("\\)", "")
 		        .replaceAll("-", "");
 		String justificative = txtJustification.getText();
+		String fiscalClassification = (String) cboFiscalClassification.getSelectedItem();
 		Boolean materialCertication;
 		if (rdbtnSim.isSelected()) {
 			materialCertication = true;
@@ -755,6 +700,7 @@ public class SupplierUpdateFrame extends JFrame {
 		supplier.setPhone(phone);
 		supplier.setStateRegistration(stateInscrition);
 		supplier.setStreet(street);
+		supplier.setFiscalClassification(fiscalClassification);
 		Supplier s = (Supplier) cboSupplier.getSelectedItem();
 		supplier.setId(s.getId());
 		return supplier;
