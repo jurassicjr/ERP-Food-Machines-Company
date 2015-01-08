@@ -3,6 +3,7 @@ package sales.controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
@@ -25,7 +26,7 @@ public class SupplierUpdateController extends SalesController {
 		dataBase.connect();
 	}
 
-	public void updateSupplier(Supplier supplier) {
+	public void updateSupplier(Supplier supplier, List<Product> list) {
 		Map<String, Object> mapa = new HashMap<String, Object>();
 		mapa.put("companyName", supplier.getCompanyName());
 		mapa.put("CNPJ", supplier.getCNPJ());
@@ -45,6 +46,8 @@ public class SupplierUpdateController extends SalesController {
 		mapa.put("id", supplier.getId());
 		sDAo = new SuppliersDAO();
 		sDAo.updatePersist(mapa);
+		sDAo.makeProductAssociation(list, supplier);
+		
 	}
 
 	public void fillSuppliers(JComboBox<Supplier> cboSupplier) {
@@ -104,12 +107,18 @@ public class SupplierUpdateController extends SalesController {
 
 	public void deleteSupplier(Supplier supplier) {
 		String sql = "Delete FROM suppliers WHERE id = ?";
-		String query = "DELETE FROM supplier_product_association where supplier = ?";
 		int i = supplier.getId();
-		dataBase.executeUpdate(query, i);
+		String query = "DELETE FROM supplier_product_association where supplier = ?";
+		dataBase.executeUpdate(query, i);		
 		dataBase.executeUpdate(sql, i);
 	}
-
+	
+	public void deleteSupplierProductAssociation(int i, int a) {
+		String query = "DELETE FROM supplier_product_association where supplier = ? AND product = ?";
+		Object[] obj = new Object[] {i, a};
+		dataBase.executeUpdate(query, obj);
+	}
+	
 	public void fillProductTable(JTable table, Supplier supplier) {
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		for(int i = tbl.getRowCount() -1; i>=0; i--) {

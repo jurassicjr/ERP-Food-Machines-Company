@@ -92,22 +92,23 @@ public class SuppliersDAO {
 
 	public void makeProductAssociation(List<Product> list, Supplier supplier) {
 		int supplierID = 0;
-		ResultSet rs = dataBase.executeQuery("SELECT *FROM suppliers WHERE corporate_name = ?",
-		        supplier.getCompanyName());
-		try {
-			if (rs.next()) {
-				supplierID = rs.getInt("id");
+		if (!list.isEmpty()) {
+			ResultSet rs = dataBase.executeQuery("SELECT *FROM suppliers WHERE corporate_name = ?",
+			        supplier.getCompanyName());
+			try {
+				if (rs.next()) {
+					supplierID = rs.getInt("id");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
 			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		if (supplierID != 0) {
-			for (Product produto : list) {
-				String sql = "INSERT INTO supplier_product_association(product, supplier) VALUES(?, ?)";
-				Object[] data = new Object[] { produto.getId(), supplierID };
-				dataBase.executeUpdate(sql, data);
+			if (supplierID != 0) {
+				for (Product produto : list) {
+					String sql = "INSERT INTO supplier_product_association(product, supplier) VALUES(?, ?)";
+					Object[] data = new Object[] { produto.getId(), supplierID };
+					dataBase.executeUpdate(sql, data);
+				}
 			}
 		}
-
 	}
 }
