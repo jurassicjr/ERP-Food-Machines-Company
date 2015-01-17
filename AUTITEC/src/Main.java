@@ -1,5 +1,7 @@
 import javax.swing.SwingUtilities;
 
+import login.view.LoginFrame;
+import rh.view.TechnicalStandardFrame;
 import userInterface.view.LoadingFrame;
 import userInterface.view.MainFrame;
 
@@ -16,10 +18,10 @@ public class Main {
 			@Override public void run() { loadingFrame.setVisible(true); }  
 		});
 		
-		//new LoginFrame().setVisible(true);
-		new MainFrame().setVisible(true);
-		//new LoadingFrame().setVisible(true);
+		new LoginFrame().setVisible(true);
+		//new MainFrame().setVisible(true);
 		
+		//new TechnicalStandardFrame().setVisible(true);
 				  
 		loadingFrame.dispose();
 				

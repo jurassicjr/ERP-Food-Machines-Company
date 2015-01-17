@@ -16,8 +16,10 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
+import model.Session;
 import model.TechnicalStandard;
 import model.TechnicalStandardVersion;
+import model.User;
 import rh.controller.TechnicalStandardFrameController;
 import util.Icon;
 
@@ -73,6 +75,10 @@ public class TechnicalStandardFrame extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
+		User u = Session.getInstance().getUser();
+		
+		
+		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
 			new Object[][] {},
@@ -115,7 +121,7 @@ public class TechnicalStandardFrame extends JFrame {
 	private void setTechnicalStandarts() {
 		
 		TechnicalStandard technicalStandards[] = controller.getTechnicalStandards();
-		
+				
 		for(int i = 0; i < technicalStandards.length; ++i) {
 			
 			TechnicalStandard ts = technicalStandards[i];

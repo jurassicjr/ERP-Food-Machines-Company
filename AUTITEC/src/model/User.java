@@ -51,5 +51,9 @@ public class User {
 	public void setPermission(int permission) {
 		this.permission = permission;
 	}
+	
+	public String toString() {
+		return employee.getName();
+	}
 
 }

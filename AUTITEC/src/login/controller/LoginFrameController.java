@@ -46,7 +46,6 @@ public class LoginFrameController {
 		cpf = cpf.replaceAll("\\.|-", "");
 			
 		try {
-			
 			String sql = "SELECT user.*, employee.id as 'id_employee' FROM user, employee WHERE user.employee = employee.id AND employee.cpf = ?;";
 			ResultSet resultSet = dataBase.executeQuery(sql, cpf);
 												
