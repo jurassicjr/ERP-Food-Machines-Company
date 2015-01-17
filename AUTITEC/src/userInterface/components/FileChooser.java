@@ -28,7 +28,29 @@ public class FileChooser extends JFileChooser {
     }
      
     public void showSaveDialog() {
+    	         
+        setCurrentDirectory(lastDir);
          
+        selectedFile = false;
+        
+        int result = showSaveDialog(frame);
+         
+        if(result == JFileChooser.APPROVE_OPTION){
+        	             
+            selectedFile = true;
+            lastDir = getSelectedFile().getAbsoluteFile();
+            pathFile = getSelectedFile().getAbsolutePath();
+            
+            if(new File(pathFile).exists()){
+                if(!overwriteFile()) selectedFile = false;
+            }
+        }
+         
+    }
+    
+    public void showSaveDialog(FileFilter fileFilter) {
+        
+    	setFileFilter(fileFilter);
         setCurrentDirectory(lastDir);
          
         selectedFile = false;
@@ -51,7 +73,6 @@ public class FileChooser extends JFileChooser {
     public void showOpenDialog(FileFilter fileFilter) {
     	
     	setFileFilter(fileFilter);
-         
         setCurrentDirectory(lastDir);
          
         selectedFile = false;

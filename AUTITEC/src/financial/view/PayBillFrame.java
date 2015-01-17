@@ -85,6 +85,7 @@ public class PayBillFrame extends JDialog {
 		txCreditor = new JTextField();
 		txCreditor.setEditable(false);
 		txCreditor.setText(bill.getCreditor());
+		txCreditor.setCaretPosition(0);
 		
 		JLabel lblValue = new JLabel("Valor");
 		txValue = new JTextField();

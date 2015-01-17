@@ -362,7 +362,7 @@ public class RegisterEmployeeController {
 			label = "Carteira de Habilitação";
 		}
 		else if(schooling == -1) label = "Escolaridade";
-		else if(gender == Employee.MALE && reservist == null || reservist.isEmpty()) label = "Carteira de Reservista";
+		else if(gender == Employee.MALE && (reservist == null || reservist.isEmpty())) label = "Carteira de Reservista";
 		else if(address == null || address.isEmpty()) label = "Endereço";
 		else if(neighborhood == null || neighborhood.isEmpty()) label = "Bairro";
 		else if(cep == null || cep.isEmpty() || !matcherCep.find()) label = "CEP";

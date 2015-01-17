@@ -27,23 +27,34 @@ public class MainFrame extends JFrame {
 	
 	private MainFrameController controller;
 	
+	private JScrollPane scrollPane;
 	private JPanel notificationPanel;
+		
+	private JMenuBar menuBar;
+	
+	private JMenu mnRh;
+	private JMenu mnFinancial;
+	private JMenu mnAbout;
 				
 	private JMenuItem mntmRegisterEmployee;
 	private JMenuItem mntmTechnicalStandard;
 	private JMenuItem mntmRegisterUser;
+	private JMenuItem mntmEmployeeReport;
 	
 	private JMenu mnBill;
 	private JMenuItem mntmRegisterBill;
 	private JMenuItem mntmPayBill;
 	private JMenuItem mntmListBills;
+	private JMenuItem mntmGenerateReport;
 		
 	private JMenu mnDebtsToReceive;
 	private JMenuItem mntmRegisterDebtsToReceive;
 	private JMenuItem mntmReceiveDebt;
 	private JMenuItem mntmListDebts;
 	
-	private JMenuItem mntmGenerateReport;
+	private JMenuItem mntmAbout;
+	
+	
 	
 	private JMenuItem mntmApprovalOfSuppliers;
 	private JMenuItem mntmSalesRequisition;
@@ -54,17 +65,10 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmProductUpdate;
 	private JMenuItem mntmSupplierReportFrame;
 	
-	private JMenuBar menuBar;
-
-	private JMenu mnRh;
-	private JMenu mnFinancial;
 	private JMenu mnSales;
 	private JMenu mnRegister;
 	private JMenu mnUpdates;
 	private JMenu mnReports;
-	
-	private JScrollPane scrollPane;
-	
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -116,6 +120,9 @@ public class MainFrame extends JFrame {
 		mntmRegisterUser = new JMenuItem("Registrar Usuário");
 		mnRh.add(mntmRegisterUser);
 		
+		mntmEmployeeReport = new JMenuItem("Relatório de Funcionários");
+		mnRh.add(mntmEmployeeReport);
+		
 		mnBill = new JMenu("Contas a Pagar");
 		mnFinancial.add(mnBill);
 		
@@ -166,6 +173,12 @@ public class MainFrame extends JFrame {
 		mntmSupplierReportFrame = new JMenuItem("Relátorio de Fornecedores");
 		mnReports.add(mntmSupplierReportFrame);
 		
+		mnAbout = new JMenu("Sobre");
+		menuBar.add(mnAbout);
+		
+		mntmAbout = new JMenuItem("Sobre o Software");
+		mnAbout.add(mntmAbout);
+		
 		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(150, 150));
 		scrollPane.setBorder(new TitledBorder("Notificações"));
@@ -204,6 +217,7 @@ public class MainFrame extends JFrame {
 				if(e.getSource().equals(mntmRegisterEmployee)) controller.registerEmployee();
 				else if(e.getSource().equals(mntmTechnicalStandard)) controller.technicalStandard();
 				else if(e.getSource().equals(mntmRegisterUser)) controller.registerUser();
+				else if(e.getSource().equals(mntmEmployeeReport)) controller.employeeReport();
 				else if(e.getSource().equals(mntmRegisterBill)) controller.registerBill();
 				else if(e.getSource().equals(mntmRegisterDebtsToReceive)) controller.registerDebts();
 				else if(e.getSource().equals(mntmPayBill)) controller.payBill();
@@ -211,6 +225,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmGenerateReport)) controller.generateReport();
 				else if(e.getSource().equals(mntmReceiveDebt)) controller.receiveDebt();
 				else if(e.getSource().equals(mntmListDebts)) controller.listDebts();
+				else if(e.getSource().equals(mntmAbout)) controller.about();
 				
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -233,6 +248,8 @@ public class MainFrame extends JFrame {
 		mntmGenerateReport.addActionListener(menuListeners);
 		mntmReceiveDebt.addActionListener(menuListeners);
 		mntmListDebts.addActionListener(menuListeners);
+		mntmAbout.addActionListener(menuListeners);
+		mntmEmployeeReport.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

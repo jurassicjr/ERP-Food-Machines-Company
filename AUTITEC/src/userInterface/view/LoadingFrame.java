@@ -70,18 +70,18 @@ public class LoadingFrame extends JFrame {
 	
 	private void setLogo(JLabel logo) {
 		
-		ImageIcon image = new ImageIcon(getClass().getResource("/resources/Splash_logo_III.png"));
+		ImageIcon image = new ImageIcon(getClass().getResource("/resources/logo_splash.png"));
 		ImageIcon thumbnail = null;
 		
 		if(image.getIconWidth() > logo.getWidth()){       
-			thumbnail = new ImageIcon(image.getImage().getScaledInstance(350, -1, Image.SCALE_DEFAULT));  
+			thumbnail = new ImageIcon(image.getImage().getScaledInstance(350, -1, Image.SCALE_DEFAULT));
 		}
 		else thumbnail = image;
-		
+				
 		logo.setHorizontalAlignment(SwingConstants.CENTER);
 		logo.setVerticalAlignment(SwingConstants.CENTER);
 		logo.setIcon(thumbnail);
-		
+				
 	}
 
 }

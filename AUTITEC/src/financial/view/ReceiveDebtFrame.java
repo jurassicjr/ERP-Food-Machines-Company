@@ -81,6 +81,7 @@ public class ReceiveDebtFrame extends JDialog {
 		txBill = new JTextField();
 		txBill.setEditable(false);
 		txBill.setText(debtToReceive.getDebt());
+		txBill.setCaretPosition(0);
 		
 		JLabel lblDebtor = new JLabel("Credor");
 		txDebtor = new JTextField();

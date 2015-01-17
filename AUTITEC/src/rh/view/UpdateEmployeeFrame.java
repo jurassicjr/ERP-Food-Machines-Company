@@ -1,6 +1,7 @@
 package rh.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -23,9 +24,11 @@ import java.util.Map;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,6 +37,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EtchedBorder;
@@ -41,17 +45,23 @@ import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumnModel;
 import javax.swing.text.MaskFormatter;
 
+import rh.controller.UpdateEmployeeFrameController;
+import rh.view.ListEmployesFrame.ButtonColumnTechnicalStandard;
 import model.Bank;
 import model.CBO;
 import model.CNPJ;
 import model.City;
+import model.Dependent;
+import model.Employee;
 import model.State;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import net.sf.nachocalendar.table.JTableCustomizer;
-import rh.controller.RegisterEmployeeController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.FileChooser;
 import userInterface.components.UpperCaseEditor;
@@ -61,7 +71,7 @@ import util.Icon;
 /**
  * Representa o frame de registro de funcionários
  */
-public class RegisterEmployeeFrame extends JFrame {
+public class UpdateEmployeeFrame extends JDialog {
 	
 	private static final long serialVersionUID = -4506446090751738206L;
 	
@@ -127,20 +137,27 @@ public class RegisterEmployeeFrame extends JFrame {
 	private JButton btnClear;
 	
 	private String picturePath;
-	private RegisterEmployeeController controller;
 	private FileChooser fileChooser;
+	
+	private UpdateEmployeeFrameController controller;
+	
+	private Employee employee;
 		
 	/**
 	 * Cria o frame de registro de funcionário
 	 */
-	public RegisterEmployeeFrame() {
+	public UpdateEmployeeFrame(Employee employee) {
 		
-		controller = new RegisterEmployeeController(this);
 		picturePath = null;
 		fileChooser = new FileChooser(this);
+		controller = new UpdateEmployeeFrameController(this);
+		
+		this.employee = employee;
 		
 		initialize();
-		setListeners();		
+		setListeners();
+		
+		setEmployee();
 	}
 
 	/**
@@ -152,8 +169,10 @@ public class RegisterEmployeeFrame extends JFrame {
 		setLocationRelativeTo(null);
 		setMinimumSize(new Dimension(829, 404));
 		setTitle("Registro de Funcionário");
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		Icon.setIcon(this);
+		setModal(true);
 		
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -189,6 +208,12 @@ public class RegisterEmployeeFrame extends JFrame {
 		new ComboBoxAutoCompletion(cbDepositaryBank);
 		new ComboBoxAutoCompletion(cbSocialIntegrationBank);
 		new ComboBoxAutoCompletion(cbRegisterCnpj);
+		
+		
+		
+		dependentTable.getColumnModel().getColumn(0).setPreferredWidth(15);
+		dependentTable.getColumnModel().getColumn(0).setMinWidth(0);
+		dependentTable.getColumnModel().getColumn(0).setMaxWidth(0);
 				
 	}
 	
@@ -522,23 +547,29 @@ public class RegisterEmployeeFrame extends JFrame {
         dependentTable.getTableHeader().setReorderingAllowed(false);
         dependentTable.setRowHeight(25);
 		
-		dependentTable.setModel(new DefaultTableModel(
-			new Object[][] {{"", "", ""},},
-			new String[] {"Nome", "Relação", "Data de Nascimento/Casamento"}
-		){
+		dependentTable.setModel(new DefaultTableModel(null,	new String[] {"Nome", "Relação", "Data de Nascimento/Casamento", "Remover"})
+		{
 			
 			private static final long serialVersionUID = -7331676150193648559L;
 			
-			Class<?>[] columnTypes = new Class[] {String.class, String.class, Date.class};
+			Class<?>[] columnTypes = new Class[] {Dependent.class, String.class, String.class, Date.class, ButtonColumn.class};
 			
+			@Override
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
+			}
+							
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return true;
 			}
 			
 		});
 		
+		new ButtonColumn(dependentTable, 3, new ImageIcon(getClass().getResource("/resources/cancel.png")));
+				
 		JTableCustomizer.setEditorForRow(dependentTable, 2);
-		dependentTable.setDefaultEditor(String.class, new UpperCaseEditor());
+		//dependentTable.setDefaultEditor(String.class, new UpperCaseEditor());
 		
 		dependentScrollPane.setViewportView(dependentTable);	
 		
@@ -843,7 +874,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				controller.closeFrame();
+				//controller.closeFrame();
 			}
 		});
 				
@@ -864,7 +895,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		lblPicture.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				picturePath = controller.loadProfilePicture(fileChooser, lblPicture);
+				//picturePath = controller.loadProfilePicture(fileChooser, lblPicture);
 			}			
 		});
 		
@@ -874,9 +905,9 @@ public class RegisterEmployeeFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(e.getSource().equals(btnCancel)) controller.closeFrame();
-				else if(e.getSource().equals(btnConfirme)) registerEmployee();
-				else if(e.getSource().equals(btnClear)) controller.clear();
+//				if(e.getSource().equals(btnCancel)) controller.closeFrame();
+//				else if(e.getSource().equals(btnConfirme)) registerEmployee();
+//				else if(e.getSource().equals(btnClear)) controller.clear();
 				
 			}
 		};
@@ -919,6 +950,63 @@ public class RegisterEmployeeFrame extends JFrame {
         }
 		
 	}
+
+	private void setEmployee() {
+				
+		txName.setText(employee.getName());
+		txBirth.setValue(employee.getBirth());
+		cbGender.setSelectedIndex(employee.getGender());
+		cbMaritalStatus.setSelectedIndex(employee.getMaritalStatus());
+		txNacionality.setText(employee.getNacionality());
+		txBirthPlace.setText(employee.getBirthPlace());
+		txRg.setText(employee.getRg());
+		txCpf.setText(employee.getCpf());
+		txCtps.setText(employee.getCpts());
+		txCptsCategory.setText(employee.getCptsCategory());
+		cbSchooling.setSelectedIndex(employee.getSchooling());
+		txReservist.setText(employee.getReservist());
+		txReservistCategory.setText(employee.getReservistCategory());
+		txVoter.setText(employee.getVoter());
+		txDriverLicense.setText(employee.getDriverLicense());
+		cbDriverLicenseCategory.setSelectedIndex(employee.getDriverLicenseCategory());
+		txAddress.setText(employee.getAddress().getAddress());
+		txNeighborhood.setText(employee.getAddress().getNeighborhood());
+		txCep.setText(employee.getAddress().getCep());
+		cbState.setSelectedItem(employee.getAddress().getCity().getState());
+		cbCity.setSelectedItem(employee.getAddress().getCity());
+		txPhone.setText(employee.getPhone());
+		txCellphone.setText(employee.getCellphone());
+		txAdmissionDate.setValue(employee.getJob().getAdmissionDate());
+		cbJob.setSelectedItem(employee.getJob().getCbo());
+		txCbo.setText(employee.getJob().getCbo().getCode());
+		txSalary.setText(String.valueOf(employee.getJob().getSalary()));
+		cbPayment.setSelectedIndex(employee.getJob().getPayment());
+		cbRegisterCnpj.setSelectedItem(employee.getCnpj());
+		cbBank.setSelectedItem(employee.getBankingData().getBank());
+		txAgency.setText(employee.getBankingData().getAgency());
+		txAccount.setText(employee.getBankingData().getAccount());
+		txOptionDate.setValue(employee.getGuaranteeFund().getOptionDate());
+		txRetractionDate.setValue(employee.getGuaranteeFund().getRetractionDate());
+		cbDepositaryBank.setSelectedItem(employee.getGuaranteeFund().getBank());
+		txCadastreDate.setValue(employee.getSocialIntegration().getCadastreDate());
+		txCadastreNumber.setText(employee.getSocialIntegration().getCadastreNumber());
+		txSocialIntegrationAgency.setText(employee.getSocialIntegration().getBankingData().getAgency());
+		cbSocialIntegrationBank.setSelectedItem(employee.getSocialIntegration().getBankingData().getBank());
+		
+		int row = 0;
+		for(Dependent dependent : employee.getDependents()) {
+			
+			((DefaultTableModel) dependentTable.getModel()).addRow(new Object[]{null, null, null, null});
+			
+			dependentTable.setValueAt(dependent, row, 0);
+			dependentTable.setValueAt(dependent.getRelationship(), row, 1);
+			dependentTable.setValueAt(dependent.getBirthWeddingDate(), row, 2);
+			
+			++row;
+		}
+				
+	}	
+	
 	
 	/**
 	 * Invoca o método para registrar o funcionário
@@ -969,8 +1057,104 @@ public class RegisterEmployeeFrame extends JFrame {
 		data.put("dependents", dependentTable);
 		
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  
-		controller.registerEmployee(data);
+		//controller.registerEmployee(data);
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		
 	}
+
+	class ButtonColumn extends AbstractCellEditor implements TableCellRenderer, TableCellEditor, ActionListener {
+
+		private static final long serialVersionUID = -1903358975859108679L;
+		
+		private JTable table;
+		
+		private String text;
+		private ImageIcon icon;
+	
+		private JButton renderButton;
+		private JButton editButton;
+		
+		public ButtonColumn(JTable table, int column) {
+			
+			super();
+			this.table = table;
+			
+			renderButton = new JButton();
+
+			editButton = new JButton();
+			editButton.setFocusPainted(false);
+			editButton.addActionListener(this);
+
+			TableColumnModel columnModel = table.getColumnModel();
+			columnModel.getColumn(column).setCellRenderer(this);
+			columnModel.getColumn(column).setCellEditor(this);
+			
+		}
+		
+		public ButtonColumn (JTable table, int column, ImageIcon icon) {
+			
+			super();
+			this.table = table;
+			this.icon = icon;
+			
+			renderButton = new JButton();
+
+			editButton = new JButton(icon);
+			editButton.setFocusPainted(false);
+			editButton.addActionListener(this);
+
+			TableColumnModel columnModel = table.getColumnModel();
+			columnModel.getColumn(column).setCellRenderer(this);
+			columnModel.getColumn(column).setCellEditor(this);
+			
+		}
+
+		@Override
+		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+			
+			if (hasFocus) {
+				renderButton.setForeground(table.getForeground());
+				renderButton.setBackground(UIManager.getColor("Button.background"));
+			}
+			else if (isSelected) {
+				renderButton.setForeground(table.getSelectionForeground());
+				renderButton.setBackground(table.getSelectionBackground());
+			}
+			else {
+				renderButton.setForeground(table.getForeground());
+				renderButton.setBackground(UIManager.getColor("Button.background"));
+			}
+
+			renderButton.setText((value == null) ? "" : value.toString());
+			if(icon != null) renderButton.setIcon(icon);
+			return renderButton;
+		}
+
+		@Override
+		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+			text = (value == null) ? "" : value.toString();
+			editButton.setText(text);
+			if(icon != null) editButton.setIcon(icon);
+			return editButton;
+		}
+
+		@Override
+		public Object getCellEditorValue() {
+			return text;
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			fireEditingStopped();
+			
+//			int row = table.getSelectedRow();
+//			Employee employee = (Employee) table.getValueAt(row, 0);
+//			
+//			controller.updateEmployee(employee);
+			
+		}
+				
+	}
+	
 }

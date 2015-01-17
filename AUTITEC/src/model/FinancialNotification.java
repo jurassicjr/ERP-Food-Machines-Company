@@ -5,24 +5,26 @@ import java.util.Date;
 
 public class FinancialNotification {
 	
-	private String bill;
+	private Bill bill;
 	private Date dueDate;
+	private double value;
 	private boolean urgent;
 	
-	public FinancialNotification(String bill, Date dueDate) {
+	public FinancialNotification(Bill bill, Date dueDate, double value) {
 		
 		this.bill = bill;
 		this.dueDate = dueDate;
+		this.value = value;
 				
 		urgent = new Date().after(dueDate);
 		
 	}
 	
-	public String getBill() {
+	public Bill getBill() {
 		return bill;
 	}
 	
-	public void setBill(String bill) {
+	public void setBill(Bill bill) {
 		this.bill = bill;
 	}
 	
@@ -42,9 +44,17 @@ public class FinancialNotification {
 		this.urgent = urgent;
 	}
 	
+	public void setValue(double value) {
+		this.value = value;
+	}
+	
+	public double getValue() {
+		return value;
+	}
+	
 	@Override
 	public String toString() {
-		return bill + "\n" + new SimpleDateFormat("dd/MM/yyyy").format(dueDate);
+		return bill.getBill() + "\n" + new SimpleDateFormat("dd/MM/yyyy").format(dueDate);
 	}
 	
 }

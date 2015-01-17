@@ -94,7 +94,7 @@ public class RegisterBillFrame extends JFrame {
 		cbInstallments.setSelectedIndex(-1);
 		
 		JPanel observationsPanel = new JPanel();
-		observationsPanel.setBorder(new TitledBorder(null, "Observções", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		observationsPanel.setBorder(new TitledBorder(null, "Observações", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		
 		JLabel lblCreditor = new JLabel("Credor:");
 		txCreditor = new UpperTextField();

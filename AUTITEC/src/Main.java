@@ -18,6 +18,7 @@ public class Main {
 		
 		//new LoginFrame().setVisible(true);
 		new MainFrame().setVisible(true);
+		//new LoadingFrame().setVisible(true);
 		
 				  
 		loadingFrame.dispose();

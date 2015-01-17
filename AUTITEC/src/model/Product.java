@@ -5,7 +5,6 @@ public class Product {
 	private String name;
 	private int ammount;
 	private String descrition;
-	private String s;
 
 	public int getId() {
 		return id;
@@ -38,10 +37,8 @@ public class Product {
 	public void setDescrition(String descricao) {
 		this.descrition = descricao;
 	}
-
 	@Override
 	public String toString() {
-		return this.name;
+	    return this.name;
 	}
-
 }

@@ -2,6 +2,8 @@ package userInterface.controller;
 
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -10,17 +12,21 @@ import java.util.Date;
 import javax.swing.Box;
 import javax.swing.JPanel;
 
+import model.Bill;
 import model.FinancialNotification;
+import rh.view.EmployeeReportFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.TechnicalStandardFrame;
 import sales.controller.SalesController;
 import userInterface.components.NotificationButton;
+import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
 import database.DataBase;
 import financial.view.GenerateReportFrame;
 import financial.view.ListBillsFrame;
 import financial.view.ListDebtsFrame;
+import financial.view.PayBillFrame;
 import financial.view.RegisterBillFrame;
 import financial.view.RegisterDebtsToReceiveFrame;
 
@@ -134,19 +140,31 @@ public class MainFrameController {
 		try {
 			
 			//todas as contas não pagas ou para vencerem num intervalo de 30 dias
-			String sql = "SELECT installment.*, bill.bill as 'bill_name' "
+//			String sql = "SELECT installment.*, bill.bill as 'bill_name' "
+//					+ "FROM installment, bill "
+//					+ "WHERE ((date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 31 DAY)) OR date < NOW()) AND paid = 0 AND installment.bill = bill.id "
+//					+ "ORDER BY(installment.date);";
+			
+			String sql = "SELECT installment.date, installment.value, bill.* "
 					+ "FROM installment, bill "
-					+ "WHERE ((date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 31 DAY)) OR date < NOW()) AND paid = 0 AND installment.bill = bill.id "
-					+ "ORDER BY(installment.date);"; 
+					+ "WHERE ((date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 31 DAY)) OR date < NOW()) "
+					+ "AND paid = 0 AND installment.bill = bill.id ORDER BY(installment.date);"; 
 			
 			ResultSet resultSet = database.executeQuery(sql);
 			
 			while(resultSet.next()) {
 				
-				String bill = resultSet.getString("bill_name");
-				Date date = resultSet.getDate("date");
+				String bill = resultSet.getString("bill");
+				String creditor = resultSet.getString("creditor");
+				String observation = resultSet.getString("observation");
+				int billId = resultSet.getInt("id");
 				
-				notifications.add(new FinancialNotification(bill, date));
+				Date date = resultSet.getDate("date");
+				double value = resultSet.getDouble("value");
+				
+				Bill b = new Bill(bill, creditor, observation, billId);
+								
+				notifications.add(new FinancialNotification(b, date, value));
 				
 			}			
 			
@@ -164,6 +182,18 @@ public class MainFrameController {
 			NotificationButton button = new NotificationButton(notification.toString(), notification.isUrgent());
 			notificationPanel.add(button);
 			notificationPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+			
+			button.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+										
+					PayBillFrame payBillFrame = new PayBillFrame(notification.getBill(), notification.getValue());
+					payBillFrame.setVisible(true);
+					payBillFrame.setLocationRelativeTo(mainFrame);
+										
+				}
+			});
 						
 		}
 				
@@ -256,6 +286,38 @@ public class MainFrameController {
 			public void run() {
 				
 				ListDebtsFrame frame = new ListDebtsFrame(false);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
+	
+	public void about() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				AboutFrame frame = new AboutFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
+	
+	public void employeeReport() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				EmployeeReportFrame frame = new EmployeeReportFrame();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
 				
