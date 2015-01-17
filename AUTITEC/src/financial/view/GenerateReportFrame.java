@@ -58,15 +58,6 @@ public class GenerateReportFrame extends JFrame {
 		
 		initialize();
 		setListeners();
-		
-		txReportFile.setText("C:\\Users\\Pedro\\Desktop\\Grade Curricular.pdf");
-		cbBills.setSelectedIndex(2);
-				
-		txStartDate.setValue(new GregorianCalendar(2014, 11, 31).getTime());
-		txEndDate.setValue(new GregorianCalendar(2015, 01, 01).getTime());
-		//ckIncludeOpenBills.setSelected(true);
-		ckOpenFile.setSelected(true);
-		generateReport();
 	}
 	
 	private void initialize() {

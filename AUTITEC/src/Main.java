@@ -18,8 +18,8 @@ public class Main {
 			@Override public void run() { loadingFrame.setVisible(true); }  
 		});
 		
-		new LoginFrame().setVisible(true);
-		//new MainFrame().setVisible(true);
+		//new LoginFrame().setVisible(true);
+		new MainFrame().setVisible(true);
 		
 		//new TechnicalStandardFrame().setVisible(true);
 				  
