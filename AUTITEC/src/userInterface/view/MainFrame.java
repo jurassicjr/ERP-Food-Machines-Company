@@ -53,7 +53,7 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmListDebts;
 	
 	private JMenuItem mntmAbout;
-	
+	private JMenuItem mntmRegisterIssue;
 	
 	
 	private JMenuItem mntmApprovalOfSuppliers;
@@ -176,6 +176,9 @@ public class MainFrame extends JFrame {
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
 		
+		mntmRegisterIssue = new JMenuItem("Informar Problema");
+		mnAbout.add(mntmRegisterIssue);
+		
 		mntmAbout = new JMenuItem("Sobre o Software");
 		mnAbout.add(mntmAbout);
 		
@@ -226,6 +229,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmReceiveDebt)) controller.receiveDebt();
 				else if(e.getSource().equals(mntmListDebts)) controller.listDebts();
 				else if(e.getSource().equals(mntmAbout)) controller.about();
+				else if(e.getSource().equals(mntmRegisterIssue)) controller.registerIssue();
 				
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -250,6 +254,7 @@ public class MainFrame extends JFrame {
 		mntmListDebts.addActionListener(menuListeners);
 		mntmAbout.addActionListener(menuListeners);
 		mntmEmployeeReport.addActionListener(menuListeners);
+		mntmRegisterIssue.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

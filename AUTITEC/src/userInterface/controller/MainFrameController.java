@@ -22,6 +22,7 @@ import sales.controller.SalesController;
 import userInterface.components.NotificationButton;
 import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
+import userInterface.view.RegisterIssueFrame;
 import database.DataBase;
 import financial.view.GenerateReportFrame;
 import financial.view.ListBillsFrame;
@@ -318,6 +319,22 @@ public class MainFrameController {
 			public void run() {
 				
 				EmployeeReportFrame frame = new EmployeeReportFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
+	
+	public void registerIssue() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				RegisterIssueFrame frame = new RegisterIssueFrame();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
 				
