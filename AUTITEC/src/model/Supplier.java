@@ -165,4 +165,10 @@ public class Supplier {
 	public String toString() {
 	    return this.corporateName;
 	}
+	public String getFormattedPhone() {
+		return "(" + phone.substring(0, 2) + ") " + phone.substring(2, 6) + "-" + phone.substring(6, 10);
+	}
+	public String getFormattedCNPJ() {
+		return CNPJ.substring(0, 2) + "." + CNPJ.substring(2, 5) + "." + CNPJ.substring(5, 8) + "/" + CNPJ.substring(8, 12) + "-" + CNPJ.substring(12, 14);
+	}
 }

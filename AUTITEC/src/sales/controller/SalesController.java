@@ -288,7 +288,6 @@ public class SalesController {
 			} else {
 				Map<String, Object> mapa = new HashMap<String, Object>();
 				mapa.put("name", product.getName());
-				mapa.put("quantidade", product.getAmmount());
 				mapa.put("descricao", product.getDescrition());
 				produtoDAO = new ProductDAO(mapa);
 			}

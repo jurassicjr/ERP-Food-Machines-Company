@@ -1,6 +1,8 @@
 package sales.view;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,10 +18,11 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
 
 import model.Product;
 import sales.controller.SalesController;
@@ -37,19 +40,15 @@ public class RegisterOfProductFrame extends JFrame {
 	private JPanel bottonPanel;
 
 	private UpperTextField txtName;
-	private JTextField txtQuantidade;
-
-	private JLabel lblQuantidade;
-	private JLabel lblDescrio;
 
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
 
-	private JTextArea txtDescricao;
-
 	private SalesController controller;
 	private RegisterOfProductFrame frame;
-	private ShowMessage message = new ShowMessage();
+
+	private JTextArea txtDescricao;
+
 
 	public RegisterOfProductFrame() {
 		frame = this;
@@ -65,7 +64,8 @@ public class RegisterOfProductFrame extends JFrame {
 	private void initializePrincipal() {
 		this.setTitle("Cadastro de Produto");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-
+		setBounds(100, 100, 450, 300);
+		setPreferredSize(new Dimension(450,300));
 		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
 
@@ -75,61 +75,43 @@ public class RegisterOfProductFrame extends JFrame {
 
 		txtName = new UpperTextField();
 		txtName.setColumns(10);
-
-		lblQuantidade = new JLabel("Quantidade");
-
-		txtQuantidade = new JTextField();
-		txtQuantidade.setColumns(10);
-
-		lblDescrio = new JLabel("Descrição");
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Descri\u00E7\u00E3o", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		JSeparator separator = new JSeparator();
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel.setHorizontalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.LEADING)
-		                                .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createSequentialGroup()
-		                                                .addComponent(lblNome)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383,
-		                                                        Short.MAX_VALUE))
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createSequentialGroup()
-		                                                .addComponent(lblQuantidade)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(txtQuantidade, GroupLayout.PREFERRED_SIZE,
-		                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                                .addComponent(lblDescrio)).addContainerGap()));
-		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNome)
-		                                .addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblQuantidade)
-		                                .addComponent(txtQuantidade, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblDescrio)
-		                .addPreferredGap(ComponentPlacement.RELATED)
-		                .addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE).addContainerGap()));
-
+		gl_principalPanel.setHorizontalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(separator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblNome)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_principalPanel.setVerticalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNome)
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(33, Short.MAX_VALUE))
+		);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, BorderLayout.CENTER);
+		
 		txtDescricao = new JTextArea();
 		scrollPane.setViewportView(txtDescricao);
 		principalPanel.setLayout(gl_principalPanel);
@@ -177,14 +159,11 @@ public class RegisterOfProductFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "CADASTRO", "Deseja realmente cadastrar esse produto ?");
 					if (i == JOptionPane.YES_OPTION) {
 						Product produto = new Product();
-						produto.setDescrition(txtDescricao.getText());
 						produto.setName(txtName.getText());
-						produto.setAmmount(Integer.parseInt(txtQuantidade.getText()));
+						produto.setDescrition(txtDescricao.getText());
 						try {
 							controller.doProductRegister(produto);
 							ClearFrame.clear(frame);
-							// message.successMessage(frame, "Gravação",
-							// "Gravação concluida com sucesso!");
 						} catch (Exception erro) {
 							erro.printStackTrace();
 						}

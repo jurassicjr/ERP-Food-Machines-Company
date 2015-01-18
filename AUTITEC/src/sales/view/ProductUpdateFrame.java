@@ -21,6 +21,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
@@ -67,6 +68,7 @@ public class ProductUpdateFrame extends JFrame {
 	private JPanel panelDescrition;
 
 	private JPanel panelDescricao;
+	private JSeparator separator;
 
 	public ProductUpdateFrame() {
 		dataBase = new DataBase();
@@ -83,9 +85,9 @@ public class ProductUpdateFrame extends JFrame {
 	private void initialize() {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		// Adiciona o titulo
-		this.setTitle("Atualização de Produtos/Materiais");
-		setBounds(100, 100, 450, 300);
-		setMinimumSize(new Dimension(450, 300));
+		this.setTitle("Atualização de Materiais");
+		setBounds(100, 100, 480, 300);
+		setMinimumSize(new Dimension(480, 300));
 		// Logo
 		Icon.setIcon(frame);
 		// Determina o Layout
@@ -109,51 +111,45 @@ public class ProductUpdateFrame extends JFrame {
 		panelDescricao = new JPanel();
 		panelDescricao.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Descri\u00E7\u00E3o",
 		        TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		
+		separator = new JSeparator();
 
 		// Determina o layout do panel
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel.setHorizontalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.LEADING)
-		                                .addComponent(panelDescricao, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE,
-		                                        414, Short.MAX_VALUE)
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createSequentialGroup()
-		                                                .addComponent(lblProdutomaterial)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 173,
-		                                                        GroupLayout.PREFERRED_SIZE))
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createSequentialGroup()
-		                                                .addComponent(lblNome)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383,
-		                                                        Short.MAX_VALUE))).addContainerGap()));
-		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblProdutomaterial)
-		                                .addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNome)
-		                                .addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)).addGap(18)
-		                .addComponent(panelDescricao, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
-		                .addGap(22)));
+		gl_principalPanel.setHorizontalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(separator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+							.addComponent(lblProdutomaterial)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+							.addComponent(lblNome)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE))
+						.addComponent(panelDescricao, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_principalPanel.setVerticalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblProdutomaterial)
+						.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNome)
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(panelDescricao, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addGap(40))
+		);
 		panelDescricao.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
