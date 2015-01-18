@@ -44,5 +44,24 @@ public class SendEmail {
 		}
 		
 	}
+	
+	public void send(String destination, String subject, String message) {
+		
+		try {
+			
+			htmlEmail.addTo(destination);
+			htmlEmail.setFrom(email);
+			htmlEmail.setSubject(subject);
+			htmlEmail.setHtmlMsg(message);
+			
+			htmlEmail.send();
+			
+			
+		} catch (EmailException e) {
+			ShowMessage.errorMessage(null, "Falha ao enviar o email", "Ocorreu uma falha ao enviar o email.\nPor favor consulte o suporte");
+			e.printStackTrace();
+		}
+		
+	}
 
 }
