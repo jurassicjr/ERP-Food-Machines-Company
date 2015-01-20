@@ -14,7 +14,7 @@ import java.util.UUID;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 
-import model.Product;
+import model.Material;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.PDFFilter;
 import util.HandlesFile;
@@ -25,7 +25,7 @@ import database.DataBase;
 
 public class MaterialReportController extends SalesController {
 
-	private List<Product> products;
+	private List<Material> products;
 	private DataBase dataBase;
 	private JFrame frame;
 
@@ -37,14 +37,14 @@ public class MaterialReportController extends SalesController {
 	}
 
 	private void setProducts() {
-		products = new ArrayList<Product>();
+		products = new ArrayList<Material>();
 		try (ResultSet rs = dataBase.executeQuery("Select *from Product")) {
 			while (rs.next()) {
 				String name = rs.getString("name");
 				int id = rs.getInt("id");
 				String descrition = rs.getString("descricao");
 				int ammount = rs.getInt("quantidade");
-				Product p = new Product();
+				Material p = new Material();
 				p.setName(name);
 				p.setDescrition(descrition);
 				p.setId(id);
@@ -74,7 +74,7 @@ public class MaterialReportController extends SalesController {
 	public void generateReport(String reportFilePath, boolean openFile) {
 		File file = new File(reportFilePath);
 		StringBuffer content = new StringBuffer();
-		for (Product p : products) {
+		for (Material p : products) {
 
 			content.append("<div style='page-break-after: always'>");
 			

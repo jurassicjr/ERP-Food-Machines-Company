@@ -14,7 +14,7 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.City;
-import model.Product;
+import model.Material;
 import model.State;
 import model.Supplier;
 import sales.view.ApprovalOfSuppliersFrame;
@@ -283,7 +283,7 @@ public class SalesController {
 	 * Realiza o registro de produtos
 	 */
 
-	public void doProductRegister(Product product) {
+	public void doProductRegister(Material product) {
 		try {
 			if (product.equals(null)) {
 				throw new Exception();

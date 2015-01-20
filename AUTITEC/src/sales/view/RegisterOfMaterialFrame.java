@@ -24,7 +24,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import model.Product;
+import model.Material;
 import sales.controller.SalesController;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
@@ -158,7 +158,7 @@ public class RegisterOfMaterialFrame extends JFrame {
 				else if (e.getSource().equals(btnConfirmar)) {
 					int i = ShowMessage.questionMessage(frame, "CADASTRO", "Deseja realmente cadastrar esse produto ?");
 					if (i == JOptionPane.YES_OPTION) {
-						Product produto = new Product();
+						Material produto = new Material();
 						produto.setName(txtName.getText());
 						produto.setDescrition(txtDescricao.getText());
 						try {

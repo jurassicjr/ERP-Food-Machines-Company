@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 import javax.swing.JComboBox;
 
-import model.Product;
+import model.Material;
 import database.DataBase;
 
 public class MaterialUpdateController extends SalesController{
@@ -20,12 +20,12 @@ public class MaterialUpdateController extends SalesController{
 	 * Popula o JComboBox<Produto> com produtos do banco.
 	 */
 	
-	public void fillProducts(JComboBox<Product> product) {
+	public void fillProducts(JComboBox<Material> product) {
 		product.removeAllItems();
 		try {
 			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product");
 			while (rs.next()) {
-				Product produto = new Product();
+				Material produto = new Material();
 				produto.setName(rs.getString("name"));
 				produto.setDescrition(rs.getString("descricao"));
 				produto.setId(rs.getInt("id"));

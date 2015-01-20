@@ -37,7 +37,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import model.City;
-import model.Product;
+import model.Material;
 import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
@@ -68,7 +68,7 @@ public class SupplierUpdateFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private JPanel subPanel;
 
-	private JComboBox<Product> cboProduto;
+	private JComboBox<Material> cboProduto;
 	private JComboBox<Supplier> cboSupplier;
 	private JComboBox<State> cboState;
 	private JComboBox<City> cboCity;
@@ -119,7 +119,7 @@ public class SupplierUpdateFrame extends JFrame {
 	private JTextArea txtJustification;
 	private JTable table;
 
-	private List<Product> productList;
+	private List<Material> productList;
 
 	/**
 	 * Construtor inicialize a GUI o showMessage e o controller.
@@ -233,7 +233,7 @@ public class SupplierUpdateFrame extends JFrame {
 		
 		JLabel lblProdutos = new JLabel("Produtos");
 
-		cboProduto = new JComboBox<Product>();
+		cboProduto = new JComboBox<Material>();
 		productController.fillProducts(cboProduto);
 		cboProduto.setSelectedIndex(-1);
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -579,7 +579,7 @@ public class SupplierUpdateFrame extends JFrame {
 					}
 				} else if (e.getSource().equals(btnAdicionar)) {
 					if (cboProduto.getSelectedIndex() != -1) {
-						Product product = (Product) cboProduto.getSelectedItem();
+						Material product = (Material) cboProduto.getSelectedItem();
 						DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 						if(!hasItem(tbl, product)) {
 						productList.add(product);
@@ -610,7 +610,7 @@ public class SupplierUpdateFrame extends JFrame {
 					if (table.getRowCount() != 0) {
 						int i = table.getSelectedRow();
 						DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-						Product product = (Product) tbl.getValueAt(i, 0);
+						Material product = (Material) tbl.getValueAt(i, 0);
 						Supplier supplier = (Supplier) cboSupplier.getSelectedItem();
 						if (!productList.contains(product) && !supplier.equals(null)) {
 							controller.deleteSupplierProductAssociation(supplier.getId(), product.getId());
@@ -636,7 +636,7 @@ public class SupplierUpdateFrame extends JFrame {
 
 	private void fillField() {
 		if (cboSupplier.getSelectedIndex() != -1) {
-			productList = new ArrayList<Product>();
+			productList = new ArrayList<Material>();
 			productList.clear();
 			Supplier supplier = (Supplier) cboSupplier.getSelectedItem();
 			txtCompanyName.setText(supplier.getCompanyName());
@@ -729,9 +729,9 @@ public class SupplierUpdateFrame extends JFrame {
 		supplier.setId(s.getId());
 		return supplier;
 	}
-	private boolean hasItem(DefaultTableModel tbl, Product obj) {
+	private boolean hasItem(DefaultTableModel tbl, Material obj) {
 		for(int i = tbl.getRowCount() - 1; i>=0; i--) {
-			Product product = (Product) tbl.getValueAt(i, 0);
+			Material product = (Material) tbl.getValueAt(i, 0);
 			if(product.getId() == obj.getId()) {
 				return true;
 			}

@@ -11,7 +11,7 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.City;
-import model.Product;
+import model.Material;
 import model.State;
 import model.Supplier;
 import database.DataBase;
@@ -26,7 +26,7 @@ public class SupplierUpdateController extends SalesController {
 		dataBase.connect();
 	}
 
-	public void updateSupplier(Supplier supplier, List<Product> list) {
+	public void updateSupplier(Supplier supplier, List<Material> list) {
 		Map<String, Object> mapa = new HashMap<String, Object>();
 		mapa.put("companyName", supplier.getCompanyName());
 		mapa.put("CNPJ", supplier.getCNPJ());
@@ -131,7 +131,7 @@ public class SupplierUpdateController extends SalesController {
 				int productId = rs.getInt("product");
 				ResultSet rs2 = dataBase.executeQuery("SELECT *FROM Product WHERE id = ?", productId);
 				while (rs2.next()) {
-					Product product = new Product();
+					Material product = new Material();
 					product.setAmmount(rs2.getInt("quantidade"));
 					product.setName(rs2.getString("name"));
 					product.setId(rs2.getInt("id"));

@@ -28,7 +28,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
-import model.Product;
+import model.Material;
 import sales.controller.MaterialUpdateController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
@@ -53,7 +53,7 @@ public class ProductUpdateFrame extends JFrame {
 	private JLabel lblProdutomaterial;
 	private JLabel lblNome;
 
-	private JComboBox<Product> cboProduto;
+	private JComboBox<Material> cboProduto;
 
 	private MaterialUpdateController controller;
 
@@ -98,7 +98,7 @@ public class ProductUpdateFrame extends JFrame {
 
 		lblProdutomaterial = new JLabel("Produto/Material");
 
-		cboProduto = new JComboBox<Product>();
+		cboProduto = new JComboBox<Material>();
 		controller.fillProducts(cboProduto);
 		ComboBoxAutoCompletion cboAutoCompletation = new ComboBoxAutoCompletion(cboProduto);
 		cboProduto.setSelectedIndex(-1);
@@ -199,7 +199,7 @@ public class ProductUpdateFrame extends JFrame {
 				if (cboProduto.getSelectedIndex() != -1) {
 					String sql = "SELECT *FROM Product WHERE name = ?";
 					try {
-						Product produto = (Product) cboProduto.getSelectedItem();
+						Material produto = (Material) cboProduto.getSelectedItem();
 						fillFields(dataBase.executeQuery(sql, produto.getName()));
 					} catch (SQLException e1) {
 						e1.printStackTrace();
@@ -219,7 +219,7 @@ public class ProductUpdateFrame extends JFrame {
 					        + txtName.getText() + "\"");
 					if (i == JOptionPane.YES_OPTION) {
 						String sql = "UPDATE Product SET name = ?, descricao = ? WHERE id = ?";
-						Product produto = (Product) cboProduto.getSelectedItem();
+						Material produto = (Material) cboProduto.getSelectedItem();
 						insertData = new Object[] { txtName.getText(), txtDescricao.getText(), produto.getId() };
 						dataBase.executeUpdate(sql, insertData);
 						String title = "Atualização/Remoção";
@@ -236,7 +236,7 @@ public class ProductUpdateFrame extends JFrame {
 					if (i == JOptionPane.YES_OPTION) {
 						String query ="DELETE FROM supplier_product_association where product = ?";
 						String sql = "DELETE FROM Product WHERE id = ?";
-						Product produto = (Product) cboProduto.getSelectedItem();
+						Material produto = (Material) cboProduto.getSelectedItem();
 						dataBase.executeUpdate(query, produto.getId());
 						dataBase.executeUpdate(sql, produto.getId());
 						ClearFrame.clear(frame);

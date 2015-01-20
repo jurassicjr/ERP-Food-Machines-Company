@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import model.Product;
+import model.Material;
 import model.Supplier;
 import database.DataBase;
 
@@ -90,7 +90,7 @@ public class SuppliersDAO {
 		dataBase.executeUpdate(sql, insertData);
 	}
 
-	public void makeProductAssociation(List<Product> list, Supplier supplier) {
+	public void makeProductAssociation(List<Material> list, Supplier supplier) {
 		int supplierID = 0;
 		if (!list.isEmpty()) {
 			ResultSet rs = dataBase.executeQuery("SELECT *FROM suppliers WHERE corporate_name = ?",
@@ -103,7 +103,7 @@ public class SuppliersDAO {
 				e.printStackTrace();
 			}
 			if (supplierID != 0) {
-				for (Product produto : list) {
+				for (Material produto : list) {
 					String sql = "INSERT INTO supplier_product_association(product, supplier) VALUES(?, ?)";
 					Object[] data = new Object[] { produto.getId(), supplierID };
 					dataBase.executeUpdate(sql, data);

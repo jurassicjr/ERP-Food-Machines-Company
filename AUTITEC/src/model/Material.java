@@ -1,6 +1,6 @@
 package model;
 
-public class Product {
+public class Material {
 	private int id;
 	private String name;
 	private int ammount;

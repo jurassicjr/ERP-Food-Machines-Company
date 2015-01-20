@@ -29,7 +29,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 
 import model.Client;
-import model.Product;
+import model.Material;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
@@ -110,7 +110,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 	private JRadioButton rdbtnNa;
 	private JRadioButton rdbtnNa_2;
 
-	private JComboBox<Product> cboMaterial;
+	private JComboBox<Material> cboMaterial;
 	private JComboBox<String> cboService;
 	private JComboBox<Client> cboClient;
 	private JComboBox<Object> cboQualificationType;
@@ -328,7 +328,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		txtObservation_3 = new JTextField();
 		txtObservation_3.setColumns(10);
 
-		cboMaterial = new JComboBox<Product>();
+		cboMaterial = new JComboBox<Material>();
 		controller.fillProducts(cboMaterial);
 		cboMaterial.setSelectedIndex(-1);
 		cboService = new JComboBox<String>();
@@ -823,7 +823,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		Supplier s = (Supplier) cboSupplier.getSelectedItem();
 		int supplierId = s.getId();
 		String qualificationType = (String) cboQualificationType.getSelectedItem();
-		Product p = (Product) cboMaterial.getSelectedItem();
+		Material p = (Material) cboMaterial.getSelectedItem();
 		String material = p.getName();
 		String service = (String) cboService.getSelectedItem();
 		if (bg1.getSelection().equals(rdbtnSim)) {

@@ -7,7 +7,7 @@ import javax.swing.JComboBox;
 
 import model.City;
 import model.Client;
-import model.Product;
+import model.Material;
 import model.State;
 import model.Supplier;
 import database.DataBase;
@@ -76,12 +76,12 @@ public class ApprovalOfSupplierController extends SalesController {
 		cboSupplier.setSelectedIndex(-1);
 	}
 
-	public void fillProducts(JComboBox<Product> product) {
+	public void fillProducts(JComboBox<Material> product) {
 		product.removeAllItems();
 		try {
 			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product");
 			while (rs.next()) {
-				Product produto = new Product();
+				Material produto = new Material();
 				produto.setName(rs.getString("name"));
 				produto.setDescrition(rs.getString("descricao"));
 				produto.setId(rs.getInt("id"));

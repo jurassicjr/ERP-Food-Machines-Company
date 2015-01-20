@@ -10,7 +10,7 @@ public class Supplier {
 	private int id;
 	private String corporateName;
 	private String CNPJ;
-	private List<Product> material;
+	private List<Material> material;
 	private City city;
 	private State state;
 	private String street;
@@ -45,11 +45,11 @@ public class Supplier {
 		this.id = id;
 	}
 
-	public List<Product> getMaterial() {
+	public List<Material> getMaterial() {
 		return material;
 	}
 
-	public void setMaterial(List<Product> material) {
+	public void setMaterial(List<Material> material) {
 		this.material = material;
 	}
 

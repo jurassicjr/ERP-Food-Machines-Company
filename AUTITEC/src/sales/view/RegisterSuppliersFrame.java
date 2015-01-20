@@ -36,7 +36,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import model.City;
-import model.Product;
+import model.Material;
 import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
@@ -94,7 +94,7 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JComboBox<City> cboCity;
 	private JComboBox<State> cboState;
 	private JComboBox<String> cboCertification;
-	private JComboBox<Product> cboProduto;
+	private JComboBox<Material> cboProduto;
 	private JComboBox<String> cboFiscalCertification;
 
 	private JTextArea txtJustifacao;
@@ -350,7 +350,7 @@ public class RegisterSuppliersFrame extends JFrame {
 
 		JLabel lblProdutos = new JLabel("Produtos");
 
-		cboProduto = new JComboBox<Product>();
+		cboProduto = new JComboBox<Material>();
 
 		btnAdicionar = new JButton("Adicionar");
 
@@ -512,7 +512,7 @@ public class RegisterSuppliersFrame extends JFrame {
 					}
 				} else if (e.getSource().equals(btnAdicionar)) {
 					DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-					Product produto = (Product) cboProduto.getSelectedItem();
+					Material produto = (Material) cboProduto.getSelectedItem();
 					tbl.addRow(new Object[] { produto, produto.getDescrition() });
 				}
 			}
@@ -584,9 +584,9 @@ public class RegisterSuppliersFrame extends JFrame {
 		java.sql.Date sqlDate = new java.sql.Date(data.getTime());
 		supplier.setExpireCertificateDate(sqlDate);
 		
-		List<Product> material = new ArrayList<Product>();
+		List<Material> material = new ArrayList<Material>();
 			for(int i = 0; i < table.getRowCount(); i++) {
-				Product product = (Product) table.getValueAt(i, 0);
+				Material product = (Material) table.getValueAt(i, 0);
 				material.add(product);
 			}
 		supplier.setMaterial(material);
