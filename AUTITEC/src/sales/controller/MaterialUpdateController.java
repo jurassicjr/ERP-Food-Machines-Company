@@ -8,10 +8,10 @@ import javax.swing.JComboBox;
 import model.Product;
 import database.DataBase;
 
-public class ProductUpdateController extends SalesController{
+public class MaterialUpdateController extends SalesController{
 	DataBase dataBase;
 	
-	public ProductUpdateController() {
+	public MaterialUpdateController() {
 		dataBase = new DataBase();
 		dataBase.connect();
     }

@@ -29,7 +29,7 @@ import javax.swing.table.DefaultTableModel;
 import model.Product;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
-import sales.controller.ProductUpdateController;
+import sales.controller.MaterialUpdateController;
 import sales.controller.SalesController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
@@ -70,20 +70,22 @@ public class SalesRequisitionFrame extends JFrame {
 
 	private JButton btnInserir;
 	private JButton btnCancelar;
-	private JButton btnAdicionarAPedidos;
+	private JButton btnAddToSalesOrder;
 
 	private JTable table;
-	private JTable table_1;
+	private JTable SalesOrderTable;
 
 	private SalesController controller;
 
-	private ProductUpdateController controllerProduct;
+	private MaterialUpdateController controllerProduct;
 
 	private JLabel lblPrioridade;
 
+	private JButton btnPickUpFromSalesOrder;
+
 
 	public SalesRequisitionFrame() {
-		controllerProduct = new ProductUpdateController();
+		controllerProduct = new MaterialUpdateController();
 		controller = new SalesController();
 		initialize();
 		setListeners();
@@ -98,7 +100,7 @@ public class SalesRequisitionFrame extends JFrame {
 		this.setName("Requisição de compras");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		this.setTitle("Requisição de Compras");
-		setBounds(100, 100, 610, 360);
+		setBounds(100, 100, 720, 375);
 		setPreferredSize(new Dimension(610, 360));
 		panelRequisition = new JPanel();
 		getContentPane().add(panelRequisition, BorderLayout.CENTER);
@@ -151,7 +153,7 @@ public class SalesRequisitionFrame extends JFrame {
 
 		scrollPane = new JScrollPane();
 
-		btnAdicionarAPedidos = new JButton("+ P.D.C");
+		btnAddToSalesOrder = new JButton("+ P.D.C");
 
 		scrollPane_1 = new JScrollPane();
 
@@ -160,12 +162,14 @@ public class SalesRequisitionFrame extends JFrame {
 		txtQuantidade = new JTextField();
 		txtQuantidade.setColumns(10);
 		
+		btnPickUpFromSalesOrder = new JButton("- P.D.C");
+		
 		GroupLayout gl_panel = new GroupLayout(panelRequisition);
 		gl_panel.setHorizontalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
+					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 								.addGroup(gl_panel.createSequentialGroup()
@@ -206,13 +210,15 @@ public class SalesRequisitionFrame extends JFrame {
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 										.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(label, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)))))
-						.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
+						.addGroup(gl_panel.createSequentialGroup()
 							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 329, GroupLayout.PREFERRED_SIZE)
 							.addGap(10)
-							.addComponent(btnAdicionarAPedidos, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnAddToSalesOrder, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE)
+								.addComponent(btnPickUpFromSalesOrder, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(scrollPane_1, 0, 0, Short.MAX_VALUE)))
-					.addContainerGap(10, Short.MAX_VALUE))
+					.addContainerGap(14, Short.MAX_VALUE))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -246,35 +252,59 @@ public class SalesRequisitionFrame extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(48)
-							.addComponent(btnAdicionarAPedidos, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
-							.addGap(74))
+							.addComponent(btnAddToSalesOrder, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(btnPickUpFromSalesOrder, GroupLayout.PREFERRED_SIZE, 48, GroupLayout.PREFERRED_SIZE)
+							.addGap(21))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGap(18)
 							.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-								.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE))
+								.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE)
+								.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
 							.addContainerGap())))
 		);
 
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(new Object[][] {}, new String[] { "Quantidade", "Material",
-		        "Area de uso" }));
-		scrollPane_1.setViewportView(table_1);
+		SalesOrderTable = new JTable();
+		String[] salesOrderTableHeader = new String[] {"Quantidade", "Material", "Area de Uso"};
+		SalesOrderTable.setModel(new DefaultTableModel(null, salesOrderTableHeader) {
+
+			/**
+			 * 
+			 */
+            private static final long serialVersionUID = -617596618744472709L;
+			
+            boolean[] columnEditables = new boolean[] {
+					false, false, false
+			};
+			
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		
+		scrollPane_1.setViewportView(SalesOrderTable);
 		table = new JTable();
 		scrollPane.setViewportView(table);
 		table.setBorder(new LineBorder(new Color(0, 0, 0)));
-		table.setModel(new DefaultTableModel(new Object[][] { { "01", "Cilindro de Arg", "Produ\u00E7\u00E3o" }, },
-		        new String[] { "Quantidade", "Material", "Area de Uso" }) {
-			/**
-					 * 
-					 */
-			private static final long serialVersionUID = 4093860116521909659L;
-			Class[] columnTypes = new Class[] { Integer.class, String.class, String.class };
+		String[] header = new String[] {"Quantidade", "Material", "Área de uso"};
+		
+		table.setModel(new DefaultTableModel(null, header) {
 
+			/**
+			 * 
+			 */
+            private static final long serialVersionUID = -617596618744472709L;
+			
+            boolean[] columnEditables = new boolean[] {
+					false, false, false
+			};
+			
 			@Override
-			public Class getColumnClass(int columnIndex) {
-				return columnTypes[columnIndex];
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
 			}
+            
 		});
 		panelRequisition.setLayout(gl_panel);
 
@@ -320,12 +350,31 @@ public class SalesRequisitionFrame extends JFrame {
 					quantidade = Integer.parseInt(txtQuantidade.getText());
 					DefaultTableModel mdl = (DefaultTableModel) table.getModel();
 					mdl.addRow(new Object[] { quantidade, name, area });
+				}else if(e.getSource().equals(btnAddToSalesOrder)) {
+					DefaultTableModel tbl = (DefaultTableModel) SalesOrderTable.getModel();
+					DefaultTableModel tblSalesRequisition =  (DefaultTableModel) table.getModel();
+					int i = table.getSelectedRow();
+					if(i != -1) {
+					Object[] row = new Object[] { tblSalesRequisition.getValueAt(i, 0), tblSalesRequisition.getValueAt(i, 1), tblSalesRequisition.getValueAt(i, 2)};
+					tbl.addRow(row);
+					tblSalesRequisition.removeRow(i);
+					}
+				}else if(e.getSource().equals(btnPickUpFromSalesOrder)) {
+					DefaultTableModel tbl = (DefaultTableModel) SalesOrderTable.getModel();
+					DefaultTableModel tblSalesRequisition =  (DefaultTableModel) table.getModel();
+					int i = SalesOrderTable.getSelectedRow();
+					if(i != -1) {
+					Object[] row = new Object[] { tbl.getValueAt(i, 0), tbl.getValueAt(i, 1), tbl.getValueAt(i, 2)};
+					tblSalesRequisition.addRow(row);
+					tbl.removeRow(i);
+					}
 				}
 			}
 		};
+		btnPickUpFromSalesOrder.addActionListener(buttonListener);
+		btnAddToSalesOrder.addActionListener(buttonListener);
 		btnCancelar.addActionListener(buttonListener);
 		btnInserir.addActionListener(buttonListener);
 
 	}
-
 }

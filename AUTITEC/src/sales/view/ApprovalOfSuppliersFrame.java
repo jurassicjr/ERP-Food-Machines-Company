@@ -7,9 +7,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ButtonGroup;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -26,28 +28,21 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.TitledBorder;
 
+import model.Client;
 import model.Product;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
-import sales.controller.SalesController;
+import sales.controller.ApprovalOfSupplierController;
+import userInterface.components.ComboBoxAutoCompletion;
+import util.Icon;
 import util.ShowMessage;
 
 public class ApprovalOfSuppliersFrame extends JFrame {
-
-	public ApprovalOfSuppliersFrame() {
-		controller = new SalesController();
-		this.initizalize();
-		this.setListeners();
-	}
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -8366385217334396998L;
 
 	private ApprovalOfSuppliersFrame frame = this;
-	private SalesController controller;
+	private ApprovalOfSupplierController controller;
 
 	private JPanel panelBotao;
 	private JPanel panelJust;
@@ -56,7 +51,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 	private JScrollPane scrollPane_1;
 	private JScrollPane scrollPane;
 
-	private DateField txtDataQuali_1;
+	private DateField txtQualificationDate;
 
 	private JTextField txtEvidence;
 	private JTextField txtObservation_1;
@@ -117,15 +112,37 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 
 	private JComboBox<Product> cboMaterial;
 	private JComboBox<String> cboService;
-	private JComboBox<String> cboClient;
-	private JComboBox<Object> cboQualificationProcess;
+	private JComboBox<Client> cboClient;
+	private JComboBox<Object> cboQualificationType;
 	private JComboBox<Supplier> cboSupplier;
 
 	private JTextArea txtMaterialDescription;
 	private JTextArea txtJustification;
 
+	private boolean approved;
+
+	private int serviceRate;
+
+	private int qualityRate;
+
+	private int priceRate;
+
+	private int qualitySystem;
+
+	private int recordOfDelivering;
+
+	private int supplierCapacity;
+
+
+	public ApprovalOfSuppliersFrame() {
+		controller = new ApprovalOfSupplierController();
+		this.initizalize();
+		this.setListeners();
+	}
+
 	private void initizalize() {
 		setLocationRelativeTo(null);
+		Icon.setIcon(frame);
 		this.setBounds(100, 100, 680, 530);
 		setMinimumSize(new Dimension(680, 530));
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -241,12 +258,14 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		lblDescrioDoServiomaterial = new JLabel("Descrição do Serviço/Material");
 
 		lblQualificao = new JLabel("Qualificação:");
-		txtDataQuali_1 = CalendarFactory.createDateField();
-		txtDataQuali_1.setValue(null);
+		txtQualificationDate = CalendarFactory.createDateField();
+		txtQualificationDate.setValue(null);
 
-		cboQualificationProcess = new JComboBox<Object>();
-		cboQualificationProcess.setModel(new DefaultComboBoxModel<Object>(new String[] { "Fornecedor Novo",
-		        "Fornecedor Tradicional", "Requalificação" }));
+		cboQualificationType = new JComboBox<Object>();
+		cboQualificationType.addItem("Fornecedor Novo");
+		cboQualificationType.addItem("Fornecedor Tradicional");
+		cboQualificationType.addItem("Requalificação");
+		cboQualificationType.setSelectedIndex(-1);
 
 		lblService = new JLabel("Serviço");
 
@@ -310,12 +329,17 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		txtObservation_3.setColumns(10);
 
 		cboMaterial = new JComboBox<Product>();
-
+		controller.fillProducts(cboMaterial);
+		cboMaterial.setSelectedIndex(-1);
 		cboService = new JComboBox<String>();
+		cboService.setSelectedIndex(-1);
 
 		lblCliente = new JLabel("Cliente");
 
-		cboClient = new JComboBox<String>();
+		cboClient = new JComboBox<Client>();
+		controller.fillClient(cboClient);
+		ComboBoxAutoCompletion cboAClient = new ComboBoxAutoCompletion(cboClient);
+		cboClient.setSelectedIndex(-1);
 
 		lblPreo = new JLabel("Preço");
 
@@ -336,6 +360,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		rdbtnRuim_1 = new JRadioButton("Ruim");
 
 		rdbtnPssimo_1 = new JRadioButton("Péssimo");
+
 		bg5.add(rdbtnBom_1);
 		bg5.add(rdbtnPssimo_1);
 		bg5.add(rdbtnRuim_1);
@@ -360,6 +385,9 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		scrollPane.setViewportView(txtMaterialDescription);
 
 		cboSupplier = new JComboBox<Supplier>();
+		controller.fillSuppliers(cboSupplier);
+		ComboBoxAutoCompletion cbo = new ComboBoxAutoCompletion(cboSupplier);
+		cboSupplier.setSelectedIndex(-1);
 
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(gl_panel
@@ -419,7 +447,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                                                        .addPreferredGap(
 		                                                                                                ComponentPlacement.RELATED)
 		                                                                                        .addComponent(
-		                                                                                                txtDataQuali_1,
+		                                                                                                txtQualificationDate,
 		                                                                                                GroupLayout.PREFERRED_SIZE,
 		                                                                                                94,
 		                                                                                                GroupLayout.PREFERRED_SIZE)
@@ -432,7 +460,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                                                                        .addPreferredGap(
 		                                                                                                ComponentPlacement.RELATED)
 		                                                                                        .addComponent(
-		                                                                                                cboQualificationProcess,
+		                                                                                                cboQualificationType,
 		                                                                                                GroupLayout.PREFERRED_SIZE,
 		                                                                                                242,
 		                                                                                                GroupLayout.PREFERRED_SIZE))
@@ -615,11 +643,10 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		                                .addGroup(
 		                                        gl_panel.createParallelGroup(Alignment.BASELINE)
 		                                                .addComponent(deAprovao)
-		                                                .addComponent(cboQualificationProcess,
-		                                                        GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                                        GroupLayout.PREFERRED_SIZE)
+		                                                .addComponent(cboQualificationType, GroupLayout.PREFERRED_SIZE,
+		                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 		                                                .addComponent(lblTipoDoProcesso))
-		                                .addComponent(txtDataQuali_1, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(txtQualificationDate, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		                .addGap(18)
 		                .addGroup(
@@ -740,8 +767,8 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 				if (e.getSource().equals(btnCancelar)) {
 					controller.closeFrame(frame);
 				} else if (e.getSource().equals(btnConfirmar)) {
-					if(isComplete()) {
-						
+					if (isComplete()) {
+						approve();
 					}
 				}
 			}
@@ -753,7 +780,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 	private boolean isComplete() {
 		boolean complete = false;
 		String erro = null;
-		if (txtDataQuali_1.getValue().equals(null))
+		if (txtQualificationDate.getValue().equals(null))
 			erro = "Insita a data da qualificação";
 		else if (txtMaterialDescription.getText() == "" || txtMaterialDescription.getText().equals(null))
 			erro = "Insira um descrição do material";
@@ -763,7 +790,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 			erro = "Selecione um cliente";
 		else if (cboMaterial.getSelectedIndex() == -1)
 			erro = "Selecione um material";
-		else if (cboQualificationProcess.getSelectedIndex() == -1)
+		else if (cboQualificationType.getSelectedIndex() == -1)
 			erro = "Selecione um processo de qualificação";
 		else if (cboService.getSelectedIndex() == -1)
 			erro = "Selecione um Seviço";
@@ -789,5 +816,91 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 			return complete;
 		}
 		return complete;
+	}
+
+	private void approve() {
+		Date qualificationDate = (Date) txtQualificationDate.getValue();
+		Supplier s = (Supplier) cboSupplier.getSelectedItem();
+		int supplierId = s.getId();
+		String qualificationType = (String) cboQualificationType.getSelectedItem();
+		Product p = (Product) cboMaterial.getSelectedItem();
+		String material = p.getName();
+		String service = (String) cboService.getSelectedItem();
+		if (bg1.getSelection().equals(rdbtnSim)) {
+			qualitySystem = 0;
+		} else if (bg1.getSelection().equals(rdbtnNo)) {
+			qualitySystem = 1;
+		} else if (bg1.getSelection().equals(rdbtnNa)) {
+			qualitySystem = 2;
+		}
+		String qualityEvidence = txtEvidence.getText();
+		String qualityObservation = txtObservation_1.getText();
+		if(bg2.getSelection().equals(rdbtnSim_1)) {
+			recordOfDelivering = 0;
+		}else if(bg2.getSelection().equals(rdbtnNo_1)) {
+			recordOfDelivering = 1; 
+		}else if(bg2.getSelection().equals(rdbtnNa_1)) {
+			 recordOfDelivering = 2;
+		}
+		String recordOfDeliveringEvidence = txtEvidence_2.getText();
+		String recordOfDeliveringObservation = txtObservation_2.getText();
+		if(bg3.getSelection().equals(rdbtnSim_2)) {
+			supplierCapacity = 0;
+		}else if(bg3.getSelection().equals(rdbtnNo_2)) {
+			 supplierCapacity = 1;
+		}else if(bg3.getSelection().equals(rdbtnNa_2)) {
+			 supplierCapacity = 2;
+		}
+		String supplierCapacityEvidence = txtEvidence_3.getText();
+		String supplierCapacityObservation = txtObservation_3.getText();
+		Client c = (Client) cboClient.getSelectedItem();
+		int client = c.getId();
+		String descrition = txtMaterialDescription.getText();
+		if(bg4.getSelection().equals(rdbtnBom)) {
+			priceRate = 0;
+		}else if(bg4.getSelection().equals(rdbtnRuim)) {
+			priceRate = 1;
+		}else if(bg4.getSelection().equals(rdbtnPssimo)) {
+			priceRate = 2;
+		}
+		if(bg5.getSelection().equals(rdbtnBom_1)) {
+			qualityRate = 0;
+		}else if(bg5.getSelection().equals(rdbtnRuim_1)) {
+			qualityRate = 1;
+		}else if(bg5.getSelection().equals(rdbtnPssimo_1)) {
+			qualityRate = 2;
+		}
+		if(bg6.getSelection().equals(rdbtnBom_2)) {
+			serviceRate = 0;
+		}else if(bg6.getSelection().equals(rdbtnRuim_2)) {
+			serviceRate = 1;
+		}else if(bg6.getSelection().equals(rdbtnPssimo_2)) {
+			serviceRate = 2;
+		}
+		if(bg6.getSelection().equals(rdbtnSimEleSt)) {
+			approved = true;
+		}else {
+			approved = false;
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("qualificationDate ", qualificationDate);
+		map.put("supplier", supplierId);
+		map.put("qualificationType", qualificationType);
+		map.put("material", material);
+		map.put("service", service);
+		map.put("qualitySystem", qualitySystem);
+		map.put("qualityEvidence", qualityEvidence);
+		map.put("qualityObservation", qualityObservation);
+		map.put("recordOfDelivering", recordOfDelivering);
+		map.put("recordOfDeliveringEvidence", recordOfDeliveringEvidence);
+		map.put("recordOfDeliveringObservation", recordOfDeliveringObservation);
+		map.put("descrition", descrition);
+		map.put("supplierCapacity", supplierCapacity);
+		map.put("supplierCapacityEvidence", supplierCapacityEvidence);
+		map.put("supplierCapacityObservation", supplierCapacityObservation);
+		map.put("priceRate", priceRate);
+		map.put("qualityRate", qualityRate);
+		map.put("serviceRate", serviceRate);
+		map.put("approved", approved);
 	}
 }

@@ -29,7 +29,7 @@ import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import model.Product;
-import sales.controller.ProductUpdateController;
+import sales.controller.MaterialUpdateController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
@@ -55,7 +55,7 @@ public class ProductUpdateFrame extends JFrame {
 
 	private JComboBox<Product> cboProduto;
 
-	private ProductUpdateController controller;
+	private MaterialUpdateController controller;
 
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
@@ -73,7 +73,7 @@ public class ProductUpdateFrame extends JFrame {
 	public ProductUpdateFrame() {
 		dataBase = new DataBase();
 		dataBase.connect();
-		controller = new ProductUpdateController();
+		controller = new MaterialUpdateController();
 		initialize();
 		setListener();
 	}

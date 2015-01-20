@@ -24,7 +24,7 @@ import util.Icon;
 public class MainFrame extends JFrame {
 
 	private static final long serialVersionUID = -1016369432346974527L;
-	
+
 	private MainFrameController controller;
 	
 	private JScrollPane scrollPane;
@@ -69,6 +69,10 @@ public class MainFrame extends JFrame {
 	private JMenu mnRegister;
 	private JMenu mnUpdates;
 	private JMenu mnReports;
+
+	private JMenuItem mntmProductsReport;
+
+	private JMenuItem mntmClientRegister;
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -170,8 +174,12 @@ public class MainFrame extends JFrame {
 		mnUpdates.add(mntmSupplierUpdate);
 		mnReports = new JMenu("Relátorios");
 		mnSales.add(mnReports);
-		mntmSupplierReportFrame = new JMenuItem("Relátorio de Fornecedores");
+		mntmSupplierReportFrame = new JMenuItem("Relatório de Fornecedores");
 		mnReports.add(mntmSupplierReportFrame);
+		mntmProductsReport = new JMenuItem("Relatório de Materiais");
+		mnReports.add(mntmProductsReport);
+		mntmClientRegister = new JMenuItem("Registro de Cliente");
+		mnRegister.add(mntmClientRegister);
 		
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
@@ -239,6 +247,8 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmProductUpdate)) controller.Sales(MainFrameController.updateOfProduct);
 				else if (e.getSource().equals(mntmSupplierUpdate)) controller.Sales(MainFrameController.updateOfSupplier);
 				else if (e.getSource().equals(mntmSupplierReportFrame)) controller.Sales(MainFrameController.supplierReport);
+				else if (e.getSource().equals(mntmProductsReport))controller.Sales(MainFrameController.productReport);
+				else if(e.getSource().equals(mntmClientRegister)) controller.Sales(MainFrameController.clientRegistration);
 			}
 		};
 		
@@ -255,6 +265,7 @@ public class MainFrame extends JFrame {
 		mntmAbout.addActionListener(menuListeners);
 		mntmEmployeeReport.addActionListener(menuListeners);
 		mntmRegisterIssue.addActionListener(menuListeners);
+		mntmClientRegister.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
@@ -264,6 +275,7 @@ public class MainFrame extends JFrame {
 		mntmProductUpdate.addActionListener(menuListeners);
 		mntmSupplierUpdate.addActionListener(menuListeners);
 		mntmSupplierReportFrame.addActionListener(menuListeners);
+		mntmProductsReport.addActionListener(menuListeners);
 	}
 
 }

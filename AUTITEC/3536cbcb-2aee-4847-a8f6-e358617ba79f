@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <link href="C:\Users\Alexandre\git\autitec\AUTITEC\bin\resources\html\style.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+
+        <header>        	                
+
+            <div id="logo">
+                <img src="C:\Users\Alexandre\git\autitec\AUTITEC\bin\resources\logo.png" width="180px" height="150px" align="left" />
+            </div>
+
+            <div id="title">
+                <h1>Relatório de Funcionários</h1>
+            </div>
+
+        </header>
+        
+        <div id="content">
+        	<div style='page-break-after: always'><h2>Material: VALVULA BORBOLETA 3/4"</h2><h3>Descrição: valvula para controle de pressão</h3><h3>Quantidade em estoque: 100</h3</div><div style='page-break-after: always'><h2>Material: TUBOS DE 1/2"</h2><h3>Descrição: tubos de aço inoxidável de meia polegada no diamêtro</h3><h3>Quantidade em estoque: 10</h3</div><div style='page-break-after: always'><h2>Material: INATIVADOR ENZIMÁTICO </h2><h3>Descrição: Equipamento para inativação de enzimas oxidativas, como quinona</h3><h3>Quantidade em estoque: 10</h3</div><div style='page-break-after: always'><h2>Material: TUBOS DE 1/4"</h2><h3>Descrição: tubos de 1/4" em aço inoxidável</h3><h3>Quantidade em estoque: 0</h3<br/><br/><hr /><small><i>Relatório criado em: 18/01/15 17:07</i></small></div>
+        </div>
+
+    </body>
+
+</html>
+

@@ -41,7 +41,7 @@ import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
-import sales.controller.ProductUpdateController;
+import sales.controller.MaterialUpdateController;
 import sales.controller.SalesController;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
@@ -104,11 +104,11 @@ public class RegisterSuppliersFrame extends JFrame {
 	private ClearFrame faxineira;
 	private JTable table;
 
-	private ProductUpdateController controllerProduct;
+	private MaterialUpdateController controllerProduct;
 
 	public RegisterSuppliersFrame() {
 		controller = new SalesController();
-		controllerProduct = new ProductUpdateController();
+		controllerProduct = new MaterialUpdateController();
 		initialize();
 		setListeners();
 	}

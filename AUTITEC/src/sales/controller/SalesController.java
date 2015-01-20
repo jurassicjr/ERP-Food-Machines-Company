@@ -18,8 +18,10 @@ import model.Product;
 import model.State;
 import model.Supplier;
 import sales.view.ApprovalOfSuppliersFrame;
+import sales.view.ClientRegisterFrame;
+import sales.view.MaterialReportFrame;
 import sales.view.ProductUpdateFrame;
-import sales.view.RegisterOfProductFrame;
+import sales.view.RegisterOfMaterialFrame;
 import sales.view.RegisterSuppliersFrame;
 import sales.view.SalesOrderFrame;
 import sales.view.SalesRequisitionFrame;
@@ -155,7 +157,7 @@ public class SalesController {
 
 			@Override
 			public void run() {
-				RegisterOfProductFrame frame = new RegisterOfProductFrame();
+				RegisterOfMaterialFrame frame = new RegisterOfMaterialFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
@@ -345,6 +347,34 @@ public class SalesController {
 			}
 		});
 	}
+
+	public void productReport() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				MaterialReportFrame frame = new MaterialReportFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	    
+    }
+
+	public void registerOfClient() {
+	   EventQueue.invokeLater(new Runnable() {
+		
+		@Override
+		public void run() {
+			ClientRegisterFrame frame = new ClientRegisterFrame();
+			frame.pack();
+			frame.setVisible(true);
+			frame.setLocationRelativeTo(mainFrame);
+		}
+	});
+	    
+    }
 
 	
 }

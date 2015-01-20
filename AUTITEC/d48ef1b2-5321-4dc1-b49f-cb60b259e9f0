@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="utf-8" />
+        <link href="C:\Users\Alexandre\git\autitec\AUTITEC\bin\resources\html\style.css" rel="stylesheet" type="text/css" />
+    </head>
+
+    <body>
+
+        <header>        	                
+
+            <div id="logo">
+                <img src="C:\Users\Alexandre\git\autitec\AUTITEC\bin\resources\logo.png" width="180px" height="150px" align="left" />
+            </div>
+
+            <div id="title">
+                <h1>Relatório de Fornecedores</h1>
+            </div>
+
+        </header>
+        
+        <div id="content">
+        	<div style='page-break-after: always'><h3>INFORMAÇÕES:<h3><h4>Fornecedor: EUREKA SOLUÇÕES EM PROJETOS LTDA<h4><h4>Telefone: +(18) 3279-5733<h4><h4>email: PROJETOS@EUREKASOLUCOESEMPROJETOS.COM<h4><h4>CNPJ: +21074718000100<h4><h4>Inscrição Estadual: 897857473<h4><h3>Classificação Fiscal: null<h3><h4>Certificado: ISO9001:2008, Data de Expiração: 15/12/2014<h4><h4>Possui certificado do material: SIM<h4><h4>Endereço:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C.E.P: 1832795733<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cidade/UF: Regente Feijó/São Paulo<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rua/Avenida: TEÓFILO OTTONI, 735<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bairro: SUMARÉ</h4><h4>PRODUTOS: <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- VALVULA BORBOLETA 3/4"<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- TUBOS DE 1/2"<h4></div><div style='page-break-after: always'><h3>INFORMAÇÕES:<h3><h4>Fornecedor: BIANCA NASCIMENTO ROUPAS LTDA.<h4><h4>Telefone: +(18) 3279-8988<h4><h4>email: BIAAH.MARI@HOTMAIL.COM<h4><h4>CNPJ: +49388589000199<h4><h4>Inscrição Estadual: 902093092<h4><h3>Classificação Fiscal: Lucro Real<h3><h4>Certificado: ISO9001:2008, Data de Expiração: 14/01/2015<h4><h4>Possui certificado do material: SIM<h4><h4>Endereço:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C.E.P: 1832798988<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cidade/UF: Regente Feijó/São Paulo<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rua/Avenida: CLEMENTE PEREIRA, 150<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bairro: CENTRO</h4><h4>PRODUTOS: <h4></div><div style='page-break-after: always'><h3>INFORMAÇÕES:<h3><h4>Fornecedor: AMAURI AUTOMAÇÃO INDUSTRIAL INC.<h4><h4>Telefone: +(18) 8898-9899<h4><h4>email: ORNELLAS@GMAIL.COM<h4><h4>CNPJ: +87878789000188<h4><h4>Inscrição Estadual: 808898090<h4><h3>Classificação Fiscal: null<h3><h4>Certificado: ISO9001:2008, Data de Expiração: 20/01/2016<h4><h4>Possui certificado do material: SIM<h4><h4>Endereço:<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C.E.P: 1888989899<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Cidade/UF: Ribeirão Preto/São Paulo<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Rua/Avenida: CLEMENTE PEREIRA<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bairro: CENTRO</h4><h4>PRODUTOS: <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- TUBOS DE 1/2"<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- VALVULA BORBOLETA 3/4"<br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- INATIVADOR ENZIMÁTICO <br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;- TUBOS DE 1/4"<h4><br/><br/><hr /><small><i>Relatório criado em: 18/01/15 08:47</i></small></div>
+        </div>
+
+    </body>
+
+</html>
+

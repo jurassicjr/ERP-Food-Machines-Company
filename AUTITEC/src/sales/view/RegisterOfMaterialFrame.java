@@ -30,7 +30,7 @@ import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.ShowMessage;
 
-public class RegisterOfProductFrame extends JFrame {
+public class RegisterOfMaterialFrame extends JFrame {
 	/**
 	 * 
 	 */
@@ -45,12 +45,12 @@ public class RegisterOfProductFrame extends JFrame {
 	private JButton btnCancelar;
 
 	private SalesController controller;
-	private RegisterOfProductFrame frame;
+	private RegisterOfMaterialFrame frame;
 
 	private JTextArea txtDescricao;
 
 
-	public RegisterOfProductFrame() {
+	public RegisterOfMaterialFrame() {
 		frame = this;
 		controller = new SalesController();
 		initializePrincipal();
@@ -128,11 +128,11 @@ public class RegisterOfProductFrame extends JFrame {
 		bottonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(RegisterOfProductFrame.class.getResource("/resources/cancel.png")));
+		btnCancelar.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/cancel.png")));
 		bottonPanel.add(btnCancelar);
 
 		btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setIcon(new ImageIcon(RegisterOfProductFrame.class.getResource("/resources/ok.png")));
+		btnConfirmar.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/ok.png")));
 		bottonPanel.add(btnConfirmar);
 	}
 

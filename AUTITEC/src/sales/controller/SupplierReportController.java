@@ -185,7 +185,7 @@ public class SupplierReportController extends SalesController {
 			content.append("</div>");
 		}
 
-		CreatePdf(reportPathFile, "Relatório de Fornecedores", content.toString());
+		createPdf(reportPathFile, "Relatório de Fornecedores", content.toString());
 
 		if (openFile) {
 			try {
@@ -199,7 +199,7 @@ public class SupplierReportController extends SalesController {
 		}
 	}
 
-	private File CreatePdf(String reportPathFile, String title, String content) {
+	private File createPdf(String reportPathFile, String title, String content) {
 		
 		File output = new File(reportPathFile);
 		Html html = new Html(output);

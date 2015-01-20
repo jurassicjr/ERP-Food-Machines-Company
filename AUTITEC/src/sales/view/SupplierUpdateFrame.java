@@ -42,7 +42,7 @@ import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
-import sales.controller.ProductUpdateController;
+import sales.controller.MaterialUpdateController;
 import sales.controller.SupplierUpdateController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
@@ -60,7 +60,7 @@ public class SupplierUpdateFrame extends JFrame {
 	private JFrame frame;
 
 	SupplierUpdateController controller;
-	ProductUpdateController productController;
+	MaterialUpdateController productController;
 
 	private JPanel principalPanel;
 	private JPanel secundaryPane;
@@ -127,7 +127,7 @@ public class SupplierUpdateFrame extends JFrame {
 
 	public SupplierUpdateFrame() {
 		controller = new SupplierUpdateController();
-		productController = new ProductUpdateController();
+		productController = new MaterialUpdateController();
 		this.frame = this;
 		initialize();
 		setListeners();
