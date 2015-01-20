@@ -22,8 +22,7 @@ public class MaterialUpdateController extends SalesController{
 	
 	public void fillProducts(JComboBox<Material> product) {
 		product.removeAllItems();
-		try {
-			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product");
+		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM Product")){
 			while (rs.next()) {
 				Material produto = new Material();
 				produto.setName(rs.getString("name"));
@@ -32,6 +31,7 @@ public class MaterialUpdateController extends SalesController{
 				produto.setAmmount(rs.getInt("quantidade"));
 				product.addItem(produto);
 			}
+			product.setSelectedIndex(-1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

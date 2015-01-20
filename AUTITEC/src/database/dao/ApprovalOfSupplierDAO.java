@@ -10,9 +10,10 @@ public class ApprovalOfSupplierDAO {
 	private DataBase dataBase;
 
 	public ApprovalOfSupplierDAO() {
-	    dataBase = new DataBase();
-	    dataBase.connect();
-    }
+		dataBase = new DataBase();
+		dataBase.connect();
+	}
+
 	public void persistRegister(Map<String, Object> map) {
 		Date date = (Date) map.get("qualificationDate");
 		java.sql.Date qualificationDate = new java.sql.Date(date.getTime());
@@ -32,9 +33,16 @@ public class ApprovalOfSupplierDAO {
 		String descrition = (String) map.get("descrition");
 		int priceRate = (int) map.get("priceRate");
 		int qualityRate = (int) map.get("qualityRate");
-		int serviceRate = (int) map.get("Service");
+		int serviceRate = (int) map.get("serviceRate");
 		boolean approved = (boolean) map.get("approved");
-		
-		
+		Object[] persist = new Object[] { qualificationDate, supplier, qualificationType, material, service,
+		        qualificationSystem, qualificationEvidence, qualificationObservation, recordOfDelivering,
+		        recordOfDeliveringEvidence, recordOfDeliveringObservation, supplierCapacity, supplierCapacityEvidence,
+		        supplierCapacityObservation, descrition, priceRate, qualityRate, serviceRate, approved };
+		String sql = "INSERT INTO approval_of_supplier(qualification_date,supplier, qualification_type, material, service, quality_system,"
+		        + " quality_evidence, quality_observation, record_of_delivering, record_evidence, record_observation, supplier_capacity,"
+		        + " supplier_evidence, supplier_observation, descrition, price_rate, quality_rate, service_rate, isHabilitated) "
+		        + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		dataBase.executeUpdate(sql, persist);
 	}
 }

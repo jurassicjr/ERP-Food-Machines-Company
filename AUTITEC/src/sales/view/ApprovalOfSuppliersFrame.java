@@ -35,8 +35,10 @@ import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import sales.controller.ApprovalOfSupplierController;
 import userInterface.components.ComboBoxAutoCompletion;
+import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
+import database.dao.ApprovalOfSupplierDAO;
 
 public class ApprovalOfSuppliersFrame extends JFrame {
 	private static final long serialVersionUID = -8366385217334396998L;
@@ -769,6 +771,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 				} else if (e.getSource().equals(btnConfirmar)) {
 					if (isComplete()) {
 						approve();
+						ClearFrame.clear(frame);
 					}
 				}
 			}
@@ -788,12 +791,12 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 			erro = "Indira uma justificação";
 		else if (cboClient.getSelectedIndex() == -1)
 			erro = "Selecione um cliente";
-		else if (cboMaterial.getSelectedIndex() == -1)
-			erro = "Selecione um material";
+		//else if (cboMaterial.getSelectedIndex() == -1)
+		//	erro = "Selecione um material";
 		else if (cboQualificationType.getSelectedIndex() == -1)
 			erro = "Selecione um processo de qualificação";
-		else if (cboService.getSelectedIndex() == -1)
-			erro = "Selecione um Seviço";
+		//else if (cboService.getSelectedIndex() == -1)
+		//	erro = "Selecione um Seviço";
 		else if (cboSupplier.getSelectedIndex() == -1)
 			erro = "Selecione um fornecedor";
 		else if (bg1.getSelection().equals(null))
@@ -826,29 +829,29 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		Material p = (Material) cboMaterial.getSelectedItem();
 		String material = p.getName();
 		String service = (String) cboService.getSelectedItem();
-		if (bg1.getSelection().equals(rdbtnSim)) {
+		if (rdbtnSim.isSelected()) {
 			qualitySystem = 0;
-		} else if (bg1.getSelection().equals(rdbtnNo)) {
+		} else if (rdbtnNo.isSelected()) {
 			qualitySystem = 1;
-		} else if (bg1.getSelection().equals(rdbtnNa)) {
+		} else if (rdbtnNa.isSelected()) {
 			qualitySystem = 2;
 		}
 		String qualityEvidence = txtEvidence.getText();
 		String qualityObservation = txtObservation_1.getText();
-		if(bg2.getSelection().equals(rdbtnSim_1)) {
+		if(rdbtnSim_1.isSelected()) {
 			recordOfDelivering = 0;
-		}else if(bg2.getSelection().equals(rdbtnNo_1)) {
+		}else if(rdbtnNo_1.isSelected()) {
 			recordOfDelivering = 1; 
-		}else if(bg2.getSelection().equals(rdbtnNa_1)) {
+		}else if(rdbtnNa_1.isSelected()) {
 			 recordOfDelivering = 2;
 		}
 		String recordOfDeliveringEvidence = txtEvidence_2.getText();
 		String recordOfDeliveringObservation = txtObservation_2.getText();
-		if(bg3.getSelection().equals(rdbtnSim_2)) {
+		if(rdbtnSim_2.isSelected()) {
 			supplierCapacity = 0;
-		}else if(bg3.getSelection().equals(rdbtnNo_2)) {
+		}else if(rdbtnNo_2.isSelected()) {
 			 supplierCapacity = 1;
-		}else if(bg3.getSelection().equals(rdbtnNa_2)) {
+		}else if(rdbtnNa_2.isSelected()) {
 			 supplierCapacity = 2;
 		}
 		String supplierCapacityEvidence = txtEvidence_3.getText();
@@ -856,34 +859,34 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		Client c = (Client) cboClient.getSelectedItem();
 		int client = c.getId();
 		String descrition = txtMaterialDescription.getText();
-		if(bg4.getSelection().equals(rdbtnBom)) {
+		if(rdbtnBom.isSelected()) {
 			priceRate = 0;
-		}else if(bg4.getSelection().equals(rdbtnRuim)) {
+		}else if(rdbtnRuim.isSelected()) {
 			priceRate = 1;
-		}else if(bg4.getSelection().equals(rdbtnPssimo)) {
+		}else if(rdbtnPssimo.isSelected()) {
 			priceRate = 2;
 		}
-		if(bg5.getSelection().equals(rdbtnBom_1)) {
+		if(rdbtnBom_1.isSelected()) {
 			qualityRate = 0;
-		}else if(bg5.getSelection().equals(rdbtnRuim_1)) {
+		}else if(rdbtnRuim_1.isSelected()) {
 			qualityRate = 1;
-		}else if(bg5.getSelection().equals(rdbtnPssimo_1)) {
+		}else if(rdbtnPssimo_1.isSelected()) {
 			qualityRate = 2;
 		}
-		if(bg6.getSelection().equals(rdbtnBom_2)) {
+		if(rdbtnBom_2.isSelected()) {
 			serviceRate = 0;
-		}else if(bg6.getSelection().equals(rdbtnRuim_2)) {
+		}else if(rdbtnRuim_2.isSelected()) {
 			serviceRate = 1;
-		}else if(bg6.getSelection().equals(rdbtnPssimo_2)) {
+		}else if(rdbtnPssimo_2.isSelected()) {
 			serviceRate = 2;
 		}
-		if(bg6.getSelection().equals(rdbtnSimEleSt)) {
+		if(rdbtnSimEleSt.isSelected()) {
 			approved = true;
 		}else {
 			approved = false;
 		}
 		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("qualificationDate ", qualificationDate);
+		map.put("qualificationDate", qualificationDate);
 		map.put("supplier", supplierId);
 		map.put("qualificationType", qualificationType);
 		map.put("material", material);
@@ -902,5 +905,7 @@ public class ApprovalOfSuppliersFrame extends JFrame {
 		map.put("qualityRate", qualityRate);
 		map.put("serviceRate", serviceRate);
 		map.put("approved", approved);
+		ApprovalOfSupplierDAO aDAO = new ApprovalOfSupplierDAO();
+		aDAO.persistRegister(map);
 	}
 }

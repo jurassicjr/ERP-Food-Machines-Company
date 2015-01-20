@@ -159,13 +159,13 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnRegister);
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
 		mnRegister.add(mntmApprovalOfSuppliers);
-		mntmResgisterOfSuppliers = new JMenuItem("Cadastro de Fornecedores");
+		mntmResgisterOfSuppliers = new JMenuItem("Registro de Fornecedores");
 		mnRegister.add(mntmResgisterOfSuppliers);
 		mntmSalesRequisition = new JMenuItem("Requisição de Compra");
 		mnSales.add(mntmSalesRequisition);
 		mntmSalesOrder = new JMenuItem("Pedido de Compra");
 		mnSales.add(mntmSalesOrder);
-		mntmRegisterOfProduct = new JMenuItem("Cadastro de Material");
+		mntmRegisterOfProduct = new JMenuItem("Registro de Material");
 		mnRegister.add(mntmRegisterOfProduct);
 		mnSales.add(mnUpdates);
 		mntmProductUpdate = new JMenuItem("Material");
