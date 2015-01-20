@@ -1,6 +1,8 @@
 import javax.swing.SwingUtilities;
 
+import product.view.RegisterKitFrame;
 import product.view.RegisterProductFrame;
+import production.view.StagesProductionFrame;
 import userInterface.view.LoadingFrame;
 import userInterface.view.MainFrame;
 
@@ -19,12 +21,9 @@ public class Main {
 		
 		//new LoginFrame().setVisible(true);
 		new MainFrame().setVisible(true);
+		//new RegisterKitFrame().setVisible(true);
 		
-		//new TechnicalStandardFrame().setVisible(true);
-		//new RegisterIssueFrame().setVisible(true);
-		
-		//new RegisterProductFrame().setVisible(true);
-
+		//new StagesProductionFrame().setVisible(true);
 		
 		loadingFrame.dispose();
 				

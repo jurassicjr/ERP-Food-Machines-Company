@@ -176,7 +176,21 @@ CREATE TABLE material_relationship (
 	product INT(11) NOT NULL,
 	material INT(11) NOT NULL,
 
-	FOREIGN KEY product REFERENCES compost_product(id),
-	FOREIGN KEY material REFERENCES Product(id)
+	FOREIGN KEY (product) REFERENCES compost_product(id),
+	FOREIGN KEY (material) REFERENCES Product(id)
+
+);
+
+CREATE TABLE production (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+
+);
+
+CREATE TABLE stages (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	stage VARCHAR(100) NOT NULL,
+	finalized INT(11) NOT NULL
 
 );

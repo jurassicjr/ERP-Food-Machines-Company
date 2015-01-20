@@ -12,6 +12,7 @@ import java.util.Date;
 import javax.swing.Box;
 import javax.swing.JPanel;
 
+import production.view.StagesProductionFrame;
 import model.Bill;
 import model.FinancialNotification;
 import rh.view.EmployeeReportFrame;
@@ -339,6 +340,22 @@ public class MainFrameController {
 			public void run() {
 				
 				RegisterIssueFrame frame = new RegisterIssueFrame();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
+	
+	public void stagesProduction() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				StagesProductionFrame frame = new StagesProductionFrame();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
 				

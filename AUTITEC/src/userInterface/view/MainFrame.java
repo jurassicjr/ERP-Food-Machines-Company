@@ -34,6 +34,7 @@ public class MainFrame extends JFrame {
 	
 	private JMenu mnRh;
 	private JMenu mnFinancial;
+	private JMenu mnProduction;
 	private JMenu mnAbout;
 				
 	private JMenuItem mntmRegisterEmployee;
@@ -51,6 +52,8 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmRegisterDebtsToReceive;
 	private JMenuItem mntmReceiveDebt;
 	private JMenuItem mntmListDebts;
+	
+	private JMenuItem mntmProductionStage;
 	
 	private JMenuItem mntmAbout;
 	private JMenuItem mntmRegisterIssue;
@@ -185,6 +188,12 @@ public class MainFrame extends JFrame {
 		mntmClientRegister = new JMenuItem("Registro de Cliente");
 		mnRegister.add(mntmClientRegister);
 		
+		mnProduction = new JMenu("Produção");
+		menuBar.add(mnProduction);
+		
+		mntmProductionStage = new JMenuItem("Estágios de Produção");
+		mnProduction.add(mntmProductionStage);
+		
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
 		
@@ -242,6 +251,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmListDebts)) controller.listDebts();
 				else if(e.getSource().equals(mntmAbout)) controller.about();
 				else if(e.getSource().equals(mntmRegisterIssue)) controller.registerIssue();
+				else if(e.getSource().equals(mntmProductionStage)) controller.stagesProduction();
 				
 				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -272,6 +282,7 @@ public class MainFrame extends JFrame {
 		mntmRegisterIssue.addActionListener(menuListeners);
 		mntmClientRegister.addActionListener(menuListeners);
 		mntmRegisterProduct.addActionListener(menuListeners);
+		mntmProductionStage.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
