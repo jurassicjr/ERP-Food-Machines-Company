@@ -13,6 +13,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import product.view.RegisterProductFrame;
 import model.City;
 import model.Material;
 import model.State;
@@ -375,6 +376,21 @@ public class SalesController {
 	});
 	    
     }
-
+	
+	public void registerProduct() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+						
+				RegisterProductFrame frame = new RegisterProductFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+		
+	}
 	
 }

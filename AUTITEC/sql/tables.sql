@@ -161,3 +161,22 @@ CREATE TABLE debt (
 	paid INT(11) NOT NULL,
 	value REAL NOT NULL
 );
+
+CREATE TABLE compost_product (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	product VARCHAR(200),
+	description TEXT
+
+);
+
+CREATE TABLE material_relationship (
+
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	product INT(11) NOT NULL,
+	material INT(11) NOT NULL,
+
+	FOREIGN KEY product REFERENCES compost_product(id),
+	FOREIGN KEY material REFERENCES Product(id)
+
+);
