@@ -2,11 +2,14 @@ package sales.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 
 import model.CNPJ;
 import model.City;
+import model.Inventory;
 import model.Material;
 import model.State;
 import model.Supplier;
@@ -115,5 +118,15 @@ public class InventoryController extends SalesController {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void addToInventory(Inventory i) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("cnpj", i.getCnpj().getId());
+		map.put("ammount", i.getAmmount());
+		map.put("supplier", i.getSupplier().getId());
+		map.put("material", i.getMaterial().getId());
+		map.put("fiscalNote", i.getFiscalNote());
+
 	}
 }

@@ -12,9 +12,9 @@ import java.util.Date;
 import javax.swing.Box;
 import javax.swing.JPanel;
 
-import production.view.StagesProductionFrame;
 import model.Bill;
 import model.FinancialNotification;
+import production.view.StagesProductionFrame;
 import rh.view.EmployeeReportFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterUserFrame;
@@ -48,6 +48,8 @@ public class MainFrameController {
 	public static final int productReport = 8;
 	public static final int clientRegistration = 9;
 	public static final int registerProduct = 10;
+	public static final int inventory = 11;
+
 	
 	private MainFrame mainFrame;
 
@@ -388,6 +390,8 @@ public class MainFrameController {
 			controller.registerOfClient();
 		}else if(i == 10) {
 			controller.registerProduct();
+		}else if(i==11) {
+			controller.invetoryFrame();
 		}
 	}
 

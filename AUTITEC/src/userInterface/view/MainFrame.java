@@ -77,6 +77,8 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmProductsReport;
 
 	private JMenuItem mntmClientRegister;
+
+	private JMenuItem mntmInvetory;
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -184,6 +186,8 @@ public class MainFrame extends JFrame {
 		mnReports.add(mntmSupplierReportFrame);
 		mntmProductsReport = new JMenuItem("Relatório de Materiais");
 		mnReports.add(mntmProductsReport);
+		mntmInvetory = new JMenuItem("Estoque");
+		mnSales.add(mntmInvetory);
 		
 		mntmClientRegister = new JMenuItem("Registro de Cliente");
 		mnRegister.add(mntmClientRegister);
@@ -264,6 +268,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmProductsReport))controller.Sales(MainFrameController.productReport);
 				else if(e.getSource().equals(mntmClientRegister)) controller.Sales(MainFrameController.clientRegistration);
 				else if(e.getSource().equals(mntmRegisterProduct)) controller.Sales(MainFrameController.registerProduct);
+				else if	(e.getSource().equals(mntmInvetory)) controller.Sales(MainFrameController.inventory);
 			}
 		};
 		
@@ -293,6 +298,7 @@ public class MainFrame extends JFrame {
 		mntmSupplierUpdate.addActionListener(menuListeners);
 		mntmSupplierReportFrame.addActionListener(menuListeners);
 		mntmProductsReport.addActionListener(menuListeners);
+		mntmInvetory.addActionListener(menuListeners);
 	}
 
 }

@@ -13,13 +13,14 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import product.view.RegisterProductFrame;
 import model.City;
 import model.Material;
 import model.State;
 import model.Supplier;
+import product.view.RegisterProductFrame;
 import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.ClientRegisterFrame;
+import sales.view.InventoryFrame;
 import sales.view.MaterialReportFrame;
 import sales.view.ProductUpdateFrame;
 import sales.view.RegisterOfMaterialFrame;
@@ -165,17 +166,17 @@ public class SalesController {
 			}
 		});
 	}
-	
+
 	public void supplierReportFrame() {
 		EventQueue.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
 				SupplierReportFrame frame = new SupplierReportFrame();
 				frame.pack();
 				frame.setLocationRelativeTo(mainFrame);
 				frame.setVisible(true);
-				
+
 			}
 		});
 	}
@@ -197,7 +198,6 @@ public class SalesController {
 		}
 
 	}
-
 
 	/**
 	 * Popula os JComboBox com estado e cidades
@@ -330,11 +330,9 @@ public class SalesController {
 			}
 		} catch (Exception e) {
 			System.out.println("No Supplier");
-			
+
 		}
 	}
-	
-	
 
 	public void supplierUpdateFrame() {
 		EventQueue.invokeLater(new Runnable() {
@@ -350,8 +348,8 @@ public class SalesController {
 	}
 
 	public void productReport() {
-	    EventQueue.invokeLater(new Runnable() {
-			
+		EventQueue.invokeLater(new Runnable() {
+
 			@Override
 			public void run() {
 				MaterialReportFrame frame = new MaterialReportFrame();
@@ -360,37 +358,50 @@ public class SalesController {
 				frame.setLocationRelativeTo(mainFrame);
 			}
 		});
-	    
-    }
+
+	}
 
 	public void registerOfClient() {
-	   EventQueue.invokeLater(new Runnable() {
-		
-		@Override
-		public void run() {
-			ClientRegisterFrame frame = new ClientRegisterFrame();
-			frame.pack();
-			frame.setVisible(true);
-			frame.setLocationRelativeTo(mainFrame);
-		}
-	});
-	    
-    }
-	
-	public void registerProduct() {
-		
 		EventQueue.invokeLater(new Runnable() {
-			
+
 			@Override
 			public void run() {
-						
+				ClientRegisterFrame frame = new ClientRegisterFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+
+	}
+
+	public void registerProduct() {
+
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+
 				RegisterProductFrame frame = new RegisterProductFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
 			}
 		});
-		
+
 	}
-	
+
+	public void invetoryFrame() {
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				InventoryFrame frame = new InventoryFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	}
+
 }
