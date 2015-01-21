@@ -8,7 +8,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import model.Material;
 import model.Product;
 import product.view.RegisterKitFrame;
 import util.ClearFrame;
@@ -82,26 +81,29 @@ public class RegisterKitFrameController {
 		
 	}
 	
-	public void addProduct(Product product, int amount, JTable table) {
+	public void addProduct(Product product, int ammount, JTable table) {
 		
 		for(int i = 0; i < table.getRowCount(); ++i) {
 			
 			
 			
-//			Material m = (Material) table.getValueAt(i, 0);
-//			
-//			if(m.equals(material)) {
-//				ShowMessage.errorMessage(frame, "Material já presente", material.getName() + " já é um material deste produto");
-//				return;
-//			}
+			Product p = (Product) table.getValueAt(i, 0);
+			
+			if(p.equals(product)) {
+				ShowMessage.errorMessage(frame, "Material já presente", product.getName() + " já é um material deste produto");
+				return;
+			}
 		}
-//		
-//		((DefaultTableModel) table.getModel()).addRow(new Object[]{null, null, null});
-//		
-//		int row = table.getRowCount() - 1;
-//		table.setValueAt(material, row, 0);
-//		table.setValueAt(amount, row, 1);
+		
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+
+		tbl.addRow(new Object[] {product, ammount});
 				
 	}
+
+	public void Register() {
+	    // TODO Auto-generated method stub
+	    
+    }
 	
 }

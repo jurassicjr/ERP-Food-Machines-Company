@@ -179,7 +179,7 @@ public class TechnicalStandardFrameController {
 	 * @param table A tabela do evento
 	 */
 	private void showFile(int row, int column, JTable table) {
-		
+				
 		File f = new File("tmp/");
 		if(!f.isDirectory()) f.mkdirs();
 		
@@ -192,8 +192,9 @@ public class TechnicalStandardFrameController {
 			FTP ftp = new FTP();
 			ftp.download(document, fileName, "/autitec/docs/");
 		}
-		
+				
 		try {
+			System.out.println(document);
 			Desktop desktop = Desktop.getDesktop();
 			desktop.open(document);
 		} catch (IOException e) {

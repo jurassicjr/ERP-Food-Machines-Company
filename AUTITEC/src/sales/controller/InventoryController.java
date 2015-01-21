@@ -14,6 +14,7 @@ import model.Material;
 import model.State;
 import model.Supplier;
 import database.DataBase;
+import database.dao.InvetoryDAO;
 
 public class InventoryController extends SalesController {
 
@@ -127,6 +128,7 @@ public class InventoryController extends SalesController {
 		map.put("supplier", i.getSupplier().getId());
 		map.put("material", i.getMaterial().getId());
 		map.put("fiscalNote", i.getFiscalNote());
-
+		InvetoryDAO iDAO = new InvetoryDAO();
+		iDAO.persist(map);
 	}
 }

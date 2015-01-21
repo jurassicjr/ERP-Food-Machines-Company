@@ -5,9 +5,9 @@ import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.AbstractCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.AbstractCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -49,7 +49,7 @@ public class StagesProductionFrame extends JFrame {
 	
 	private void initialize() {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 530, 414);
 		setTitle("Fases de Produção");
 		Icon.setIcon(this);
@@ -107,7 +107,8 @@ public class StagesProductionFrame extends JFrame {
 				false, true
 			};
 			
-			public boolean isCellEditable(int row, int column) {
+			@Override
+            public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 			
@@ -125,7 +126,8 @@ public class StagesProductionFrame extends JFrame {
 		{		
 			private static final long serialVersionUID = 4071603921812411049L;
 
-			public boolean isCellEditable(int row, int column) {
+			@Override
+            public boolean isCellEditable(int row, int column) {
 				return false;
 			}
 			

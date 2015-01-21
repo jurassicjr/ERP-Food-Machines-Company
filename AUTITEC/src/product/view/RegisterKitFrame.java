@@ -19,10 +19,10 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
 import model.Product;
 import product.controller.RegisterKitFrameController;
@@ -34,7 +34,7 @@ public class RegisterKitFrame extends JFrame {
 	private static final long serialVersionUID = -99076146960822052L;
 	
 	private UpperTextField txKit;
-	private JTable procutsTable;
+	private JTable productsTable;
 	
 	private JSpinner spinnerAmount;
 	
@@ -159,8 +159,24 @@ public class RegisterKitFrame extends JFrame {
 		txDescription.setLineWrap(true);
 		descriptionPanel.setViewportView(txDescription);
 		
-		procutsTable = new JTable();
-		tableScrollPanel.setViewportView(procutsTable);
+		productsTable = new JTable();
+		String[] header = new String[] {"Produto", "Quantidade"};
+		productsTable.setModel(new DefaultTableModel(null, header) {
+
+			/**
+			 * 
+			 */
+            private static final long serialVersionUID = -395239143227986712L;
+            
+            boolean[] columnEditables = new boolean[] { false, false };
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+			
+		});
+		tableScrollPanel.setViewportView(productsTable);
 		panel.setLayout(layout);
 	}
 	
@@ -171,10 +187,10 @@ public class RegisterKitFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-				if(e.getSource().equals(btnAdd)) ;
+				if(e.getSource().equals(btnAdd)) controller.addProduct((Product) cbProduct.getSelectedItem(), (int) spinnerAmount.getValue(), productsTable);
 				else if(e.getSource().equals(btnCancel)) controller.closeFrame();
 				else if(e.getSource().equals(btnClear)) controller.clear();
-				else if(e.getSource().equals(btnRegister)) ;
+				else if(e.getSource().equals(btnRegister)) controller.Register();
 				
 			}
 		};

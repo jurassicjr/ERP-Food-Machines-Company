@@ -147,7 +147,7 @@ public class FTP {
 			}
 			
 			boolean b = ftp.retrieveFile(fileName, fos);
-			
+						
 			disconnect();
 			
 			return b;
