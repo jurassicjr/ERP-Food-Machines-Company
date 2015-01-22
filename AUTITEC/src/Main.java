@@ -1,7 +1,9 @@
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import userInterface.view.UpdateSoftware;
+import javax.swing.SwingUtilities;
+
+import userInterface.view.LoadingFrame;
 import database.DataBase;
 
 /**
@@ -13,12 +15,12 @@ public class Main {
 
 	public static void main(String[] args) {
 			
-//		LoadingFrame loadingFrame = new LoadingFrame();  
-//	
-//		SwingUtilities.invokeLater(new Runnable(){  
-//			@Override public void run() { loadingFrame.setVisible(true); }  
-//		});
-		
+		LoadingFrame loadingFrame = new LoadingFrame();  
+	
+		SwingUtilities.invokeLater(new Runnable(){  
+			@Override public void run() { loadingFrame.setVisible(true); }  
+		});
+	
 		
 		try {
 			
@@ -29,12 +31,12 @@ public class Main {
 			while(resultSet.next()) {
 				double version = resultSet.getDouble("version");
 				if(version < VERSION) {
-					UpdateSoftware us = new UpdateSoftware();
+					
 				}
 			}
 			
 		} catch (SQLException e){
-			e.printStackTrace();
+			e.printStackTrace();	
 		}
 		
 		//new LoginFrame().setVisible(true);

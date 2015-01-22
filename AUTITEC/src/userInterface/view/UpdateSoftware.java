@@ -21,7 +21,6 @@ public class UpdateSoftware {
 		 }
 		 
 		 is.close();
-		 
 		 fos.close();
 	}
 }
