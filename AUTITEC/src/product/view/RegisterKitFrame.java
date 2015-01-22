@@ -57,7 +57,6 @@ public class RegisterKitFrame extends JFrame {
 		setListeners();
 		
 		controller.setProducts(cbProduct);
-		
 	}
 	
 	public void initialize() {
@@ -190,7 +189,7 @@ public class RegisterKitFrame extends JFrame {
 				if(e.getSource().equals(btnAdd)) controller.addProduct((Product) cbProduct.getSelectedItem(), (int) spinnerAmount.getValue(), productsTable);
 				else if(e.getSource().equals(btnCancel)) controller.closeFrame();
 				else if(e.getSource().equals(btnClear)) controller.clear();
-				else if(e.getSource().equals(btnRegister)) controller.Register();
+				else if(e.getSource().equals(btnRegister)) controller.register(txKit.getText(), txDescription.getText(), productsTable);
 				
 			}
 		};

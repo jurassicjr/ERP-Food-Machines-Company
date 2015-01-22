@@ -136,7 +136,7 @@ public class RegisterProductFrameController {
 			
 			Material material = (Material) table.getValueAt(row, 0);
 			
-			dataBase.executeUpdate("INSERT INTO material_relationship (product, material) VALUES (?, ?)", new Object[]{idProduct, material.getId()});
+			dataBase.executeUpdate("INSERT INTO material_relationship (product, material, ammount) VALUES (?, ?, ?)", new Object[]{idProduct, material.getId(), table.getValueAt(row, 1)});
 			
 		}
 		

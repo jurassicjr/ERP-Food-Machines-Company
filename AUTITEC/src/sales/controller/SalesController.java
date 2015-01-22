@@ -17,6 +17,7 @@ import model.City;
 import model.Material;
 import model.State;
 import model.Supplier;
+import product.view.RegisterKitFrame;
 import product.view.RegisterProductFrame;
 import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.ClientRegisterFrame;
@@ -403,5 +404,18 @@ public class SalesController {
 			}
 		});
 	}
+
+	public void registerOfKit() {
+	   EventQueue.invokeLater(new Runnable() {
+		
+		@Override
+		public void run() {
+			RegisterKitFrame frame = new RegisterKitFrame();
+			frame.pack();
+			frame.setVisible(true);
+			frame.setLocationRelativeTo(mainFrame);
+		}
+	});
+    }
 
 }
