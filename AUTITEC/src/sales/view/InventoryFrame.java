@@ -1,6 +1,7 @@
 package sales.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,12 +21,14 @@ import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SpinnerNumberModel;
 
 import model.CNPJ;
 import model.Inventory;
 import model.Material;
 import model.Supplier;
 import sales.controller.InventoryController;
+import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
 
@@ -64,7 +67,9 @@ public class InventoryFrame extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(0, 0, 361, 248);
+		setBounds(0, 0, 415, 239);
+		setMinimumSize(new Dimension(415, 239));
+		setPreferredSize(new Dimension(415, 239));
 		initializePrincipal();
 	}
 
@@ -79,7 +84,8 @@ public class InventoryFrame extends JFrame {
 		lblAmmount = new JLabel("Quantidade");
 
 		spinner = new JSpinner();
-
+		spinner.setModel(new SpinnerNumberModel(1, 1, 100, 1));
+		
 		lblCnpjDeEntrada = new JLabel("CNPJ de Entrada");
 
 		cboCNPJ = new JComboBox<CNPJ>();
@@ -97,89 +103,59 @@ public class InventoryFrame extends JFrame {
 
 		separator = new JSeparator();
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel.setHorizontalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-		        .addGroup(
-		                gl_principalPanel
-		                        .createSequentialGroup()
-		                        .addContainerGap()
-		                        .addGroup(
-		                                gl_principalPanel
-		                                        .createParallelGroup(Alignment.TRAILING, false)
-		                                        .addComponent(separator, Alignment.LEADING)
-		                                        .addGroup(
-		                                                Alignment.LEADING,
-		                                                gl_principalPanel
-		                                                        .createSequentialGroup()
-		                                                        .addComponent(lblMaterial)
-		                                                        .addPreferredGap(ComponentPlacement.RELATED)
-		                                                        .addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE,
-		                                                                179, GroupLayout.PREFERRED_SIZE)
-		                                                        .addGap(18)
-		                                                        .addComponent(lblAmmount)
-		                                                        .addPreferredGap(ComponentPlacement.RELATED)
-		                                                        .addComponent(spinner, GroupLayout.PREFERRED_SIZE,
-		                                                                GroupLayout.DEFAULT_SIZE,
-		                                                                GroupLayout.PREFERRED_SIZE))
-		                                        .addGroup(
-		                                                Alignment.LEADING,
-		                                                gl_principalPanel
-		                                                        .createSequentialGroup()
-		                                                        .addComponent(lblCnpjDeEntrada)
-		                                                        .addPreferredGap(ComponentPlacement.RELATED)
-		                                                        .addComponent(cboCNPJ, 0, GroupLayout.DEFAULT_SIZE,
-		                                                                Short.MAX_VALUE))
-		                                        .addGroup(
-		                                                Alignment.LEADING,
-		                                                gl_principalPanel.createSequentialGroup()
-		                                                        .addComponent(lblNotaFiscal)
-		                                                        .addPreferredGap(ComponentPlacement.RELATED)
-		                                                        .addComponent(txtFiscalNote))
-		                                        .addGroup(
-		                                                Alignment.LEADING,
-		                                                gl_principalPanel
-		                                                        .createSequentialGroup()
-		                                                        .addComponent(lblFornecedor)
-		                                                        .addPreferredGap(ComponentPlacement.RELATED)
-		                                                        .addComponent(cboSupplier, 0, GroupLayout.DEFAULT_SIZE,
-		                                                                Short.MAX_VALUE)))
-		                        .addContainerGap(18, Short.MAX_VALUE)));
-		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblMaterial)
-		                                .addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblAmmount)
-		                                .addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblCnpjDeEntrada)
-		                                .addComponent(cboCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNotaFiscal)
-		                                .addComponent(txtFiscalNote, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblFornecedor)
-		                                .addComponent(cboSupplier, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                .addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
-		                .addContainerGap(103, Short.MAX_VALUE)));
+		gl_principalPanel.setHorizontalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 379, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblMaterial)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, 179, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblAmmount)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(spinner, GroupLayout.PREFERRED_SIZE, 41, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblCnpjDeEntrada)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboCNPJ, 0, 294, Short.MAX_VALUE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblNotaFiscal)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtFiscalNote, 323, 323, 323))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblFornecedor)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboSupplier, 0, 320, Short.MAX_VALUE)))
+					.addContainerGap())
+		);
+		gl_principalPanel.setVerticalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMaterial)
+						.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblAmmount)
+						.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCnpjDeEntrada)
+						.addComponent(cboCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNotaFiscal)
+						.addComponent(txtFiscalNote, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblFornecedor)
+						.addComponent(cboSupplier, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
 		principalPanel.setLayout(gl_principalPanel);
 
 		initializeBotton();
@@ -217,6 +193,7 @@ public class InventoryFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "INSERÇÂO", "Deseja inserir esse material ao estoque?");
 					if( i == JOptionPane.YES_OPTION) {
 						addToInventory();
+						ClearFrame.clear(frame);
 					}
 				}
 			}

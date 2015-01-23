@@ -37,7 +37,7 @@ import util.Icon;
 import util.ShowMessage;
 import database.DataBase;
 
-public class ProductUpdateFrame extends JFrame {
+public class MaterialUpdateFrame extends JFrame {
 
 	/**
 	 * 
@@ -70,7 +70,7 @@ public class ProductUpdateFrame extends JFrame {
 	private JPanel panelDescricao;
 	private JSeparator separator;
 
-	public ProductUpdateFrame() {
+	public MaterialUpdateFrame() {
 		dataBase = new DataBase();
 		dataBase.connect();
 		controller = new MaterialUpdateController();
@@ -169,15 +169,15 @@ public class ProductUpdateFrame extends JFrame {
 		bottonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
 		btnApagar = new JButton("Apagar");
-		btnApagar.setIcon(new ImageIcon(ProductUpdateFrame.class.getResource("/resources/clear.png")));
+		btnApagar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/clear.png")));
 		bottonPanel.add(btnApagar);
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(ProductUpdateFrame.class.getResource("/resources/cancel.png")));
+		btnCancelar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/cancel.png")));
 		bottonPanel.add(btnCancelar);
 
 		btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setIcon(new ImageIcon(ProductUpdateFrame.class.getResource("/resources/ok.png")));
+		btnConfirmar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/ok.png")));
 		bottonPanel.add(btnConfirmar);
 	}
 

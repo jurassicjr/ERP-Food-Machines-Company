@@ -3,8 +3,10 @@ package model;
 public class Material {
 	private int id;
 	private String name;
-	private int ammount;
 	private String descrition;
+	private String NCM;
+	private String internalCode;
+	private double ammount;
 
 	public int getId() {
 		return id;
@@ -22,14 +24,7 @@ public class Material {
 		this.name = name;
 	}
 
-	public int getAmmount() {
-		return ammount;
-	}
-
-	public void setAmmount(int quantidade) {
-		this.ammount = quantidade;
-	}
-
+	
 	public String getDescrition() {
 		return descrition;
 	}
@@ -41,4 +36,28 @@ public class Material {
 	public String toString() {
 	    return this.name;
 	}
+
+	public String getInternalCode() {
+	    return internalCode;
+    }
+
+	public void setInternalCode(String internalCode) {
+	    this.internalCode = internalCode;
+    }
+
+	public String getNCM() {
+	    return NCM;
+    }
+
+	public void setNCM(String nCM) {
+	    NCM = nCM;
+    }
+
+	public double getAmmount() {
+	    return ammount;
+    }
+
+	public void setAmmount(double ammount) {
+	    this.ammount = ammount;
+    }
 }

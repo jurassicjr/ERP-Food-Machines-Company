@@ -23,7 +23,7 @@ import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.ClientRegisterFrame;
 import sales.view.InventoryFrame;
 import sales.view.MaterialReportFrame;
-import sales.view.ProductUpdateFrame;
+import sales.view.MaterialUpdateFrame;
 import sales.view.RegisterOfMaterialFrame;
 import sales.view.RegisterSuppliersFrame;
 import sales.view.SalesOrderFrame;
@@ -33,7 +33,7 @@ import sales.view.SupplierUpdateFrame;
 import userInterface.view.MainFrame;
 import util.ShowMessage;
 import database.DataBase;
-import database.dao.ProductDAO;
+import database.dao.MaterialDAO;
 import database.dao.SuppliersDAO;
 
 public class SalesController {
@@ -41,7 +41,7 @@ public class SalesController {
 	private MainFrame mainFrame;
 	private DataBase dataBase;
 	private SuppliersDAO sDao;
-	private ProductDAO produtoDAO;
+	private MaterialDAO materialDAO;
 
 	/**
 	 * Construtor para determinar o MainFrame.
@@ -125,7 +125,7 @@ public class SalesController {
 
 			@Override
 			public void run() {
-				ProductUpdateFrame frame = new ProductUpdateFrame();
+				MaterialUpdateFrame frame = new MaterialUpdateFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
@@ -285,15 +285,17 @@ public class SalesController {
 	 * Realiza o registro de produtos
 	 */
 
-	public void doProductRegister(Material product) {
+	public void doMaterialRegister(Material material) {
 		try {
-			if (product.equals(null)) {
+			if (material.equals(null)) {
 				throw new Exception();
 			} else {
 				Map<String, Object> mapa = new HashMap<String, Object>();
-				mapa.put("name", product.getName());
-				mapa.put("descricao", product.getDescrition());
-				produtoDAO = new ProductDAO(mapa);
+				mapa.put("name", material.getName());
+				mapa.put("descricao", material.getDescrition());
+				mapa.put("internalCode", material.getInternalCode());
+				mapa.put("ncm", material.getNCM());
+				materialDAO = new MaterialDAO(mapa);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

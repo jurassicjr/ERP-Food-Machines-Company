@@ -5,12 +5,12 @@ import java.util.Map;
 import util.ShowMessage;
 import database.DataBase;
 
-public class ProductDAO {
+public class MaterialDAO {
 
 	private DataBase database;
 	private Object[] insertData;
 
-	public ProductDAO(Map<String, Object> data) {
+	public MaterialDAO(Map<String, Object> data) {
 		this.database = new DataBase();
 		database.connect();
 		persist(data);
@@ -18,8 +18,10 @@ public class ProductDAO {
 	private void persist(Map<String, Object> data) {
 		String descrition = (String) data.get("descricao");
 		String name = (String) data.get("name");
-		insertData = new Object[] {descrition, name};
-		String sql = "INSERT INTO Product(descricao, name) VALUES (?, ?)";
+		String intenalCode = (String) data.get("internalCode");
+		String ncm = (String) data.get("ncm");
+		insertData = new Object[] {descrition, name, intenalCode, ncm};
+		String sql = "INSERT INTO Product(descricao, name, internal_code, ncm) VALUES (?, ?, ?, ?)";
 		database.executeUpdate(sql, insertData);
 		ShowMessage.successMessage(null, "GRAVAÇÂO", "Gravação concluida com sucesso!");
 	}

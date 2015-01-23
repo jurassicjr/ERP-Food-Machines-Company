@@ -76,17 +76,18 @@ public class ApprovalOfSupplierController extends SalesController {
 		cboSupplier.setSelectedIndex(-1);
 	}
 
-	public void fillProducts(JComboBox<Material> product) {
-		product.removeAllItems();
-		try {
-			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product");
+	public void fillProducts(JComboBox<Material> materialList) {
+		materialList.removeAllItems();
+		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM Product")){
 			while (rs.next()) {
-				Material produto = new Material();
-				produto.setName(rs.getString("name"));
-				produto.setDescrition(rs.getString("descricao"));
-				produto.setId(rs.getInt("id"));
-				produto.setAmmount(rs.getInt("quantidade"));
-				product.addItem(produto);
+				Material material = new Material();
+				material.setName(rs.getString("name"));
+				material.setDescrition(rs.getString("descricao"));
+				material.setId(rs.getInt("id"));
+				material.setAmmount(rs.getInt("quantidade"));
+				material.setInternalCode(rs.getString("internal_code"));
+				material.setNCM(rs.getString("ncm"));
+				materialList.addItem(material);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
