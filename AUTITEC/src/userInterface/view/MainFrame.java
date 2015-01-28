@@ -81,6 +81,8 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmInvetory;
 
 	private JMenuItem mntmKitRegister;
+
+	private JMenuItem mntmUpdateProduct;
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -120,9 +122,7 @@ public class MainFrame extends JFrame {
 		mnSales = new JMenu("Vendas");
 		menuBar.add(mnSales);
 		
-		mnRegister = new JMenu("Cadastros");
 		
-		mnUpdates = new JMenu("Atualizar/Deletar");
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
 		
@@ -162,38 +162,52 @@ public class MainFrame extends JFrame {
 		mntmGenerateReport = new JMenuItem("Relatório Financeiro");
 		mnFinancial.add(mntmGenerateReport);
 		
-		
-		
+		mnRegister = new JMenu("Registros");
 		mnSales.add(mnRegister);
+		
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
-		mnRegister.add(mntmApprovalOfSuppliers);
-		mntmResgisterOfSuppliers = new JMenuItem("Registro de Fornecedores");
+		mnSales.add(mntmApprovalOfSuppliers);
+		
+		mntmResgisterOfSuppliers = new JMenuItem("Registrar Fornecedores");
 		mnRegister.add(mntmResgisterOfSuppliers);
+		
 		mntmSalesRequisition = new JMenuItem("Requisição de Compra");
 		mnSales.add(mntmSalesRequisition);
+		
 		mntmSalesOrder = new JMenuItem("Pedido de Compra");
 		mnSales.add(mntmSalesOrder);
-		mntmRegisterOfMaterial = new JMenuItem("Registro de Material");
+		
+		mntmRegisterOfMaterial = new JMenuItem("Registrar Material");
 		mnRegister.add(mntmRegisterOfMaterial);
+		
 		mntmRegisterProduct = new JMenuItem("Registrar Produto");
 		mnRegister.add(mntmRegisterProduct);
+		
 		mntmKitRegister = new JMenuItem("Registrar KIT");
 		mnRegister.add(mntmKitRegister);
+		
+		mnUpdates = new JMenu("Atualizar/Deletar");
 		mnSales.add(mnUpdates);
+		
 		mntmProductUpdate = new JMenuItem("Material");
 		mnUpdates.add(mntmProductUpdate);			
+		
 		mntmSupplierUpdate = new JMenuItem("Atualização/Remoção de Fornecedores");
 		mnUpdates.add(mntmSupplierUpdate);
+		
 		mnReports = new JMenu("Relátorios");
 		mnSales.add(mnReports);
+		
 		mntmSupplierReportFrame = new JMenuItem("Relatório de Fornecedores");
 		mnReports.add(mntmSupplierReportFrame);
+		
 		mntmProductsReport = new JMenuItem("Relatório de Materiais");
 		mnReports.add(mntmProductsReport);
+		
 		mntmInvetory = new JMenuItem("Estoque");
 		mnSales.add(mntmInvetory);
 		
-		mntmClientRegister = new JMenuItem("Registro de Cliente");
+		mntmClientRegister = new JMenuItem("Registrar Cliente");
 		mnRegister.add(mntmClientRegister);
 		
 		mnProduction = new JMenu("Produção");
@@ -210,6 +224,9 @@ public class MainFrame extends JFrame {
 		
 		mntmAbout = new JMenuItem("Sobre o Software");
 		mnAbout.add(mntmAbout);
+		
+		mntmUpdateProduct = new JMenuItem("Produtos");
+		mnUpdates.add(mntmUpdateProduct);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(150, 150));
@@ -266,7 +283,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(MainFrameController.registerOfSuppliers);
 				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(MainFrameController.salesOrder);
 				else if (e.getSource().equals(mntmRegisterOfMaterial)) controller.Sales(MainFrameController.registerOfMaterial);
-				else if (e.getSource().equals(mntmProductUpdate)) controller.Sales(MainFrameController.updateOfProduct);
+				else if (e.getSource().equals(mntmProductUpdate)) controller.Sales(MainFrameController.updateOfMaterial);
 				else if (e.getSource().equals(mntmSupplierUpdate)) controller.Sales(MainFrameController.updateOfSupplier);
 				else if (e.getSource().equals(mntmSupplierReportFrame)) controller.Sales(MainFrameController.supplierReport);
 				else if (e.getSource().equals(mntmProductsReport))controller.Sales(MainFrameController.productReport);
@@ -274,6 +291,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterProduct)) controller.Sales(MainFrameController.registerProduct);
 				else if	(e.getSource().equals(mntmInvetory)) controller.Sales(MainFrameController.inventory);
 				else if (e.getSource().equals(mntmKitRegister)) controller.Sales(MainFrameController.registerOfKit);
+				else if(e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
 			}
 		};
 		
@@ -305,6 +323,7 @@ public class MainFrame extends JFrame {
 		mntmProductsReport.addActionListener(menuListeners);
 		mntmInvetory.addActionListener(menuListeners);
 		mntmKitRegister.addActionListener(menuListeners);
+		mntmUpdateProduct.addActionListener(menuListeners);
 	}
 
 }

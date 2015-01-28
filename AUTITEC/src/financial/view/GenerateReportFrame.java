@@ -9,7 +9,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;

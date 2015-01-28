@@ -75,7 +75,8 @@ public class RegisterOfMaterialFrame extends JFrame {
 		this.setTitle("Cadastro de Produto");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 450, 338);
-		setPreferredSize(new Dimension(450, 300));
+		setPreferredSize(new Dimension(450, 338));
+		setMinimumSize(new Dimension(450, 338));
 		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
 

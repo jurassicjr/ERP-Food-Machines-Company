@@ -42,7 +42,7 @@ public class MainFrameController {
 	public static final int registerOfSuppliers = 2;
 	public static final int salesOrder = 3;
 	public static final int registerOfMaterial = 4;
-	public static final int updateOfProduct = 5;
+	public static final int updateOfMaterial = 5;
 	public static final int updateOfSupplier = 6;
 	public static final int supplierReport = 7;
 	public static final int productReport = 8;
@@ -50,6 +50,7 @@ public class MainFrameController {
 	public static final int registerProduct = 10;
 	public static final int inventory = 11;
 	public static final int registerOfKit = 12;
+	public static final int updateOfCompostProduct = 13;
 
 	
 	private MainFrame mainFrame;
@@ -380,7 +381,7 @@ public class MainFrameController {
 		}else if(i==4) {
 			controller.registerOfProduct();
 		}else if(i==5) {
-			controller.updateOfProducts();
+			controller.updateOfMaterials();
 		}else if(i==6) {
 			controller.supplierUpdateFrame();
 		}else if(i==7) {
@@ -395,6 +396,8 @@ public class MainFrameController {
 			controller.invetoryFrame();
 		}else if(i==12) {
 			controller.registerOfKit();
+		}else if(i==13) {
+			controller.updateOfProducts();
 		}
 	}
 

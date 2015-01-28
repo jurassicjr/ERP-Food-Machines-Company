@@ -234,7 +234,7 @@ public class SupplierUpdateFrame extends JFrame {
 		JLabel lblProdutos = new JLabel("Produtos");
 
 		cboProduto = new JComboBox<Material>();
-		productController.fillProducts(cboProduto);
+		productController.fillMaterials(cboProduto);
 		cboProduto.setSelectedIndex(-1);
 		JScrollPane scrollPane_1 = new JScrollPane();
 

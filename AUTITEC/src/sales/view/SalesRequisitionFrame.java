@@ -145,7 +145,7 @@ public class SalesRequisitionFrame extends JFrame {
 		lblInserirProduto = new JLabel("Inserir Produto:");
 
 		cboProduto = new JComboBox<Material>();
-		controllerProduct.fillProducts(cboProduto);
+		controllerProduct.fillMaterials(cboProduto);
 		cboProduto.setSelectedIndex(-1);
 		cbac = new ComboBoxAutoCompletion(cboProduto);
 				

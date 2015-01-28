@@ -35,9 +35,9 @@ public class Product {
 	public int getId() {
 		return id;
 	}
-	
+	@Override
 	public String toString() {
-		return name;
+	    return this.name;
 	}
 
 }

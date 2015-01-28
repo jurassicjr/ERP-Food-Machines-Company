@@ -99,9 +99,8 @@ public class RegisterSuppliersFrame extends JFrame {
 
 	private JTextArea txtJustifacao;
 
-	private ShowMessage message;
 	private Date data;
-	private ClearFrame faxineira;
+
 	private JTable table;
 
 	private MaterialUpdateController controllerProduct;
@@ -129,7 +128,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		tabbedPane.addTab("Contato", panel);
 		tabbedPane.addTab("Certificações", panelCe);
 		controller.fillStateAndCity(cboState, cboCity);
-		controllerProduct.fillProducts(cboProduto);
+		controllerProduct.fillMaterials(cboProduto);
 	}
 
 	private void initializeSub() {
@@ -524,7 +523,6 @@ public class RegisterSuppliersFrame extends JFrame {
 
 	private Supplier makeSupplier() {
 		data = new Date();
-		message = new ShowMessage();
 		data = (Date) txtdataExpiracao.getValue();
 		String cnpj = txtCNPJ.getText().replaceAll("\\.|-|/", "").replaceAll(" ", "");
 		String stateRegister = txtStateRegister.getText().replaceAll("\\.", "").replaceAll(" ", "");

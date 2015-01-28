@@ -20,7 +20,7 @@ public class MaterialUpdateController extends SalesController{
 	 * Popula o JComboBox<Produto> com produtos do banco.
 	 */
 	
-	public void fillProducts(JComboBox<Material> product) {
+	public void fillMaterials(JComboBox<Material> product) {
 		product.removeAllItems();
 		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM Product")){
 			while (rs.next()) {

@@ -19,6 +19,7 @@ import model.State;
 import model.Supplier;
 import product.view.RegisterKitFrame;
 import product.view.RegisterProductFrame;
+import product.view.UpdateOfProductFrame;
 import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.ClientRegisterFrame;
 import sales.view.InventoryFrame;
@@ -120,7 +121,7 @@ public class SalesController {
 	 * Inicializa o JFrame de atualização de produtos.
 	 */
 
-	public void updateOfProducts() {
+	public void updateOfMaterials() {
 		EventQueue.invokeLater(new Runnable() {
 
 			@Override
@@ -418,6 +419,20 @@ public class SalesController {
 			frame.setLocationRelativeTo(mainFrame);
 		}
 	});
+    }
+
+	public void updateOfProducts() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+			UpdateOfProductFrame frame = new UpdateOfProductFrame();
+			frame.pack();
+			frame.setVisible(true);
+			frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	    
     }
 
 }
