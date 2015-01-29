@@ -1,6 +1,6 @@
 package sales.controller;
 
-import java.io.FileInputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
@@ -8,14 +8,16 @@ import javax.swing.JTextField;
 
 import userInterface.components.FileChooser;
 import userInterface.components.filters.PDFFilter;
-import OfficeImport.ExcelImport;
+import OfficeImport.ExcelXLSImport;
+import OfficeImport.Import;
+import OfficeImport.ImportFactory;
 
 public class ExcelImportController {
 
-	private ExcelImport excelImport;
+	private ExcelXLSImport excelImport;
 
 	public ExcelImportController() {
-		excelImport = new ExcelImport();
+		excelImport = new ExcelXLSImport();
 	}
 
 	public void selectOutput(FileChooser fileChooser, JTextField txtReportFile) {
@@ -33,12 +35,15 @@ public class ExcelImportController {
 
 	public void importExcel(int i, JTextField txtReportFile) throws FileNotFoundException {
 		if (i == 0) {
-			FileInputStream file = new FileInputStream(txtReportFile.getText());
+			File file = new File(txtReportFile.getText());
+			ImportFactory iPF = new ImportFactory();
+			Import ip = iPF.getImport(file);
 			try {
-				excelImport.importClient(file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
+	            ip.importExcel(file);
+            } catch (IOException e) {
+	           
+	            e.printStackTrace();
+            }
 		}
 
 	}
