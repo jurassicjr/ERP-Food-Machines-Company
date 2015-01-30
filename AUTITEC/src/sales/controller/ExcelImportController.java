@@ -8,16 +8,13 @@ import javax.swing.JTextField;
 
 import userInterface.components.FileChooser;
 import userInterface.components.filters.PDFFilter;
-import OfficeImport.ExcelXLSImport;
 import OfficeImport.Import;
 import OfficeImport.ImportFactory;
 
 public class ExcelImportController {
 
-	private ExcelXLSImport excelImport;
-
 	public ExcelImportController() {
-		excelImport = new ExcelXLSImport();
+		
 	}
 
 	public void selectOutput(FileChooser fileChooser, JTextField txtReportFile) {
