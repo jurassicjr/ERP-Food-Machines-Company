@@ -1,4 +1,4 @@
-package userInterface.view;
+package util;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
-import util.ShowMessage;
+import userInterface.view.LoadingFrame;
 import database.DataBase;
 
 public class UpdateSoftware {

@@ -38,7 +38,6 @@ CREATE TABLE employee (
 	PRIMARY KEY(id, cpf)	
 );
 
-
 CREATE TABLE address (
 
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -167,7 +166,6 @@ CREATE TABLE compost_product (
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	product VARCHAR(200),
 	description TEXT
-
 );
 
 CREATE TABLE material_relationship (
@@ -178,19 +176,27 @@ CREATE TABLE material_relationship (
 
 	FOREIGN KEY (product) REFERENCES compost_product(id),
 	FOREIGN KEY (material) REFERENCES Product(id)
-
 );
 
 CREATE TABLE production (
 
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
-
+	production VARCHAR(100) NOT NULL
 );
 
-CREATE TABLE stages (
+CREATE TABLE stage (
 
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	production INT(11) NOT NULL,
 	stage VARCHAR(100) NOT NULL,
-	finalized INT(11) NOT NULL
+	finalized INT(11) NOT NULL,
+	finalized_date DATE,
 
+	FOREIGN KEY (production) REFERENCES production(id)
+);
+
+CREATE TABLE serial(
+	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	serial VARCHAR(40) NOT NULL,
+	cpu VARCHAR(20)
 );
