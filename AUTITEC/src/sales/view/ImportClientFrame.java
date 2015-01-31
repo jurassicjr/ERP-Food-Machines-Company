@@ -18,8 +18,9 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import sales.controller.ExcelImportController;
+import sales.controller.ImportController;
 import userInterface.components.FileChooser;
+import util.ShowMessage;
 
 public class ImportClientFrame extends JFrame {
 
@@ -35,17 +36,18 @@ public class ImportClientFrame extends JFrame {
 	private JButton btnCancel;
 	private JButton btnImport;
 	private FileChooser fileChooser;
-	private ExcelImportController controller;
+	private ImportController controller;
 	private static final int i = 0;
 
 	public ImportClientFrame() {
-		controller = new ExcelImportController();
+		fileChooser = new FileChooser(this);
+		controller = new ImportController();
 		initialize();
 		setListeners();
 	}
 
 	private void initialize() {
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 595, 120);
 		setMinimumSize(new Dimension(595, 120));
 		setTitle("Relátorio de Fornecedores");
@@ -131,11 +133,16 @@ public class ImportClientFrame extends JFrame {
 				else if (e.getSource().equals(btnImport)) {
 					try {
 						controller.importExcel(i, txtReportFile);
+						ShowMessage.successMessage(getContentPane(), "Importação", "Importação realizada com sucesso!");
+						dispose();
 					} catch (FileNotFoundException e1) {
 						e1.printStackTrace();
 					}
-				}
+				}else if(e.getSource().equals(btnCancel))dispose();
 			}
 		};
+		btnSelectFile.addActionListener(buttonListener);
+		btnImport.addActionListener(buttonListener);
+		btnCancel.addActionListener(buttonListener);
 	}
 }

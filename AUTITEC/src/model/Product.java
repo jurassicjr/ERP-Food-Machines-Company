@@ -6,6 +6,10 @@ public class Product {
 	private String name;
 	private String description;
 	
+	public Product() {
+	    // TODO Auto-generated constructor stub
+    }
+	
 	public Product(int id, String name, String description) {
 		this.id = id;
 		this.name = name;

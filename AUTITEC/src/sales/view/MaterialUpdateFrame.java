@@ -261,8 +261,10 @@ public class MaterialUpdateFrame extends JFrame {
 					if (i == JOptionPane.YES_OPTION) {
 						String invetorySql = "DELETE FROM inventory WHERE material = ?";
 						String query ="DELETE FROM supplier_product_association where product = ?";
+						String materialRelation = "DELETE FROM material_relationship WHERE material = ?";
 						String sql = "DELETE FROM Product WHERE id = ?";
 						Material produto = (Material) cboProduto.getSelectedItem();
+						dataBase.executeUpdate(materialRelation, produto.getId());
 						dataBase.executeUpdate(invetorySql, produto.getId());
 						dataBase.executeUpdate(query, produto.getId());
 						dataBase.executeUpdate(sql, produto.getId());

@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.Box;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import model.Bill;
@@ -24,6 +26,7 @@ import userInterface.components.NotificationButton;
 import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
 import userInterface.view.RegisterIssueFrame;
+import util.ShowMessage;
 import database.DataBase;
 import financial.view.GenerateReportFrame;
 import financial.view.ListBillsFrame;
@@ -399,6 +402,19 @@ public class MainFrameController {
 		}else if(i==13) {
 			controller.updateOfProducts();
 		}
+	}
+
+	public void closeFrame(JFrame frame) {
+
+		String title = "Sair";
+		String message = "Deseja realmente sair?\nOs dados não salvos serão perdidos.";
+
+		int response = ShowMessage.questionMessage(frame, title, message);
+
+		if (response == JOptionPane.YES_OPTION) {
+			frame.dispose();
+		}
+
 	}
 
 }

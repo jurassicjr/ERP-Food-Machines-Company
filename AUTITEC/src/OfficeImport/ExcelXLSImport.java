@@ -33,6 +33,7 @@ public class ExcelXLSImport extends Import {
 
 		// Iterate through each rows from first sheet
 		Iterator<Row> rowIterator = sheet.iterator();
+		rowIterator.next();
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
 			
@@ -40,14 +41,13 @@ public class ExcelXLSImport extends Import {
 			
 			// For each row, iterate through each columns
 			Iterator<Cell> cellIterator = row.cellIterator();
-			cellIterator.next();
 			int i = 0;
 			while (cellIterator.hasNext()) {
 				   
 				Cell cell = cellIterator.next();
 				switch (cell.getCellType()) {
 				case Cell.CELL_TYPE_NUMERIC:
-					
+					i++;
 					break;
 				case Cell.CELL_TYPE_STRING:
 					if(i == 0) {
@@ -60,19 +60,21 @@ public class ExcelXLSImport extends Import {
 						client.setStreet(cell.getStringCellValue());
 					}else if(i==4) {
 						client.setNeighborhood(cell.getStringCellValue());
-					}else if(i==9) {
+					}else if(i==8) {
 						client.setCep(cell.getStringCellValue());
-					}else if(i==10) {
+					}else if(i==9) {
 						client.setPhone(cell.getStringCellValue());
 					}
-					clientList.add(client);					
 					i++;
 					break;
+				case Cell.CELL_TYPE_BLANK:
+					i++;
 				}
-				i = 0;
 			}
+			clientList.add(client);					
 		}
 		try {
+			clientList.forEach(s -> System.out.println(s));
 			input.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

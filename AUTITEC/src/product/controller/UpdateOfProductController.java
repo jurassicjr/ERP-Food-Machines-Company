@@ -30,8 +30,10 @@ public class UpdateOfProductController extends SalesController {
 				table.setValueAt(rs.getString("ammount"), row, 1);
 				try (ResultSet rsName = dataBase.executeQuery("SELECT *From Product WHERE id = ?",
 				        rs.getInt("material"))) {
-					table.setValueAt(rsName.getString("name"), row, 0);
-				}
+					if (rsName.next()) {
+						table.setValueAt(rsName.getString("name"), row, 0);
+					}
+				}	
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -72,8 +74,7 @@ public class UpdateOfProductController extends SalesController {
 	}
 
 	public void updateProduct(Product product, JTable table) {
-	    
-	    
-    }
+
+	}
 
 }

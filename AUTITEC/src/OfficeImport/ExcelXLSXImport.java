@@ -12,14 +12,15 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-public class ExcelXLSXImport extends Import{
+
+public class ExcelXLSXImport extends Import {
 
 	private ArrayList<Client> clientList;
 
 	@Override
-    public void importExcel(File file) throws IOException {
+	public void importExcel(File file) throws IOException {
 		FileInputStream input = new FileInputStream(file);
-		
+
 		clientList = new ArrayList<Client>();
 
 		// Get the workbook instance for XLS file
@@ -30,54 +31,51 @@ public class ExcelXLSXImport extends Import{
 
 		// Iterate through each rows from first sheet
 		Iterator<Row> rowIterator = sheet.iterator();
+		rowIterator.next();
 		while (rowIterator.hasNext()) {
 			Row row = rowIterator.next();
-			
 			Client client = new Client();
-			
+
 			// For each row, iterate through each columns
 			Iterator<Cell> cellIterator = row.cellIterator();
-			cellIterator.next();
 			int i = 0;
 			while (cellIterator.hasNext()) {
-				   
 				Cell cell = cellIterator.next();
 				switch (cell.getCellType()) {
 				case Cell.CELL_TYPE_NUMERIC:
-					
+					i++;
 					break;
 				case Cell.CELL_TYPE_STRING:
-					if(i == 0) {
+					if (i == 0) {
 						client.setCnpj(cell.getStringCellValue());
-					}else if(i==1) {
+					} else if (i == 1) {
 						client.setStateInscrition(cell.getStringCellValue());
-					}else if(i==2) {
+					} else if (i == 2) {
 						client.setName(cell.getStringCellValue());
-					}else if(i==3) {
+					} else if (i == 3) {
 						client.setStreet(cell.getStringCellValue());
-					}else if(i==4) {
+					} else if (i == 4) {
 						client.setNeighborhood(cell.getStringCellValue());
-					}else if(i==9) {
+					} else if (i == 8) {
 						client.setCep(cell.getStringCellValue());
-					}else if(i==10) {
+					} else if (i == 9) {
 						client.setPhone(cell.getStringCellValue());
 					}
-					clientList.add(client);					
+					i++;
+					break;
+				case Cell.CELL_TYPE_BLANK:
 					i++;
 					break;
 				}
-				i = 0;
 			}
+			clientList.add(client);
 		}
+		clientList.forEach(s -> System.out.println(s));
 		try {
 			input.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}
-	
-	public void print() {
-		clientList.forEach(s -> System.out.println(s));
 	}
 }

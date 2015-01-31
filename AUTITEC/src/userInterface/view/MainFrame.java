@@ -1,12 +1,14 @@
 package userInterface.view;
 
 import java.awt.Dimension;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -78,11 +80,13 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmClientRegister;
 
-	private JMenuItem mntmInvetory;
+	private JMenuItem mntmAddMaterialToInvetory;
 
 	private JMenuItem mntmKitRegister;
 
 	private JMenuItem mntmUpdateProduct;
+
+	private JMenu mnInventory;
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -111,15 +115,19 @@ public class MainFrame extends JFrame {
 		Icon.setIcon(this);
 		
 		menuBar = new JMenuBar();
+		menuBar.setMargin(new Insets(5, 5, 5, 5));
 		setJMenuBar(menuBar);
 		
 		mnRh = new JMenu("RH");
+		mnRh.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/rh.png")));
 		menuBar.add(mnRh);
 		
 		mnFinancial = new JMenu("Financeiro");
+		mnFinancial.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/finance.png")));
 		menuBar.add(mnFinancial);
 		
 		mnSales = new JMenu("Vendas");
+		mnSales.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/sales.png")));
 		menuBar.add(mnSales);
 		
 		
@@ -164,6 +172,15 @@ public class MainFrame extends JFrame {
 		
 		mnRegister = new JMenu("Registros");
 		mnSales.add(mnRegister);
+
+		mnUpdates = new JMenu("Atualizar/Remover Registros");
+		mnSales.add(mnUpdates);
+
+		mnReports = new JMenu("Relátorios");
+		mnSales.add(mnReports);
+
+		mnInventory = new JMenu("Estoque");
+		mnSales.add(mnInventory);
 		
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
 		mnSales.add(mntmApprovalOfSuppliers);
@@ -186,31 +203,26 @@ public class MainFrame extends JFrame {
 		mntmKitRegister = new JMenuItem("Registrar KIT");
 		mnRegister.add(mntmKitRegister);
 		
-		mnUpdates = new JMenu("Atualizar/Deletar");
-		mnSales.add(mnUpdates);
-		
-		mntmProductUpdate = new JMenuItem("Material");
+		mntmProductUpdate = new JMenuItem("Atualizar/Remover Registro de Material");
 		mnUpdates.add(mntmProductUpdate);			
 		
-		mntmSupplierUpdate = new JMenuItem("Atualização/Remoção de Fornecedores");
+		mntmSupplierUpdate = new JMenuItem("Atualizar/Remover Registro de Fornecedores");
 		mnUpdates.add(mntmSupplierUpdate);
 		
-		mnReports = new JMenu("Relátorios");
-		mnSales.add(mnReports);
-		
-		mntmSupplierReportFrame = new JMenuItem("Relatório de Fornecedores");
+		mntmSupplierReportFrame = new JMenuItem("Gerar Relatório de Fornecedores");
 		mnReports.add(mntmSupplierReportFrame);
 		
-		mntmProductsReport = new JMenuItem("Relatório de Materiais");
+		mntmProductsReport = new JMenuItem("Gerar Relatório de Materiais");
 		mnReports.add(mntmProductsReport);
 		
-		mntmInvetory = new JMenuItem("Estoque");
-		mnSales.add(mntmInvetory);
+		mntmAddMaterialToInvetory = new JMenuItem("Inserir Material ao Estoque");
+		mnInventory.add(mntmAddMaterialToInvetory);
 		
 		mntmClientRegister = new JMenuItem("Registrar Cliente");
 		mnRegister.add(mntmClientRegister);
 		
 		mnProduction = new JMenu("Produção");
+		mnProduction.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/production.png")));
 		menuBar.add(mnProduction);
 		
 		mntmProductionStage = new JMenuItem("Estágios de Produção");
@@ -223,9 +235,10 @@ public class MainFrame extends JFrame {
 		mnAbout.add(mntmRegisterIssue);
 		
 		mntmAbout = new JMenuItem("Sobre o Software");
+		mnAbout.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/about.png")));
 		mnAbout.add(mntmAbout);
 		
-		mntmUpdateProduct = new JMenuItem("Produtos");
+		mntmUpdateProduct = new JMenuItem("Atualizar/Remover Registro de Produtos");
 		mnUpdates.add(mntmUpdateProduct);
 		
 		scrollPane = new JScrollPane();
@@ -289,7 +302,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmProductsReport))controller.Sales(MainFrameController.productReport);
 				else if(e.getSource().equals(mntmClientRegister)) controller.Sales(MainFrameController.clientRegistration);
 				else if(e.getSource().equals(mntmRegisterProduct)) controller.Sales(MainFrameController.registerProduct);
-				else if	(e.getSource().equals(mntmInvetory)) controller.Sales(MainFrameController.inventory);
+				else if	(e.getSource().equals(mntmAddMaterialToInvetory)) controller.Sales(MainFrameController.inventory);
 				else if (e.getSource().equals(mntmKitRegister)) controller.Sales(MainFrameController.registerOfKit);
 				else if(e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
 			}
@@ -321,7 +334,7 @@ public class MainFrame extends JFrame {
 		mntmSupplierUpdate.addActionListener(menuListeners);
 		mntmSupplierReportFrame.addActionListener(menuListeners);
 		mntmProductsReport.addActionListener(menuListeners);
-		mntmInvetory.addActionListener(menuListeners);
+		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		mntmKitRegister.addActionListener(menuListeners);
 		mntmUpdateProduct.addActionListener(menuListeners);
 	}

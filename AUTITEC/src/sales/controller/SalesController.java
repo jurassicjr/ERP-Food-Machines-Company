@@ -409,30 +409,30 @@ public class SalesController {
 	}
 
 	public void registerOfKit() {
-	   EventQueue.invokeLater(new Runnable() {
-		
-		@Override
-		public void run() {
-			RegisterKitFrame frame = new RegisterKitFrame();
-			frame.pack();
-			frame.setVisible(true);
-			frame.setLocationRelativeTo(mainFrame);
-		}
-	});
-    }
+		EventQueue.invokeLater(new Runnable() {
 
-	public void updateOfProducts() {
-	    EventQueue.invokeLater(new Runnable() {
-			
 			@Override
 			public void run() {
-			UpdateOfProductFrame frame = new UpdateOfProductFrame();
-			frame.pack();
-			frame.setVisible(true);
-			frame.setLocationRelativeTo(mainFrame);
+				RegisterKitFrame frame = new RegisterKitFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
 			}
 		});
-	    
-    }
+	}
+
+	public void updateOfProducts() {
+		EventQueue.invokeLater(new Runnable() {
+
+			@Override
+			public void run() {
+				UpdateOfProductFrame frame = new UpdateOfProductFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+
+	}
 
 }

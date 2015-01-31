@@ -2,6 +2,7 @@ package sales.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,9 +65,9 @@ public class ClientRegisterFrame extends JFrame {
 	private JButton btnCancel;
 
 	private ClientRegisterController controller;
-
 	private JFrame frame;
 	private JTextField txtEmail;
+	private JButton btnImport;
 
 	public ClientRegisterFrame() {
 		frame = this;
@@ -329,6 +330,10 @@ public class ClientRegisterFrame extends JFrame {
 		getContentPane().add(bottonPanel, BorderLayout.SOUTH);
 		bottonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
+		btnImport = new JButton("Importar");
+		btnImport.setIcon(new ImageIcon(ClientRegisterFrame.class.getResource("/resources/Import.png")));
+		bottonPanel.add(btnImport);
+
 		btnCancel = new JButton("Cancelar");
 		btnCancel.setIcon(new ImageIcon(ClientRegisterFrame.class.getResource("/resources/cancel.png")));
 		bottonPanel.add(btnCancel);
@@ -354,14 +359,27 @@ public class ClientRegisterFrame extends JFrame {
 					controller.closeFrame(frame);
 				else if (e.getSource().equals(btnConfirmar)) {
 					int i = ShowMessage.questionMessage(frame, "REGISTRO", "Deseja mesmo registrar esse cliente ?");
-					if(i == JOptionPane.YES_OPTION) {
-					doCliente();
-					ShowMessage.successMessage(frame, "REGISTRO", "registo do produto realizado com sucesso!");
-					ClearFrame.clear(frame);
+					if (i == JOptionPane.YES_OPTION) {
+						doCliente();
+						ShowMessage.successMessage(frame, "REGISTRO", "registo do produto realizado com sucesso!");
+						ClearFrame.clear(frame);
 					}
+
+				} else if (e.getSource().equals(btnImport)) {
+					EventQueue.invokeLater(new Runnable() {
+
+						@Override
+						public void run() {
+							ImportClientFrame cFrame = new ImportClientFrame();
+							cFrame.pack();
+							cFrame.setVisible(true);
+							cFrame.setLocationRelativeTo(frame);
+						}
+					});
 				}
 			}
 		};
+		btnImport.addActionListener(buttonListener);
 		btnConfirmar.addActionListener(buttonListener);
 		btnCancel.addActionListener(buttonListener);
 	}
