@@ -61,8 +61,9 @@ public class UpdateOfKitController extends SalesController {
 	}
 
 	public void update(Kit kit, JTable table) {
-		// TODO Auto-generated method stub
-
+		String sqlUpdate = "UPDATE kit SET name =?, descrition = ? WHERE id = ?)";
+		Object[] obj = new Object[] {kit.getName(), kit.getDescription(), kit.getId()};
+		dataBase.executeUpdate(sqlUpdate, obj);	
 	}
 
 	public void addProduct(Product product, JTable table, JSpinner spinnerAmount, Kit kit) {
