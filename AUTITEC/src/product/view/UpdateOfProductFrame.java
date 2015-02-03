@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.AbstractButton;
 import javax.swing.AbstractCellEditor;
@@ -41,7 +42,6 @@ import product.controller.UpdateOfProductController;
 import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
-import database.DataBase;
 
 public class UpdateOfProductFrame extends JFrame {
 
@@ -50,21 +50,23 @@ public class UpdateOfProductFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 1817667153998530684L;
 
-	private JPanel principalPanel;
+	private ArrayList<Material> materialList;
+
 	private UpdateOfProductController controller;
+
 	private JFrame frame;
 
 	private JButton btnCancel;
 
 	private JButton btnClear;
 
-	private JButton btnRegister;
+	private JButton btnUpdate;
 
 	private JComboBox<Material> cbMaterial;
 
 	private JSpinner spinnerAmount;
 
-	private AbstractButton btnUpdate;
+	private AbstractButton btnInsert;
 
 	private JSeparator separator;
 
@@ -76,12 +78,8 @@ public class UpdateOfProductFrame extends JFrame {
 
 	private JButton btnDelete;
 
-	private DataBase dataBase;
-
 	public UpdateOfProductFrame() {
-		dataBase = new DataBase();
-		dataBase.connect();
-
+		materialList = new ArrayList<Material>();
 		frame = this;
 		controller = new UpdateOfProductController();
 		initialize();
@@ -121,9 +119,9 @@ public class UpdateOfProductFrame extends JFrame {
 		btnClear.setIcon(new ImageIcon(UpdateOfProductFrame.class.getResource("/resources/ClearFrame.png")));
 		btnPanel.add(btnClear);
 
-		btnRegister = new JButton("Atualizar");
-		btnRegister.setIcon(new ImageIcon(UpdateOfProductFrame.class.getResource("/resources/update.png")));
-		btnPanel.add(btnRegister);
+		btnUpdate = new JButton("Atualizar");
+		btnUpdate.setIcon(new ImageIcon(UpdateOfProductFrame.class.getResource("/resources/update.png")));
+		btnPanel.add(btnUpdate);
 
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -143,8 +141,8 @@ public class UpdateOfProductFrame extends JFrame {
 		spinnerAmount = new JSpinner();
 		spinnerAmount.setModel(new SpinnerNumberModel(1, 1, 100, 1));
 
-		btnUpdate = new JButton("Inserir");
-		btnUpdate.setIcon(new ImageIcon(RegisterProductFrame.class.getResource("/resources/plus.png")));
+		btnInsert = new JButton("Inserir");
+		btnInsert.setIcon(new ImageIcon(RegisterProductFrame.class.getResource("/resources/plus.png")));
 
 		JScrollPane tableScroll = new JScrollPane();
 
@@ -175,7 +173,7 @@ public class UpdateOfProductFrame extends JFrame {
 		                                                .addComponent(lblAmount)
 		                                                .addGap(18)
 		                                                .addComponent(spinnerAmount, GroupLayout.DEFAULT_SIZE, 57,
-		                                                        Short.MAX_VALUE).addGap(18).addComponent(btnUpdate)
+		                                                        Short.MAX_VALUE).addGap(18).addComponent(btnInsert)
 		                                                .addGap(107))
 		                                .addGroup(
 		                                        layout.createSequentialGroup()
@@ -203,7 +201,7 @@ public class UpdateOfProductFrame extends JFrame {
 		                                .addComponent(lblAmount)
 		                                .addComponent(spinnerAmount, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(btnUpdate))
+		                                .addComponent(btnInsert))
 		                .addGroup(
 		                        layout.createParallelGroup(Alignment.TRAILING)
 		                                .addGroup(
@@ -219,7 +217,7 @@ public class UpdateOfProductFrame extends JFrame {
 		                .addContainerGap()));
 
 		table = new JTable();
-		table.setModel(new DefaultTableModel(null, new String[] { "Produto", "Quantidade", "Remover" }) {
+		table.setModel(new DefaultTableModel(null, new String[] { "Material", "Quantidade", "Remover" }) {
 
 			private static final long serialVersionUID = -6376960675127636933L;
 
@@ -283,24 +281,30 @@ public class UpdateOfProductFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "APAGAR", "Deseja realmente apagar o produto \""
 					        + ((Product) cboProduct.getSelectedItem()).getName() + " \"");
 					if (i == JOptionPane.YES_OPTION) {
-						String invetorySql = "DELETE FROM kit_relationship WHERE product = ?";
-						String query = "DELETE FROM material_relationship where product = ?";
-						String sql = "DELETE FROM compost_product WHERE id = ?";
-						Product produto = (Product) cboProduct.getSelectedItem();
-						dataBase.executeUpdate(invetorySql, produto.getId());
-						dataBase.executeUpdate(query, produto.getId());
-						dataBase.executeUpdate(sql, produto.getId());
-						ClearFrame.clear(frame);
-						cboProduct.removeItem(produto);
-						ShowMessage.successMessage(frame, "Remoção", "Produto deletado com sucesso!");
-					} else if (e.getSource().equals(btnUpdate)) {
 						Product product = (Product) cboProduct.getSelectedItem();
-						controller.updateProduct(product, table);
+						controller.removeProduct(product);
+						cboProduct.removeItem(product);
+						ShowMessage.successMessage(frame, "Remoção", "Produto deletado com sucesso!");
 					}
+				} else if (e.getSource().equals(btnInsert)) {
+					materialList.add((Material) cbMaterial.getSelectedItem());
+					controller.addMaterial((Material) cbMaterial.getSelectedItem(), table, spinnerAmount,
+					        (Product) cboProduct.getSelectedItem());
+				} else if (e.getSource().equals(btnUpdate)) {
+					Product product = (Product) cboProduct.getSelectedItem();
+					product.setDescription(txtDescription.getText());
+					controller.updateProduct(product, table);
+					ShowMessage.successMessage(frame, "Sucesso", "Produto atualizado com sucesso!");
+					ClearFrame.clear(frame);
+				} else if (e.getSource().equals(btnClear)) {
+					ClearFrame.clear(frame);
 				}
 
 			}
 		};
+		btnClear.addActionListener(buttonListener);
+		btnInsert.addActionListener(buttonListener);
+		btnUpdate.addActionListener(buttonListener);
 		btnDelete.addActionListener(buttonListener);
 		cboProduct.addActionListener(cboListener);
 	}
@@ -394,14 +398,20 @@ public class UpdateOfProductFrame extends JFrame {
 
 			int row = table.getSelectedRow();
 
-			((DefaultTableModel) table.getModel()).removeRow(row);
+			controller.deleteMaterial((Material) table.getModel().getValueAt(row, 0),
+			        (Product) cboProduct.getSelectedItem());
 
+			((DefaultTableModel) table.getModel()).removeRow(row);
 		}
 
 	}
 
 	private void fill() {
 		Product product = (Product) cboProduct.getSelectedItem();
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		for (int i = tbl.getRowCount() - 1; i >= 0; i--) {
+			tbl.removeRow(i);
+		}
 		txtDescription.setText(product.getDescription());
 		controller.fillMaterialTable(product, table);
 	}

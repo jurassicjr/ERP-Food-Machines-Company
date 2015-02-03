@@ -524,8 +524,8 @@ public class SupplierUpdateFrame extends JFrame {
 		btnCancelar.setIcon(new ImageIcon(SupplierUpdateFrame.class.getResource("/resources/cancel.png")));
 		subPanel.add(btnCancelar);
 
-		btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setIcon(new ImageIcon(SupplierUpdateFrame.class.getResource("/resources/ok.png")));
+		btnConfirmar = new JButton("Atualizar");
+		btnConfirmar.setIcon(new ImageIcon(SupplierUpdateFrame.class.getResource("/resources/update.png")));
 		subPanel.add(btnConfirmar);
 
 	}

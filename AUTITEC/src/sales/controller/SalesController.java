@@ -19,6 +19,7 @@ import model.State;
 import model.Supplier;
 import product.view.RegisterKitFrame;
 import product.view.RegisterProductFrame;
+import product.view.UpdateOfKitFrame;
 import product.view.UpdateOfProductFrame;
 import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.ClientRegisterFrame;
@@ -434,5 +435,18 @@ public class SalesController {
 		});
 
 	}
+
+	public void updateOfKit() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				UpdateOfKitFrame frame = new UpdateOfKitFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
 
 }
