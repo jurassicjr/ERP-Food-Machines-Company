@@ -2,8 +2,6 @@ import javax.swing.SwingUtilities;
 
 import rh.view.RegisterUserFrame;
 import userInterface.view.LoadingFrame;
-import userInterface.view.MainFrame;
-import userInterface.view.UpdateSoftware;
 
 /**
  * Classe principal, responsável por inicializar a aplicação.
@@ -21,7 +19,7 @@ public class Main {
 		new RegisterUserFrame().setVisible(true);
 		
 //		new UpdateSoftware(loadingFrame);
-		//new MainFrame().setVisible(true);
+//		new MainFrame().setVisible(true);
 				
 		loadingFrame.dispose();
 				
