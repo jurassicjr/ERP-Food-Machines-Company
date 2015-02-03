@@ -54,6 +54,7 @@ public class MainFrameController {
 	public static final int inventory = 11;
 	public static final int registerOfKit = 12;
 	public static final int updateOfCompostProduct = 13;
+	public static final int updateOfKit = 14;
 
 	
 	private MainFrame mainFrame;
@@ -401,6 +402,8 @@ public class MainFrameController {
 			controller.registerOfKit();
 		}else if(i==13) {
 			controller.updateOfProducts();
+		}else if(i==14) {
+			controller.updateOfKit();
 		}
 	}
 

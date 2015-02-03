@@ -87,6 +87,8 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmUpdateProduct;
 
 	private JMenu mnInventory;
+
+	private JMenuItem mntmUpdateKit;
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -241,6 +243,9 @@ public class MainFrame extends JFrame {
 		mntmUpdateProduct = new JMenuItem("Atualizar/Remover Registro de Produtos");
 		mnUpdates.add(mntmUpdateProduct);
 		
+		mntmUpdateKit = new JMenuItem("Atualizar/Remover Registro de Kit");
+		mnUpdates.add(mntmUpdateKit);
+		
 		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(150, 150));
 		scrollPane.setBorder(new TitledBorder("Notificações"));
@@ -300,11 +305,12 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmSupplierUpdate)) controller.Sales(MainFrameController.updateOfSupplier);
 				else if (e.getSource().equals(mntmSupplierReportFrame)) controller.Sales(MainFrameController.supplierReport);
 				else if (e.getSource().equals(mntmProductsReport))controller.Sales(MainFrameController.productReport);
-				else if(e.getSource().equals(mntmClientRegister)) controller.Sales(MainFrameController.clientRegistration);
-				else if(e.getSource().equals(mntmRegisterProduct)) controller.Sales(MainFrameController.registerProduct);
+				else if (e.getSource().equals(mntmClientRegister)) controller.Sales(MainFrameController.clientRegistration);
+				else if (e.getSource().equals(mntmRegisterProduct)) controller.Sales(MainFrameController.registerProduct);
 				else if	(e.getSource().equals(mntmAddMaterialToInvetory)) controller.Sales(MainFrameController.inventory);
 				else if (e.getSource().equals(mntmKitRegister)) controller.Sales(MainFrameController.registerOfKit);
-				else if(e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
+				else if (e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
+				else if (e.getSource().equals(mntmUpdateKit))controller.Sales(MainFrameController.updateOfKit);
 			}
 		};
 		
@@ -337,6 +343,7 @@ public class MainFrame extends JFrame {
 		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		mntmKitRegister.addActionListener(menuListeners);
 		mntmUpdateProduct.addActionListener(menuListeners);
+		mntmUpdateKit.addActionListener(menuListeners);
 	}
 
 }

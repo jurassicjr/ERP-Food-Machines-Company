@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
@@ -22,7 +23,8 @@ public class ClearFrame {
 		List<Component> components = getAllComponents(c);
 		
 		for (Component e : components) {
-	        if(e instanceof JTextField)((JTextField) e).setText(null);
+			if(e instanceof JSpinner) ((JSpinner) e).setValue(0);
+			else if(e instanceof JTextField)((JTextField) e).setText(null);
 	        else if(e instanceof JComboBox) ((JComboBox) e).setSelectedIndex(-1);
 	        else if(e instanceof JFormattedTextField) ((JFormattedTextField) e).setText(null);
 	        else if(e instanceof DateField) ((DateField) e).setValue(null);
