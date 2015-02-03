@@ -1,5 +1,6 @@
 import javax.swing.SwingUtilities;
 
+import rh.view.RegisterUserFrame;
 import userInterface.view.LoadingFrame;
 import userInterface.view.MainFrame;
 import userInterface.view.UpdateSoftware;
@@ -17,15 +18,11 @@ public class Main {
 			@Override public void run() { loadingFrame.setVisible(true); }  
 		});
 		
-		new UpdateSoftware(loadingFrame);
-		new MainFrame().setVisible(true);
+		new RegisterUserFrame().setVisible(true);
 		
-		//new LoginFrame().setVisible(true);
-		
-		//new RegisterKitFrame().setVisible(true);
-		
-		//new StagesProductionFrame().setVisible(true);
-		
+//		new UpdateSoftware(loadingFrame);
+		//new MainFrame().setVisible(true);
+				
 		loadingFrame.dispose();
 				
 	}

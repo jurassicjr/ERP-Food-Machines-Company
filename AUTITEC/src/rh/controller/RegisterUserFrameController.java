@@ -67,7 +67,8 @@ public class RegisterUserFrameController {
 						
 			if(numUsers == 0) resultSet = dataBase.executeQuery("SELECT employee.* FROM employee WHERE employee.active = 1");
 			
-			else resultSet = dataBase.executeQuery("SELECT employee.* FROM employee, user WHERE user.employee <> employee.id AND employee.active = 1 GROUP BY employee.id;");
+			else resultSet = dataBase.executeQuery("SELECT * FROM employee "
+					+ "WHERE id NOT IN (SELECT employee FROM user) AND active = 1;");
 			
 			while(resultSet.next()) {
 								
