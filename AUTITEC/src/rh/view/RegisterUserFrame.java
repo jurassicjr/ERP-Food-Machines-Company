@@ -3,6 +3,7 @@ package rh.view;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
@@ -304,12 +305,12 @@ public class RegisterUserFrame extends JFrame {
 	 */
 	private void register() {
 		
-//		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  
-//		
-//		Employee employee = (Employee) cbEmployee.getSelectedItem();
-//		controller.register(employee, cbAccessLevel.getSelectedIndex(), String.valueOf(txPassword.getPassword()));
-//		
-//		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  
+		
+		Employee employee = (Employee) cbEmployee.getSelectedItem();
+		controller.register(employee, permissions, String.valueOf(txPassword.getPassword()));
+		
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 		
 	}
 	

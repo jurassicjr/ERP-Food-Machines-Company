@@ -1,30 +1,37 @@
 package database.dao;
 
-import model.User;
+import java.util.ArrayList;
+
+import model.Employee;
+import rh.view.RegisterUserFrame.CheckBoxNode;
 import database.DataBase;
 
 public class UserDAO {
 	
 	private DataBase dataBase;
 	
-	public UserDAO(User user) {
+	public UserDAO(Employee employee, ArrayList<CheckBoxNode> permissions, String password) {
 		
 		dataBase = new DataBase();
 		dataBase.connect();
 		
-		persist(user);
+		persist(employee, permissions, password);
 	}
 	
-	private void persist(User user) {
+	private void persist(Employee employee, ArrayList<CheckBoxNode> permissions, String password) {
 		
-		String sql = "INSERT INTO user (permission, employee, password) VALUES (?, ?, ?)";
+		int id = dataBase.getAutoIncrementValue("user");
+				
+		String sql = "INSERT INTO user (employee, password) VALUES (?, ?)";
 		
-		int permission = user.getPermission();
-		int employeeId = user.getEmployee().getId();
-		String password = user.getPassword();
+		dataBase.executeUpdate(sql, new Object[]{employee.getId(), password});
 		
-		dataBase.executeUpdate(sql, new Object[]{permission, employeeId, password});
-		
+		for(CheckBoxNode node : permissions) {
+			
+			sql = "INSERT INTO permission (user, permission) VALUES (?, ?)";
+			dataBase.executeUpdate(sql, new Object[]{id, node.getMenuTag()});
+			
+		}
 	}
 
 }

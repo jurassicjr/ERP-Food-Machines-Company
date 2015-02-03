@@ -2,15 +2,18 @@ package rh.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
+import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import model.Employee;
 import model.Job;
-import model.User;
 import rh.view.RegisterUserFrame;
+import rh.view.RegisterUserFrame.CheckBoxNode;
 import util.MD5;
 import util.ShowMessage;
 import database.DataBase;
@@ -112,14 +115,15 @@ public class RegisterUserFrameController {
 	 * @param accessLevel O nível de acesso ao funcionário
 	 * @param password A senha de acesso para o funcionário
 	 */
-	public void register(Employee employee, int accessLevel, String password) {
+	public void register(Employee employee, JTree treePermissions, String password) {
 		
-		if(!validateData(employee, accessLevel, password)) return;
+		ArrayList<CheckBoxNode> permissions = getPermissions(treePermissions);
+		
+		if(!validateData(employee, permissions, password)) return;
 		
 		password = MD5.getMD5Code(password);
-		User user = new User(employee, password, accessLevel);
 		
-		new UserDAO(user);
+		new UserDAO(employee, permissions, password);
 		
 		ShowMessage.successMessage(frame, "Usuário Registrado", "O usuário foi registrado com sucesso");
 		
@@ -136,7 +140,7 @@ public class RegisterUserFrameController {
 	 * 
 	 * @return true se os dados são válidos e false caso contrário
 	 */
-	private boolean validateData(Employee employee, int accessLevel, String password) {
+	private boolean validateData(Employee employee, ArrayList<CheckBoxNode> permissions, String password) {
 		
 		String label = "";
 		boolean valid = true;
@@ -145,7 +149,7 @@ public class RegisterUserFrameController {
 			label = "Funcionário";
 			valid = false;
 		}
-		else if(accessLevel < 0) {
+		else if(permissions.size() == 0) {
 			label = "Nível de Acesso";
 			valid = false;
 		}
@@ -160,6 +164,28 @@ public class RegisterUserFrameController {
 		
 		return valid;
 	}
+	
+	private ArrayList<CheckBoxNode> getPermissions(JTree tree) {
+		
+		ArrayList<CheckBoxNode> permissions = new ArrayList<>();
 
+		Object root = tree.getModel().getRoot();
+
+		for(int i = 0; i < tree.getModel().getChildCount(root); i++) {
+			
+			DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getModel().getChild(root, i);
+			
+			for(int k = 0; k < node.getChildCount(); ++k) {
+				
+				DefaultMutableTreeNode leaf = (DefaultMutableTreeNode) tree.getModel().getChild(node, k);
+				CheckBoxNode c = (CheckBoxNode) leaf.getUserObject();
+				
+				if(c.isSelected()) permissions.add(c);
+			}			
+			
+		} 
+		
+		return permissions;
+	}
 	
 }
