@@ -56,7 +56,7 @@ public class UpdateSoftware {
 			while(resultSet.next()) {
 				
 				double version = resultSet.getDouble("version");
-				
+								
 				if(version > VERSION) return false;
 				else return true;
 				
