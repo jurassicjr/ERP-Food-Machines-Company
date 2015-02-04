@@ -556,6 +556,7 @@ public class SupplierUpdateFrame extends JFrame {
 						controller.updateSupplier(newSupplier(), productList);
 						controller.fillSuppliers(cboSupplier);
 						btnAdicionar.setEnabled(false);
+						ShowMessage.successMessage(frame, "Atualização", "Fornecedor atualizado com sucesso!");
 						ClearFrame.clear(frame);
 					} else {
 
@@ -668,7 +669,9 @@ public class SupplierUpdateFrame extends JFrame {
 				cboCertificate.setSelectedIndex(0);
 			}
 			String fiscalClassification = supplier.getFiscalClassification();
-			if (fiscalClassification.equalsIgnoreCase("Lucro Presumido")) {
+			if(fiscalClassification == null) {
+				
+			}else if (fiscalClassification.equalsIgnoreCase("Lucro Presumido")) {
 				cboFiscalClassification.setSelectedIndex(0);
 			} else if (fiscalClassification.equalsIgnoreCase("Lucro Real")) {
 				cboFiscalClassification.setSelectedItem(1);
