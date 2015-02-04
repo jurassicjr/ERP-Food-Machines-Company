@@ -4,6 +4,9 @@ import java.awt.Dimension;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.ArrayList;
 
 import javax.swing.BoxLayout;
 import javax.swing.GroupLayout;
@@ -88,6 +91,8 @@ public class MainFrame extends JFrame {
 
 	private JMenu mnInventory;
 	
+	private ArrayList<JMenuItem> menuItens;
+	
 	/**
 	 * Cria a janela principal da aplicação
 	 */	
@@ -95,10 +100,16 @@ public class MainFrame extends JFrame {
 				
 		controller = new MainFrameController(this);
 		
+		menuItens = new ArrayList<>();
+		
 		initialize();
 		setListeners();
+		createMenu();
 		
 		controller.setFinancialNotifications(notificationPanel);
+		
+		MenuBarFactory.build(menuItens);
+		
 	}
 	
 	/**
@@ -108,7 +119,7 @@ public class MainFrame extends JFrame {
 		
 		setBounds(100, 100, 850, 500);
 		setMinimumSize(new Dimension(850, 500));
-		setExtendedState(MAXIMIZED_BOTH);
+		
 		setTitle("Sistema de Gestão Empresarial - AUTITEC");
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -117,116 +128,180 @@ public class MainFrame extends JFrame {
 		menuBar = new JMenuBar();
 		menuBar.setMargin(new Insets(5, 5, 5, 5));
 		setJMenuBar(menuBar);
-		
+						
 		mnRh = new JMenu("RH");
 		mnRh.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/rh.png")));
 		menuBar.add(mnRh);
+		mnRh.setVisible(false);
 		
 		mnFinancial = new JMenu("Financeiro");
 		mnFinancial.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/finance.png")));
 		menuBar.add(mnFinancial);
+		mnFinancial.setVisible(false);
 		
 		mnSales = new JMenu("Vendas");
 		mnSales.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/sales.png")));
 		menuBar.add(mnSales);
-		
-		
+		mnSales.setVisible(false);
+				
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
-		
+		mntmRegisterEmployee.setVisible(false);
+		mntmRegisterEmployee.setName("REG_EMP");
+				
 		mntmTechnicalStandard = new JMenuItem("Normas Técnicas");
 		mnRh.add(mntmTechnicalStandard);
-		
+		mntmTechnicalStandard.setVisible(false);
+		mntmTechnicalStandard.setName("TEC_STD");
+				
 		mntmRegisterUser = new JMenuItem("Registrar Usuário");
 		mnRh.add(mntmRegisterUser);
+		mntmRegisterUser.setVisible(false);
+		mntmRegisterUser.setName("REG_USER");
 		
 		mntmEmployeeReport = new JMenuItem("Relatório de Funcionários");
 		mnRh.add(mntmEmployeeReport);
+		mntmEmployeeReport.setVisible(false);
+		mntmEmployeeReport.setName("EMP_REP");
 		
 		mnBill = new JMenu("Contas a Pagar");
 		mnFinancial.add(mnBill);
+		mnBill.setVisible(false);
 		
 		mntmRegisterBill = new JMenuItem("Registrar Conta a Pagar");
 		mnBill.add(mntmRegisterBill);
+		mntmRegisterBill.setVisible(false);
+		mntmRegisterBill.setName("REG_BILL");				
 		
 		mntmPayBill = new JMenuItem("Pagamento de Conta");
 		mnBill.add(mntmPayBill);
-		
+		mntmPayBill.setVisible(false);
+		mntmPayBill.setName("PAY_BILL");
+	
 		mntmListBills = new JMenuItem("Listar Contas a Pagar");
 		mnBill.add(mntmListBills);
+		mntmListBills.setVisible(false);
+		mntmListBills.setName("LIST_BILL");
 		
 		mnDebtsToReceive = new JMenu("Contas a Receber");
 		mnFinancial.add(mnDebtsToReceive);
+		mnDebtsToReceive.setVisible(false);
 		
 		mntmRegisterDebtsToReceive = new JMenuItem("Registrar Conta a Receber");
 		mnDebtsToReceive.add(mntmRegisterDebtsToReceive);
+		mntmRegisterDebtsToReceive.setVisible(false);
+		mntmRegisterDebtsToReceive.setName("REG_DEBT");
 		
 		mntmReceiveDebt = new JMenuItem("Recebimento de Conta");
 		mnDebtsToReceive.add(mntmReceiveDebt);
+		mntmReceiveDebt.setVisible(false);
+		mntmReceiveDebt.setName("REC_DEBT");
 		
 		mntmListDebts = new JMenuItem("Listar Contas a Receber");
 		mnDebtsToReceive.add(mntmListDebts);
+		mntmListDebts.setVisible(false);
+		mntmListDebts.setName("LIST_DEBT");
 		
 		mntmGenerateReport = new JMenuItem("Relatório Financeiro");
 		mnFinancial.add(mntmGenerateReport);
+		mntmGenerateReport.setVisible(false);
+		mntmGenerateReport.setName("FIN_REP");
 		
 		mnRegister = new JMenu("Registros");
 		mnSales.add(mnRegister);
+		mnRegister.setVisible(false);
 
 		mnUpdates = new JMenu("Atualizar/Remover Registros");
 		mnSales.add(mnUpdates);
+		mnUpdates.setVisible(false);
 
 		mnReports = new JMenu("Relátorios");
 		mnSales.add(mnReports);
+		mnReports.setVisible(false);
 
 		mnInventory = new JMenu("Estoque");
 		mnSales.add(mnInventory);
+		mnInventory.setVisible(false);
 		
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
 		mnSales.add(mntmApprovalOfSuppliers);
+		mntmApprovalOfSuppliers.setVisible(false);
+		mntmApprovalOfSuppliers.setName("HOM_SUP");
 		
 		mntmResgisterOfSuppliers = new JMenuItem("Registrar Fornecedores");
 		mnRegister.add(mntmResgisterOfSuppliers);
+		mntmResgisterOfSuppliers.setVisible(false);
+		mntmResgisterOfSuppliers.setName("REG_SUP");
 		
 		mntmSalesRequisition = new JMenuItem("Requisição de Compra");
 		mnSales.add(mntmSalesRequisition);
+		mntmSalesRequisition.setVisible(false);
+		mntmSalesRequisition.setName("SALE_REQ");
 		
 		mntmSalesOrder = new JMenuItem("Pedido de Compra");
 		mnSales.add(mntmSalesOrder);
+		mntmSalesOrder.setVisible(false);
+		mntmSalesOrder.setName("SALE_DEM");
 		
 		mntmRegisterOfMaterial = new JMenuItem("Registrar Material");
 		mnRegister.add(mntmRegisterOfMaterial);
+		mntmRegisterOfMaterial.setVisible(false);
+		mntmRegisterOfMaterial.setName("REG_MAT");		
 		
 		mntmRegisterProduct = new JMenuItem("Registrar Produto");
 		mnRegister.add(mntmRegisterProduct);
+		mntmRegisterProduct.setVisible(false);
+		mntmRegisterProduct.setName("REG_PROD");		
 		
 		mntmKitRegister = new JMenuItem("Registrar KIT");
 		mnRegister.add(mntmKitRegister);
+		mntmKitRegister.setVisible(false);
+		mntmKitRegister.setName("REG_KIT");
 		
 		mntmProductUpdate = new JMenuItem("Atualizar/Remover Registro de Material");
-		mnUpdates.add(mntmProductUpdate);			
+		mnUpdates.add(mntmProductUpdate);
+		mntmProductUpdate.setVisible(false);
+		mntmProductUpdate.setName("UPD_MAT");
 		
 		mntmSupplierUpdate = new JMenuItem("Atualizar/Remover Registro de Fornecedores");
 		mnUpdates.add(mntmSupplierUpdate);
+		mntmSupplierUpdate.setVisible(false);
+		mntmSupplierUpdate.setName("UPD_SUP");
 		
 		mntmSupplierReportFrame = new JMenuItem("Gerar Relatório de Fornecedores");
 		mnReports.add(mntmSupplierReportFrame);
+		mntmSupplierReportFrame.setVisible(false);
+		mntmSupplierReportFrame.setName("SUP_REP");
 		
 		mntmProductsReport = new JMenuItem("Gerar Relatório de Materiais");
 		mnReports.add(mntmProductsReport);
+		mntmProductsReport.setVisible(false);
+		mntmProductsReport.setName("MAT_REP");
 		
 		mntmAddMaterialToInvetory = new JMenuItem("Inserir Material ao Estoque");
 		mnInventory.add(mntmAddMaterialToInvetory);
+		mntmAddMaterialToInvetory.setVisible(false);
+		mntmAddMaterialToInvetory.setName("INS_STOCK");
 		
 		mntmClientRegister = new JMenuItem("Registrar Cliente");
 		mnRegister.add(mntmClientRegister);
+		mntmClientRegister.setVisible(false);
+		mntmClientRegister.setName("REG_CLI");
 		
 		mnProduction = new JMenu("Produção");
 		mnProduction.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/production.png")));
 		menuBar.add(mnProduction);
+		mnProduction.setVisible(false);
 		
 		mntmProductionStage = new JMenuItem("Estágios de Produção");
 		mnProduction.add(mntmProductionStage);
+		mntmProductionStage.setVisible(false);
+		mntmProductionStage.setName("PROD_STG");
+		
+		mntmUpdateProduct = new JMenuItem("Atualizar/Remover Registro de Produtos");
+		mnUpdates.add(mntmUpdateProduct);
+		mntmUpdateProduct.setVisible(false);
+		mntmUpdateProduct.setName("UPD_PROD");
 		
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
@@ -237,9 +312,6 @@ public class MainFrame extends JFrame {
 		mntmAbout = new JMenuItem("Sobre o Software");
 		mnAbout.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/about.png")));
 		mnAbout.add(mntmAbout);
-		
-		mntmUpdateProduct = new JMenuItem("Atualizar/Remover Registro de Produtos");
-		mnUpdates.add(mntmUpdateProduct);
 		
 		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(150, 150));
@@ -264,6 +336,40 @@ public class MainFrame extends JFrame {
 					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		getContentPane().setLayout(layout);
+	}
+	
+	private void createMenu() {
+				
+		menuItens.add(mntmRegisterEmployee);
+		menuItens.add(mntmTechnicalStandard);
+		menuItens.add(mntmRegisterUser);
+		menuItens.add(mntmEmployeeReport);
+		
+		menuItens.add(mntmRegisterBill);
+		menuItens.add(mntmPayBill);
+		menuItens.add(mntmListBills);
+		menuItens.add(mntmRegisterDebtsToReceive);
+		menuItens.add(mntmReceiveDebt);
+		menuItens.add(mntmListDebts);
+		menuItens.add(mntmGenerateReport);
+		
+		menuItens.add(mntmResgisterOfSuppliers);
+		menuItens.add(mntmRegisterOfMaterial);
+		menuItens.add(mntmRegisterProduct);
+		menuItens.add(mntmKitRegister);
+		menuItens.add(mntmClientRegister);
+		menuItens.add(mntmProductUpdate);
+		menuItens.add(mntmSupplierUpdate);
+		menuItens.add(mntmUpdateProduct);
+		menuItens.add(mntmSupplierReportFrame);
+		menuItens.add(mntmProductsReport);
+		menuItens.add(mntmAddMaterialToInvetory);
+		menuItens.add(mntmApprovalOfSuppliers);
+		menuItens.add(mntmSalesRequisition);
+		menuItens.add(mntmSalesOrder);
+		
+		menuItens.add(mntmProductionStage);
+		
 	}
 
 	/**
@@ -336,7 +442,21 @@ public class MainFrame extends JFrame {
 		mntmProductsReport.addActionListener(menuListeners);
 		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		mntmKitRegister.addActionListener(menuListeners);
-		mntmUpdateProduct.addActionListener(menuListeners);
+		mntmUpdateProduct.addActionListener(menuListeners);	
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowOpened(WindowEvent arg0) {
+				setExtendedState(MAXIMIZED_BOTH);
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.closeFrame();
+			}
+			
+		});
 	}
 
 }

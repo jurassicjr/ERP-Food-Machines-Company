@@ -2,6 +2,7 @@ package login.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import login.view.LoginFrame;
 import model.Employee;
@@ -53,11 +54,18 @@ public class LoginFrameController {
 				
 				int employeeId = resultSet.getInt("id_employee");
 				Employee employee = EmployeeDAO.getEmployeeById(employeeId);
-								
-				int permission = resultSet.getInt("permission");
-								
-				createSession(new User(employee, permission));
+				int id = resultSet.getInt("id");
 				
+				ResultSet rs = dataBase.executeQuery("SELECT * FROM permission WHERE user = ?", id);
+				ArrayList<String> permissions = new ArrayList<String>();
+				
+				while(rs.next()) {
+					permissions.add(rs.getString("permission"));
+				}
+				rs.close();
+				
+				createSession(new User(employee, permissions));
+												
 				frame.dispose();
 				
 				MainFrame mainFrame = new MainFrame();
@@ -68,6 +76,8 @@ public class LoginFrameController {
 			else {
 				ShowMessage.errorMessage(frame, "Erro ao logar", "Usuário ou senha incorretos");
 			}
+			
+			resultSet.close();
 									
 		} catch (SQLException e) {
 			e.printStackTrace();

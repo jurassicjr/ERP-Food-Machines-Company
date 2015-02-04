@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.Box;
-import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -404,15 +403,15 @@ public class MainFrameController {
 		}
 	}
 
-	public void closeFrame(JFrame frame) {
+	public void closeFrame() {
 
 		String title = "Sair";
 		String message = "Deseja realmente sair?\nOs dados não salvos serão perdidos.";
 
-		int response = ShowMessage.questionMessage(frame, title, message);
+		int response = ShowMessage.questionMessage(mainFrame, title, message);
 
 		if (response == JOptionPane.YES_OPTION) {
-			frame.dispose();
+			mainFrame.dispose();
 		}
 
 	}

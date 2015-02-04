@@ -58,7 +58,7 @@ public class LoginFrame extends JFrame {
 		setLookAndFell();
 		initialize();
 		setListeners();
-		
+				
 	}
 	
 	/**
