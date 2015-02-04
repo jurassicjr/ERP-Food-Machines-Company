@@ -6,5 +6,6 @@ import java.io.IOException;
 
 public abstract class Import {
 
-	public abstract void importExcel(File file) throws FileNotFoundException, IOException;
+	public abstract void importExcelClient(File file) throws FileNotFoundException, IOException;
+	public abstract void importExcelSupplier(File file)throws FileNotFoundException, IOException;
 }

@@ -36,7 +36,7 @@ public class ImportController {
 			ImportFactory iPF = new ImportFactory();
 			Import ip = iPF.getImport(file);
 			try {
-	            ip.importExcel(file);
+	            ip.importExcelClient(file);
 	            
             } catch (IOException e) {
 	           

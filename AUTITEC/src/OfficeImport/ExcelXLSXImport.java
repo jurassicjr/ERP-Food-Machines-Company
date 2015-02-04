@@ -2,6 +2,7 @@ package OfficeImport;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,7 +19,7 @@ public class ExcelXLSXImport extends Import {
 	private ArrayList<Client> clientList;
 
 	@Override
-	public void importExcel(File file) throws IOException {
+	public void importExcelClient(File file) throws IOException {
 		FileInputStream input = new FileInputStream(file);
 
 		clientList = new ArrayList<Client>();
@@ -78,4 +79,10 @@ public class ExcelXLSXImport extends Import {
 			e.printStackTrace();
 		}
 	}
+
+	@Override
+    public void importExcelSupplier(File file) throws FileNotFoundException, IOException {
+	    // TODO Auto-generated method stub
+	    
+    }
 }

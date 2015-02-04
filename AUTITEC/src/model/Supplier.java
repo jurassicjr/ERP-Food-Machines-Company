@@ -32,6 +32,39 @@ public class Supplier {
 		registerDate = new GregorianCalendar();
 		registerDate.setTime(new Date());
 	}
+	
+	public Supplier() {
+		registerDate = new GregorianCalendar();
+		registerDate.setTime(new Date());
+    }
+
+	public void setCity(City city) {
+		this.city = city;
+	}
+
+	public void setState(State state) {
+		this.state = state;
+	}
+
+	public String getCorporateName() {
+		return corporateName;
+	}
+
+	public void setCorporateName(String corporateName) {
+		this.corporateName = corporateName;
+	}
+
+	public boolean isCertificate() {
+		return certificate;
+	}
+
+	public void setCertificate(boolean certificate) {
+		this.certificate = certificate;
+	}
+
+	public void setCNPJ(String cNPJ) {
+		CNPJ = cNPJ;
+	}
 
 	public Date getRegisterDate() {
 		return registerDate.getTime();

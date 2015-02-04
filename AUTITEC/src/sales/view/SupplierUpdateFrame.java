@@ -668,11 +668,11 @@ public class SupplierUpdateFrame extends JFrame {
 				cboCertificate.setSelectedIndex(0);
 			}
 			String fiscalClassification = supplier.getFiscalClassification();
-			if (fiscalClassification == "Lucro Presumido") {
+			if (fiscalClassification.equalsIgnoreCase("Lucro Presumido")) {
 				cboFiscalClassification.setSelectedIndex(0);
-			} else if (fiscalClassification == "Lucro Real") {
+			} else if (fiscalClassification.equalsIgnoreCase("Lucro Real")) {
 				cboFiscalClassification.setSelectedItem(1);
-			} else if (fiscalClassification == "Simples Social") {
+			} else if (fiscalClassification.equalsIgnoreCase("Simples Social")) {
 				cboFiscalClassification.setSelectedItem(2);
 			} else {
 				cboFiscalClassification.setSelectedItem(-1);
