@@ -1,5 +1,5 @@
 DataBaseServer=104.236.80.37
-DataBaseName=autitec_producao
+DataBaseName=autitec
 DataBaseUser=autitec
 DataBasePass=autitec123
 FTPServer=104.236.80.37

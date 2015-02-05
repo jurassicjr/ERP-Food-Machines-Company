@@ -138,7 +138,7 @@ public class EmployeeDAO {
 	 */
 	private int registerSocialIntegrationProgram(Date registerDate, String cadastreNumber, Bank bank, String agency, String address) {
 		
-		String sql = "INSERT INTO social_integration (dadastre_date, cadastre_number, baking_data) VALUES (?, ?, ?)";
+		String sql = "INSERT INTO social_integration (cadastre_date, cadastre_number, baking_data) VALUES (?, ?, ?)";
 		Object insertData[];
 		
 		java.sql.Date date = (registerDate != null) ? new java.sql.Date(registerDate.getTime()) : null;		

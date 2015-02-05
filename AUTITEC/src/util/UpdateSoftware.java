@@ -15,7 +15,7 @@ import database.DataBase;
 
 public class UpdateSoftware {
 	
-	public static final double VERSION = 0.1;
+	public static final double VERSION = 0.2;
 	
 	private DataBase dataBase;
 	
