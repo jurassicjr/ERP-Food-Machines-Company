@@ -954,7 +954,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		data.put("admission_date", txAdmissionDate.getValue());
 		data.put("job", cbJob.getSelectedItem());
 		data.put("registration_cnpj", cbRegisterCnpj.getSelectedItem());
-		data.put("salary", txSalary.getText());
+		data.put("salary", txSalary.getText().replaceAll(",", "."));
 		data.put("payment", cbPayment.getSelectedIndex());
 		data.put("bank", cbBank.getSelectedItem());
 		data.put("agency", txAgency.getText());
