@@ -1,6 +1,5 @@
 import javax.swing.SwingUtilities;
 
-import rh.view.RegisterEmployeeFrame;
 import login.view.LoginFrame;
 import userInterface.view.LoadingFrame;
 import util.UpdateSoftware;
