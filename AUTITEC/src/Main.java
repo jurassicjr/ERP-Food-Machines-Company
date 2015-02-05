@@ -1,5 +1,6 @@
 import javax.swing.SwingUtilities;
 
+import rh.view.RegisterEmployeeFrame;
 import login.view.LoginFrame;
 import userInterface.view.LoadingFrame;
 import util.UpdateSoftware;
@@ -21,7 +22,7 @@ public class Main {
 		new UpdateSoftware(loadingFrame);
 		if(!new VerifySerial().verify()) System.exit(0);
 		new LoginFrame().setVisible(true);
-				
+						
 		loadingFrame.dispose();
 				
 	}

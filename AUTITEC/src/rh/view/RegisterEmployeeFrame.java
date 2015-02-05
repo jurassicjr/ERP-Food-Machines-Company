@@ -54,6 +54,7 @@ import net.sf.nachocalendar.table.JTableCustomizer;
 import rh.controller.RegisterEmployeeController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.FileChooser;
+import userInterface.components.RealNumberField;
 import userInterface.components.UpperCaseEditor;
 import userInterface.components.UpperTextField;
 import util.Icon;
@@ -83,7 +84,7 @@ public class RegisterEmployeeFrame extends JFrame {
 	private UpperTextField txAddress;
 	private UpperTextField txNeighborhood;
 	private JTextField txCbo; 
-	private JTextField txSalary; 
+	private RealNumberField txSalary; 
 	private UpperTextField txAgency; 
 	private UpperTextField txAccount;
 	private UpperTextField txCadastreNumber; 
@@ -563,7 +564,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		txCbo.setEditable(false);
 		
 		JLabel lblSalary = new JLabel("Salário Inicial R$");
-		txSalary = new JTextField();
+		txSalary = new RealNumberField();
 		
 		JLabel lblPayment = new JLabel("Forma de Pagamento");
 		cbPayment = new JComboBox<String>();
