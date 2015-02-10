@@ -1,7 +1,5 @@
 import javax.swing.SwingUtilities;
 
-import rh.view.RegisterCBOFrame;
-import rh.view.RegisterEmployeeFrame;
 import login.view.LoginFrame;
 import userInterface.view.LoadingFrame;
 import util.UpdateSoftware;
@@ -20,13 +18,10 @@ public class Main {
 			@Override public void run() { loadingFrame.setVisible(true); }  
 		});
 		
-//		new UpdateSoftware(loadingFrame);
-//		if(!new VerifySerial().verify()) System.exit(0);
-//		new LoginFrame().setVisible(true);
-		
-		new RegisterEmployeeFrame().setVisible(true);
-		//new RegisterCBOFrame().setVisible(true);
-								
+		new UpdateSoftware(loadingFrame);
+		if(!new VerifySerial().verify()) System.exit(0);
+		new LoginFrame().setVisible(true);
+										
 		loadingFrame.dispose();
 				
 	}
