@@ -22,6 +22,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import model.Bank;
@@ -30,6 +31,7 @@ import model.CNPJ;
 import model.City;
 import model.Employee;
 import model.State;
+import rh.view.RegisterCBOFrame;
 import rh.view.RegisterEmployeeFrame;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.ImageFilter;
@@ -289,6 +291,31 @@ public class RegisterEmployeeController {
 			}
 			
 		}				
+		
+	}
+	
+	public void addCBO(JComboBox<CBO> cbCBO) {
+		
+		SwingUtilities.invokeLater(new Runnable(){  
+			
+			@Override
+			public void run() { 
+				
+				RegisterCBOFrame registerCBO = new RegisterCBOFrame();
+				registerCBO.setVisible(true);
+				registerCBO.setLocationRelativeTo(frame);
+				
+				CBO cbo = registerCBO.getCBO(); 
+				
+				if(cbo != null) {
+					cbCBO.insertItemAt(cbo, 0);
+				}				
+			}
+			
+		});
+		
+		
+		
 		
 	}
 	

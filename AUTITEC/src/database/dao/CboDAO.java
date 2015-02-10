@@ -8,6 +8,20 @@ import database.DataBase;
 
 public class CboDAO {
 	
+	private DataBase dataBase;
+	
+	public CboDAO(String title, String code) {
+		
+		dataBase = new DataBase();
+		dataBase.connect();
+		
+		persist(title, code);
+	}
+	
+	private void persist(String title, String code) {
+		dataBase.executeUpdate("INSERT INTO cbo (code, title) VALUES (?, ?)", new Object[]{code, title});
+	}
+	
 	public static CBO getCBObyId(int id) {
 		
 		CBO cbo = null;
@@ -37,5 +51,6 @@ public class CboDAO {
 		return cbo;
 		
 	}
+	
 
 }

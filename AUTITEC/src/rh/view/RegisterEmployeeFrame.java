@@ -123,6 +123,8 @@ public class RegisterEmployeeFrame extends JFrame {
 	
 	private JTable dependentTable;
 	
+	private JButton btnAddCBO;
+	
 	private JButton btnCancel;
 	private JButton btnConfirme;
 	private JButton btnClear;
@@ -580,6 +582,11 @@ public class RegisterEmployeeFrame extends JFrame {
 		JLabel lblRegisterCnpj = new JLabel("CNPJ de Registro");
 		cbRegisterCnpj = new JComboBox<CNPJ>();
 		
+		btnAddCBO = new JButton("");
+		btnAddCBO.setIcon(new ImageIcon(RegisterEmployeeFrame.class.getResource("/resources/plus.png")));
+		btnAddCBO.setMinimumSize(new Dimension(20, 20));
+		btnAddCBO.setMaximumSize(new Dimension(20, 20));
+		
 		GroupLayout jobDataPanelLayout = new GroupLayout(jobDataPanel);
 		jobDataPanelLayout.setHorizontalGroup(
 			jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
@@ -603,9 +610,11 @@ public class RegisterEmployeeFrame extends JFrame {
 									.addGap(18)
 									.addComponent(lblJob)))
 							.addGap(18)
-							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(jobDataPanelLayout.createSequentialGroup()
-									.addComponent(cbJob, 0, 350, Short.MAX_VALUE)
+									.addComponent(cbJob, 0, 283, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(btnAddCBO)
 									.addGap(18)
 									.addComponent(lblCbo)
 									.addGap(18)
@@ -616,31 +625,34 @@ public class RegisterEmployeeFrame extends JFrame {
 						.addGroup(jobDataPanelLayout.createSequentialGroup()
 							.addComponent(lblRegisterCnpj)
 							.addGap(18)
-							.addComponent(cbRegisterCnpj, 0, 558, Short.MAX_VALUE)))
+							.addComponent(cbRegisterCnpj, 0, 687, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		jobDataPanelLayout.setVerticalGroup(
 			jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(jobDataPanelLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblAdmissionDate)
-						.addComponent(txAdmissionDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cbJob, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txCbo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCbo)
-						.addComponent(lblJob))
-					.addGap(18)
-					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSalary)
-						.addComponent(txSalary, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblPayment)
-						.addComponent(cbPayment, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(jobDataPanelLayout.createSequentialGroup()
+							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblAdmissionDate)
+								.addComponent(txAdmissionDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbJob, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txCbo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCbo)
+								.addComponent(lblJob))
+							.addGap(18)
+							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblSalary)
+								.addComponent(txSalary, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPayment)
+								.addComponent(cbPayment, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(btnAddCBO))
 					.addGap(18)
 					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRegisterCnpj)
 						.addComponent(cbRegisterCnpj, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
 					.addComponent(bankingDataPanel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(guaranteeFundDataPanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
@@ -878,6 +890,7 @@ public class RegisterEmployeeFrame extends JFrame {
 				if(e.getSource().equals(btnCancel)) controller.closeFrame();
 				else if(e.getSource().equals(btnConfirme)) registerEmployee();
 				else if(e.getSource().equals(btnClear)) controller.clear();
+				else if(e.getSource().equals(btnAddCBO)) controller.addCBO(cbJob);
 				
 			}
 		};
@@ -885,6 +898,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		btnCancel.addActionListener(btnListener);
 		btnConfirme.addActionListener(btnListener);
 		btnClear.addActionListener(btnListener);
+		btnAddCBO.addActionListener(btnListener);
 		
 		cbGender.addItemListener(new ItemListener() {
 			
