@@ -91,7 +91,10 @@ public class MainFrame extends JFrame {
 
 	private JMenu mnInventory;
 	
+	private JMenuItem mntmUpdateKit;
+
 	private ArrayList<JMenuItem> menuItens;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -263,6 +266,16 @@ public class MainFrame extends JFrame {
 		mntmProductUpdate.setVisible(false);
 		mntmProductUpdate.setName("UPD_MAT");
 		
+		mntmUpdateKit = new JMenuItem("Atualiza/Remover Registro de Kit");
+		mnUpdates.add(mntmUpdateKit);
+		mntmUpdateKit.setVisible(false);
+		mntmUpdateKit.setName("UPD_KIT");
+
+		mntmUpdateProduct = new JMenuItem("Atualizar/Remover Registro de Produtos");
+		mnUpdates.add(mntmUpdateProduct);
+		mntmUpdateProduct.setVisible(false);
+		mntmUpdateProduct.setName("UPD_PROD");
+
 		mntmSupplierUpdate = new JMenuItem("Atualizar/Remover Registro de Fornecedores");
 		mnUpdates.add(mntmSupplierUpdate);
 		mntmSupplierUpdate.setVisible(false);
@@ -297,11 +310,6 @@ public class MainFrame extends JFrame {
 		mnProduction.add(mntmProductionStage);
 		mntmProductionStage.setVisible(false);
 		mntmProductionStage.setName("PROD_STG");
-		
-		mntmUpdateProduct = new JMenuItem("Atualizar/Remover Registro de Produtos");
-		mnUpdates.add(mntmUpdateProduct);
-		mntmUpdateProduct.setVisible(false);
-		mntmUpdateProduct.setName("UPD_PROD");
 		
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
@@ -367,6 +375,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmApprovalOfSuppliers);
 		menuItens.add(mntmSalesRequisition);
 		menuItens.add(mntmSalesOrder);
+		menuItens.add(mntmUpdateKit);
 		
 		menuItens.add(mntmProductionStage);
 		
@@ -397,7 +406,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterIssue)) controller.registerIssue();
 				else if(e.getSource().equals(mntmProductionStage)) controller.stagesProduction();
 				
-				else if(e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
+				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
 				else if (e.getSource().equals(mntmResgisterOfSuppliers))controller.Sales(MainFrameController.registerOfSuppliers);
 				else if (e.getSource().equals(mntmSalesOrder)) controller.Sales(MainFrameController.salesOrder);
@@ -406,11 +415,12 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmSupplierUpdate)) controller.Sales(MainFrameController.updateOfSupplier);
 				else if (e.getSource().equals(mntmSupplierReportFrame)) controller.Sales(MainFrameController.supplierReport);
 				else if (e.getSource().equals(mntmProductsReport))controller.Sales(MainFrameController.productReport);
-				else if(e.getSource().equals(mntmClientRegister)) controller.Sales(MainFrameController.clientRegistration);
-				else if(e.getSource().equals(mntmRegisterProduct)) controller.Sales(MainFrameController.registerProduct);
+				else if (e.getSource().equals(mntmClientRegister)) controller.Sales(MainFrameController.clientRegistration);
+				else if (e.getSource().equals(mntmRegisterProduct)) controller.Sales(MainFrameController.registerProduct);
 				else if	(e.getSource().equals(mntmAddMaterialToInvetory)) controller.Sales(MainFrameController.inventory);
 				else if (e.getSource().equals(mntmKitRegister)) controller.Sales(MainFrameController.registerOfKit);
-				else if(e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
+				else if (e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
+				else if (e.getSource().equals(mntmUpdateKit))controller.Sales(MainFrameController.updateOfKit);
 			}
 		};
 		
@@ -443,6 +453,7 @@ public class MainFrame extends JFrame {
 		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		mntmKitRegister.addActionListener(menuListeners);
 		mntmUpdateProduct.addActionListener(menuListeners);	
+		mntmUpdateKit.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

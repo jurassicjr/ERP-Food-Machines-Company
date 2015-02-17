@@ -61,7 +61,7 @@ public class UpdateOfKitController extends SalesController {
 	}
 
 	public void update(Kit kit, JTable table) {
-		String sqlUpdate = "UPDATE kit SET name =?, descrition = ? WHERE id = ?)";
+		String sqlUpdate = "UPDATE kit SET kit_name =?, descrition = ? WHERE id = ?";
 		Object[] obj = new Object[] {kit.getName(), kit.getDescription(), kit.getId()};
 		dataBase.executeUpdate(sqlUpdate, obj);	
 	}

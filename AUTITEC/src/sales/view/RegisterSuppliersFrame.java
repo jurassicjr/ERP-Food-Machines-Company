@@ -296,11 +296,8 @@ public class RegisterSuppliersFrame extends JFrame {
 		txtCNPJ.setColumns(10);
 
 		JLabel lblInscest = new JLabel("Insc.Est");
-		try {
-			txtStateRegister = new JFormattedTextField(new MaskFormatter("###.###.###"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
+		
+			txtStateRegister = new JTextField();
 		txtStateRegister.setColumns(10);
 
 		JLabel lblTelefone = new JLabel("Telefone");

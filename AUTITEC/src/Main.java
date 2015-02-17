@@ -3,7 +3,6 @@ import javax.swing.SwingUtilities;
 import login.view.LoginFrame;
 import userInterface.view.LoadingFrame;
 import util.UpdateSoftware;
-import util.VerifySerial;
 
 /**
  * Classe principal, responsável por inicializar a aplicação.
@@ -19,7 +18,7 @@ public class Main {
 		});
 		
 		new UpdateSoftware(loadingFrame);
-		if(!new VerifySerial().verify()) System.exit(0);
+		//if(!new VerifySerial().verify()) System.exit(0);
 		new LoginFrame().setVisible(true);
 										
 		loadingFrame.dispose();

@@ -151,58 +151,71 @@ public class UpdateOfKitFrame extends JFrame {
 		cboProduct = new JComboBox<Product>();
 		controller.fillProduct(cboProduct);
 		GroupLayout layout = new GroupLayout(panel);
-		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(layout.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(lblKit)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboKit, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(lblProduct)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboProduct, 0, 221, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblAmount)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(spinnerAmount, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnInsert)
-							.addGap(147))
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
-		layout.setVerticalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(layout.createSequentialGroup()
-					.addContainerGap()
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblKit)
-						.addComponent(cboKit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
-					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblProduct)
-						.addComponent(cboProduct, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAmount)
-						.addComponent(spinnerAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnInsert))
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-						.addGroup(layout.createSequentialGroup()
-							.addGap(20)
-							.addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
-						.addGroup(layout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
-		);
+		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(
+		        layout.createSequentialGroup()
+		                .addContainerGap()
+		                .addGroup(
+		                        layout.createParallelGroup(Alignment.LEADING)
+		                                .addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 634,
+		                                        Short.MAX_VALUE)
+		                                .addGroup(
+		                                        layout.createSequentialGroup()
+		                                                .addComponent(lblKit)
+		                                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                                .addComponent(cboKit, GroupLayout.PREFERRED_SIZE, 217,
+		                                                        GroupLayout.PREFERRED_SIZE))
+		                                .addGroup(
+		                                        layout.createSequentialGroup()
+		                                                .addComponent(lblProduct)
+		                                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                                .addComponent(cboProduct, 0, 221, Short.MAX_VALUE)
+		                                                .addGap(18)
+		                                                .addComponent(lblAmount)
+		                                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                                .addComponent(spinnerAmount, GroupLayout.DEFAULT_SIZE, 57,
+		                                                        Short.MAX_VALUE)
+		                                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                                .addComponent(btnInsert).addGap(147))
+		                                .addGroup(
+		                                        layout.createSequentialGroup()
+		                                                .addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 627,
+		                                                        Short.MAX_VALUE)
+		                                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                                .addComponent(separator, GroupLayout.PREFERRED_SIZE, 1,
+		                                                        GroupLayout.PREFERRED_SIZE))).addContainerGap()));
+		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(
+		        layout.createSequentialGroup()
+		                .addContainerGap()
+		                .addGroup(
+		                        layout.createParallelGroup(Alignment.BASELINE)
+		                                .addComponent(lblKit)
+		                                .addComponent(cboKit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                        GroupLayout.PREFERRED_SIZE))
+		                .addGap(18)
+		                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
+		                .addGap(18)
+		                .addGroup(
+		                        layout.createParallelGroup(Alignment.BASELINE)
+		                                .addComponent(lblProduct)
+		                                .addComponent(cboProduct, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
+		                                        GroupLayout.PREFERRED_SIZE)
+		                                .addComponent(lblAmount)
+		                                .addComponent(spinnerAmount, GroupLayout.PREFERRED_SIZE,
+		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		                                .addComponent(btnInsert))
+		                .addGroup(
+		                        layout.createParallelGroup(Alignment.TRAILING)
+		                                .addGroup(
+		                                        layout.createSequentialGroup()
+		                                                .addGap(20)
+		                                                .addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 116,
+		                                                        Short.MAX_VALUE))
+		                                .addGroup(
+		                                        layout.createSequentialGroup()
+		                                                .addPreferredGap(ComponentPlacement.RELATED)
+		                                                .addComponent(separator, GroupLayout.PREFERRED_SIZE,
+		                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+		                .addContainerGap()));
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(null, new String[] { "Material", "Quantidade", "Remover" }) {
@@ -267,22 +280,25 @@ public class UpdateOfKitFrame extends JFrame {
 					controller.closeFrame(frame);
 				} else if (e.getSource().equals(btnDelete)) {
 					int i = ShowMessage.questionMessage(frame, "APAGAR", "Deseja realmente apagar o produto \""
-					        + ((Product) cboKit.getSelectedItem()).getName() + " \"");
+					        + ((Kit) cboKit.getSelectedItem()).getName() + " \"");
 					if (i == JOptionPane.YES_OPTION) {
 						Kit kit = (Kit) cboKit.getSelectedItem();
 						controller.removeKit(kit);
 						cboKit.removeItem(kit);
 						ShowMessage.successMessage(frame, "Remoção", "Produto deletado com sucesso!");
-					} else if (e.getSource().equals(btnUpdate)) {
-						Kit kit = (Kit) cboKit.getSelectedItem();
-						controller.update(kit, table);
 					}
 				} else if (e.getSource().equals(btnInsert)) {
 					productList.add((Product) cboProduct.getSelectedItem());
 					controller.addProduct((Product) cboProduct.getSelectedItem(), table, spinnerAmount,
 					        (Kit) cboKit.getSelectedItem());
-				}else if(e.getSource().equals(btnClear)) {
+				} else if (e.getSource().equals(btnClear)) {
 					ClearFrame.clear(frame);
+				} else if (e.getSource().equals(btnUpdate)) {
+					int i = ShowMessage.questionMessage(frame, "Atualização", "Deseja mesmo atualizar esse Kit?");
+					if (i == JOptionPane.YES_OPTION) {
+						Kit kit = (Kit) cboKit.getSelectedItem();
+						controller.update(kit, table);
+					}
 				}
 
 			}
@@ -382,8 +398,7 @@ public class UpdateOfKitFrame extends JFrame {
 
 			int row = table.getSelectedRow();
 
-			controller.deleteProduct((Product) table.getModel().getValueAt(row, 0),
-			        (Kit) cboKit.getSelectedItem());
+			controller.deleteProduct((Product) table.getModel().getValueAt(row, 0), (Kit) cboKit.getSelectedItem());
 
 			((DefaultTableModel) table.getModel()).removeRow(row);
 		}
@@ -393,9 +408,9 @@ public class UpdateOfKitFrame extends JFrame {
 	private void fill() {
 		Kit kit = (Kit) cboKit.getSelectedItem();
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-    	for(int i = tbl.getRowCount() -1; i>=0; i--) {
-    		tbl.removeRow(i);
-    	}
+		for (int i = tbl.getRowCount() - 1; i >= 0; i--) {
+			tbl.removeRow(i);
+		}
 		txtDescription.setText(kit.getDescription());
 		controller.fillProductTable(kit, table);
 	}
