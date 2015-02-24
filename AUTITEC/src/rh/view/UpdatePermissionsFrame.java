@@ -2,16 +2,24 @@ package rh.view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.EventObject;
 import java.util.Vector;
 
 import javax.swing.AbstractCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -28,27 +36,45 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.TreeCellEditor;
 import javax.swing.tree.TreeCellRenderer;
 import javax.swing.tree.TreePath;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
 
-import model.Employee;
+import model.User;
+import rh.controller.UpdatePermissionsFrameController;
+import util.Icon;
 
 public class UpdatePermissionsFrame extends JFrame {
 	
 	private static final long serialVersionUID = 1902760648084014248L;
 	
-	private JComboBox<Employee> comboBox;
+	private UpdatePermissionsFrameController controller;
+	
+	private JComboBox<User> cbUsers;
 	private JTree permissions;
+	
+	private JButton btnUpdate;
+	private JButton btnReset;
+	
+	private int lastIndex;
 
 	public UpdatePermissionsFrame() {
+		
+		controller = new UpdatePermissionsFrameController(this);
+		
+		lastIndex = -1;
+		
 		creteTree();
+		permissions.setEditable(false);
+		
 		initialize();
+		setListeners();
 	}
 	
 	private void initialize() {
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 530, 443);
+		setMinimumSize(new Dimension(530, 443));
+		setTitle("Atualização de Permissões");
+		Icon.setIcon(this);
 		
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -56,25 +82,32 @@ public class UpdatePermissionsFrame extends JFrame {
 		
 		JLabel lblFuncionrio = new JLabel("Funcionário:");
 		
-		comboBox = new JComboBox<Employee>();
+		cbUsers = new JComboBox<User>();
 		
 		JScrollPane panel = new JScrollPane();
 		panel.setViewportView(permissions);
 		
-		JButton btnOk = new JButton("Ok");
-		btnOk.setIcon(new ImageIcon(UpdatePermissionsFrame.class.getResource("/resources/ok.png")));
+		btnUpdate = new JButton("Atualizar");
+		btnUpdate.setIcon(new ImageIcon(UpdatePermissionsFrame.class.getResource("/resources/update.png")));
+		
+		btnReset = new JButton("Definir permissões originais");
+		btnReset.setIcon(new ImageIcon(UpdatePermissionsFrame.class.getResource("/resources/clear.png")));
+		
 		GroupLayout layout = new GroupLayout(contentPane);
 		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup(Alignment.LEADING)
 						.addComponent(panel, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 484, Short.MAX_VALUE)
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblFuncionrio)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(comboBox, 0, 421, Short.MAX_VALUE))
-						.addComponent(btnOk, Alignment.TRAILING))
+							.addComponent(cbUsers, 0, 421, Short.MAX_VALUE))
+						.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+							.addComponent(btnReset)
+							.addGap(18)
+							.addComponent(btnUpdate)))
 					.addContainerGap())
 		);
 		layout.setVerticalGroup(
@@ -83,22 +116,82 @@ public class UpdatePermissionsFrame extends JFrame {
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblFuncionrio)
-						.addComponent(comboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(cbUsers, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 304, Short.MAX_VALUE)
-					.addGap(18)
-					.addComponent(btnOk))
+					.addComponent(panel, GroupLayout.DEFAULT_SIZE, 302, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(btnUpdate)
+						.addComponent(btnReset))
+					.addGap(9))
 		);
 		contentPane.setLayout(layout);
+		
+		controller.setUsers(cbUsers);
+		cbUsers.setSelectedIndex(-1);
 	}
 	
+	private void setListeners() {
+		
+		cbUsers.addActionListener (new ActionListener () {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				changeUser();
+		    }
+		});
+		
+		addWindowListener(new WindowAdapter() {
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.closeFrame();
+			}
+		});
+		
+		ActionListener btnListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(btnReset)) controller.resetPermissions((User) cbUsers.getSelectedItem(), permissions); 
+				else if(e.getSource().equals(btnUpdate)) updatePermission();
+			}
+		};
+		
+		btnReset.addActionListener(btnListener);
+		btnUpdate.addActionListener(btnListener);
+		
+	}
+	
+	private void changeUser() {
+		
+		if(lastIndex != -1) {
+						
+			User user = (User) cbUsers.getItemAt(lastIndex);
+									
+			if(controller.hasModification(user, permissions)) {
+				boolean reset = controller.resetPermissions(user, permissions);
+				if(!reset) cbUsers.setSelectedIndex(lastIndex);
+				else controller.resetPermissions(permissions);
+			}
+			else controller.resetPermissions(permissions);
+			
+		}
+		else permissions.setEditable(true);
+		
+		controller.setPermissions((User) cbUsers.getSelectedItem(), permissions);
+		
+		lastIndex = cbUsers.getSelectedIndex();
+	}
+		
 	private void creteTree() {
 		
 		CheckBoxNode rhOptions[] = {
 				new CheckBoxNode("Registrar Funcionario", false, "REG_EMP"),
 				new CheckBoxNode("Normas Técnicas", false, "TEC_STD"),
 				new CheckBoxNode("Registrar Usuário", false, "REG_USER"),
-				new CheckBoxNode("Relatório de Funcionários", false, "EMP_REP")
+				new CheckBoxNode("Relatório de Funcionários", false, "EMP_REP"),
+				new CheckBoxNode("Atualizar Permissões", false, "UPD_PERM")
 		};
 		    
 		CheckBoxNode financialOptions[] = {
@@ -148,7 +241,14 @@ public class UpdatePermissionsFrame extends JFrame {
 		permissions.setCellEditor(new CheckBoxNodeEditor(permissions));
 		permissions.setEditable(true);		
 	}
-
+	
+	private void updatePermission() {
+		
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  
+		controller.updatePermissions((User) cbUsers.getSelectedItem(), permissions);
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		
+	}
 	
 	public class CheckBoxNodeRenderer implements TreeCellRenderer {
 		
@@ -356,5 +456,4 @@ public class UpdatePermissionsFrame extends JFrame {
 			return name;
 		}
 	}
-
 }

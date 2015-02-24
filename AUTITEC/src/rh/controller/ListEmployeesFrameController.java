@@ -301,12 +301,7 @@ public class ListEmployeesFrameController {
 		UpdateEmployeeFrame updateEmployeeFrame = new UpdateEmployeeFrame(employee);
 		updateEmployeeFrame.setVisible(true);
 		updateEmployeeFrame.setLocationRelativeTo(frame);
-		
-//		ListBillsFrame listBillsFrame = new ListBillsFrame(true);
-//		listBillsFrame.setVisible(true);
-//		listBillsFrame.setLocationRelativeTo(frame);
-//		listBillsFrame.requestFocus();
-		
+				
 		frame.dispose();
 		
 	}

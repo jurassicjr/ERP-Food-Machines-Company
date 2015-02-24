@@ -196,7 +196,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Registrar Funcionario", false, "REG_EMP"),
 				new CheckBoxNode("Normas Técnicas", false, "TEC_STD"),
 				new CheckBoxNode("Registrar Usuário", false, "REG_USER"),
-				new CheckBoxNode("Relatório de Funcionários", false, "EMP_REP")
+				new CheckBoxNode("Relatório de Funcionários", false, "EMP_REP"),
+				new CheckBoxNode("Atualizar Permissões", false, "UPD_PERM")
 		};
 		    
 		CheckBoxNode financialOptions[] = {

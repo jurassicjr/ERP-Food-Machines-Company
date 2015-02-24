@@ -46,6 +46,7 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmTechnicalStandard;
 	private JMenuItem mntmRegisterUser;
 	private JMenuItem mntmEmployeeReport;
+	private JMenuItem mntmUpdateUser;
 	
 	private JMenu mnBill;
 	private JMenuItem mntmRegisterBill;
@@ -161,6 +162,11 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmRegisterUser);
 		mntmRegisterUser.setVisible(false);
 		mntmRegisterUser.setName("REG_USER");
+		
+		mntmUpdateUser = new JMenuItem("Atualizar Permissões");
+		mnRh.add(mntmUpdateUser);
+		mntmUpdateUser.setVisible(false);
+		mntmUpdateUser.setName("UPD_PERM");
 		
 		mntmEmployeeReport = new JMenuItem("Relatório de Funcionários");
 		mnRh.add(mntmEmployeeReport);
@@ -352,6 +358,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmTechnicalStandard);
 		menuItens.add(mntmRegisterUser);
 		menuItens.add(mntmEmployeeReport);
+		menuItens.add(mntmUpdateUser);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -405,6 +412,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmAbout)) controller.about();
 				else if(e.getSource().equals(mntmRegisterIssue)) controller.registerIssue();
 				else if(e.getSource().equals(mntmProductionStage)) controller.stagesProduction();
+				else if(e.getSource().equals(mntmUpdateUser)) controller.updateUser();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -427,6 +435,7 @@ public class MainFrame extends JFrame {
 		mntmRegisterEmployee.addActionListener(menuListeners);
 		mntmTechnicalStandard.addActionListener(menuListeners);
 		mntmRegisterUser.addActionListener(menuListeners);
+		mntmUpdateUser.addActionListener(menuListeners);
 		mntmRegisterBill.addActionListener(menuListeners);
 		mntmRegisterDebtsToReceive.addActionListener(menuListeners);
 		mntmPayBill.addActionListener(menuListeners);

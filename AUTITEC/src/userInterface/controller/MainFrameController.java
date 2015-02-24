@@ -20,6 +20,7 @@ import rh.view.EmployeeReportFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.TechnicalStandardFrame;
+import rh.view.UpdatePermissionsFrame;
 import sales.controller.SalesController;
 import userInterface.components.NotificationButton;
 import userInterface.view.AboutFrame;
@@ -299,6 +300,22 @@ public class MainFrameController {
 			public void run() {
 				
 				ListDebtsFrame frame = new ListDebtsFrame(false);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
+		
+	}
+	
+	public void updateUser() {
+		
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				UpdatePermissionsFrame frame = new UpdatePermissionsFrame();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
 				

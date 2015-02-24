@@ -306,11 +306,14 @@ public class EmployeeDAO {
 				employee = new Employee(id, name, cpf, job);
 				
 			}
+			resultSet.close();
 			
 		} catch(SQLException e) {
 			e.printStackTrace();
 			DataBase.showDataBaseErrorMessage();
 		}
+				
+		dataBase.close();
 		
 		return employee;
 		

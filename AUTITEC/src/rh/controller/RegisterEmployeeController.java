@@ -312,11 +312,8 @@ public class RegisterEmployeeController {
 				}				
 			}
 			
-		});
-		
-		
-		
-		
+		});		
+				
 	}
 	
 	/**

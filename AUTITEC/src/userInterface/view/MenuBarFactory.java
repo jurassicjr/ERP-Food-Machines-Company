@@ -20,7 +20,7 @@ public class MenuBarFactory {
 		for(JMenuItem menuItem : menuItens) {
 			
 			if(permissions.contains(menuItem.getName())) {
-			showMenu(menuItem);
+				showMenu(menuItem);
 			}
 			
 		}		

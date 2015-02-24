@@ -1,7 +1,6 @@
 package rh.view;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -21,15 +20,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.AbstractCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -38,15 +36,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
-import javax.swing.UIManager;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumnModel;
 import javax.swing.text.MaskFormatter;
 
 import model.Bank;
@@ -62,13 +56,15 @@ import net.sf.nachocalendar.table.JTableCustomizer;
 import rh.controller.UpdateEmployeeFrameController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.FileChooser;
+import userInterface.components.RealNumberField;
+import userInterface.components.UpperCaseEditor;
 import userInterface.components.UpperTextField;
 import util.Icon;
 
 /**
  * Representa o frame de registro de funcionários
  */
-public class UpdateEmployeeFrame extends JDialog {
+public class UpdateEmployeeFrame extends JFrame {
 	
 	private static final long serialVersionUID = -4506446090751738206L;
 	
@@ -90,7 +86,7 @@ public class UpdateEmployeeFrame extends JDialog {
 	private UpperTextField txAddress;
 	private UpperTextField txNeighborhood;
 	private JTextField txCbo; 
-	private JTextField txSalary; 
+	private RealNumberField txSalary; 
 	private UpperTextField txAgency; 
 	private UpperTextField txAccount;
 	private UpperTextField txCadastreNumber; 
@@ -129,14 +125,15 @@ public class UpdateEmployeeFrame extends JDialog {
 	
 	private JTable dependentTable;
 	
+	private JButton btnAddCBO;
+	
 	private JButton btnCancel;
 	private JButton btnConfirme;
 	private JButton btnClear;
 	
 	private String picturePath;
-	private FileChooser fileChooser;
-	
 	private UpdateEmployeeFrameController controller;
+	private FileChooser fileChooser;
 	
 	private Employee employee;
 		
@@ -145,16 +142,16 @@ public class UpdateEmployeeFrame extends JDialog {
 	 */
 	public UpdateEmployeeFrame(Employee employee) {
 		
-		picturePath = null;
-		fileChooser = new FileChooser(this);
 		controller = new UpdateEmployeeFrameController(this);
+		fileChooser = new FileChooser(this);
 		
+		picturePath = null;
 		this.employee = employee;
-		
+				
 		initialize();
 		setListeners();
-		
 		setEmployee();
+		
 	}
 
 	/**
@@ -166,10 +163,8 @@ public class UpdateEmployeeFrame extends JDialog {
 		setLocationRelativeTo(null);
 		setMinimumSize(new Dimension(829, 404));
 		setTitle("Registro de Funcionário");
-		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		Icon.setIcon(this);
-		setModal(true);
 		
 		tabbedPane = new JTabbedPane();
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
@@ -205,12 +200,6 @@ public class UpdateEmployeeFrame extends JDialog {
 		new ComboBoxAutoCompletion(cbDepositaryBank);
 		new ComboBoxAutoCompletion(cbSocialIntegrationBank);
 		new ComboBoxAutoCompletion(cbRegisterCnpj);
-		
-		
-		
-		dependentTable.getColumnModel().getColumn(0).setPreferredWidth(15);
-		dependentTable.getColumnModel().getColumn(0).setMinWidth(0);
-		dependentTable.getColumnModel().getColumn(0).setMaxWidth(0);
 				
 	}
 	
@@ -234,6 +223,7 @@ public class UpdateEmployeeFrame extends JDialog {
 		JLabel lblRg = new JLabel("Registro Geral (RG)");
 		try { txRg = new JFormattedTextField(new MaskFormatter("##.###.###-A")); }
 		catch (ParseException e) { e.printStackTrace(); }
+		txRg.setEditable(false);
 				
 		JLabel lblVoter = new JLabel("Título de Eleitor");
 		try { txVoter = new JFormattedTextField(new MaskFormatter("#### #### #### ####")); }
@@ -254,6 +244,7 @@ public class UpdateEmployeeFrame extends JDialog {
 		JLabel lblCpf = new JLabel("CPF");
 		try { txCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##")); } 
 		catch (ParseException e) { e.printStackTrace(); }
+		txCpf.setEditable(false);
 			
 		JLabel lblDriverLicense = new JLabel("Carteira de Habilitação");
 		try { txDriverLicense = new JFormattedTextField(new MaskFormatter("###########")); }
@@ -544,29 +535,23 @@ public class UpdateEmployeeFrame extends JDialog {
         dependentTable.getTableHeader().setReorderingAllowed(false);
         dependentTable.setRowHeight(25);
 		
-		dependentTable.setModel(new DefaultTableModel(null,	new String[] {"Nome", "Relação", "Data de Nascimento/Casamento", "Remover"})
-		{
+		dependentTable.setModel(new DefaultTableModel(
+			new Object[][] {{"", "", ""},},
+			new String[] {"Nome", "Relação", "Data de Nascimento/Casamento"}
+		){
 			
 			private static final long serialVersionUID = -7331676150193648559L;
 			
-			Class<?>[] columnTypes = new Class[] {Dependent.class, String.class, String.class, Date.class, ButtonColumn.class};
+			Class<?>[] columnTypes = new Class[] {String.class, String.class, Date.class};
 			
-			@Override
 			public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
-			}
-							
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				return true;
 			}
 			
 		});
 		
-		new ButtonColumn(dependentTable, 3, new ImageIcon(getClass().getResource("/resources/cancel.png")));
-				
 		JTableCustomizer.setEditorForRow(dependentTable, 2);
-		//dependentTable.setDefaultEditor(String.class, new UpperCaseEditor());
+		dependentTable.setDefaultEditor(String.class, new UpperCaseEditor());
 		
 		dependentScrollPane.setViewportView(dependentTable);	
 		
@@ -591,7 +576,7 @@ public class UpdateEmployeeFrame extends JDialog {
 		txCbo.setEditable(false);
 		
 		JLabel lblSalary = new JLabel("Salário Inicial R$");
-		txSalary = new JTextField();
+		txSalary = new RealNumberField();
 		
 		JLabel lblPayment = new JLabel("Forma de Pagamento");
 		cbPayment = new JComboBox<String>();
@@ -606,6 +591,11 @@ public class UpdateEmployeeFrame extends JDialog {
 		
 		JLabel lblRegisterCnpj = new JLabel("CNPJ de Registro");
 		cbRegisterCnpj = new JComboBox<CNPJ>();
+		
+		btnAddCBO = new JButton("");
+		btnAddCBO.setIcon(new ImageIcon(RegisterEmployeeFrame.class.getResource("/resources/plus.png")));
+		btnAddCBO.setMinimumSize(new Dimension(20, 20));
+		btnAddCBO.setMaximumSize(new Dimension(20, 20));
 		
 		GroupLayout jobDataPanelLayout = new GroupLayout(jobDataPanel);
 		jobDataPanelLayout.setHorizontalGroup(
@@ -630,9 +620,11 @@ public class UpdateEmployeeFrame extends JDialog {
 									.addGap(18)
 									.addComponent(lblJob)))
 							.addGap(18)
-							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
+							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.TRAILING)
 								.addGroup(jobDataPanelLayout.createSequentialGroup()
-									.addComponent(cbJob, 0, 350, Short.MAX_VALUE)
+									.addComponent(cbJob, 0, 283, Short.MAX_VALUE)
+									.addGap(18)
+									.addComponent(btnAddCBO)
 									.addGap(18)
 									.addComponent(lblCbo)
 									.addGap(18)
@@ -643,31 +635,34 @@ public class UpdateEmployeeFrame extends JDialog {
 						.addGroup(jobDataPanelLayout.createSequentialGroup()
 							.addComponent(lblRegisterCnpj)
 							.addGap(18)
-							.addComponent(cbRegisterCnpj, 0, 558, Short.MAX_VALUE)))
+							.addComponent(cbRegisterCnpj, 0, 687, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		jobDataPanelLayout.setVerticalGroup(
 			jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
 				.addGroup(jobDataPanelLayout.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblAdmissionDate)
-						.addComponent(txAdmissionDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(cbJob, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txCbo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCbo)
-						.addComponent(lblJob))
-					.addGap(18)
-					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblSalary)
-						.addComponent(txSalary, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblPayment)
-						.addComponent(cbPayment, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.LEADING)
+						.addGroup(jobDataPanelLayout.createSequentialGroup()
+							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblAdmissionDate)
+								.addComponent(txAdmissionDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(cbJob, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txCbo, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCbo)
+								.addComponent(lblJob))
+							.addGap(18)
+							.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblSalary)
+								.addComponent(txSalary, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblPayment)
+								.addComponent(cbPayment, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(btnAddCBO))
 					.addGap(18)
 					.addGroup(jobDataPanelLayout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblRegisterCnpj)
 						.addComponent(cbRegisterCnpj, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
 					.addComponent(bankingDataPanel, GroupLayout.PREFERRED_SIZE, 75, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(guaranteeFundDataPanel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
@@ -871,7 +866,7 @@ public class UpdateEmployeeFrame extends JDialog {
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
-				//controller.closeFrame();
+				controller.closeFrame();
 			}
 		});
 				
@@ -892,7 +887,7 @@ public class UpdateEmployeeFrame extends JDialog {
 		lblPicture.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				//picturePath = controller.loadProfilePicture(fileChooser, lblPicture);
+				picturePath = controller.loadProfilePicture(fileChooser, lblPicture);
 			}			
 		});
 		
@@ -902,9 +897,10 @@ public class UpdateEmployeeFrame extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				
-//				if(e.getSource().equals(btnCancel)) controller.closeFrame();
-//				else if(e.getSource().equals(btnConfirme)) registerEmployee();
-//				else if(e.getSource().equals(btnClear)) controller.clear();
+				if(e.getSource().equals(btnCancel)) controller.closeFrame();
+				else if(e.getSource().equals(btnConfirme)) updateEmployee();
+				else if(e.getSource().equals(btnClear)) controller.clear();
+				else if(e.getSource().equals(btnAddCBO)) controller.addCBO(cbJob);
 				
 			}
 		};
@@ -912,6 +908,7 @@ public class UpdateEmployeeFrame extends JDialog {
 		btnCancel.addActionListener(btnListener);
 		btnConfirme.addActionListener(btnListener);
 		btnClear.addActionListener(btnListener);
+		btnAddCBO.addActionListener(btnListener);
 		
 		cbGender.addItemListener(new ItemListener() {
 			
@@ -947,9 +944,63 @@ public class UpdateEmployeeFrame extends JDialog {
         }
 		
 	}
-
+	
+	/**
+	 * Invoca o método para registrar o funcionário
+	 */
+	private void updateEmployee() {
+		
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		data.put("name", txName.getText());
+		data.put("birth", txBirth.getValue());
+		data.put("gender", cbGender.getSelectedIndex());
+		data.put("maritial_status", cbMaritalStatus.getSelectedIndex());
+		data.put("nacionality", txNacionality.getText());
+		data.put("birth_place", txBirthPlace.getText());
+		data.put("rg", txRg.getText());
+		data.put("cpf", txCpf.getText());
+		data.put("cpts", txCtps.getText());
+		data.put("cpts_category", txCptsCategory.getText());
+		data.put("voter", txVoter.getText());
+		data.put("driver_license", txDriverLicense.getText());
+		data.put("driver_license_category", cbDriverLicenseCategory.getSelectedIndex());
+		data.put("schooling", cbSchooling.getSelectedIndex());
+		data.put("reservist", txReservist.getText());
+		data.put("reservist_category", txReservistCategory.getText());
+		data.put("picture", picturePath);
+		data.put("address", txAddress.getText());
+		data.put("neighborhood", txNeighborhood.getText());
+		data.put("cep", txCep.getText());
+		data.put("city", cbCity.getSelectedItem());
+		data.put("phone", txPhone.getText());
+		data.put("cellphone", txCellphone.getText());
+		data.put("admission_date", txAdmissionDate.getValue());
+		data.put("job", cbJob.getSelectedItem());
+		data.put("registration_cnpj", cbRegisterCnpj.getSelectedItem());
+		data.put("salary", txSalary.getText().replaceAll(",", "."));
+		data.put("payment", cbPayment.getSelectedIndex());
+		data.put("bank", cbBank.getSelectedItem());
+		data.put("agency", txAgency.getText());
+		data.put("account", txAccount.getText());
+		data.put("option_date", txOptionDate.getValue());
+		data.put("retraction_date", txRetractionDate.getValue());
+		data.put("depositary_bank", cbDepositaryBank.getSelectedItem());
+		data.put("cadastre_date", txCadastreDate.getValue());
+		data.put("social_integration_cadastre_number", txCadastreNumber.getText());
+		data.put("social_integration_bank", cbSocialIntegrationBank.getSelectedItem());
+		data.put("social_integration_agency", txSocialIntegrationAgency.getText());
+		data.put("social_integration_address", txSocialIntegrationAddress.getText());
+		data.put("dependents", dependentTable);
+		
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		controller.updateEmployee(data);
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		
+	}
+	
 	private void setEmployee() {
-				
+		
 		txName.setText(employee.getName());
 		txBirth.setValue(employee.getBirth());
 		cbGender.setSelectedIndex(employee.getGender());
@@ -1002,156 +1053,6 @@ public class UpdateEmployeeFrame extends JDialog {
 			++row;
 		}
 				
-	}	
-	
-	
-	/**
-	 * Invoca o método para registrar o funcionário
-	 */
-	private void registerEmployee() {
-						
-		Map<String, Object> data = new HashMap<String, Object>();
-		
-		data.put("name", txName.getText());
-		data.put("birth", txBirth.getValue());
-		data.put("gender", cbGender.getSelectedIndex());
-		data.put("maritial_status", cbMaritalStatus.getSelectedIndex());
-		data.put("nacionality", txNacionality.getText());
-		data.put("birth_place", txBirthPlace.getText());
-		data.put("rg", txRg.getText());
-		data.put("cpf", txCpf.getText());
-		data.put("cpts", txCtps.getText());
-		data.put("cpts_category", txCptsCategory.getText());
-		data.put("voter", txVoter.getText());
-		data.put("driver_license", txDriverLicense.getText());
-		data.put("driver_license_category", cbDriverLicenseCategory.getSelectedIndex());
-		data.put("schooling", cbSchooling.getSelectedIndex());
-		data.put("reservist", txReservist.getText());
-		data.put("reservist_category", txReservistCategory.getText());
-		data.put("picture", picturePath);
-		data.put("address", txAddress.getText());
-		data.put("neighborhood", txNeighborhood.getText());
-		data.put("cep", txCep.getText());
-		data.put("city", cbCity.getSelectedItem());
-		data.put("phone", txPhone.getText());
-		data.put("cellphone", txCellphone.getText());
-		data.put("admission_date", txAdmissionDate.getValue());
-		data.put("job", cbJob.getSelectedItem());
-		data.put("registration_cnpj", cbRegisterCnpj.getSelectedItem());
-		data.put("salary", txSalary.getText());
-		data.put("payment", cbPayment.getSelectedIndex());
-		data.put("bank", cbBank.getSelectedItem());
-		data.put("agency", txAgency.getText());
-		data.put("account", txAccount.getText());
-		data.put("option_date", txOptionDate.getValue());
-		data.put("retraction_date", txRetractionDate.getValue());
-		data.put("depositary_bank", cbDepositaryBank.getSelectedItem());
-		data.put("cadastre_date", txCadastreDate.getValue());
-		data.put("social_integration_cadastre_number", txCadastreNumber.getText());
-		data.put("social_integration_bank", cbSocialIntegrationBank.getSelectedItem());
-		data.put("social_integration_agency", txSocialIntegrationAgency.getText());
-		data.put("social_integration_address", txSocialIntegrationAddress.getText());
-		data.put("dependents", dependentTable);
-		
-		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));  
-		//controller.registerEmployee(data);
-		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
-		
 	}
-
-	class ButtonColumn extends AbstractCellEditor implements TableCellRenderer, TableCellEditor, ActionListener {
-
-		private static final long serialVersionUID = -1903358975859108679L;
 		
-		private JTable table;
-		
-		private String text;
-		private ImageIcon icon;
-	
-		private JButton renderButton;
-		private JButton editButton;
-		
-		public ButtonColumn(JTable table, int column) {
-			
-			super();
-			this.table = table;
-			
-			renderButton = new JButton();
-
-			editButton = new JButton();
-			editButton.setFocusPainted(false);
-			editButton.addActionListener(this);
-
-			TableColumnModel columnModel = table.getColumnModel();
-			columnModel.getColumn(column).setCellRenderer(this);
-			columnModel.getColumn(column).setCellEditor(this);
-			
-		}
-		
-		public ButtonColumn (JTable table, int column, ImageIcon icon) {
-			
-			super();
-			this.table = table;
-			this.icon = icon;
-			
-			renderButton = new JButton();
-
-			editButton = new JButton(icon);
-			editButton.setFocusPainted(false);
-			editButton.addActionListener(this);
-
-			TableColumnModel columnModel = table.getColumnModel();
-			columnModel.getColumn(column).setCellRenderer(this);
-			columnModel.getColumn(column).setCellEditor(this);
-			
-		}
-
-		@Override
-		public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-			
-			if (hasFocus) {
-				renderButton.setForeground(table.getForeground());
-				renderButton.setBackground(UIManager.getColor("Button.background"));
-			}
-			else if (isSelected) {
-				renderButton.setForeground(table.getSelectionForeground());
-				renderButton.setBackground(table.getSelectionBackground());
-			}
-			else {
-				renderButton.setForeground(table.getForeground());
-				renderButton.setBackground(UIManager.getColor("Button.background"));
-			}
-
-			renderButton.setText((value == null) ? "" : value.toString());
-			if(icon != null) renderButton.setIcon(icon);
-			return renderButton;
-		}
-
-		@Override
-		public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-			text = (value == null) ? "" : value.toString();
-			editButton.setText(text);
-			if(icon != null) editButton.setIcon(icon);
-			return editButton;
-		}
-
-		@Override
-		public Object getCellEditorValue() {
-			return text;
-		}
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			
-			fireEditingStopped();
-			
-//			int row = table.getSelectedRow();
-//			Employee employee = (Employee) table.getValueAt(row, 0);
-//			
-//			controller.updateEmployee(employee);
-			
-		}
-				
-	}
-	
 }
