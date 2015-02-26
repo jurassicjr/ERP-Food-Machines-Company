@@ -2,6 +2,7 @@ package rh.view;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -178,6 +179,7 @@ public class ListEmployesFrame extends JFrame {
 			int row = table.getSelectedRow();
 			Employee employee = (Employee) table.getValueAt(row, 0);
 			
+			getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 			controller.updateEmployee(employee);
 			
 		}

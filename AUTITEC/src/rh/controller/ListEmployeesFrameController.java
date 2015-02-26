@@ -89,8 +89,7 @@ public class ListEmployeesFrameController {
 				GuaranteeFund guaranteeFund = getGuaranteeFund(guaranteeFoundId);
 				CNPJ cnpj = getCnpj(cnpjId);
 				ArrayList<Dependent> dependents = getDependents(idEmployee); 
-				
-				
+								
 				Map<String, Object> data = new HashMap<String, Object>();
 				data.put("id_employee", idEmployee);
 				data.put("name", name);
@@ -198,7 +197,7 @@ public class ListEmployeesFrameController {
 		
 		CBO cbo = new CBO(cboId, code, title);
 				
-		return new Job(admissionDate, cbo, initialSalary, payment);
+		return new Job(jobId, admissionDate, cbo, initialSalary, payment);
 	}
 
 	private BankingData getBankingData(int bankingDataId) throws SQLException {
@@ -212,7 +211,7 @@ public class ListEmployeesFrameController {
 		
 		Bank bank = getBank(bankId);
 				
-		return new BankingData(bankId, bank, agency, account);
+		return new BankingData(bankingDataId, bank, agency, account);
 	}
 
 	private SocialIntegration getSocialIntegration(int socialIntegrationId) throws SQLException {
@@ -224,7 +223,7 @@ public class ListEmployeesFrameController {
 		Date cadastreDate = resultSet.getDate("cadastre_date");
 		String address = resultSet.getString("address");
 		int bankingDataId = resultSet.getInt("baking_data");
-		
+				
 		BankingData bankingData = getBankingData(bankingDataId);
 				
 		return new SocialIntegration(socialIntegrationId, cadastreDate, cadastreNumber, address, bankingData);

@@ -35,10 +35,8 @@ import rh.view.RegisterCBOFrame;
 import rh.view.UpdateEmployeeFrame;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.ImageFilter;
-import util.ClearFrame;
 import util.FTP;
 import util.ShowMessage;
-import util.Validator;
 import database.DataBase;
 
 public class UpdateEmployeeFrameController {
@@ -305,16 +303,15 @@ public class UpdateEmployeeFrameController {
 		
 	}
 	
-	public void clear() {
+	public boolean clear() {
 		
 		String title = "Limpar os Dados Inseridos";
 		String message = "Deseja realmente limpar os dados inseridos?";
 		
-		int response = ShowMessage.questionMessage(frame, title, message); 
+		int response = ShowMessage.questionMessage(frame, title, message);
 		
-		if(response == JOptionPane.YES_OPTION) {
-			ClearFrame.clear(frame);
-		}
+		return response == JOptionPane.YES_OPTION; 
+		
 	}
 	
 	public void addCBO(JComboBox<CBO> cbCBO) {
@@ -339,21 +336,121 @@ public class UpdateEmployeeFrameController {
 				
 	}
 
-	public void updateEmployee(Map<String, Object> data) {
+	public void updateEmployee(Map<String, Object> data, Employee employee) {
+		
+		String name = (String) data.get("name");
+		Date birth = (Date) data.get("birth");
+		int gender = (int) data.get("gender");
+		int maritialStatus = (int) data.get("maritial_status");
+		String nacionality = (String) data.get("nacionality");
+		String birthPlace = (String) data.get("birth_place");
+		String cpts = (String) data.get("cpts");
+		String cptsCategory = (String) data.get("cpts_category");
+		String voter = (String) data.get("voter");
+		String driverLicense = (String) data.get("driver_license");
+		int driverLicenseCategory = (int) data.get("driver_license_category");
+		int schooling = (int) data.get("schooling");
+		String reservist = (String) data.get("reservist");
+		String reservistCategory = (String) data.get("reservist_category");
+		String address = (String) data.get("address");
+		String neighborhood = (String) data.get("neighborhood");
+		String cep = (String) data.get("cep");
+		City city = (City) data.get("city");
+		String phone = (String) data.get("phone");
+		String cellphone = (String) data.get("cellphone");
+		Date admissionDate = (Date) data.get("admission_date");
+		CBO job = (CBO) data.get("job");
+		CNPJ registrationCnpj = (CNPJ) data.get("registration_cnpj");
+		String salary = (String) data.get("salary");
+		int payment = (int) data.get("payment");
+		Bank bank = (Bank) data.get("bank");
+		String agency = (String) data.get("agency");
+		String account = (String) data.get("account");
+		Date optionDate = (Date) data.get("option_date");
+		Date retractionDate = (Date) data.get("retraction_date");
+		Bank depositaryBank = (Bank) data.get("depositary_bank");
+		Date cadastreDate = (Date) data.get("cadastre_date");
+		String socialIntegrationCadastreNumber = (String) data.get("social_integration_cadastre_number");
+		Bank socialIntegrationBank = (Bank) data.get("social_integration_bank");
+		String socialIntegrationAgency = (String) data.get("social_integration_agency");
+		String socialIntegrationAddress = (String) data.get("social_integration_address");
+		JTable dependents = (JTable) data.get("dependents");
+		String picture = (String) data.get("picture");
 		
 		if(validateDataEmployee(data)) {
-//			
-//			String title = "Registro Funcionário";
-//			String message = "Deseja registrar o funcionário com estes dados?";
-//			
-//			int response = ShowMessage.questionMessage(frame, title, message);
-//			
-//			if(response == JOptionPane.YES_OPTION) {
-//				new EmployeeDAO(data);
-//				frame.dispose();
-//			}
-//			
-		}	
+			
+			String title = "Atualizar Funcionário";
+			String message = "Deseja atualizar o registro do funcionário com estes dados?";
+			
+			int response = ShowMessage.questionMessage(frame, title, message);
+			
+			if(response == JOptionPane.YES_OPTION) {
+				
+				if(employee.getSocialIntegration() != null) {
+					
+					int socialIntegrationBankingDataId = employee.getSocialIntegration().getBankingData().getId();
+					Object socialIntegrationBankData[] = new Object[]{socialIntegrationBank.getId(), socialIntegrationAgency, socialIntegrationBankingDataId};
+					dataBase.executeUpdate("UPDATE banking_data SET bank = ?, agency = ? WHERE id = ?", socialIntegrationBankData);
+					
+					int socialIntegrationId = employee.getSocialIntegration().getId();
+					Object socialIntegration[] = new Object[]{new java.sql.Date(cadastreDate.getTime()), socialIntegrationCadastreNumber, socialIntegrationAddress, socialIntegrationId};
+					dataBase.executeUpdate("UPDATE social_integration SET cadastre_date = ?, cadastre_number = ?, address = ? WHERE id = ?", socialIntegration);
+					
+				}
+				
+				int guaranteeFoundId = employee.getGuaranteeFund().getId();								
+				Object guaranteeFound[] = new Object[]{new java.sql.Date(optionDate.getTime()), new java.sql.Date(retractionDate.getTime()), depositaryBank.getId(), guaranteeFoundId};
+				dataBase.executeUpdate("UPDATE guarantee_fund SET option_date = ?, retraction_date = ?, depositary_bank = ? WHERE id = ?", guaranteeFound);
+				
+				int addressId = employee.getAddress().getId();
+				Object addressData[] = new Object[]{address, neighborhood, cep.replaceAll("\\.|-", ""), city.getId(), addressId};
+				dataBase.executeUpdate("UPDATE address SET address = ?, neighborhood = ?, cep = ?, city = ? WHERE id = ?", addressData);
+				
+				int jobId = employee.getJob().getId();
+				Object jobData[] = new Object[]{new java.sql.Date(admissionDate.getTime()), job.getId(), Double.parseDouble(salary), payment, jobId};
+				dataBase.executeUpdate("UPDATE job SET admission_date = ?, cbo = ?, initial_salary = ?, payment = ? WHERE id = ?", jobData);
+				
+				int bankingDataId = employee.getBankingData().getId();
+				Object bankData[] = new Object[]{bank.getId(), agency, account, bankingDataId};
+				dataBase.executeUpdate("UPDATE banking_data SET bank = ?, agency = ?, account = ? WHERE id = ?", bankData);
+				
+				dataBase.executeUpdate("DELETE FROM dependents WHERE employee = ?", employee.getId());
+				DefaultTableModel model = (DefaultTableModel) dependents.getModel();
+				for(int i = 0; i < dependents.getRowCount(); ++i) {
+					
+					String n = (String) model.getValueAt(i, 0);
+					String r = (String) model.getValueAt(i, 1);
+					Object d =  model.getValueAt(i, 2);
+					
+					if((n == null || n.isEmpty()) && (r == null || r.isEmpty()) && (d == null)) continue;
+					if(d instanceof String) continue;
+					
+					java.sql.Date birthWeddinDate = (d != null) ? new java.sql.Date(((Date) d).getTime()) : null;
+					
+					String sql = "INSERT INTO dependents (employee, name, relationship, birth_wedding_date) VALUES (?, ?, ?, ?)";
+					Object dependentData[] = new Object[]{employee.getId(), n, r, birthWeddinDate};
+					dataBase.executeUpdate(sql, dependentData);
+					
+				}
+				
+				java.sql.Date birthDate = (birth != null) ? new java.sql.Date(birth.getTime()) : null;
+				voter = voter.replaceAll(" ", "");
+				phone = phone.replaceAll(" |\\(|\\)|-", "");
+				cellphone = cellphone.replaceAll(" |\\(|\\)|-", "");
+				if(picture == null || picture.isEmpty()) picture = null;
+				
+				Object employeeData[] = new Object[]{name, birthDate, gender, maritialStatus, nacionality, birthPlace, cpts, cptsCategory, 
+						voter, driverLicense, driverLicenseCategory, schooling, reservist, reservistCategory, phone, cellphone, picture, registrationCnpj.getId(), employee.getId()};
+				dataBase.executeUpdate("UPDATE employee SET name = ?, birth = ?, gender = ?, marital_status = ?, nacionality = ?, birth_place = ?, cpts = ?, cpts_category = ?, "
+						+ "voter = ?, driver_license = ?, driver_license_category = ?, schooling = ?, reservist = ?, reservist_category = ?, phone = ?, cellphone = ?, picture = ?, register_cnpj = ? "
+						+ "WHERE id = ?", 
+						employeeData);
+								
+			}
+			
+			ShowMessage.successMessage(frame, "Funcionário atualizado", "Funcionário atualizado com sucesso");
+			
+		}		
 		
 	}
 	
@@ -446,8 +543,7 @@ public class UpdateEmployeeFrameController {
 		
 		DefaultTableModel model = (DefaultTableModel) dependents.getModel();
 		for(int i = 0; i < model.getRowCount(); ++i) {
-			
-			String dependentName = (String) model.getValueAt(i, 0);
+			String dependentName = (String) model.getValueAt(i, 0); 
 			String relationship = (String) model.getValueAt(i, 1);
 			Object date = model.getValueAt(i, 2);
 						
@@ -461,35 +557,7 @@ public class UpdateEmployeeFrameController {
 			}	
 			
 		}
-				
-		String formatedCPF = cpf.replaceAll("\\.|-", "");
-		
-		if(flag && !new Validator().isCPF(formatedCPF)) {
-			label = "CPF Inválido";
-			flag = false;
-		}
-		
-		if(flag) {
 						
-			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM employee WHERE employee.cpf = ?", formatedCPF);
-			
-			try {
-							
-				if(resultSet.next()) {
-					flag = false;
-					label = "Já existe Funcionário registrado com este CPF";
-				}	
-				
-			} catch (SQLException e) {
-				DataBase.showDataBaseErrorMessage();
-				e.printStackTrace();
-			} finally {
-				try { resultSet.close(); }
-				catch (SQLException e) { e.printStackTrace(); }
-			}
-						
-		}		
-		
 		if(!flag) {
 			String title = "Erro ao registrar funcionário";
 			String message = "Por favor verifique o seguinte campo para registro do funcionário:\n" + label;

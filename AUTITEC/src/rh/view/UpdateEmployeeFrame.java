@@ -34,6 +34,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.border.EtchedBorder;
@@ -899,7 +900,7 @@ public class UpdateEmployeeFrame extends JFrame {
 				
 				if(e.getSource().equals(btnCancel)) controller.closeFrame();
 				else if(e.getSource().equals(btnConfirme)) updateEmployee();
-				else if(e.getSource().equals(btnClear)) controller.clear();
+				else if(e.getSource().equals(btnClear)) if(controller.clear()) setEmployee();
 				else if(e.getSource().equals(btnAddCBO)) controller.addCBO(cbJob);
 				
 			}
@@ -994,8 +995,18 @@ public class UpdateEmployeeFrame extends JFrame {
 		data.put("dependents", dependentTable);
 		
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		controller.updateEmployee(data);
+		controller.updateEmployee(data, employee);
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		
+		SwingUtilities.invokeLater(new Runnable(){  
+			@Override
+			public void run() {
+				ListEmployesFrame f = new ListEmployesFrame(); 
+				f.setVisible(true);
+			}  
+		});
+		
+		dispose();
 		
 	}
 	
@@ -1039,14 +1050,19 @@ public class UpdateEmployeeFrame extends JFrame {
 		txCadastreDate.setValue(employee.getSocialIntegration().getCadastreDate());
 		txCadastreNumber.setText(employee.getSocialIntegration().getCadastreNumber());
 		txSocialIntegrationAgency.setText(employee.getSocialIntegration().getBankingData().getAgency());
+		txSocialIntegrationAddress.setText(employee.getSocialIntegration().getAddress());
 		cbSocialIntegrationBank.setSelectedItem(employee.getSocialIntegration().getBankingData().getBank());
 		
+
+		DefaultTableModel model = (DefaultTableModel) dependentTable.getModel();
+		for(int i = 0; i < model.getRowCount(); ++i) model.removeRow(0);
+				
 		int row = 0;
 		for(Dependent dependent : employee.getDependents()) {
 			
 			((DefaultTableModel) dependentTable.getModel()).addRow(new Object[]{null, null, null, null});
 			
-			dependentTable.setValueAt(dependent, row, 0);
+			dependentTable.setValueAt(dependent.getName(), row, 0);
 			dependentTable.setValueAt(dependent.getRelationship(), row, 1);
 			dependentTable.setValueAt(dependent.getBirthWeddingDate(), row, 2);
 			
