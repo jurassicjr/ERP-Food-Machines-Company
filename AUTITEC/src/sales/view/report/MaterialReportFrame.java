@@ -1,16 +1,19 @@
-package sales.view;
+package sales.view.report;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.FileNotFoundException;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,49 +21,57 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import sales.controller.ImportController;
-import sales.view.report.SupplierReportFrame;
+import sales.controller.MaterialReportController;
 import userInterface.components.FileChooser;
-import util.ShowMessage;
 
-public class ImportClientFrame extends JFrame {
+public class MaterialReportFrame extends JFrame {
 
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8188201907168659328L;
-
-	private JLabel lblImportFile;
-	private JButton btnSelectFile;
-	private JTextField txtReportFile;
+    private static final long serialVersionUID = -3711390641551677515L;
+	
+    private JFrame frame;
+	
+    private MaterialReportController controller;
+	
+    private JPanel principalPanel;
 	private JPanel bottonPanel;
+	
 	private JButton btnCancel;
-	private JButton btnImport;
+	private JButton btnGenerate;
+	private JButton btnSelectFile;
+	
+	private JCheckBox ckOpenFile;
+	
+	private JTextField txtReportFile;
+	
+	private JLabel lblReportFile;
+	
 	private FileChooser fileChooser;
-	private ImportController controller;
-	private static final int i = 0;
 
-	public ImportClientFrame() {
+	public MaterialReportFrame() {
+		controller = new MaterialReportController(this);
 		fileChooser = new FileChooser(this);
-		controller = new ImportController();
+		frame = this;
 		initialize();
 		setListeners();
 	}
 
 	private void initialize() {
-		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 595, 120);
-		setMinimumSize(new Dimension(595, 120));
-		setTitle("Relátorio de Fornecedores");
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 595, 187);
+		setMinimumSize(new Dimension(595, 195));
+		setTitle("Relátorios de materias");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}
 
 	private void initializePrincipal() {
-		JPanel principalPanel = new JPanel();
+		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
 
-		lblImportFile = new JLabel("Arquivo para Importação");
+		lblReportFile = new JLabel("Arquivo de Relátorio");
 
 		btnSelectFile = new JButton("Selecionar Arquivo");
 		btnSelectFile.setIcon(new ImageIcon(SupplierReportFrame.class.getResource("/resources/open.png")));
@@ -68,6 +79,8 @@ public class ImportClientFrame extends JFrame {
 		txtReportFile = new JTextField();
 		txtReportFile.setEditable(false);
 		txtReportFile.setColumns(10);
+
+		ckOpenFile = new JCheckBox("Abrir relatório criado");
 
 		JSeparator separator = new JSeparator();
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
@@ -78,18 +91,18 @@ public class ImportClientFrame extends JFrame {
 		                .addGroup(
 		                        gl_principalPanel
 		                                .createParallelGroup(Alignment.LEADING)
+		                                .addComponent(separator, GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+		                                .addComponent(ckOpenFile)
 		                                .addGroup(
 		                                        gl_principalPanel
 		                                                .createSequentialGroup()
-		                                                .addComponent(lblImportFile)
+		                                                .addComponent(lblReportFile)
 		                                                .addPreferredGap(ComponentPlacement.RELATED)
 		                                                .addComponent(txtReportFile, GroupLayout.DEFAULT_SIZE, 310,
 		                                                        Short.MAX_VALUE)
 		                                                .addPreferredGap(ComponentPlacement.RELATED)
 		                                                .addComponent(btnSelectFile, GroupLayout.PREFERRED_SIZE, 141,
-		                                                        GroupLayout.PREFERRED_SIZE))
-		                                .addComponent(separator, GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE))
-		                .addContainerGap()));
+		                                                        GroupLayout.PREFERRED_SIZE))).addContainerGap()));
 		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
 		        gl_principalPanel
 		                .createSequentialGroup()
@@ -97,14 +110,16 @@ public class ImportClientFrame extends JFrame {
 		                .addGroup(
 		                        gl_principalPanel
 		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblImportFile)
+		                                .addComponent(lblReportFile)
 		                                .addComponent(btnSelectFile, GroupLayout.PREFERRED_SIZE, 25,
 		                                        GroupLayout.PREFERRED_SIZE)
 		                                .addComponent(txtReportFile, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.UNRELATED)
+		                .addGap(18)
+		                .addComponent(ckOpenFile)
+		                .addPreferredGap(ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
 		                .addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                        GroupLayout.PREFERRED_SIZE).addContainerGap(72, Short.MAX_VALUE)));
+		                        GroupLayout.PREFERRED_SIZE).addContainerGap()));
 		principalPanel.setLayout(gl_principalPanel);
 
 		initializeBotton();
@@ -119,31 +134,43 @@ public class ImportClientFrame extends JFrame {
 		btnCancel.setIcon(new ImageIcon(SupplierReportFrame.class.getResource("/resources/cancel.png")));
 		bottonPanel.add(btnCancel);
 
-		btnImport = new JButton("Importar");
-		btnImport.setIcon(new ImageIcon(SupplierReportFrame.class.getResource("/resources/ok.png")));
-		bottonPanel.add(btnImport);
+		btnGenerate = new JButton("Criar Relatório");
+		btnGenerate.setIcon(new ImageIcon(SupplierReportFrame.class.getResource("/resources/ok.png")));
+		bottonPanel.add(btnGenerate);
 	}
 
 	private void setListeners() {
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.closeFrame(frame);
+			}
+		});
 		ActionListener buttonListener = new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource().equals(btnSelectFile))
+				if (e.getSource().equals(btnCancel))
+					controller.closeFrame(frame);
+				else if (e.getSource().equals(btnSelectFile))
 					controller.selectOutput(fileChooser, txtReportFile);
-				else if (e.getSource().equals(btnImport)) {
-					try {
-						controller.importExcel(i, txtReportFile);
-						ShowMessage.successMessage(getContentPane(), "Importação", "Importação realizada com sucesso!");
-						dispose();
-					} catch (FileNotFoundException e1) {
-						e1.printStackTrace();
-					}
-				}else if(e.getSource().equals(btnCancel))dispose();
+				else if(e.getSource().equals(btnGenerate))
+					generateReport();
 			}
+
 		};
-		btnSelectFile.addActionListener(buttonListener);
-		btnImport.addActionListener(buttonListener);
 		btnCancel.addActionListener(buttonListener);
+		btnGenerate.addActionListener(buttonListener);
+		btnSelectFile.addActionListener(buttonListener);
+	}
+
+	private void generateReport() {
+		
+		String reportFilePath = txtReportFile.getText();
+		boolean openFile = ckOpenFile.isSelected();
+				
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		controller.generateReport(reportFilePath, openFile);
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 }

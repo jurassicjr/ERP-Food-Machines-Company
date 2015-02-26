@@ -167,7 +167,7 @@ public class UpdatePermissionsFrame extends JFrame {
 		
 		if(lastIndex != -1) {
 						
-			User user = (User) cbUsers.getItemAt(lastIndex);
+			User user = cbUsers.getItemAt(lastIndex);
 									
 			if(controller.hasModification(user, permissions)) {
 				boolean reset = controller.resetPermissions(user, permissions);
@@ -218,7 +218,8 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Inserir Material em Estoque", false, "INS_STOCK"),
 				new CheckBoxNode("Homologar Fornecedor", false, "HOM_SUP"),
 				new CheckBoxNode("Requisição de Compra", false, "SALE_REQ"),
-				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM")
+				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM"),
+				new CheckBoxNode("Relatório de Clientes", false, "CLI_REP")
 		};
 		
 		CheckBoxNode productionOptions[] = {
@@ -343,7 +344,8 @@ public class UpdatePermissionsFrame extends JFrame {
 			this.tree = tree;
 		}
 
-		public Object getCellEditorValue() {
+		@Override
+        public Object getCellEditorValue() {
 			
 			JCheckBox checkbox = renderer.getLeafRenderer();
 			CheckBoxNode checkBoxNode = new CheckBoxNode(checkbox.getText(), checkbox.isSelected(), checkbox.getName());
@@ -383,7 +385,8 @@ public class UpdatePermissionsFrame extends JFrame {
 	
 			ItemListener itemListener = new ItemListener() {
 			    	
-				public void itemStateChanged(ItemEvent itemEvent) {
+				@Override
+                public void itemStateChanged(ItemEvent itemEvent) {
 					if (stopCellEditing()) fireEditingStopped();
 			    }
 			};

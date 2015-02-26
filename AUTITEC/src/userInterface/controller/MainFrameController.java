@@ -55,6 +55,7 @@ public class MainFrameController {
 	public static final int registerOfKit = 12;
 	public static final int updateOfCompostProduct = 13;
 	public static final int updateOfKit = 14;
+	public static final int clientReport = 15;
 
 	
 	private MainFrame mainFrame;
@@ -420,6 +421,8 @@ public class MainFrameController {
 			controller.updateOfProducts();
 		}else if(i==14) {
 			controller.updateOfKit();
+		}else if(i==15) {
+			controller.ClientReport();
 		}
 	}
 

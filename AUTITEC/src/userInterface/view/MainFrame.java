@@ -96,6 +96,12 @@ public class MainFrame extends JFrame {
 
 	private ArrayList<JMenuItem> menuItens;
 
+	private JMenu mnBuy;
+
+	private JMenu mnBuyReports;
+
+	private JMenuItem mntmClientReport;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -232,15 +238,24 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnInventory);
 		mnInventory.setVisible(false);
 		
-		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
-		mnSales.add(mntmApprovalOfSuppliers);
-		mntmApprovalOfSuppliers.setVisible(false);
-		mntmApprovalOfSuppliers.setName("HOM_SUP");
+		mnBuy = new JMenu("Compras");
+		mnBuy.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/buy_icon.png")));
+		menuBar.add(mnBuy);
+		mnBuy.setVisible(false);
+		
+		mnBuyReports = new JMenu("Relatórios");
+		mnBuy.add(mnBuyReports);
+		mnBuy.setVisible(false);
 		
 		mntmResgisterOfSuppliers = new JMenuItem("Registrar Fornecedores");
-		mnRegister.add(mntmResgisterOfSuppliers);
+		mnBuy.add(mntmResgisterOfSuppliers);
 		mntmResgisterOfSuppliers.setVisible(false);
 		mntmResgisterOfSuppliers.setName("REG_SUP");
+
+		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
+		mnBuy.add(mntmApprovalOfSuppliers);
+		mntmApprovalOfSuppliers.setVisible(false);
+		mntmApprovalOfSuppliers.setName("HOM_SUP");
 		
 		mntmSalesRequisition = new JMenuItem("Requisição de Compra");
 		mnSales.add(mntmSalesRequisition);
@@ -248,7 +263,7 @@ public class MainFrame extends JFrame {
 		mntmSalesRequisition.setName("SALE_REQ");
 		
 		mntmSalesOrder = new JMenuItem("Pedido de Compra");
-		mnSales.add(mntmSalesOrder);
+		mnBuy.add(mntmSalesOrder);
 		mntmSalesOrder.setVisible(false);
 		mntmSalesOrder.setName("SALE_DEM");
 		
@@ -288,7 +303,7 @@ public class MainFrame extends JFrame {
 		mntmSupplierUpdate.setName("UPD_SUP");
 		
 		mntmSupplierReportFrame = new JMenuItem("Gerar Relatório de Fornecedores");
-		mnReports.add(mntmSupplierReportFrame);
+		mnBuyReports.add(mntmSupplierReportFrame);
 		mntmSupplierReportFrame.setVisible(false);
 		mntmSupplierReportFrame.setName("SUP_REP");
 		
@@ -311,6 +326,11 @@ public class MainFrame extends JFrame {
 		mnProduction.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/production.png")));
 		menuBar.add(mnProduction);
 		mnProduction.setVisible(false);
+		
+		mntmClientReport = new JMenuItem("Gerar Relatório de Cliente");
+		mnReports.add(mntmClientReport);
+		mntmClientReport.setVisible(false);
+		mntmClientReport.setName("CLI_REP");
 		
 		mntmProductionStage = new JMenuItem("Estágios de Produção");
 		mnProduction.add(mntmProductionStage);
@@ -383,6 +403,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmSalesRequisition);
 		menuItens.add(mntmSalesOrder);
 		menuItens.add(mntmUpdateKit);
+		menuItens.add(mntmClientReport);
 		
 		menuItens.add(mntmProductionStage);
 		
@@ -429,6 +450,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmKitRegister)) controller.Sales(MainFrameController.registerOfKit);
 				else if (e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
 				else if (e.getSource().equals(mntmUpdateKit))controller.Sales(MainFrameController.updateOfKit);
+				else if (e.getSource().equals(mntmClientReport))controller.Sales(MainFrameController.clientReport);
 			}
 		};
 		
@@ -463,6 +485,7 @@ public class MainFrame extends JFrame {
 		mntmKitRegister.addActionListener(menuListeners);
 		mntmUpdateProduct.addActionListener(menuListeners);	
 		mntmUpdateKit.addActionListener(menuListeners);
+		mntmClientReport.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

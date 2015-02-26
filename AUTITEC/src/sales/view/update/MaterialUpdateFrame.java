@@ -1,4 +1,4 @@
-package sales.view;
+package sales.view.update;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -23,13 +23,14 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.TitledBorder;
 
 import model.Material;
-import sales.controller.ProductUpdateController;
+import sales.controller.MaterialUpdateController;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
@@ -37,7 +38,7 @@ import util.Icon;
 import util.ShowMessage;
 import database.DataBase;
 
-public class ProductUpdateFrame extends JFrame {
+public class MaterialUpdateFrame extends JFrame {
 
 	/**
 	 * 
@@ -55,7 +56,7 @@ public class ProductUpdateFrame extends JFrame {
 
 	private JComboBox<Material> cboProduto;
 
-	private ProductUpdateController controller;
+	private MaterialUpdateController controller;
 
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
@@ -65,15 +66,16 @@ public class ProductUpdateFrame extends JFrame {
 
 	private JTextArea txtDescricao;
 
-	private JPanel panelDescrition;
 
 	private JPanel panelDescricao;
 	private JSeparator separator;
+	private JTextField txtNCM;
+	private JTextField txtInternalCode;
 
-	public ProductUpdateFrame() {
+	public MaterialUpdateFrame() {
 		dataBase = new DataBase();
 		dataBase.connect();
-		controller = new ProductUpdateController();
+		controller = new MaterialUpdateController();
 		initialize();
 		setListener();
 	}
@@ -86,7 +88,7 @@ public class ProductUpdateFrame extends JFrame {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		// Adiciona o titulo
 		this.setTitle("Atualização de Materiais");
-		setBounds(100, 100, 480, 300);
+		setBounds(100, 100, 480, 331);
 		setMinimumSize(new Dimension(480, 300));
 		// Logo
 		Icon.setIcon(frame);
@@ -99,7 +101,7 @@ public class ProductUpdateFrame extends JFrame {
 		lblProdutomaterial = new JLabel("Produto/Material");
 
 		cboProduto = new JComboBox<Material>();
-		controller.fillProducts(cboProduto);
+		controller.fillMaterials(cboProduto);
 		ComboBoxAutoCompletion cboAutoCompletation = new ComboBoxAutoCompletion(cboProduto);
 		cboProduto.setSelectedIndex(-1);
 
@@ -113,24 +115,42 @@ public class ProductUpdateFrame extends JFrame {
 		        TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
 		
 		separator = new JSeparator();
+		
+		JLabel lblNCM = new JLabel("Código NCM");
+		
+		txtNCM = new JTextField();
+		txtNCM.setColumns(10);
+		
+		JLabel lblInternalCode = new JLabel("Código Interno");
+		
+		txtInternalCode = new JTextField();
+		txtInternalCode.setColumns(10);
 
 		// Determina o layout do panel
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
-			gl_principalPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(separator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblProdutomaterial)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblNome)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE))
-						.addComponent(panelDescricao, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE))
+						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+						.addComponent(panelDescricao, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblNCM)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblInternalCode)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtInternalCode, GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(
@@ -145,10 +165,15 @@ public class ProductUpdateFrame extends JFrame {
 						.addComponent(lblNome)
 						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNCM)
+						.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblInternalCode)
+						.addComponent(txtInternalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
 					.addComponent(panelDescricao, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-					.addGap(40))
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		);
 		panelDescricao.setLayout(new BorderLayout(0, 0));
 
@@ -169,15 +194,15 @@ public class ProductUpdateFrame extends JFrame {
 		bottonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 
 		btnApagar = new JButton("Apagar");
-		btnApagar.setIcon(new ImageIcon(ProductUpdateFrame.class.getResource("/resources/clear.png")));
+		btnApagar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/clear.png")));
 		bottonPanel.add(btnApagar);
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(ProductUpdateFrame.class.getResource("/resources/cancel.png")));
+		btnCancelar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/cancel.png")));
 		bottonPanel.add(btnCancelar);
 
 		btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setIcon(new ImageIcon(ProductUpdateFrame.class.getResource("/resources/ok.png")));
+		btnConfirmar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/ok.png")));
 		bottonPanel.add(btnConfirmar);
 	}
 
@@ -218,9 +243,9 @@ public class ProductUpdateFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "Atualização", "Deseja realmente atualizar o produto \""
 					        + txtName.getText() + "\"");
 					if (i == JOptionPane.YES_OPTION) {
-						String sql = "UPDATE Product SET name = ?, descricao = ? WHERE id = ?";
+						String sql = "UPDATE Product SET name = ?, descricao = ?, internal_code = ?, ncm = ? WHERE id = ?";
 						Material produto = (Material) cboProduto.getSelectedItem();
-						insertData = new Object[] { txtName.getText(), txtDescricao.getText(), produto.getId() };
+						insertData = new Object[] { txtName.getText(), txtDescricao.getText(), txtInternalCode.getText(), txtNCM.getText() ,produto.getId() };
 						dataBase.executeUpdate(sql, insertData);
 						String title = "Atualização/Remoção";
 						String message = "Ação concluida com sucesso!";
@@ -231,12 +256,16 @@ public class ProductUpdateFrame extends JFrame {
 						txtName.requestFocus();
 					}
 				} else if (e.getSource().equals(btnApagar)) {
-					int i = ShowMessage.questionMessage(frame, "APAGAR", "Deseja realmente apagar o produto \""
+					int i = ShowMessage.questionMessage(frame, "APAGAR", "Deseja realmente apagar o material \""
 					        + txtName.getText() + " \"");
 					if (i == JOptionPane.YES_OPTION) {
+						String invetorySql = "DELETE FROM inventory WHERE material = ?";
 						String query ="DELETE FROM supplier_product_association where product = ?";
+						String materialRelation = "DELETE FROM material_relationship WHERE material = ?";
 						String sql = "DELETE FROM Product WHERE id = ?";
 						Material produto = (Material) cboProduto.getSelectedItem();
+						dataBase.executeUpdate(materialRelation, produto.getId());
+						dataBase.executeUpdate(invetorySql, produto.getId());
 						dataBase.executeUpdate(query, produto.getId());
 						dataBase.executeUpdate(sql, produto.getId());
 						ClearFrame.clear(frame);
@@ -257,7 +286,9 @@ public class ProductUpdateFrame extends JFrame {
 
 	private void fillFields(ResultSet rs) throws SQLException {
 		rs.next();
-		txtName.setText(rs.getString(2));
-		txtDescricao.setText(rs.getString(3));
+		txtName.setText(rs.getString("name"));
+		txtDescricao.setText(rs.getString("descricao"));
+		txtInternalCode.setText(rs.getString("internal_code"));
+		txtNCM.setText(rs.getString("ncm"));
 	}
 }

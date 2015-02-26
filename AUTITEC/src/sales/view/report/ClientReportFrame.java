@@ -1,4 +1,4 @@
-package sales.view;
+package sales.view.report;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
@@ -21,19 +21,18 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import sales.controller.MaterialReportController;
+import sales.controller.ReportOfClientController;
 import userInterface.components.FileChooser;
 
-public class MaterialReportFrame extends JFrame {
-
-	/**
+public class ClientReportFrame extends JFrame{
+    /**
 	 * 
 	 */
-    private static final long serialVersionUID = -3711390641551677515L;
+    private static final long serialVersionUID = -1494769513533556851L;
+
+	private JFrame frame;
 	
-    private JFrame frame;
-	
-    private MaterialReportController controller;
+    private ReportOfClientController controller;
 	
     private JPanel principalPanel;
 	private JPanel bottonPanel;
@@ -50,8 +49,8 @@ public class MaterialReportFrame extends JFrame {
 	
 	private FileChooser fileChooser;
 
-	public MaterialReportFrame() {
-		controller = new MaterialReportController(this);
+	public ClientReportFrame() {
+		controller = new ReportOfClientController(this);
 		fileChooser = new FileChooser(this);
 		frame = this;
 		initialize();
@@ -62,7 +61,7 @@ public class MaterialReportFrame extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 595, 187);
 		setMinimumSize(new Dimension(595, 195));
-		setTitle("Relátorios de materias");
+		setTitle("Relátorios de Clientes");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

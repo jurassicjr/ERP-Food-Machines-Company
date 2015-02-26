@@ -1,4 +1,4 @@
-package sales.view;
+package sales.view.register;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;

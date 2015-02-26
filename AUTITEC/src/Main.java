@@ -1,7 +1,8 @@
 import javax.swing.SwingUtilities;
 
-import rh.view.ListEmployesFrame;
+import login.view.LoginFrame;
 import userInterface.view.LoadingFrame;
+import util.UpdateSoftware;
 
 /**
  * Classe principal, responsável por inicializar a aplicação.
@@ -16,10 +17,10 @@ public class Main {
 			@Override public void run() { loadingFrame.setVisible(true); }  
 		});
 		
-		//new UpdateSoftware(loadingFrame);
+		new UpdateSoftware(loadingFrame);
 		//if(!new VerifySerial().verify()) System.exit(0);
 		
-		new ListEmployesFrame().setVisible(true);
+		new LoginFrame().setVisible(true);
 										
 		loadingFrame.dispose();
 				

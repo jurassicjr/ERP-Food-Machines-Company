@@ -22,16 +22,17 @@ import product.view.RegisterProductFrame;
 import product.view.UpdateOfKitFrame;
 import product.view.UpdateOfProductFrame;
 import sales.view.ApprovalOfSuppliersFrame;
-import sales.view.ClientRegisterFrame;
 import sales.view.InventoryFrame;
-import sales.view.MaterialReportFrame;
-import sales.view.MaterialUpdateFrame;
-import sales.view.RegisterOfMaterialFrame;
-import sales.view.RegisterSuppliersFrame;
 import sales.view.SalesOrderFrame;
 import sales.view.SalesRequisitionFrame;
-import sales.view.SupplierReportFrame;
-import sales.view.SupplierUpdateFrame;
+import sales.view.register.ClientRegisterFrame;
+import sales.view.register.RegisterOfMaterialFrame;
+import sales.view.register.RegisterSuppliersFrame;
+import sales.view.report.ClientReportFrame;
+import sales.view.report.MaterialReportFrame;
+import sales.view.report.SupplierReportFrame;
+import sales.view.update.MaterialUpdateFrame;
+import sales.view.update.SupplierUpdateFrame;
 import userInterface.view.MainFrame;
 import util.ShowMessage;
 import database.DataBase;
@@ -447,5 +448,19 @@ public class SalesController {
 				frame.setLocationRelativeTo(mainFrame);
 			}
 		});
+    }
+
+	public void ClientReport() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ClientReportFrame frame = new ClientReportFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	    
     }
 }

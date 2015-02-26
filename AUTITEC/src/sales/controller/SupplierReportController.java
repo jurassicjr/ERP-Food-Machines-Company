@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
 import model.City;
 import model.State;
 import model.Supplier;
-import sales.view.SupplierReportFrame;
+import sales.view.report.SupplierReportFrame;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.PDFFilter;
 import util.HandlesFile;

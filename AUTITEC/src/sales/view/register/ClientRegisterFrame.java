@@ -1,4 +1,4 @@
-package sales.view;
+package sales.view.register;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -29,6 +29,7 @@ import model.City;
 import model.Client;
 import model.State;
 import sales.controller.ClientRegisterController;
+import sales.view.ImportClientFrame;
 import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
@@ -361,7 +362,7 @@ public class ClientRegisterFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "REGISTRO", "Deseja mesmo registrar esse cliente ?");
 					if (i == JOptionPane.YES_OPTION) {
 						doCliente();
-						ShowMessage.successMessage(frame, "REGISTRO", "registo do produto realizado com sucesso!");
+						ShowMessage.successMessage(frame, "REGISTRO", "registo de Cliente realizado com sucesso!");
 						ClearFrame.clear(frame);
 					}
 
