@@ -108,6 +108,10 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmProductSearch;
 
+	private JMenu mnRegisterBuy;
+
+	private JMenu mnUpdateBuy;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -159,7 +163,7 @@ public class MainFrame extends JFrame {
 		mnSales.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/sales.png")));
 		menuBar.add(mnSales);
 		mnSales.setVisible(false);
-				
+		
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
 		mntmRegisterEmployee.setVisible(false);
@@ -249,14 +253,22 @@ public class MainFrame extends JFrame {
 		menuBar.add(mnBuy);
 		mnBuy.setVisible(false);
 		
+		mnRegisterBuy = new JMenu("Registros");
+		mnBuy.add(mnRegisterBuy);
+		mnRegisterBuy.setVisible(false);
+		
 		mnBuyReports = new JMenu("Relatórios");
 		mnBuy.add(mnBuyReports);
 		mnBuy.setVisible(false);
 		
 		mntmResgisterOfSuppliers = new JMenuItem("Registrar Fornecedores");
-		mnBuy.add(mntmResgisterOfSuppliers);
+		mnRegisterBuy.add(mntmResgisterOfSuppliers);
 		mntmResgisterOfSuppliers.setVisible(false);
 		mntmResgisterOfSuppliers.setName("REG_SUP");
+		
+		mnUpdateBuy = new JMenu("Autalizar/Remover Registros");
+		mnBuy.add(mnUpdateBuy);
+		mnUpdateBuy.setVisible(false);
 
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
 		mnBuy.add(mntmApprovalOfSuppliers);
@@ -264,7 +276,7 @@ public class MainFrame extends JFrame {
 		mntmApprovalOfSuppliers.setName("HOM_SUP");
 		
 		mntmSalesRequisition = new JMenuItem("Requisição de Compra");
-		mnSales.add(mntmSalesRequisition);
+		mnBuy.add(mntmSalesRequisition);
 		mntmSalesRequisition.setVisible(false);
 		mntmSalesRequisition.setName("SALE_REQ");
 		
@@ -304,7 +316,7 @@ public class MainFrame extends JFrame {
 		mntmUpdateProduct.setName("UPD_PROD");
 
 		mntmSupplierUpdate = new JMenuItem("Atualizar/Remover Registro de Fornecedores");
-		mnUpdates.add(mntmSupplierUpdate);
+		mnUpdateBuy.add(mntmSupplierUpdate);
 		mntmSupplierUpdate.setVisible(false);
 		mntmSupplierUpdate.setName("UPD_SUP");
 		

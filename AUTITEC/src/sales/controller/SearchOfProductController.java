@@ -18,13 +18,13 @@ public class SearchOfProductController extends SalesController {
 	}
 
 	public void simpleSearch(JTable table, String name) {
-		String sql = "SELECT *FROM compost_product WHERE name LIKE ?";
+		String sql = "SELECT *FROM compost_product WHERE product LIKE ?";
 		name = name + "%";
 		Object[] obj = new Object[] { name };
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		try (ResultSet rs = dataBase.executeQuery(sql, obj)) {
 			while (rs.next()) {
-				String n = rs.getString("name");
+				String n = rs.getString("product");
 				String description = rs.getString("description");
 				tbl.addRow(new Object[] { n, description });
 			}

@@ -205,20 +205,15 @@ public class UpdatePermissionsFrame extends JFrame {
 		};
 		
 		CheckBoxNode salesOptions[] = {
-				new CheckBoxNode("Registrar Fornecedor", false, "REG_SUP"),
 				new CheckBoxNode("Registrar Material", false, "REG_MAT"),
 				new CheckBoxNode("Registrar Produto", false, "REG_PROD"),
 				new CheckBoxNode("Registrar Kit", false, "REG_KIT"),
 				new CheckBoxNode("Registrar Cliente", false, "REG_CLI"),
 				new CheckBoxNode("Atualizar/Remover Material", false, "UPD_MAT"),
-				new CheckBoxNode("Atualizar/Remover Fornecedor", false, "UPD_SUP"),
 				new CheckBoxNode("Atualizar/Remover Produto", false, "UPD_PROD"),
 				new CheckBoxNode("Relatório de Fornecedores", false, "SUP_REP"),
 				new CheckBoxNode("Relatório de Materiais", false, "MAT_REP"),
 				new CheckBoxNode("Inserir Material em Estoque", false, "INS_STOCK"),
-				new CheckBoxNode("Homologar Fornecedor", false, "HOM_SUP"),
-				new CheckBoxNode("Requisição de Compra", false, "SALE_REQ"),
-				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM"),
 				new CheckBoxNode("Relatório de Clientes", false, "CLI_REP"),
 				new CheckBoxNode("Consulta de Material", false, "SEA_MAT"),
 				new CheckBoxNode("Consulta de Produto", false, "SEA_PROD")
@@ -227,13 +222,22 @@ public class UpdatePermissionsFrame extends JFrame {
 		CheckBoxNode productionOptions[] = {
 				new CheckBoxNode("Estágios de Produção", false, "PROD_STG")
 		};
+		
+		CheckBoxNode buyOptions[] = {
+				new CheckBoxNode("Registrar Fornecedor", false, "REG_SUP"),
+				new CheckBoxNode("Atualizar/Remover Fornecedor", false, "UPD_SUP"),
+				new CheckBoxNode("Homologar Fornecedor", false, "HOM_SUP"),
+				new CheckBoxNode("Requisição de Compra", false, "SALE_REQ"),
+				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM")
+		};
 		    
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);
 		Vector<?> financialVector = new NamedVector("Financeiro", financialOptions);
 		Vector<?> salesVector = new NamedVector("Vendas", salesOptions);
 		Vector<?> productionVector = new NamedVector("Produção", productionOptions);
+		Vector<?> buyVector = new NamedVector("Compras", buyOptions);
 		
-		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector };
+		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector, buyVector };
 		
 		Vector<?> rootVector = new NamedVector("Root", rootNodes);
 		permissions = new JTree(rootVector);
