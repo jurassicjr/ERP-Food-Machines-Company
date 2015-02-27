@@ -1,4 +1,4 @@
-//package financial.controller;
+package financial.controller;
 //
 //import java.sql.Date;
 //
@@ -9,7 +9,7 @@
 //import database.DataBase;
 //import financial.view.ReceiveDebtFrame;
 //
-//public class ReceiveDebtFrameController {
+public class ReceiveDebtFrameController {
 //	
 //	private ReceiveDebtFrame frame;
 //	
@@ -93,4 +93,4 @@
 //		
 //	}
 //
-//}
+}

@@ -1,9 +1,9 @@
-//package model;
+package model;
 //
 //import java.text.SimpleDateFormat;
 //import java.util.Date;
 //
-//public class FinancialNotification {
+public class FinancialNotification {
 //	
 //	private Bill bill;
 //	private Date dueDate;
@@ -57,4 +57,4 @@
 //		return bill.getBill() + "\n" + new SimpleDateFormat("dd/MM/yyyy").format(dueDate);
 //	}
 //	
-//}
+}

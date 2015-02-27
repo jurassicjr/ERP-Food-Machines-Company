@@ -1,4 +1,7 @@
-//package financial.view;
+package financial.view;
+
+import javax.swing.JDialog;
+
 //
 //import java.awt.BorderLayout;
 //import java.awt.Cursor;
@@ -28,7 +31,7 @@
 //import util.Icon;
 //import financial.controller.PayBillFrameController;
 //
-//public class PayBillFrame extends JDialog {
+public class PayBillFrame extends JDialog {
 //
 //	private static final long serialVersionUID = -5976359939392792276L;
 //	
@@ -204,4 +207,4 @@
 //		controller.pay(bill, payedValue, value);
 //		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 //	}
-//}
+}

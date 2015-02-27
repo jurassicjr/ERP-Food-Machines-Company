@@ -1,4 +1,4 @@
-//package financial.controller;
+package financial.controller;
 //
 //import java.sql.ResultSet;
 //import java.sql.SQLException;
@@ -14,7 +14,7 @@
 //import financial.view.ListBillsFrame;
 //import financial.view.PayBillFrame;
 //
-//public class ListBillsFrameController {
+public class ListBillsFrameController {
 //	
 //	private DataBase dataBase;
 //	private ListBillsFrame frame;
@@ -112,4 +112,4 @@
 //		
 //	}
 //	
-//}
+}

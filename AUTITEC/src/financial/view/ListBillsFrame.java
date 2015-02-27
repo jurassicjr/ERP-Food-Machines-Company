@@ -1,4 +1,7 @@
-//package financial.view;
+package financial.view;
+
+import javax.swing.JFrame;
+
 //
 //import java.awt.BorderLayout;
 //import java.awt.Component;
@@ -27,7 +30,7 @@
 //import util.Icon;
 //import financial.controller.ListBillsFrameController;
 //
-//public class ListBillsFrame extends JFrame {
+public class ListBillsFrame extends JFrame {
 //
 //	private static final long serialVersionUID = -2945947774382521011L;
 //	
@@ -216,4 +219,4 @@
 //				
 //	}
 //	
-//}
+}

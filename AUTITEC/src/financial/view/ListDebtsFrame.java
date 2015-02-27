@@ -1,4 +1,7 @@
-//package financial.view;
+package financial.view;
+
+import javax.swing.JFrame;
+
 //
 //import java.awt.BorderLayout;
 //import java.awt.Component;
@@ -26,7 +29,7 @@
 //import model.DebtToReceive;
 //import financial.controller.ListDebtsFrameController;
 //
-//public class ListDebtsFrame extends JFrame {
+public class ListDebtsFrame extends JFrame {
 //	
 //	private static final long serialVersionUID = -1182431075673638709L;
 //
@@ -212,4 +215,4 @@
 //				
 //	}
 //
-//}
+}

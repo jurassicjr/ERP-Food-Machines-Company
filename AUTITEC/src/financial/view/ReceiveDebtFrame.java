@@ -1,4 +1,7 @@
-//package financial.view;
+package financial.view;
+
+import javax.swing.JDialog;
+
 //
 //import java.awt.BorderLayout;
 //import java.awt.Cursor;
@@ -29,7 +32,7 @@
 //import util.Icon;
 //import financial.controller.ReceiveDebtFrameController;
 //
-//public class ReceiveDebtFrame extends JDialog {
+public class ReceiveDebtFrame extends JDialog {
 //
 //	private static final long serialVersionUID = -5976359939392792276L;
 //	
@@ -205,4 +208,4 @@
 //		controller.receive(debtToReceive, value, receivedValue);
 //		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 //	}
-//}
+}
