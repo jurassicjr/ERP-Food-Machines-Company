@@ -1,12 +1,14 @@
 package financial.view;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,15 +21,16 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import model.BillGroup;
+import model.BillName;
+import model.BillSubGroup;
 import net.sf.nachocalendar.components.DateField;
 import userInterface.components.RealNumberField;
+import userInterface.components.UpperTextField;
 import util.Icon;
 import financial.controller.RegisterBillFrameController;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JTextField;
 
 public class RegisterBillFrame extends JFrame {
 
@@ -41,24 +44,25 @@ public class RegisterBillFrame extends JFrame {
 		
 	private RealNumberField txValue;
 	private DateField txPayDate;
+	private UpperTextField txCreditor;
 	
 	private JTextArea txObservation;
 	
-	private JComboBox cbGroup;
-	private JComboBox cbSubGroup;
-	private JComboBox cbBill;
+	private JComboBox<BillGroup> cbGroup;
+	private JComboBox<BillSubGroup> cbSubGroup;
+	private JComboBox<BillName> cbBill;
 	
 	private RegisterBillFrameController controller;
-	private JLabel lblCredor;
-	private JTextField txCreditor;
+	
 	
 		
 	public RegisterBillFrame() {
 		
+		controller = new RegisterBillFrameController(this);
+		
 		initialize();
 		setListeners();
-		
-		controller = new RegisterBillFrameController(this);		
+				
 	}
 
 	/**
@@ -81,13 +85,17 @@ public class RegisterBillFrame extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		
 		JLabel lblGroup = new JLabel("Grupo");
-		cbGroup = new JComboBox();
+		cbGroup = new JComboBox<BillGroup>();
+		cbGroup.setSelectedIndex(-1);
 		
 		JLabel lblSubGroup = new JLabel("Subgrupo");
-		cbSubGroup = new JComboBox();
+		cbSubGroup = new JComboBox<BillSubGroup>();
+		cbSubGroup.setEnabled(false);
+		cbSubGroup.setSelectedIndex(-1);
 		
 		JLabel lblBill = new JLabel("Conta");
-		cbBill = new JComboBox();
+		cbBill = new JComboBox<BillName>();
+		cbBill.setEnabled(false);
 		
 		JLabel lblValue = new JLabel("Valor");
 		txValue = new RealNumberField();
@@ -97,10 +105,10 @@ public class RegisterBillFrame extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		lblCredor = new JLabel("Credor");
-		
-		txCreditor = new JTextField();
+		JLabel lblCredor = new JLabel("Credor");
+		txCreditor = new UpperTextField();
 		txCreditor.setColumns(10);
+		
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(Alignment.LEADING)
@@ -168,7 +176,6 @@ public class RegisterBillFrame extends JFrame {
 		txObservation.setLineWrap(true);
 		txObservation.setWrapStyleWord(true);
 		
-		
 		scrollPane.setViewportView(txObservation);
 		scrollPane.setBorder(new TitledBorder("Obserações"));
 		panel.setLayout(layout);
@@ -189,6 +196,8 @@ public class RegisterBillFrame extends JFrame {
 		btnRegister = new JButton("Registrar");
 		btnRegister.setIcon(new ImageIcon(RegisterBillFrame.class.getResource("/resources/ok.png")));
 		buttonsPanel.add(btnRegister);
+		
+		controller.setBills(cbGroup);
 		
 	}
 
@@ -220,19 +229,44 @@ public class RegisterBillFrame extends JFrame {
 			
 		});
 		
+		ActionListener cbListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				if(e.getSource().equals(cbGroup)) {
+					controller.setSubGroups((BillGroup) cbGroup.getSelectedItem(), cbSubGroup);
+				}
+				else if(e.getSource().equals(cbSubGroup)) {
+					if(cbSubGroup.getSelectedIndex() != -1) {
+						controller.setBillnames((BillSubGroup) cbSubGroup.getSelectedItem(), cbBill);
+					}
+						
+				}
+				
+			}
+		};
+		
+		cbGroup.addActionListener(cbListener);
+		cbSubGroup.addActionListener(cbListener);
+		
 	}
 	
 	private void register() {
-				
-//		String bill = txBill.getText();
-//		String creditor = txCreditor.getText();
-//		Date dueDate = (Date) txDueDate.getValue();
-//		int installments = cbInstallments.getSelectedIndex() + 1;
-//		double value = txParcelValue.getValue();
-//		String observation = txObservations.getText();
-//		
-//		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-//		controller.register(bill, creditor, dueDate, installments, observation, value);
-//		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
+		
+		double value = txValue.getValue();
+		Date date = (Date) txPayDate.getValue();
+		String observation = txObservation.getText();
+		String creditor = txCreditor.getText();
+		BillName billName = null;
+		boolean hasName = cbBill.isEnabled();
+		BillSubGroup subGroup = (BillSubGroup) cbSubGroup.getSelectedItem();
+		BillGroup  group = (BillGroup) cbGroup.getSelectedItem();
+		
+		if(hasName) billName = (BillName) cbBill.getSelectedItem();
+			
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+		controller.register(value, date, observation, creditor, billName, subGroup, group, hasName);
+		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 }

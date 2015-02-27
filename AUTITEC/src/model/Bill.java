@@ -1,88 +1,51 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
-
 
 public class Bill {
 	
-	private String bill; 
-	private String creditor;
-	private int installmentsNumber;
+	private double value;
+	private Date payedDate;
+	private Date expiration;
 	private String observation;
-	private int id;
-	private ArrayList<Installment> installments;
+	private String creditor;
+	private BillName billName; 
+	private BillSubGroup subGroup;
 	
-	public Bill(String bill, String creditor, Date dueDate, int installmentsNumber, String observation, double value) {
-		
-		this.bill = bill;
-		this.creditor = creditor;
-		this.installmentsNumber = installmentsNumber;
+	public Bill(double value, Date payed_date, Date expiration, String observation, String creditor, BillName billName, BillSubGroup subGroup) {
+		this.value = value;
+		this.payedDate = payed_date;
+		this.expiration = expiration;
 		this.observation = observation;
-		installments = new ArrayList<Installment>();
-		
-		createInstallments(dueDate, value);
+		this.creditor = creditor;
+		this.billName = billName;
+		this.subGroup = subGroup;
 	}
 	
-	public Bill(String bill, String creditor, String observation, int id) {
-		this.bill = bill;
-		this.creditor = creditor;
+	public Bill(double value, Date expiration, String observation, String creditor, BillName billName, BillSubGroup subGroup) {
+		this.value = value;
+		this.payedDate = null;
+		this.expiration = expiration;
 		this.observation = observation;
-		this.id = id;
-	}
-	
-	public void createInstallments(Date dueDate, double value) {
-				
-		Calendar calendar = Calendar.getInstance();
-		Date date = new Date(dueDate.getTime());
-		
-		for(int i = 0; i < installmentsNumber; ++i) {
-			
-			calendar.setTime(dueDate);
-			installments.add(new Installment(date, value));
-			
-			calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH) + 1);
-			dueDate = calendar.getTime();
-			
-			int dayOfWeek = calendar.get(GregorianCalendar.DAY_OF_WEEK);
-			
-			if(dayOfWeek == GregorianCalendar.SATURDAY) {
-				calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 2);
-			}
-			else if(dayOfWeek == GregorianCalendar.SUNDAY) {
-				calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH) + 1);
-			}
-			
-			date = calendar.getTime();
-			
-		}
-				
-	}	
-
-	public String getBill() {
-		return bill;
-	}
-
-	public void setBill(String bill) {
-		this.bill = bill;
-	}
-
-	public String getCreditor() {
-		return creditor;
-	}
-
-	public void setCreditor(String creditor) {
 		this.creditor = creditor;
+		this.billName = billName;
+		this.subGroup = subGroup;
 	}
 
-	public int getInstallmentsNumber() {
-		return installmentsNumber;
+	public double getValue() {
+		return value;
 	}
 
-	public void setInstallmentsNumber(int installmentsNumber) {
-		this.installmentsNumber = installmentsNumber;
+	public void setValue(double value) {
+		this.value = value;
+	}
+
+	public Date getPayedDate() {
+		return payedDate;
+	}
+
+	public void setPayed_date(Date payed_date) {
+		this.payedDate = payed_date;
 	}
 
 	public String getObservation() {
@@ -93,19 +56,36 @@ public class Bill {
 		this.observation = observation;
 	}
 
-	public ArrayList<Installment> getInstallments() {
-		return installments;
+	public String getCreditor() {
+		return creditor;
 	}
 
-	public void setInstallments(ArrayList<Installment> installments) {
-		this.installments = installments;
+	public void setCreditor(String creditor) {
+		this.creditor = creditor;
+	}
+
+	public BillName getBillName() {
+		return billName;
+	}
+
+	public void setBillName(BillName billName) {
+		this.billName = billName;
+	}
+
+	public BillSubGroup getSubGroup() {
+		return subGroup;
+	}
+
+	public void setSubGroup(BillSubGroup subGroup) {
+		this.subGroup = subGroup;
+	}
+		
+	public Date getExpiration() {
+		return expiration;
 	}
 	
-	public int getId() {
-		return id;
+	public void setExpiration(Date expiration) {
+		this.expiration = expiration;
 	}
 	
-	public String toString() {
-		return bill;
-	}
 }

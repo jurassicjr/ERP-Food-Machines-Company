@@ -220,8 +220,14 @@ CREATE TABLE bill (
 
 	id INT(11) NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	value double NOT NULL,
-	pay_date DATE NOT NULL,
+	expiration DATE NOT NULL,
+	pay_date DATE,
 	observation TEXT,
 	creditor VARCHAR(100) NOT NULL,
+	bill_name INT(11),
+	bill_subgroup INT(11) NOT NULL,
+
+	FOREIGN KEY (bill_name) REFERENCES bill_name(id),
+	FOREIGN KEY (bill_subgroup) REFERENCES bill_subgroup(id)
 
 );

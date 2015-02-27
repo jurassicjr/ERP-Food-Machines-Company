@@ -1,10 +1,8 @@
 package database.dao;
 
 import java.sql.Date;
-import java.util.ArrayList;
 
 import model.Bill;
-import model.Installment;
 import database.DataBase;
 
 public class BillDAO {
@@ -22,31 +20,19 @@ public class BillDAO {
 	
 	private void persist(Bill bill) {
 		
-		String sql = "INSERT INTO bill (bill, creditor, observation, payed) VALUES (?, ?, ?, ?);";
-		Object data[] = new Object[]{bill.getBill(), bill.getCreditor(), bill.getObservation(), 0};
-		
-		int billId = dataBase.getAutoIncrementValue("bill");
-		
+		double value = bill.getValue();
+		Date expirationDate = new Date(bill.getExpiration().getTime());
+		Date payDate = (bill.getPayedDate() == null) ? null : new Date(bill.getPayedDate().getTime());
+		String observation = bill.getObservation();
+		String creditor = bill.getCreditor();
+		Integer billName = (bill.getBillName() == null) ? null : bill.getBillName().getId();
+		int billSubGroup = bill.getSubGroup().getId();
+				
+		String sql = "INSERT INTO bill (value, expiration, pay_date, observation, creditor, bill_name, bill_subgroup) VALUES (?, ?, ?, ?, ?, ?, ?);";
+		Object data[] = new Object[]{value, expirationDate, payDate, observation, creditor, billName, billSubGroup};
+				
 		dataBase.executeUpdate(sql, data);
-		
-		persistInstallments(bill.getInstallments(), billId);
-						
+								
 	}
 	
-	private void persistInstallments(ArrayList<Installment> installments, int billId) {
-				
-		for(Installment installment : installments) {
-			
-			Date date = new Date(installment.getDate().getTime());
-			int paid = (installment.isPaid()) ? 1 : 0;
-			double value = installment.getValue();
-			
-			String sql = "INSERT INTO installment (date, paid, bill, value) VALUES(?, ?, ?, ?);";
-			Object data[] = new Object[]{date, paid, billId, value};
-			
-			dataBase.executeUpdate(sql, data);
-		}
-		
-	}
-
 }
