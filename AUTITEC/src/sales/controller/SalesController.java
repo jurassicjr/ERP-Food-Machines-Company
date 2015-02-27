@@ -31,6 +31,8 @@ import sales.view.register.RegisterSuppliersFrame;
 import sales.view.report.ClientReportFrame;
 import sales.view.report.MaterialReportFrame;
 import sales.view.report.SupplierReportFrame;
+import sales.view.search.SearchOfMaterialFrame;
+import sales.view.search.SearchOfProductFrame;
 import sales.view.update.MaterialUpdateFrame;
 import sales.view.update.SupplierUpdateFrame;
 import userInterface.view.MainFrame;
@@ -298,6 +300,7 @@ public class SalesController {
 				mapa.put("descricao", material.getDescrition());
 				mapa.put("internalCode", material.getInternalCode());
 				mapa.put("ncm", material.getNCM());
+				mapa.put("ammounr", material.getAmmount());
 				materialDAO = new MaterialDAO(mapa);
 			}
 		} catch (Exception e) {
@@ -456,6 +459,34 @@ public class SalesController {
 			@Override
 			public void run() {
 				ClientReportFrame frame = new ClientReportFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	    
+    }
+
+	public void materialSearch() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				SearchOfMaterialFrame frame = new SearchOfMaterialFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	    
+    }
+
+	public void productSearch() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				SearchOfProductFrame frame = new  SearchOfProductFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

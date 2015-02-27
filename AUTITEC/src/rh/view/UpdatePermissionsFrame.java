@@ -219,7 +219,9 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Homologar Fornecedor", false, "HOM_SUP"),
 				new CheckBoxNode("Requisição de Compra", false, "SALE_REQ"),
 				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM"),
-				new CheckBoxNode("Relatório de Clientes", false, "CLI_REP")
+				new CheckBoxNode("Relatório de Clientes", false, "CLI_REP"),
+				new CheckBoxNode("Consulta de Material", false, "SEA_MAT"),
+				new CheckBoxNode("Consulta de Produto", false, "SEA_PROD")
 		};
 		
 		CheckBoxNode productionOptions[] = {

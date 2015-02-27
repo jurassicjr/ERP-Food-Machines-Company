@@ -102,6 +102,12 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmClientReport;
 
+	private JMenu mnSearch;
+
+	private JMenuItem mntmMaterialSearch;
+
+	private JMenuItem mntmProductSearch;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -332,6 +338,20 @@ public class MainFrame extends JFrame {
 		mntmClientReport.setVisible(false);
 		mntmClientReport.setName("CLI_REP");
 		
+		mnSearch = new JMenu("Consultas");
+		mnSales.add(mnSearch);
+		mnSales.setVisible(false);
+		
+		mntmMaterialSearch = new JMenuItem("Consulta de Materiais");
+		mnSearch.add(mntmMaterialSearch);
+		mntmMaterialSearch.setName("SEA_MAT");
+		mntmMaterialSearch.setVisible(false);
+		
+		mntmProductSearch = new JMenuItem("Consulta de Produtos");
+		mnSearch.add(mntmProductSearch);
+		mntmProductSearch.setName("SEA_PROD");
+		mntmProductSearch.setVisible(false);
+		
 		mntmProductionStage = new JMenuItem("Estágios de Produção");
 		mnProduction.add(mntmProductionStage);
 		mntmProductionStage.setVisible(false);
@@ -404,6 +424,8 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmSalesOrder);
 		menuItens.add(mntmUpdateKit);
 		menuItens.add(mntmClientReport);
+		menuItens.add(mntmMaterialSearch);
+		menuItens.add(mntmProductSearch);
 		
 		menuItens.add(mntmProductionStage);
 		
@@ -451,6 +473,8 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
 				else if (e.getSource().equals(mntmUpdateKit))controller.Sales(MainFrameController.updateOfKit);
 				else if (e.getSource().equals(mntmClientReport))controller.Sales(MainFrameController.clientReport);
+				else if (e.getSource().equals(mntmMaterialSearch))controller.Sales(MainFrameController.materialSearch);
+				else if (e.getSource().equals(mntmProductSearch))controller.Sales(MainFrameController.productSearch);
 			}
 		};
 		
@@ -486,6 +510,8 @@ public class MainFrame extends JFrame {
 		mntmUpdateProduct.addActionListener(menuListeners);	
 		mntmUpdateKit.addActionListener(menuListeners);
 		mntmClientReport.addActionListener(menuListeners);
+		mntmProductSearch.addActionListener(menuListeners);
+		mntmMaterialSearch.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

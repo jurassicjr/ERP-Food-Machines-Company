@@ -49,6 +49,8 @@ public class MaterialReportController extends SalesController {
 				p.setDescrition(descrition);
 				p.setId(id);
 				p.setAmmount(ammount);
+				p.setInternalCode(rs.getString("internal_code"));
+				p.setNCM(rs.getString("ncm"));
 				products.add(p);
 			}
 		} catch (SQLException e) {
@@ -79,6 +81,8 @@ public class MaterialReportController extends SalesController {
 			content.append("<div style='page-break-after: always'>");
 			
 			content.append("<h2>Material: " + p.getName() + "</h2>");
+			content.append("<h2>Codigo NCM: " + p.getNCM() + "</h2>");
+			content.append("<h2>Codigo interno: " + p.getInternalCode() + "</h2>");
 			content.append("<h3>Descrição: " + p.getDescrition() + "</h3>");
 			content.append("<h3>Quantidade em estoque: " + p.getAmmount() + "</h3>");
 

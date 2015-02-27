@@ -60,7 +60,7 @@ public class ReportOfClientController extends SalesController {
 								c.setState(state);
 								c.setCity(city);
 								c.setCep(rs.getString("cep"));
-								c.setCnpj(rs.getString("cnpj"));
+								//c.setCnpj(rs.getString("cnpj"));
 								c.setEmail(rs.getString("email"));
 								c.setPhone(rs.getString("phone"));
 								c.setId(id);

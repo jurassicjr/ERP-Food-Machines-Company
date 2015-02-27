@@ -234,6 +234,7 @@ public class RegisterOfMaterialFrame extends JFrame {
 		material.setDescrition(txtDescricao.getText());
 		material.setNCM(txtNCM.getText());
 		material.setInternalCode(txtInternalCode.getText());
+		material.setAmmount(0);
 		return material;
 	}
 }

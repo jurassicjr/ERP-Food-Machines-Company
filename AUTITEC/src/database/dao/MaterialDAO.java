@@ -20,8 +20,9 @@ public class MaterialDAO {
 		String name = (String) data.get("name");
 		String intenalCode = (String) data.get("internalCode");
 		String ncm = (String) data.get("ncm");
-		insertData = new Object[] {descrition, name, intenalCode, ncm};
-		String sql = "INSERT INTO Product(descricao, name, internal_code, ncm) VALUES (?, ?, ?, ?)";
+		double ammount = (double) data.get("ammount");
+		insertData = new Object[] {descrition, name, intenalCode, ncm, ammount};
+		String sql = "INSERT INTO Product(descricao, name, internal_code, ncm, quantidade) VALUES (?, ?, ?, ?, ?)";
 		database.executeUpdate(sql, insertData);
 		ShowMessage.successMessage(null, "GRAVAÇÂO", "Gravação concluida com sucesso!");
 	}
