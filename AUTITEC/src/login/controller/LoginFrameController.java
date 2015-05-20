@@ -42,13 +42,14 @@ public class LoginFrameController {
 	 * @param password A senha do usuário que deseja logar-se
 	 */
 	public void login(String cpf, String password) {
+		
 						
 		password = MD5.getMD5Code(password);
 		cpf = cpf.replaceAll("\\.|-", "");
-			
+		Object loginData[] = {cpf,password}; 
 		try {
-			String sql = "SELECT user.*, employee.id as 'id_employee' FROM user, employee WHERE user.employee = employee.id AND employee.cpf = ?;";
-			ResultSet resultSet = dataBase.executeQuery(sql, cpf);
+			String sql = "SELECT user.*, employee.id as 'id_employee' FROM user, employee WHERE user.employee = employee.id AND employee.cpf = ? and password = ?";
+			ResultSet resultSet = dataBase.executeQuery(sql,loginData);
 												
 			if(resultSet.next()) {
 				

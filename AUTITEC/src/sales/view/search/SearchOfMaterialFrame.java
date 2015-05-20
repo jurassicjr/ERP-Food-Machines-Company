@@ -8,6 +8,7 @@ import java.awt.event.WindowEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,6 +42,7 @@ public class SearchOfMaterialFrame extends JFrame {
 	private JButton btnSearch;
 	private JLabel lblName;
 	private SearchOfMaterialController controller;
+	private JScrollPane scrollPaneTable;
 	private JFrame frame = this;
 	
 	public SearchOfMaterialFrame() {
@@ -52,12 +54,15 @@ public class SearchOfMaterialFrame extends JFrame {
 	private void initialize() {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Consulta de Material");
+		util.Icon.setIcon(this);
 		setBounds(0, 0, 478, 407);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
+		controller.queryAll(table);
 	}
 
 	private void initializePrincipal() {
+		
 		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
 		
@@ -74,11 +79,11 @@ public class SearchOfMaterialFrame extends JFrame {
 		
 		spinnerMinimum = new JSpinner();
 		
+		
 		btnSearch = new JButton("Buscar");
 		btnSearch.setSelectedIcon(new ImageIcon(SearchOfMaterialFrame.class.getResource("/resources/ok.png")));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
@@ -167,18 +172,7 @@ public class SearchOfMaterialFrame extends JFrame {
 		int max = (int) spinner.getValue();
 		int min = (int) spinnerMinimum.getValue();
 		String name = txtName.getText();
-		ClearFrame.clear(frame);
-		if(!name.isEmpty()) {
-			if(max > 0 && max>min) {
-				controller.fullSearch(table, max, min, name);
-			}else if(max == min) {
-				controller.simpleSearch(table, name);
-			}else {
-				ShowMessage.errorMessage(this, "Erro na Busca", "verifique os numeros de minimo e maximo");
-			}
-		}else if(min<=max && max> 0){
-			controller.search(table, max, min);
-		}
+		controller.search(table, max, min, name);	
 		
 	}
 }
