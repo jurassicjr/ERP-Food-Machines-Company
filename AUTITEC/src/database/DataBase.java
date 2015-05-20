@@ -7,6 +7,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.List;
 
 import util.Properties;
 import util.ShowMessage;
@@ -303,6 +304,34 @@ public class DataBase {
 		
 		ShowMessage.errorMessage(null, title, message);
 		
+	}
+	
+public void executeUpdate(String query, List<Object> list) {
+		
+		try {
+			
+			PreparedStatement statement = connection.prepareStatement(query);
+						
+			for(int i = 0; list!= null && i < list.size() ; ++i) {
+				
+				if(list.get(i) instanceof Integer) statement.setInt(i + 1, (int) list.get(i));
+				else if(list.get(i) instanceof Double) statement.setDouble(i + 1, (double) list.get(i));
+				else if(list.get(i) instanceof String) statement.setString(i + 1, (String) list.get(i));
+				else if(list.get(i) instanceof Date) statement.setDate(i + 1, (Date) list.get(i));
+				else if(list.get(i) instanceof Boolean) statement.setBoolean(i + 1, (boolean) list.get(i));
+				else if(list.get(i) == null) statement.setNull(i + 1, Types.NULL);
+				
+			}
+			
+			statement.executeUpdate();
+			
+	
+		} catch (SQLException e) {
+			showDataBaseErrorMessage();
+			e.printStackTrace();
+			System.out.println(e.getMessage());
+		}
+				
 	}
 		
 }
