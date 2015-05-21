@@ -1,6 +1,8 @@
 import javax.swing.SwingUtilities;
 
 import login.view.LoginFrame;
+import sales.view.search.SearchOfMaterialFrame;
+import sales.view.search.SearchOfProductFrame;
 import userInterface.view.LoadingFrame;
 import util.UpdateSoftware;
 
@@ -10,7 +12,8 @@ import util.UpdateSoftware;
 public class Main {
 	
 	public static void main(String[] args) {
-							
+		
+		
 		LoadingFrame loadingFrame = new LoadingFrame();  
 	
 		SwingUtilities.invokeLater(new Runnable(){  

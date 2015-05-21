@@ -352,7 +352,7 @@ public void executeUpdate(String query, ArrayList<Object> list) {
 			else if(list.get(i) instanceof Boolean) statement.setBoolean(i + 1, (boolean) list.get(i));
 			else if(list.get(i) == null) statement.setNull(i + 1, Types.NULL);
 		}
-		System.out.println(statement.toString());
+	
 		ResultSet resultSet = statement.executeQuery();
 		
 		return resultSet;	
