@@ -39,21 +39,27 @@ public class InventoryFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = -3703798593062437817L;
 	private JTextField txtFiscalNote;
+	
+	private JFrame frame;
 	private JPanel bottonPanel;
 	private JSpinner spinner;
+	
 	private JComboBox<Material> cboMaterial;
+	private JComboBox<Supplier> cboSupplier;
+	private JComboBox<CNPJ> cboCNPJ;
+	
 	private JLabel lblAmmount;
 	private JLabel lblCnpjDeEntrada;
 	private JLabel lblNotaFiscal;
-	private InventoryController controller;
 	private JLabel lblMaterial;
-	private JSeparator separator;
-	private JComboBox<Supplier> cboSupplier;
 	private JLabel lblFornecedor;
-	private JFrame frame;
+	
+	private InventoryController controller;
+
+	private JSeparator separator;
+
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
-	private JComboBox<CNPJ> cboCNPJ;
 
 	public InventoryFrame() {
 		frame = this;
@@ -67,9 +73,9 @@ public class InventoryFrame extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(0, 0, 415, 239);
-		setMinimumSize(new Dimension(415, 239));
-		setPreferredSize(new Dimension(415, 239));
+		setBounds(0, 0, 500, 250);
+		setMinimumSize(new Dimension(500, 250));
+		setPreferredSize(new Dimension(500, 250));
 		initializePrincipal();
 	}
 
@@ -201,6 +207,7 @@ public class InventoryFrame extends JFrame {
 		btnConfirmar.addActionListener(buttonListeners);
 		btnCancelar.addActionListener(buttonListeners);
 	}
+
 	private void addToInventory() {
 		Inventory i = new Inventory();
 		i.setAmmount((int) spinner.getValue());

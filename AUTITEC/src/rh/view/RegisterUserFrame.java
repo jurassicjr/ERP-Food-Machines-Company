@@ -43,6 +43,7 @@ import javax.swing.tree.TreePath;
 
 import model.Employee;
 import rh.controller.RegisterUserFrameController;
+import rh.view.UpdatePermissionsFrame.CheckBoxNode;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.Icon;
 
@@ -224,7 +225,9 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Inserir Material em Estoque", false, "INS_STOCK"),
 				new CheckBoxNode("Homologar Fornecedor", false, "HOM_SUP"),
 				new CheckBoxNode("Requisição de Compra", false, "SALE_REQ"),
-				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM")
+				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM"),
+				new CheckBoxNode("Consulta de Material", false, "SEA_MAT"),
+				new CheckBoxNode("Consulta de Produto", false, "SEA_PROD")
 		};
 		
 		CheckBoxNode productionOptions[] = {
