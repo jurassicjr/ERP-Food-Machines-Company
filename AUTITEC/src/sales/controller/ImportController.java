@@ -39,7 +39,6 @@ public class ImportController {
 	            ip.importExcelClient(file);
 	            
             } catch (IOException e) {
-	           
 	            e.printStackTrace();
             }
 		}
