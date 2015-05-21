@@ -3,6 +3,8 @@ package sales.view.search;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -49,8 +51,10 @@ public class SearchOfProductFrame extends JFrame{
 		setBounds(0, 0, 478, 382);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
+		controller.queryAll(table);
 	}
 
+	
 	private void initializePrincipal() {
 		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
@@ -63,8 +67,36 @@ public class SearchOfProductFrame extends JFrame{
 		btnSearch = new JButton("Buscar");
 		btnSearch.setSelectedIcon(new ImageIcon(SearchOfMaterialFrame.class.getResource("/resources/ok.png")));
 		
+		
+		   KeyListener txtKeyListener = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getSource().equals(txtName)){
+					if(txtName.getText().isEmpty())
+						controller.queryAll(table);	
+				}
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getSource().equals(txtName)){
+					
+					if(e.getKeyChar() == KeyEvent.VK_ENTER)
+						verify();
+				}
+			}
+		   };
+		txtName.addKeyListener(txtKeyListener);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
@@ -94,7 +126,7 @@ public class SearchOfProductFrame extends JFrame{
 		);
 		
 		table = new JTable();
-		String[] header = new String[] {"Produto", "descrição"};
+		String[] header = new String[] {"Produto", "Descrição"};
 		table.setModel(new DefaultTableModel(null, header) {
 
 			
@@ -137,9 +169,10 @@ public class SearchOfProductFrame extends JFrame{
 	
 	private void verify() {
 		String name = txtName.getText();
-		ClearFrame.clear(frame);
-		if(!name.isEmpty()) {
-		controller.simpleSearch(table, name);
-		}
+		if(!name.isEmpty()) 
+			controller.simpleSearch(table, name);	
+		else
+			controller.queryAll(table);
+			
 	}
 }

@@ -49,5 +49,13 @@ public class ClearFrame {
 	    }
 	    return compList;
 	}
+	public static void clearTable(JTable table)
+	{
+		
+			DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+    	for(int i = tbl.getRowCount() -1; i>=0; i--) 
+    		tbl.removeRow(i);
+		
+	}
 	
 }

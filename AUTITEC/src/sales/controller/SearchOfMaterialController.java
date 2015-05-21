@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import util.ClearFrame;
 import database.DataBase;
 
 public class SearchOfMaterialController extends SalesController{
@@ -17,14 +18,7 @@ public class SearchOfMaterialController extends SalesController{
 	   dataBase = new DataBase();
 	   dataBase.connect();
     }
-	public void clearTable(JTable table)
-	{
-		
-			DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-    	for(int i = tbl.getRowCount() -1; i>=0; i--) 
-    		tbl.removeRow(i);
-		
-	}
+
 	public void search(JTable table, Integer max, Integer min, String name) {
 	   int parameterCount = 0;
 	   
@@ -45,18 +39,28 @@ public class SearchOfMaterialController extends SalesController{
 		   if(parameterCount > 0)
 				 sql+=" AND "; 
 		   
-		   sql+=" quantidade <= ? AND quantidade >= ? "; 
+		   sql+=" quantidade <= ?"; 
 		   obj.add(max);
+		   parameterCount++;
+	   }
+	   if(min >=1)
+	   {
+		   if(parameterCount > 0)
+				 sql+=" AND "; 
+		   
+		   sql+=" quantidade >= ? "; 
 		   obj.add(min);
 		   parameterCount++;
+		   
+		   
 	   }
 	   if(parameterCount == 0)
 		   sql = sql.replace("WHERE","");
 	   
-	   sql+= "order by name";
-	   System.out.println(sql);
+	   sql+= " order by name";
+	   
 	   DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-	   clearTable(table);
+	   ClearFrame.clearTable(table);
 	   try(ResultSet rs = dataBase.executeQuery(sql, obj)){
 		   while(rs.next()) {
 			   String n = rs.getString("name");

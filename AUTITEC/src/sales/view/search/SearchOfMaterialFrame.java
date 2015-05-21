@@ -3,6 +3,8 @@ package sales.view.search;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -20,6 +22,8 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import sales.controller.SearchOfMaterialController;
@@ -78,6 +82,27 @@ public class SearchOfMaterialFrame extends JFrame {
 		lblQuantidadeMinima = new JLabel("Quantidade Minima");
 		
 		spinnerMinimum = new JSpinner();
+		
+		spinner.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent arg0) {
+				int number = (int) spinner.getValue();
+				if(number <= 0)
+					spinner.setValue(0);
+				
+			}
+		});
+		spinnerMinimum.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				int number = (int) spinnerMinimum.getValue();
+				if(number <= 0)
+					spinnerMinimum.setValue(0);
+				
+			}
+		});
 		
 		
 		btnSearch = new JButton("Buscar");
@@ -166,13 +191,41 @@ public class SearchOfMaterialFrame extends JFrame {
 			}
 		};
 		btnSearch.addActionListener(buttonListener);
+		
+		KeyListener txtKeyListerner = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				
+				
+			}
+		
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getSource().equals(txtName))
+				{
+					if(txtName.getText().isEmpty())
+						controller.queryAll(table);
+				}
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getSource().equals(txtName))
+				{
+					if(e.getKeyChar() == KeyEvent.VK_ENTER)
+						verify();
+					
+				}
+			}
+		};
+		txtName.addKeyListener(txtKeyListerner);
 	}
 	
 	private void verify() {
 		int max = (int) spinner.getValue();
 		int min = (int) spinnerMinimum.getValue();
 		String name = txtName.getText();
-		controller.search(table, max, min, name);	
-		
+		controller.search(table, max, min, name);		
 	}
 }
