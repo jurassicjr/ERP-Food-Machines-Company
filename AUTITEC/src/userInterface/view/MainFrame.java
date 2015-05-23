@@ -112,6 +112,10 @@ public class MainFrame extends JFrame {
 
 	private JMenu mnUpdateBuy;
 
+	private JMenuItem mntmEpiRegister;
+
+	private JMenuItem mntmEpiUpdate;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -148,32 +152,24 @@ public class MainFrame extends JFrame {
 		menuBar = new JMenuBar();
 		menuBar.setMargin(new Insets(5, 5, 5, 5));
 		setJMenuBar(menuBar);
-						
+		
+		
+		//Recursos Humanos (RH)
 		mnRh = new JMenu("RH");
 		mnRh.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/rh.png")));
 		menuBar.add(mnRh);
 		mnRh.setVisible(false);
 		
-		mnFinancial = new JMenu("Financeiro");
-		mnFinancial.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/finance.png")));
-		menuBar.add(mnFinancial);
-		mnFinancial.setVisible(false);
-		
-		mnSales = new JMenu("Vendas");
-		mnSales.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/sales.png")));
-		menuBar.add(mnSales);
-		mnSales.setVisible(false);
-		
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnRh.add(mntmRegisterEmployee);
 		mntmRegisterEmployee.setVisible(false);
 		mntmRegisterEmployee.setName("REG_EMP");
-				
+		
 		mntmTechnicalStandard = new JMenuItem("Normas Técnicas");
 		mnRh.add(mntmTechnicalStandard);
 		mntmTechnicalStandard.setVisible(false);
 		mntmTechnicalStandard.setName("TEC_STD");
-				
+
 		mntmRegisterUser = new JMenuItem("Registrar Usuário");
 		mnRh.add(mntmRegisterUser);
 		mntmRegisterUser.setVisible(false);
@@ -188,11 +184,27 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmEmployeeReport);
 		mntmEmployeeReport.setVisible(false);
 		mntmEmployeeReport.setName("EMP_REP");
+
+		mntmEpiRegister = new JMenuItem("Registro de EPI's");
+		mnRh.add(mntmEpiRegister);
+		mntmEpiRegister.setVisible(false);
+		mntmEpiRegister.setName("EPI_REG");
 		
+		mntmEpiUpdate = new JMenuItem("Atualização/Remoção de EPI's");
+		mnRh.add(mntmEpiUpdate);
+		mntmEpiUpdate.setVisible(false);
+		mntmEpiUpdate.setName("EPI_UPD");
+		
+		//Financeiro(Gestão)
+		mnFinancial = new JMenu("Financeiro");
+		mnFinancial.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/finance.png")));
+		menuBar.add(mnFinancial);
+		mnFinancial.setVisible(false);
+
 		mnBill = new JMenu("Contas a Pagar");
 		mnFinancial.add(mnBill);
 		mnBill.setVisible(false);
-		
+
 		mntmRegisterBill = new JMenuItem("Registrar Conta a Pagar");
 		mnBill.add(mntmRegisterBill);
 		mntmRegisterBill.setVisible(false);
@@ -202,7 +214,7 @@ public class MainFrame extends JFrame {
 		mnBill.add(mntmPayBill);
 		mntmPayBill.setVisible(false);
 		mntmPayBill.setName("PAY_BILL");
-	
+
 		mntmListBills = new JMenuItem("Listar Contas a Pagar");
 		mnBill.add(mntmListBills);
 		mntmListBills.setVisible(false);
@@ -211,7 +223,7 @@ public class MainFrame extends JFrame {
 		mnDebtsToReceive = new JMenu("Contas a Receber");
 		mnFinancial.add(mnDebtsToReceive);
 		mnDebtsToReceive.setVisible(false);
-		
+
 		mntmRegisterDebtsToReceive = new JMenuItem("Registrar Conta a Receber");
 		mnDebtsToReceive.add(mntmRegisterDebtsToReceive);
 		mntmRegisterDebtsToReceive.setVisible(false);
@@ -226,11 +238,17 @@ public class MainFrame extends JFrame {
 		mnDebtsToReceive.add(mntmListDebts);
 		mntmListDebts.setVisible(false);
 		mntmListDebts.setName("LIST_DEBT");
-		
+
 		mntmGenerateReport = new JMenuItem("Relatório Financeiro");
 		mnFinancial.add(mntmGenerateReport);
 		mntmGenerateReport.setVisible(false);
 		mntmGenerateReport.setName("FIN_REP");
+
+		//Vendas
+		mnSales = new JMenu("Vendas");
+		mnSales.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/sales.png")));
+		menuBar.add(mnSales);
+		mnSales.setVisible(false);
 		
 		mnRegister = new JMenu("Registros");
 		mnSales.add(mnRegister);
@@ -248,6 +266,7 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnInventory);
 		mnInventory.setVisible(false);
 		
+		//Compras
 		mnBuy = new JMenu("Compras");
 		mnBuy.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/buy_icon.png")));
 		menuBar.add(mnBuy);
@@ -364,6 +383,8 @@ public class MainFrame extends JFrame {
 		mntmProductSearch.setName("SEA_PROD");
 		mntmProductSearch.setVisible(false);
 		
+		
+		//Produção
 		mntmProductionStage = new JMenuItem("Estágios de Produção");
 		mnProduction.add(mntmProductionStage);
 		mntmProductionStage.setVisible(false);
@@ -411,6 +432,8 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmRegisterUser);
 		menuItens.add(mntmEmployeeReport);
 		menuItens.add(mntmUpdateUser);
+		menuItens.add(mntmEpiRegister);
+		menuItens.add(mntmEpiUpdate);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -468,6 +491,8 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterIssue)) controller.registerIssue();
 				else if(e.getSource().equals(mntmProductionStage)) controller.stagesProduction();
 				else if(e.getSource().equals(mntmUpdateUser)) controller.updateUser();
+				else if(e.getSource().equals(mntmEpiRegister))controller.epiRegister();
+				else if(e.getSource().equals(mntmEpiUpdate))controller.epiUpdate();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -507,6 +532,8 @@ public class MainFrame extends JFrame {
 		mntmClientRegister.addActionListener(menuListeners);
 		mntmRegisterProduct.addActionListener(menuListeners);
 		mntmProductionStage.addActionListener(menuListeners);
+		mntmEpiRegister.addActionListener(menuListeners);
+		mntmEpiUpdate.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

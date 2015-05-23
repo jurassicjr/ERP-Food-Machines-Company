@@ -1,6 +1,7 @@
 import javax.swing.SwingUtilities;
 
 import login.view.LoginFrame;
+import rh.view.RegisterOfEPIFrame;
 import sales.view.search.SearchOfMaterialFrame;
 import sales.view.search.SearchOfProductFrame;
 import userInterface.view.LoadingFrame;
@@ -24,7 +25,6 @@ public class Main {
 		//if(!new VerifySerial().verify()) System.exit(0);
 		
 		new LoginFrame().setVisible(true);
-		
 		loadingFrame.dispose();
 				
 	}

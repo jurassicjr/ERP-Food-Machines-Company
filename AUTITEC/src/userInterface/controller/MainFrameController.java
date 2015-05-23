@@ -17,8 +17,10 @@ import model.Bill;
 import production.view.StagesProductionFrame;
 import rh.view.EmployeeReportFrame;
 import rh.view.RegisterEmployeeFrame;
+import rh.view.RegisterOfEPIFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.TechnicalStandardFrame;
+import rh.view.UpdateOfEPIFrame;
 import rh.view.UpdatePermissionsFrame;
 import sales.controller.SalesController;
 import userInterface.components.NotificationButton;
@@ -439,6 +441,32 @@ public class MainFrameController {
 			mainFrame.dispose();
 		}
 
+	}
+
+	public void epiRegister() {
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				RegisterOfEPIFrame frame = new RegisterOfEPIFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});		
+	}
+
+	public void epiUpdate() {
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				UpdateOfEPIFrame frame = new UpdateOfEPIFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
 	}
 
 }
