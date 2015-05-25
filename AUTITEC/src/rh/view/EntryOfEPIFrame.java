@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -22,10 +23,14 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
+import model.EPI;
+import model.EntryOfEPI;
+import net.sf.nachocalendar.CalendarFactory;
+import net.sf.nachocalendar.components.DateField;
 import rh.controller.EntryOfEPIController;
+import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
 import util.ShowMessage;
-import model.EPI;
 
 public class EntryOfEPIFrame extends JFrame{
 
@@ -47,6 +52,7 @@ public class EntryOfEPIFrame extends JFrame{
 	private JButton btnCancel;
 	private JButton btnClear;
 	private EntryOfEPIController controller;
+	private DateField txtDate;
 
 	public EntryOfEPIFrame() {
 		
@@ -58,7 +64,7 @@ public class EntryOfEPIFrame extends JFrame{
 	private void initialize() {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Entrada de EPI's");
-		setBounds(100, 100, 400, 400);
+		setBounds(100, 100, 400, 331);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}
@@ -70,10 +76,18 @@ public class EntryOfEPIFrame extends JFrame{
 		lblCnpj = new JLabel("CNPJ");
 		
 		cboCNPJ = new JComboBox<String>();
+		cboCNPJ.addItem("11.157.529/0001-30 - DANILO AP. SILVA EQUIP. INDS EPP");
+		cboCNPJ.addItem("09.225.755/0001-69 - JONAS AP. SILVA INDUSTRIA EPP");
+		cboCNPJ.addItem("56.652.654/0001-54 - JOÃO BATISTA DOMINGOS ROSA MAT ELETRICOS ME");
+		new ComboBoxAutoCompletion(cboCNPJ);
+		cboCNPJ.setSelectedIndex(-1);
 		
 		lblEpi = new JLabel("EPI");
 		
 		cboEPI = new JComboBox<EPI>();
+		controller.fillEPI(cboEPI);
+		new ComboBoxAutoCompletion(cboEPI);
+		cboEPI.setSelectedIndex(-1);
 		
 		lblAmmount = new JLabel("Quantidade");
 		
@@ -84,6 +98,11 @@ public class EntryOfEPIFrame extends JFrame{
 		scrollPane = new JScrollPane();
 		
 		JSeparator separator = new JSeparator();
+		
+		JLabel lblDate = new JLabel("Data");
+		
+		txtDate = CalendarFactory.createDateField();
+		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.LEADING)
@@ -104,7 +123,11 @@ public class EntryOfEPIFrame extends JFrame{
 								.addGroup(gl_principalPanel.createSequentialGroup()
 									.addComponent(lblAmmount)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(ammountSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+									.addComponent(ammountSpinner, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(lblDate)
+									.addGap(4)
+									.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, 187, Short.MAX_VALUE))
 								.addComponent(lblObservation)))
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addGap(13)
@@ -125,14 +148,17 @@ public class EntryOfEPIFrame extends JFrame{
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
 						.addComponent(lblAmmount)
-						.addComponent(ammountSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+							.addComponent(ammountSpinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(txtDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblDate)))
 					.addGap(18)
 					.addComponent(lblObservation)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 73, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 11, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(107, Short.MAX_VALUE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		
 		txtObservation = new JTextArea();
@@ -156,7 +182,7 @@ public class EntryOfEPIFrame extends JFrame{
 		btnCancel.setIcon(new ImageIcon(EntryOfEPIFrame.class.getResource("/resources/1419366170_17-16.png")));
 		
 		btnClear = new JButton("Limpar");
-		btnClear.setIcon(new ImageIcon(EntryOfEPIFrame.class.getResource("resources/ClearFrame.png")));
+		btnClear.setIcon(new ImageIcon(EntryOfEPIFrame.class.getResource("/resources/ClearFrame.png")));
 	
 		bottonPanel.add(btnClear);
 		bottonPanel.add(btnCancel);
@@ -198,8 +224,29 @@ public class EntryOfEPIFrame extends JFrame{
 			ShowMessage.errorMessage(this, "Erro", "Erro ao adicionar epi, insira a quantidade a ser adicionada");
 			return;
 		}
+		if(txtDate.getValue().equals(null)){
+			ShowMessage.errorMessage(this, "Errp", "Erro ao adiciona EPI selecione a Data de Entrada!");
+			return;
+		}
 		int i = ShowMessage.questionMessage(this, "Adicionar", "Deseja realmente adicionar essa quantidade nesse epi ?");
 		if(i == JOptionPane.NO_OPTION)return;
+		
+		
+		String CNPJ = (String) cboCNPJ.getSelectedItem();
+		EPI epi = (EPI) cboEPI.getSelectedItem();
+		Date date = (Date) txtDate.getValue();
+		int ammount = (int) ammountSpinner.getValue();
+		EntryOfEPI eoe = new EntryOfEPI();
+		eoe.setAmmount(ammount);
+		eoe.setCnpj(CNPJ);
+		eoe.setDate(date);
+		eoe.setEpi(epi);
+		controller.register(eoe);
+		ShowMessage.successMessage(this, "Sucesso", "EPI adicionado com sucesso!");
+		ClearFrame.clear(this);
+		cboEPI.removeAllItems();
+		controller.fillEPI(cboEPI);
+		cboEPI.setSelectedIndex(-1);
 	}
 	
 	private void clear(){

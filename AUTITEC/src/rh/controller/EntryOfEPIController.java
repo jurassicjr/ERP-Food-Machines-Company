@@ -1,8 +1,18 @@
 package rh.controller;
 
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import database.dao.EntryOfEPIDAO;
+import database.dao.EpiDAO;
+import model.EPI;
+import model.EntryOfEPI;
 import util.ShowMessage;
 
 public class EntryOfEPIController {
@@ -16,5 +26,23 @@ public class EntryOfEPIController {
 	public void close(){
 		int i = ShowMessage.questionMessage(frame, "Fechar", "Deseja realmente Sair?\n As informações não salvas serão perdidas");
 		if(i == JOptionPane.YES_OPTION)frame.dispose();
+	}
+
+	public void register(EntryOfEPI eoe) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		String cnpj = eoe.getCnpj();
+		EPI epi = eoe.getEpi();
+		Date date = eoe.getDate();
+		int ammount = eoe.getAmmount();
+		map.put("cnpj", cnpj);
+		map.put("epi", epi);
+		map.put("ammount", ammount);
+		map.put("date", date);
+		new EntryOfEPIDAO().register(map);
+	}
+
+	public void fillEPI(JComboBox<EPI> cboEPI) {
+		ArrayList<EPI> list = new EpiDAO().fillEPIs();
+		list.forEach(e -> cboEPI.addItem(e));
 	}
 }

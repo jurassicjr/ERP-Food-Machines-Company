@@ -39,5 +39,9 @@ public class EPI {
 		this.ammount = ammount;
 	}
 	
+	@Override
+	public String toString() {
+		return this.name;
+	}
 	
 }

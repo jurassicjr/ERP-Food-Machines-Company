@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import model.Bill;
 import production.view.StagesProductionFrame;
 import rh.view.EmployeeReportFrame;
+import rh.view.EntryOfEPIFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterOfEPIFrame;
 import rh.view.RegisterUserFrame;
@@ -462,6 +463,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				UpdateOfEPIFrame frame = new UpdateOfEPIFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	}
+
+	public void insertOfEPI() {
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				EntryOfEPIFrame frame = new EntryOfEPIFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

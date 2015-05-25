@@ -33,7 +33,7 @@ public class EpiDAO {
 	}
 
 	public void update(Map<String, Object> map) {
-		String sql = "UPDATE EPI SET name = ?, use_description =? WHERE id = ?";
+		String sql = "UPDATE epi SET name = ?, use_description =? WHERE id = ?";
 		String name = (String) map.get("name");
 		String useDescription = (String) map.get("useDescription");
 		int id = (int) map.get("id");
@@ -49,7 +49,7 @@ public class EpiDAO {
 
 	public void delete(EPI epi) {
 		int id = epi.getId();
-		String sql = "DELETE *FROM epi WHERE id = ?";
+		String sql = "DELETE FROM epi WHERE id = ?";
 		try{
 			dataBase.executeUpdate(sql, id);
 		}catch(Exception e){

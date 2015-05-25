@@ -8,6 +8,7 @@ import javax.swing.JOptionPane;
 
 import database.dao.EpiDAO;
 import model.EPI;
+import util.ClearFrame;
 import util.ShowMessage;
 
 public class RegisterOfEPIController {

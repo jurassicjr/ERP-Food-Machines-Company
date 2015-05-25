@@ -116,6 +116,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmEpiUpdate;
 
+	private JMenuItem mntmInsertoOfEPI;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -194,6 +196,11 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmEpiUpdate);
 		mntmEpiUpdate.setVisible(false);
 		mntmEpiUpdate.setName("EPI_UPD");
+		
+		mntmInsertoOfEPI = new JMenuItem("Inserção de EPI's");
+		mnRh.add(mntmInsertoOfEPI);
+		mntmInsertoOfEPI.setVisible(false);
+		mntmInsertoOfEPI.setName("IST_EPI");
 		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
@@ -434,6 +441,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmUpdateUser);
 		menuItens.add(mntmEpiRegister);
 		menuItens.add(mntmEpiUpdate);
+		menuItens.add(mntmInsertoOfEPI);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -493,6 +501,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmUpdateUser)) controller.updateUser();
 				else if(e.getSource().equals(mntmEpiRegister))controller.epiRegister();
 				else if(e.getSource().equals(mntmEpiUpdate))controller.epiUpdate();
+				else if(e.getSource().equals(mntmInsertoOfEPI))controller.insertOfEPI();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -534,6 +543,7 @@ public class MainFrame extends JFrame {
 		mntmProductionStage.addActionListener(menuListeners);
 		mntmEpiRegister.addActionListener(menuListeners);
 		mntmEpiUpdate.addActionListener(menuListeners);
+		mntmInsertoOfEPI.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
