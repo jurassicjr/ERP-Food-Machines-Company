@@ -26,6 +26,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import model.EPI;
 import rh.controller.UpdateOfEPiController;
 import userInterface.components.ComboBoxAutoCompletion;
+import util.ClearFrame;
 import util.ShowMessage;
 
 public class UpdateOfEPIFrame extends JFrame{
@@ -73,6 +74,7 @@ public class UpdateOfEPIFrame extends JFrame{
 		cboEPI = new JComboBox<EPI>();
 		new ComboBoxAutoCompletion(cboEPI);
 		controller.fillEPIs(cboEPI);
+		cboEPI.setSelectedIndex(-1);
 		
 		lblName = new JLabel("Nome");
 		
@@ -177,6 +179,16 @@ public class UpdateOfEPIFrame extends JFrame{
 		btnClose.addActionListener(buttonListener);
 		btnDelete.addActionListener(buttonListener);
 		btnUpdate.addActionListener(buttonListener);
+		
+		ActionListener cboListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(cboEPI))fillFields();
+			}
+		};
+		
+		cboEPI.addActionListener(cboListener);
 	}
 	
 	private void update(){
@@ -204,9 +216,20 @@ public class UpdateOfEPIFrame extends JFrame{
 		if(i==JOptionPane.NO_OPTION)return;
 		EPI epi = (EPI) cboEPI.getSelectedItem();
 		controller.delete(epi);
+		ClearFrame.clear(this);
+		ShowMessage.successMessage(this, "Sucesso", "EPI excluida com sucesso!");
 	}
 	
 	private void close(){
 		controller.close();
+	}
+	
+	private void fillFields(){
+		if(cboEPI.getSelectedIndex() == -1)return;
+		EPI epi = (EPI) cboEPI.getSelectedItem();
+		String name = epi.getName();
+		String useDescription = epi.getUseDescription();
+		txtName.setText(name);
+		txtUseDescription.setText(useDescription);
 	}
 }

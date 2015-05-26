@@ -33,15 +33,21 @@ public class RegisterOfEPIFrame extends JFrame{
 	 */
 	private static final long serialVersionUID = 1079844856555036040L;
 	private JPanel principalPanel;
-	private JTextField txtName;
 	private JPanel bottonPanel;
-	private JButton btnRegister;
+	
+	private JTextField txtName;
+	
 	private JLabel lblName;
 	private JLabel lblUseDescription;
+	
 	private JSeparator separator;
+
+	private JButton btnRegister;
 	private JButton btnCancel;
 	private JButton btnClear;
+	
 	private RegisterOfEPIController controller;
+	
 	private JTextArea txtUseDescription;
 
 	public RegisterOfEPIFrame() {
@@ -176,6 +182,7 @@ public class RegisterOfEPIFrame extends JFrame{
 		epi.setUseDescription(useDescription);
 		controller.register(epi);
 		ShowMessage.successMessage(this, "Sucesso", "Sucesso ao registrar Equipamento de Proteção Individual");
+		ClearFrame.clear(this);
 	}
 	
 	private void Clear(){
