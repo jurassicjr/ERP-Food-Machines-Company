@@ -50,7 +50,11 @@ public class EpiDAO {
 	public void delete(EPI epi) {
 		int id = epi.getId();
 		String sql = "DELETE FROM epi WHERE id = ?";
+		String entryOfEPISQL = "DELETE FROM entry_of epi WHERE epi = ?";
+		String exitOfEPISQL = "DELETE FROM exit_of_epi WHERE epi = ?";
 		try{
+			dataBase.executeUpdate(entryOfEPISQL, id);
+			dataBase.executeUpdate(exitOfEPISQL, id);
 			dataBase.executeUpdate(sql, id);
 		}catch(Exception e){
 			e.printStackTrace();

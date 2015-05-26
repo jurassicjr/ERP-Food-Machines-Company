@@ -86,12 +86,14 @@ public class RemoveOfEPIFrame extends JFrame{
 		cboEPI = new JComboBox<EPI>();
 		new ComboBoxAutoCompletion(cboEPI);
 		controller.fillEPI(cboEPI);
+		cboEPI.setSelectedIndex(-1);
 		
 		lblEmployee = new JLabel("Funcionário");
 		
 		cboEmployee = new JComboBox<Employee>();
 		new ComboBoxAutoCompletion(cboEmployee);
 		controller.fillEmployees(cboEmployee);
+		cboEmployee.setSelectedIndex(-1);
 		
 		lblQuantidade = new JLabel("Quantidade");
 		
@@ -207,6 +209,15 @@ public class RemoveOfEPIFrame extends JFrame{
 		btnCancel.addActionListener(buttonListener);
 		btnClear.addActionListener(buttonListener);
 		btnConfirm.addActionListener(buttonListener);
+		
+		ActionListener cboListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(cboEPI))showAmmount();
+			}
+		};
+		cboEPI.addActionListener(cboListener);
 	}
 	
 	private void confirm(){
@@ -234,12 +245,27 @@ public class RemoveOfEPIFrame extends JFrame{
 		rEPI.setE(e);
 		rEPI.setDate(date);
 		rEPI.setAmmount(ammount);
+		if(epi.getAmmount() < ammount){
+			ShowMessage.errorMessage(this, "Erro", "A quantidade para retirada é maior do que a do estoque atual!");
+			return;
+		}
+		ShowMessage.successMessage(this, "Sucesso", "Retirada efetuada com sucesso!");
 		controller.removeEPI(rEPI);
+		ClearFrame.clear(this);
+		cboEPI.removeAllItems();
+		controller.fillEPI(cboEPI);
+		cboEPI.setSelectedIndex(-1);
 	}
 	
 	private void clear(){
 		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar os dados?");
 		if(i == JOptionPane.NO_OPTION)return;
 		ClearFrame.clear(this);
+	}
+	
+	private void showAmmount(){
+		if(cboEPI.getSelectedIndex() == -1)return;
+		EPI epi =(EPI) cboEPI.getSelectedItem();
+		ShowMessage.successMessage(this, "Quantidade", "quantidade atual desse epi: " + epi.getAmmount());
 	}
 }

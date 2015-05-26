@@ -210,15 +210,6 @@ public class EntryOfEPIFrame extends JFrame{
 		btnAdd.addActionListener(buttonListener);
 		btnCancel.addActionListener(buttonListener);
 		btnClear.addActionListener(buttonListener);
-		
-		ActionListener cboListener = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				if(e.getSource().equals(cboEPI))showAmmount();
-			}
-		};
-		cboEPI.addActionListener(cboListener);
 	}
 	
 	private void add(){
@@ -246,10 +237,6 @@ public class EntryOfEPIFrame extends JFrame{
 		EPI epi = (EPI) cboEPI.getSelectedItem();
 		Date date = (Date) txtDate.getValue();
 		int ammount = (int) ammountSpinner.getValue();
-		if(epi.getAmmount() < ammount){
-			ShowMessage.errorMessage(this, "Erro", "A quantidade para retirada é maior do que a do estoque atual!");
-			return;
-		}
 		EntryOfEPI eoe = new EntryOfEPI();
 		eoe.setAmmount(ammount);
 		eoe.setCnpj(CNPJ);
@@ -269,9 +256,5 @@ public class EntryOfEPIFrame extends JFrame{
 		ClearFrame.clear(this);
 	}
 	
-	private void showAmmount(){
-		if(cboEPI.getSelectedIndex() == -1)return;
-		EPI epi =(EPI) cboEPI.getSelectedItem();
-		ShowMessage.successMessage(this, "Quantidade", "quantidade atual desse epi: " + epi.getAmmount());
-	}
+	
 }
