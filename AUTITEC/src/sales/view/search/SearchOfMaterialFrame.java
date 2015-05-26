@@ -155,10 +155,7 @@ public class SearchOfMaterialFrame extends JFrame {
 		String[] header = new String[] {"Material", "Quantidade"};
 		table.setModel(new DefaultTableModel(null, header) {
 
-			
-            /**
-			 * 
-			 */
+
             private static final long serialVersionUID = 6737039895901587009L;
 			
             boolean[] columnEditables = new boolean[] {

@@ -1,5 +1,6 @@
 import javax.swing.SwingUtilities;
 
+import product.view.search.SearchOfKitFrame;
 import login.view.LoginFrame;
 import rh.view.RegisterOfEPIFrame;
 import sales.view.search.SearchOfMaterialFrame;
@@ -14,7 +15,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		
+		/*
 		LoadingFrame loadingFrame = new LoadingFrame();  
 	
 		SwingUtilities.invokeLater(new Runnable(){  
@@ -26,7 +27,8 @@ public class Main {
 		
 		new LoginFrame().setVisible(true);
 		loadingFrame.dispose();
-				
+		*/
+		new SearchOfKitFrame().setVisible(true);
 	}
 
 }

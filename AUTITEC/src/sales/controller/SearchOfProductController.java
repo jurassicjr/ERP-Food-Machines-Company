@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import model.Product;
 import util.ClearFrame;
 import database.DataBase;
 
@@ -49,7 +50,28 @@ public class SearchOfProductController extends SalesController {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
         }
+	}
+	@SuppressWarnings("finally")
+	public Product getProductByName(String name)
+	{
 		
+		String sql = "SELECT * FROM compost_product where product = ?";
+		Product product = new Product();
+		try (ResultSet rs = dataBase.executeQuery(sql,name)) {
+			if (rs.next()) {
+				product.setId(rs.getInt("id"));
+				product.setName(rs.getString("product"));
+				product.setDescription(rs.getString("description"));
+			}
+			
+		} catch (SQLException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+		finally
+		{
+			return product;
+		}
 		
 	}
 }

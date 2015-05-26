@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -12,18 +14,23 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ScrollPaneConstants;
+import javax.swing.SingleSelectionModel;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
+import product.view.search.SearchOfKitFrame;
+import model.Product;
 import sales.controller.SearchOfProductController;
-import util.ClearFrame;
 
 public class SearchOfProductFrame extends JFrame{
 
@@ -38,6 +45,30 @@ public class SearchOfProductFrame extends JFrame{
 	private JLabel lblName;
 	private SearchOfProductController controller;
 	private JFrame frame = this;
+	private Product selectedProduct;
+	private SearchOfKitFrame requesterFrame;
+	private JTextField textFieldProduct;
+	
+	public void setTextFieldProduct(JTextField tf)
+	{
+		textFieldProduct = tf;	
+	}
+	
+	public void setRequesterFrame(SearchOfKitFrame reqFrame)
+	{
+		
+		requesterFrame = reqFrame;
+	}
+	public Product getSelectedProduct()
+	{
+		return selectedProduct;
+		
+	}
+	public void setSeletectedProduct(Product product)
+	{
+		product = selectedProduct;
+		
+	}
 	
 	public SearchOfProductFrame() {
 		controller = new SearchOfProductController();
@@ -53,7 +84,7 @@ public class SearchOfProductFrame extends JFrame{
 		initializePrincipal();
 		controller.queryAll(table);
 	}
-
+    
 	
 	private void initializePrincipal() {
 		principalPanel = new JPanel();
@@ -126,6 +157,7 @@ public class SearchOfProductFrame extends JFrame{
 		);
 		
 		table = new JTable();
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		String[] header = new String[] {"Produto", "Descrição"};
 		table.setModel(new DefaultTableModel(null, header) {
 
@@ -166,6 +198,10 @@ public class SearchOfProductFrame extends JFrame{
 		};
 		btnSearch.addActionListener(buttonListener);
 	}
+	public void setProductRequester(JDialog reqFrame)
+	{
+		
+	}
 	
 	private void verify() {
 		String name = txtName.getText();
@@ -175,4 +211,57 @@ public class SearchOfProductFrame extends JFrame{
 			controller.queryAll(table);
 			
 	}
+
+	public void setProductSelectable(Boolean flag)
+	{
+		if(flag)
+		{
+			SearchOfProductFrame fr = this;
+			MouseListener ac = new MouseListener() {
+				
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+					
+				}
+				
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					if(e.getClickCount() == 2)
+					{	
+							int line = table.getSelectedRow();
+							if(line > -1)
+							{
+							  String productName = 	table.getModel().getValueAt(line,0).toString();
+							  selectedProduct = controller.getProductByName(productName);
+							  textFieldProduct.setText(selectedProduct.getId()+" - "+selectedProduct.getName());
+							  frame.dispose();
+							}
+						}
+					}
+						
+			};
+			table.addMouseListener(ac);
+		}
+		
+	}
+	
 }
