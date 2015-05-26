@@ -245,6 +245,5 @@ public class SearchOfKitFrame extends  JDialog
 	};
 	
 	private JScrollPane scrollPane_1;
-	
 }
 
