@@ -3,17 +3,20 @@ package rh.controller;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import database.dao.EntryOfEPIDAO;
-import database.dao.EpiDAO;
 import model.EPI;
+import model.Employee;
 import model.EntryOfEPI;
 import util.ShowMessage;
+import database.dao.EmployeeDAO;
+import database.dao.EntryOfEPIDAO;
+import database.dao.EpiDAO;
 
 public class EntryOfEPIController {
 
@@ -45,4 +48,5 @@ public class EntryOfEPIController {
 		ArrayList<EPI> list = new EpiDAO().fillEPIs();
 		list.forEach(e -> cboEPI.addItem(e));
 	}
+
 }

@@ -2,7 +2,9 @@ package database.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JTable;
@@ -34,7 +36,12 @@ public class EmployeeDAO {
 		dataBase.connect();
 		persist(data);		
 	}
-		
+	
+	public EmployeeDAO() {
+		dataBase = new DataBase();
+		dataBase.connect();
+	}
+	
 	/**
 	 * Realiza a persistência do empregado
 	 */
@@ -317,6 +324,24 @@ public class EmployeeDAO {
 		
 		return employee;
 		
+	}
+	
+	public List<Employee> getEmployees(){
+		List<Employee> listE = new ArrayList<Employee>();
+		String query = "SELECT * FROM employee";
+		try(ResultSet rs = dataBase.executeQuery(query)){
+			while(rs.next()){
+				String name = rs.getString("name");
+				String cpf = rs.getString("cpf");
+				int id = rs.getInt("id");
+				Job job = JobDAO.getJobById(rs.getInt("job"));
+				Employee employee = new Employee(id, name, cpf, job);
+				listE.add(employee);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return listE;
 	}
 	
 }

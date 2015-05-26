@@ -53,6 +53,7 @@ public class EntryOfEPIFrame extends JFrame{
 	private JButton btnClear;
 	private EntryOfEPIController controller;
 	private DateField txtDate;
+	private JLabel lblDate;
 
 	public EntryOfEPIFrame() {
 		
@@ -99,7 +100,7 @@ public class EntryOfEPIFrame extends JFrame{
 		
 		JSeparator separator = new JSeparator();
 		
-		JLabel lblDate = new JLabel("Data");
+		lblDate = new JLabel("Data");
 		
 		txtDate = CalendarFactory.createDateField();
 		
@@ -209,6 +210,15 @@ public class EntryOfEPIFrame extends JFrame{
 		btnAdd.addActionListener(buttonListener);
 		btnCancel.addActionListener(buttonListener);
 		btnClear.addActionListener(buttonListener);
+		
+		ActionListener cboListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(cboEPI))showAmmount();
+			}
+		};
+		cboEPI.addActionListener(cboListener);
 	}
 	
 	private void add(){
@@ -236,6 +246,10 @@ public class EntryOfEPIFrame extends JFrame{
 		EPI epi = (EPI) cboEPI.getSelectedItem();
 		Date date = (Date) txtDate.getValue();
 		int ammount = (int) ammountSpinner.getValue();
+		if(epi.getAmmount() < ammount){
+			ShowMessage.errorMessage(this, "Erro", "A quantidade para retirada é maior do que a do estoque atual!");
+			return;
+		}
 		EntryOfEPI eoe = new EntryOfEPI();
 		eoe.setAmmount(ammount);
 		eoe.setCnpj(CNPJ);
@@ -250,6 +264,14 @@ public class EntryOfEPIFrame extends JFrame{
 	}
 	
 	private void clear(){
+		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar todos os campos ?");
+		if(i == JOptionPane.NO_OPTION)return;
 		ClearFrame.clear(this);
+	}
+	
+	private void showAmmount(){
+		if(cboEPI.getSelectedIndex() == -1)return;
+		EPI epi =(EPI) cboEPI.getSelectedItem();
+		ShowMessage.successMessage(this, "Quantidade", "quantidade atual desse epi: " + epi.getAmmount());
 	}
 }
