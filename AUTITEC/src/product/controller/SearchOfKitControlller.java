@@ -75,7 +75,7 @@ public class SearchOfKitControlller
 		    if(parameters.size()  == 0)
 		    	sql = sql.replace("WHERE","");
 		    sql+="order by kit_name";
-		    System.err.println(sql);
+		 
 			
 		    ArrayList<Kit> kits = new ArrayList<Kit>();
 			try(ResultSet rs = dataBase.executeQuery(sql,parameters)){
