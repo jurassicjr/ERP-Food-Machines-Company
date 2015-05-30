@@ -1,6 +1,7 @@
 package rh.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -73,6 +74,8 @@ public class RemoveOfEPIFrame extends JFrame{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Retirada de EPI's");
 		setBounds(100, 100, 400, 348);
+		setMinimumSize(new Dimension(400, 348));
+		setPreferredSize(new Dimension(400, 348));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

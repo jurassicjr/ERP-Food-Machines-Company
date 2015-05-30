@@ -1,6 +1,7 @@
 package rh.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -66,6 +67,8 @@ public class EntryOfEPIFrame extends JFrame{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Entrada de EPI's");
 		setBounds(100, 100, 400, 331);
+		setMinimumSize(new Dimension(400, 331));
+		setPreferredSize(new Dimension(400, 331));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

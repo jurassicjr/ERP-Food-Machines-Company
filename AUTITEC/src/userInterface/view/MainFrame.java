@@ -120,6 +120,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmRemoveOfEPI;
 
+	private JMenuItem mntmRegisterOfTraning;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -208,6 +210,11 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmRemoveOfEPI);
 		mntmRemoveOfEPI.setVisible(false);
 		mntmRemoveOfEPI.setName("RMV_EPI");
+		
+		mntmRegisterOfTraning = new JMenuItem("Registro de Treinamento");
+		mnRh.add(mntmRegisterOfTraning);
+		mntmRegisterOfTraning.setVisible(false);
+		mntmRegisterOfTraning.setName("REG_TRA");
 		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
@@ -450,6 +457,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmEpiUpdate);
 		menuItens.add(mntmInsertoOfEPI);
 		menuItens.add(mntmRemoveOfEPI);
+		menuItens.add(mntmRegisterOfTraning);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -511,6 +519,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmEpiUpdate))controller.epiUpdate();
 				else if(e.getSource().equals(mntmInsertoOfEPI))controller.insertOfEPI();
 				else if(e.getSource().equals(mntmRemoveOfEPI))controller.removeOfEPI();
+				else if(e.getSource().equals(mntmRegisterOfTraning))controller.registerOfTraining();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -554,6 +563,7 @@ public class MainFrame extends JFrame {
 		mntmEpiUpdate.addActionListener(menuListeners);
 		mntmInsertoOfEPI.addActionListener(menuListeners);
 		mntmRemoveOfEPI.addActionListener(menuListeners);
+		mntmRegisterOfTraning.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

@@ -19,6 +19,7 @@ import rh.view.EmployeeReportFrame;
 import rh.view.EntryOfEPIFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterOfEPIFrame;
+import rh.view.RegisterOfTrainingFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.RemoveOfEPIFrame;
 import rh.view.TechnicalStandardFrame;
@@ -490,6 +491,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				RemoveOfEPIFrame frame = new RemoveOfEPIFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	}
+
+	public void registerOfTraining() {
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				RegisterOfTrainingFrame frame = new RegisterOfTrainingFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
