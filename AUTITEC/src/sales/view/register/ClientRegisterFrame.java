@@ -64,12 +64,17 @@ public class ClientRegisterFrame extends JFrame {
 	private JButton btnCancel;
 
 	private ClientRegisterController controller;
+	
 	private JFrame frame;
+	
 	private JButton btnImport;
+	
 	private DateField txtBirthDate;
+	
 	private JLabel lblRg;
-	private JTextField txtRG;
 	private JLabel lblCpf;
+	
+	private JTextField txtRG;
 	private JTextField txtCPF;
 	private JTextField txtEmail;
 	private UpperTextField txtRazao;
@@ -80,9 +85,12 @@ public class ClientRegisterFrame extends JFrame {
 	private UpperTextField txtStreet;
 	private UpperTextField txtNeighborhood ;
 	private JFormattedTextField txtPhone;
+	
+	
 	private JComboBox<String> cboSex;
 	private JComboBox<State> cboState;
 	private JComboBox<City> cboCity;
+
 	private JTabbedPane tabbedPane;
 	
 	public ClientRegisterFrame() {
@@ -131,7 +139,7 @@ public class ClientRegisterFrame extends JFrame {
 										panel.setLayout(null);
 										
 										JLabel lblRazoSocial = new JLabel("Razão Social");
-										lblRazoSocial.setBounds(10, 11, 82, 14);
+										lblRazoSocial.setBounds(10, 11, 141, 14);
 										panel.add(lblRazoSocial);
 										
 										txtRazao = new UpperTextField();
@@ -149,7 +157,7 @@ public class ClientRegisterFrame extends JFrame {
 										txtCnpj.setColumns(10);
 										
 										JLabel lblIe = new JLabel("IE");
-										lblIe.setBounds(505, 11, 10, 14);
+										lblIe.setBounds(505, 11, 40, 14);
 										panel.add(lblIe);
 										
 										txtIE = new JTextField();
@@ -158,7 +166,7 @@ public class ClientRegisterFrame extends JFrame {
 										txtIE.setColumns(10);
 										
 										JLabel lblNewLabel = new JLabel("Nome do contato");
-										lblNewLabel.setBounds(10, 62, 111, 14);
+										lblNewLabel.setBounds(10, 62, 187, 14);
 										panel.add(lblNewLabel);
 										
 										txtContato = new UpperTextField();
@@ -171,12 +179,12 @@ public class ClientRegisterFrame extends JFrame {
 										panelPf.setLayout(null);
 										
 												txtName = new UpperTextField();
-												txtName.setBounds(47, 8, 334, 20);
+												txtName.setBounds(61, 8, 320, 20);
 												panelPf.add(txtName);
 												txtName.setColumns(10);
 												
 														lblName = new JLabel("Nome");
-														lblName.setBounds(10, 11, 33, 14);
+														lblName.setBounds(10, 11, 58, 14);
 														panelPf.add(lblName);
 														
 														txtBirthDate = CalendarFactory.createDateField();
@@ -198,7 +206,7 @@ public class ClientRegisterFrame extends JFrame {
 														txtRG.setColumns(10);
 														
 														lblCpf = new JLabel("CPF");
-														lblCpf.setBounds(190, 53, 38, 14);
+														lblCpf.setBounds(185, 53, 38, 14);
 														panelPf.add(lblCpf);
 														
 														txtCPF = new JTextField();
@@ -220,11 +228,11 @@ public class ClientRegisterFrame extends JFrame {
 										panel_1.setLayout(null);
 										
 										cboState = new JComboBox<State>();
-										cboState.setBounds(195, 42, 128, 20);
+										cboState.setBounds(219, 42, 128, 20);
 										panel_1.add(cboState);
 										
 										JLabel label = new JLabel("Estado");
-										label.setBounds(156, 42, 42, 20);
+										label.setBounds(156, 42, 73, 20);
 										panel_1.add(label);
 										
 										JLabel lblTe = new JLabel("Tel.");
@@ -255,29 +263,29 @@ public class ClientRegisterFrame extends JFrame {
 										panel_1.add(label_3);
 										
 										JLabel label_4 = new JLabel("Cidade");
-										label_4.setBounds(333, 45, 51, 14);
+										label_4.setBounds(365, 45, 51, 14);
 										panel_1.add(label_4);
 										
 										cboCity = new JComboBox<City>();
-										cboCity.setBounds(375, 42, 268, 20);
+										cboCity.setBounds(434, 42, 230, 20);
 										panel_1.add(cboCity);
 										
 										txtEmail = new JTextField();
 										txtEmail.setColumns(10);
-										txtEmail.setBounds(284, 76, 199, 20);
+										txtEmail.setBounds(299, 77, 365, 20);
 										panel_1.add(txtEmail);
 										
 										JLabel label_5 = new JLabel("email");
-										label_5.setBounds(250, 79, 33, 14);
+										label_5.setBounds(250, 79, 97, 14);
 										panel_1.add(label_5);
 										
 										txtNeighborhood = new UpperTextField();
 										txtNeighborhood.setColumns(10);
-										txtNeighborhood.setBounds(487, 11, 154, 20);
+										txtNeighborhood.setBounds(510, 11, 154, 20);
 										panel_1.add(txtNeighborhood);
 										
 										JLabel label_6 = new JLabel("Bairro");
-										label_6.setBounds(450, 12, 42, 14);
+										label_6.setBounds(450, 12, 56, 14);
 										panel_1.add(label_6);
 		initializeBotton();
 	}
