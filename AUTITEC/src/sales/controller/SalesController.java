@@ -22,7 +22,6 @@ import product.view.RegisterProductFrame;
 import product.view.UpdateOfKitFrame;
 import product.view.UpdateOfProductFrame;
 import sales.view.ApprovalOfSuppliersFrame;
-
 import sales.view.SalesOrderFrame;
 import sales.view.SalesRequisitionFrame;
 import sales.view.register.ClientRegisterFrame;
@@ -31,6 +30,7 @@ import sales.view.register.RegisterSuppliersFrame;
 import sales.view.report.ClientReportFrame;
 import sales.view.report.MaterialReportFrame;
 import sales.view.report.SupplierReportFrame;
+import sales.view.search.SearchOfClientFrame;
 import sales.view.search.SearchOfMaterialFrame;
 import sales.view.search.SearchOfProductFrame;
 import sales.view.update.MaterialUpdateFrame;
@@ -489,6 +489,19 @@ public class SalesController {
 			@Override
 			public void run() {
 				SearchOfProductFrame frame = new  SearchOfProductFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	    
+    }
+	public void clientSearch() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				SearchOfClientFrame frame = new  SearchOfClientFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

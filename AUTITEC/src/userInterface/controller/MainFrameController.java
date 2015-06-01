@@ -59,7 +59,7 @@ public class MainFrameController {
 	public static final int clientReport = 15;
 	public static final int materialSearch = 16;
 	public static final int productSearch = 17;
-
+	public static final int clientSearch = 18;
 	
 	private MainFrame mainFrame;
 
@@ -430,6 +430,8 @@ public class MainFrameController {
 			controller.materialSearch();
 		}else if(i==17) {
 			controller.productSearch();
+		}else if(i==18) {
+			controller.clientSearch();
 		}
 	}
 

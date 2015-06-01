@@ -28,17 +28,23 @@ public class ClientTableModel extends AbstractTableModel {
 
 	@Override
 	public Object getValueAt(int arg0, int arg1) {
-	    return lines.get(arg0);
+	  String value = lines.get(arg0).getName();
+	  return  !value.isEmpty() ? value :lines.get(arg0).getCompanyNAme();
 	}
 	   public String getColumnName(int column) {
 	        return headers[column];
 	    }
-	public void addKit(Client client)
+	public void addClient(Client client)
 	{
 			
 		lines.add(client);
 	}
-	public void removeKit(Integer line)
+	public Client getClient(Integer index)
+	{
+		return lines.get(index);
+		
+	}
+	public void removeClient(Integer line)
 	{
 		lines.remove(line);
 		
