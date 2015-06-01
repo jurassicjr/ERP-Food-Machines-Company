@@ -24,6 +24,7 @@ import rh.view.RegisterUserFrame;
 import rh.view.RemoveOfEPIFrame;
 import rh.view.TechnicalStandardFrame;
 import rh.view.UpdateOfEPIFrame;
+import rh.view.UpdateOfTrainingFrame;
 import rh.view.UpdatePermissionsFrame;
 import sales.controller.SalesController;
 import userInterface.components.NotificationButton;
@@ -504,6 +505,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				RegisterOfTrainingFrame frame = new RegisterOfTrainingFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	}
+
+	public void updateOfTraining() {
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				UpdateOfTrainingFrame frame = new UpdateOfTrainingFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

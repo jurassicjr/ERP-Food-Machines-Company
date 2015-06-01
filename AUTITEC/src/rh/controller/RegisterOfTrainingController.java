@@ -42,6 +42,7 @@ public class RegisterOfTrainingController {
 		String objective = t.getObjective();
 		String period = t.getPeriod();
 		String title = t.getTitle();
+		String place = t.getPlace();
 		
 		Map<String, Object> map = new HashMap<String, Object>();
 		
@@ -53,6 +54,7 @@ public class RegisterOfTrainingController {
 		map.put("objective", objective);
 		map.put("period", period);
 		map.put("title", title);
+		map.put("place", place);
 		
 		new TrainingDAO().register(map);
 	}

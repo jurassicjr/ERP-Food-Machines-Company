@@ -420,6 +420,7 @@ public class RegisterOfTrainingFrame extends JFrame{
 		t.setPeriod(period);
 		t.setTitle(title);
 		t.setEmployeeList(list);
+		t.setPlace(txtPlace.getText());
 		controller.register(t);
 		ShowMessage.successMessage(this, "Sucesso", "Treinamento registrado com êxito!");
 		ClearFrame.clear(this);

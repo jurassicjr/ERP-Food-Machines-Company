@@ -196,7 +196,8 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Atualização/Remoção de EPI's", false, "EPI_UPD"),
 				new CheckBoxNode("Inserção de Epi's", false, "IST_EPI"),
 				new CheckBoxNode("Retirada de EPI's", false, "RMV_EPI"),
-				new CheckBoxNode("Registro de Treinamento", false, "REG_TRA")
+				new CheckBoxNode("Registro de Treinamento", false, "REG_TRA"),
+				new CheckBoxNode("Atualização/Remoção de treinamento", false, "UPD_TRA")
 		};
 		    
 		CheckBoxNode financialOptions[] = {

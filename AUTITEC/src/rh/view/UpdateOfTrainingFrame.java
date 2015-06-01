@@ -2,6 +2,8 @@ package rh.view;
 
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -12,17 +14,21 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
 
 import rh.controller.UpdateOfTrainingController;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import userInterface.components.ComboBoxAutoCompletion;
+import util.ClearFrame;
+import util.ShowMessage;
 import model.Employee;
 import model.Training;
 
@@ -284,5 +290,60 @@ public class UpdateOfTrainingFrame extends JFrame{
 					controller.close();
 				}
 		});
+		
+		ActionListener buttonListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(btnAdd))addEmployee();
+				else if(e.getSource().equals(btnCancel))controller.close();
+				else if(e.getSource().equals(btnClear))clear();
+				else if(e.getSource().equals(btnConfirm))confirm();
+			}
+		};
+		btnAdd.addActionListener(buttonListener);
+		btnCancel.addActionListener(buttonListener);
+		btnClear.addActionListener(buttonListener);
+		btnConfirm.addActionListener(buttonListener);
+		
+		
+		ActionListener cboListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(cboTraining))fillFields();
+			}
+		};
+	}
+	
+	private void addEmployee(){
+		if(cboEmployee.getSelectedIndex() == -1){
+			ShowMessage.errorMessage(this, "Erro", "Selecione um empregados para adicionar");
+			return;
+		}
+		Employee e = (Employee) cboEmployee.getSelectedItem();
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		String employeeFunction = e.getJob().getCbo().getTitle();
+		tbl.addRow(new Object[]{e, employeeFunction});
+	}
+	
+	private void clear(){
+		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar os campos");
+		if(i == JOptionPane.YES_OPTION)ClearFrame.clear(this);
+	}
+	
+	private void confirm(){
+		
+	}
+	
+	private void fillFields(){
+		if(cboTraining.getSelectedIndex() == -1)return;
+		Training t = (Training) cboTraining.getSelectedItem();
+		txtTitle.setText(t.getTitle());
+		txtDate.setValue(t.getDate());
+		txtMotive.setText(t.getMotive());
+		txtPlace.setText(t.getPlace());
+		txtDuration.setText(t.getDuration());
+		cboEventType.setSelectedItem(t.getEventType());
 	}
 }

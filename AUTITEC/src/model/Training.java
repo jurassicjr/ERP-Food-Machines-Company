@@ -13,6 +13,7 @@ public class Training {
 	Date date;
 	List<Employee> employeeList;
 	String motive;
+	private String place;
 	
 	public String getTitle() {
 		return title;
@@ -61,6 +62,12 @@ public class Training {
 	}
 	public void setMotive(String motive) {
 		this.motive = motive;
+	}
+	public String getPlace() {
+		return place;
+	}
+	public void setPlace(String place) {
+		this.place = place;
 	}
 
 }
