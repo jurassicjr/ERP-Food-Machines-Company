@@ -35,7 +35,7 @@ public class ClientDAO {
 		Object[] persist = new Object[] {name, street, neighborhood, city, state, CEP, phone, email,
 				razao,cpf,cnpj,ie,sex,contact,date,rg};
 		String sql = "INSERT INTO client(name, street, neighborhood, city, state, cep, phone, email,"
-				+ "companyNAme,cpf,cnpj,ie,sex,contact,date,rg) VALUES(?, ?, ? ,? , ?, ?, ?, ?,?,?,?,?,?,?,?,?)";
+				+ "companyNAme,cpf,cnpj,ie,sex,companycontactname,birthdate,rg) VALUES(?, ?, ? ,? , ?, ?, ?, ?,?,?,?,?,?,?,?,?)";
 		dataBase.executeUpdate(sql, persist);
 	}
 }

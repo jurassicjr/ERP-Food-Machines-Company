@@ -31,6 +31,7 @@ public class SearchOfClientController
 					Client client  = new Client();
 					client.setId(rs.getInt("id"));
 					client.setName(rs.getString("name"));
+					client.setCompanyNAme(rs.getString("companyname"));
 					clients.add(client);	
 				}
 				clientModel = new ClientTableModel(clients);
@@ -40,22 +41,49 @@ public class SearchOfClientController
 		        e.printStackTrace();
 	        }
 	}
-	public void search(JTable table,String name,String c)
+	public void search(JTable table,String param,String fieldToSearch)
 	{
 
 		    String sql = "SELECT * FROM client where ";
-		    Boolean flagName = false;
+		    ResultSet rs;
+		    try{
+		    	
+		    if(fieldToSearch.equals("name/company"))
+		    {
+		    	sql+=" name like ?"; 
+		    	param+="%";
 		    
-
-		    
+		    	rs = dataBase.executeQuery(sql,param);
+		    	if(!rs.next())
+		    	{
+		    		sql = sql.replace(" name like ?","");
+		    		
+		    		sql+=" companyname like ?"; 
+		    		rs = dataBase.executeQuery(sql,param);
+		    	}
+		    }
+		    else
+		    {  
+		    	sql+=" cpf = ?"; 
+		    	rs = dataBase.executeQuery(sql,param);
+		    	if(!rs.next())
+		    	{
+		    		sql = sql.replace(" cpf = ?", "");
+		    		sql+=" cnpj = ? "; 
+		    		rs = dataBase.executeQuery(sql,param);
+		    	}
+		    	
+		    }  		
 		    sql+=" order by name";	
+		    System.err.println(sql);
 		    ArrayList<Client> clients = new ArrayList<Client>();
-			try(ResultSet rs = dataBase.executeQuery(sql)){
+			rs.beforeFirst();
 				while(rs.next()) {
 					
 					Client client  = new Client();
 					client.setId(rs.getInt("id"));
 					client.setName(rs.getString("name"));
+					client.setCompanyNAme(rs.getString("companyname"));
 					clients.add(client);	
 				}
 				clientModel = new ClientTableModel(clients);

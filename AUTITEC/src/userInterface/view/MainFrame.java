@@ -107,7 +107,9 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmMaterialSearch;
 
 	private JMenuItem mntmProductSearch;
-
+    
+	private JMenuItem mntmClientSearch;
+	
 	private JMenu mnRegisterBuy;
 
 	private JMenu mnUpdateBuy;
@@ -411,6 +413,10 @@ public class MainFrame extends JFrame {
 		mntmProductSearch.setName("SEA_PROD");
 		mntmProductSearch.setVisible(false);
 		
+		mntmClientSearch = new JMenuItem("Consulta de clientes");
+		mnSearch.add(mntmClientSearch);
+		mntmClientSearch.setName("SEA_CLI");
+		mntmClientSearch.setVisible(false);
 		
 		//Produção
 		mntmProductionStage = new JMenuItem("Estágios de Produção");
@@ -493,7 +499,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmClientReport);
 		menuItens.add(mntmMaterialSearch);
 		menuItens.add(mntmProductSearch);
-		
+		menuItens.add(mntmClientSearch);
 		menuItens.add(mntmProductionStage);
 		
 	}
@@ -548,6 +554,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmClientReport))controller.Sales(MainFrameController.clientReport);
 				else if (e.getSource().equals(mntmMaterialSearch))controller.Sales(MainFrameController.materialSearch);
 				else if (e.getSource().equals(mntmProductSearch))controller.Sales(MainFrameController.productSearch);
+				else if (e.getSource().equals(mntmClientSearch))controller.Sales(MainFrameController.clientSearch);
 			}
 		};
 		
@@ -591,6 +598,7 @@ public class MainFrame extends JFrame {
 		mntmClientReport.addActionListener(menuListeners);
 		mntmProductSearch.addActionListener(menuListeners);
 		mntmMaterialSearch.addActionListener(menuListeners);
+		mntmClientSearch.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

@@ -43,6 +43,9 @@ import util.Icon;
 import util.ShowMessage;
 
 import javax.swing.DefaultComboBoxModel;
+import net.miginfocom.swing.MigLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class ClientRegisterFrame extends JFrame {
 
@@ -94,23 +97,34 @@ public class ClientRegisterFrame extends JFrame {
 		Icon.setIcon(frame);
 		setTitle("REGISTRO DE CLIENTES");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 775, 100);
+		setBounds(100, 100, 811, 270);
 		setMinimumSize(new Dimension(506, 270));
-		setPreferredSize(new Dimension(506, 270));
+		setPreferredSize(new Dimension(811, 270));
 		initializePrincipal();
 		controller.fillStateAndCity(cboState, cboCity);
+		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
+		gl_principalPanel.setHorizontalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addGap(7)
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 741, GroupLayout.PREFERRED_SIZE))
+		);
+		gl_principalPanel.setVerticalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addGap(6)
+					.addComponent(tabbedPane, GroupLayout.PREFERRED_SIZE, 147, GroupLayout.PREFERRED_SIZE))
+		);
+		principalPanel.setLayout(gl_principalPanel);
 	}
 
 	private void initializePrincipal() {
 		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
-		principalPanel.setLayout(null);
 		
 		
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.setBounds(10, 11, 739, 144);
-		principalPanel.add(tabbedPane);
 										
 										JPanel panel = new JPanel();
 										tabbedPane.addTab("Pessoa Jurídica", null, panel, null);
@@ -382,17 +396,28 @@ public class ClientRegisterFrame extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (e.getSource().equals(btnCancel))
-					controller.closeFrame(frame);
-				else if (e.getSource().equals(btnConfirmar)) {
-					int i = ShowMessage.questionMessage(frame, "REGISTRO", "Deseja mesmo registrar esse cliente ?");
-					if (i == JOptionPane.YES_OPTION) {
-						doCliente();
-						ShowMessage.successMessage(frame, "REGISTRO", "registo de Cliente realizado com sucesso!");
-						ClearFrame.clear(frame);
-					}
 
-				} else if (e.getSource().equals(btnImport)) {
+				if (e.getSource().equals(btnCancel))
+				{
+					controller.closeFrame(frame);
+				}
+				else if (e.getSource().equals(btnConfirmar)) {
+					if(isValidaContactData())
+					{
+						if(ShowMessage.questionMessage(frame, "REGISTRO", "Deseja mesmo registrar esse cliente ?")==
+								JOptionPane.YES_OPTION)
+						{
+							doCliente();
+							ShowMessage.successMessage(frame, "REGISTRO", "registo de Cliente realizado com sucesso!");
+							ClearFrame.clear(frame);
+						}
+					}
+					else
+						ShowMessage.errorMessage(null,"Dados inválidos", "Preencha os dados de correspondência");
+						
+				}
+					
+			  else if (e.getSource().equals(btnImport)) {
 					EventQueue.invokeLater(new Runnable() {
 
 						@Override
@@ -416,6 +441,16 @@ public class ClientRegisterFrame extends JFrame {
 		txtCnpj.addKeyListener(OnlyDigitsKeyListener);
 		txtIE.addKeyListener(OnlyDigitsKeyListener);
 	}
+	private boolean isValidaContactData()
+	{
+		return !txtStreet.getText().isEmpty() &&
+			   !txtCEP.getText().isEmpty() &&	
+			   !txtNeighborhood.getText().isEmpty() &&
+			   !txtPhone.getText().isEmpty() && 
+			   !txtEmail.getText().isEmpty() &&
+			   cboCity.getSelectedItem()!=null &&
+			   cboState.getSelectedItem()!=null;	
+	}
 	private void clearPJData()
 	{	
 		txtRazao.setText("");
@@ -432,7 +467,9 @@ public class ClientRegisterFrame extends JFrame {
 	}
 	private void doCliente() {
 		
-		SimpleDateFormat spdt = new SimpleDateFormat("dd/MM/yyyy");
+	
+		String sex = "";
+		Date birthDate=null ;
 		
 		Client client = new Client();
 		String name = txtName.getText();
@@ -447,9 +484,15 @@ public class ClientRegisterFrame extends JFrame {
 		String cnpj = txtCnpj.getText();
 		String razao = txtRazao.getText();
 		String ie = txtIE.getText();
-		String sex = String.valueOf(cboSex.getSelectedItem().toString().charAt(0));
+		if(cboSex.getSelectedItem()!=null)
+			sex = String.valueOf(cboSex.getSelectedItem().toString().charAt(0));
 		String contact =  txtContato.getText() ;
 		String rg = txtRG.getText();
+		if(txtBirthDate.getValue()!=null)
+		{
+			java.util.Date birth = (java.util.Date) txtBirthDate.getValue();
+		    birthDate =  new java.sql.Date(birth.getTime());
+		}
 		
 		client.setName(name);
 		client.setStreet(street);
@@ -466,7 +509,7 @@ public class ClientRegisterFrame extends JFrame {
 		client.setIe(ie);
 		client.setSex(sex);
 		client.setContactName(contact);
-		
+		client.setBirthDate(birthDate);
 		
 		
 

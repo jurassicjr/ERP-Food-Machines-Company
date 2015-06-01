@@ -1,12 +1,6 @@
 import javax.swing.SwingUtilities;
 
-import product.view.search.SearchOfKitFrame;
 import login.view.LoginFrame;
-import rh.view.RegisterOfEPIFrame;
-import sales.view.register.ClientRegisterFrame;
-import sales.view.search.SearchOfClientFrame;
-import sales.view.search.SearchOfMaterialFrame;
-import sales.view.search.SearchOfProductFrame;
 import userInterface.view.LoadingFrame;
 import util.UpdateSoftware;
 
@@ -17,7 +11,7 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-	
+	  
 		LoadingFrame loadingFrame = new LoadingFrame();  
 	
 		SwingUtilities.invokeLater(new Runnable(){  
@@ -29,8 +23,7 @@ public class Main {
 		
 		new LoginFrame().setVisible(true);
 		loadingFrame.dispose();
-	
-		
+
 	}
 
 }

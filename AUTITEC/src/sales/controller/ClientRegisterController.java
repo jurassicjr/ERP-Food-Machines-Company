@@ -32,14 +32,14 @@ public class ClientRegisterController extends SalesController{
 	    map.put("cep", client.getCep());
 	    map.put("phone", client.getPhone());
 	    map.put("email", client.getEmail());
-	    map.put("companyNAme", client.getCompanyNAme());
+	    map.put("company_name", client.getCompanyNAme());
 	    map.put("cpf",client.getCpf());
 	    map.put("rg",client.getRg());
 	    map.put("cnpj",client.getCnpj());
 	    map.put("ie",client.getIe());
 	    map.put("contact",client.getContactName());
 	    map.put("sex",client.getSex());
-	    map.put("birthDate",client.getBirthDate());
+	    map.put("birth_Date",client.getBirthDate());
 	    
 	    
 	    cDAO.persistRegister(map);
