@@ -1,40 +1,48 @@
 package sales.view.register;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.sql.Date;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
+import javax.swing.JFormattedTextField.AbstractFormatter;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.text.MaskFormatter;
 
 import model.City;
 import model.Client;
 import model.State;
+import net.sf.nachocalendar.CalendarFactory;
+import net.sf.nachocalendar.components.DateField;
 import sales.controller.ClientRegisterController;
 import sales.view.ImportClientFrame;
-import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
+
+import javax.swing.DefaultComboBoxModel;
 
 public class ClientRegisterFrame extends JFrame {
 
@@ -46,30 +54,34 @@ public class ClientRegisterFrame extends JFrame {
 	private JPanel bottonPanel;
 
 	private JTextField txtName;
-	private JTextField txtStreet;
-	private JTextField txtNeighborhood;
-	private JTextField txtCEP;
-	private JTextField txtPhone;
 
 	private JLabel lblName;
-	private JLabel lblStreet;
-	private JLabel lblNeighborhood;
-	private JLabel lblCep;
-	private JLabel lblState;
-	private JLabel lblCity;
-	private JLabel lblPhone;
-
-	private JComboBox<State> cboState;
-	private JComboBox<City> cboCity;
 
 	private JButton btnConfirmar;
 	private JButton btnCancel;
 
 	private ClientRegisterController controller;
 	private JFrame frame;
-	private JTextField txtEmail;
 	private JButton btnImport;
-
+	private DateField txtBirthDate;
+	private JLabel lblRg;
+	private JTextField txtRG;
+	private JLabel lblCpf;
+	private JTextField txtCPF;
+	private JTextField txtEmail;
+	private UpperTextField txtRazao;
+	private JTextField txtCnpj;
+	private JTextField txtIE;
+	private UpperTextField txtContato;
+	private JFormattedTextField txtCEP;
+	private UpperTextField txtStreet;
+	private UpperTextField txtNeighborhood ;
+	private JFormattedTextField txtPhone;
+	private JComboBox<String> cboSex;
+	private JComboBox<State> cboState;
+	private JComboBox<City> cboCity;
+	private JTabbedPane tabbedPane;
+	
 	public ClientRegisterFrame() {
 		frame = this;
 		controller = new ClientRegisterController();
@@ -82,247 +94,177 @@ public class ClientRegisterFrame extends JFrame {
 		Icon.setIcon(frame);
 		setTitle("REGISTRO DE CLIENTES");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 506, 270);
+		setBounds(100, 100, 775, 100);
 		setMinimumSize(new Dimension(506, 270));
 		setPreferredSize(new Dimension(506, 270));
 		initializePrincipal();
+		controller.fillStateAndCity(cboState, cboCity);
 	}
 
 	private void initializePrincipal() {
 		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
-
-		lblName = new JLabel("Nome");
-
-		txtName = new UpperTextField();
-		txtName.setColumns(10);
-
-		lblStreet = new JLabel("Rua");
-
-		txtStreet = new UpperTextField();
-		txtStreet.setColumns(10);
-
-		lblNeighborhood = new JLabel("Bairro");
-
-		txtNeighborhood = new UpperTextField();
-		txtNeighborhood.setColumns(10);
-
-		lblCep = new JLabel("C.E.P");
-
-		try {
-			txtCEP = new JFormattedTextField(new MaskFormatter("##.###-###"));
-		} catch (ParseException e1) {
-			e1.printStackTrace();
-		}
-		txtCEP.setColumns(10);
-
-		lblState = new JLabel("Estado");
-
-		cboState = new JComboBox<State>();
-		ComboBoxAutoCompletion cboAState = new ComboBoxAutoCompletion(cboState);
-		lblCity = new JLabel("Cidade");
-
-		cboCity = new JComboBox<City>();
-		ComboBoxAutoCompletion cboACity = new ComboBoxAutoCompletion(cboCity);
-		controller.fillStateAndCity(cboState, cboCity);
-
-		lblPhone = new JLabel("Telefone");
-
-		try {
-			txtPhone = new JFormattedTextField(new MaskFormatter("(##)####-####"));
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		txtPhone.setColumns(10);
-
-		JSeparator separator = new JSeparator();
-
-		JLabel lblEmail = new JLabel("email");
-
-		txtEmail = new JTextField();
-		txtEmail.setColumns(10);
-		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel
-		        .setHorizontalGroup(gl_principalPanel
-		                .createParallelGroup(Alignment.LEADING)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createSequentialGroup()
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createParallelGroup(Alignment.LEADING)
-		                                                .addGroup(
-		                                                        gl_principalPanel
-		                                                                .createSequentialGroup()
-		                                                                .addContainerGap()
-		                                                                .addGroup(
-		                                                                        gl_principalPanel
-		                                                                                .createParallelGroup(
-		                                                                                        Alignment.LEADING)
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblName)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtName,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        439,
-		                                                                                                        Short.MAX_VALUE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblStreet)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtStreet,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        447,
-		                                                                                                        Short.MAX_VALUE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addGroup(
-		                                                                                                        gl_principalPanel
-		                                                                                                                .createParallelGroup(
-		                                                                                                                        Alignment.LEADING,
-		                                                                                                                        false)
-		                                                                                                                .addGroup(
-		                                                                                                                        gl_principalPanel
-		                                                                                                                                .createSequentialGroup()
-		                                                                                                                                .addComponent(
-		                                                                                                                                        lblPhone)
-		                                                                                                                                .addPreferredGap(
-		                                                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                                                .addComponent(
-		                                                                                                                                        txtPhone))
-		                                                                                                                .addGroup(
-		                                                                                                                        gl_principalPanel
-		                                                                                                                                .createSequentialGroup()
-		                                                                                                                                .addComponent(
-		                                                                                                                                        lblState)
-		                                                                                                                                .addPreferredGap(
-		                                                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                                                .addComponent(
-		                                                                                                                                        cboState,
-		                                                                                                                                        0,
-		                                                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                                                        Short.MAX_VALUE))
-		                                                                                                                .addGroup(
-		                                                                                                                        gl_principalPanel
-		                                                                                                                                .createSequentialGroup()
-		                                                                                                                                .addComponent(
-		                                                                                                                                        lblNeighborhood)
-		                                                                                                                                .addPreferredGap(
-		                                                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                                                .addComponent(
-		                                                                                                                                        txtNeighborhood,
-		                                                                                                                                        GroupLayout.PREFERRED_SIZE,
-		                                                                                                                                        193,
-		                                                                                                                                        GroupLayout.PREFERRED_SIZE)))
-		                                                                                                .addGap(18)
-		                                                                                                .addGroup(
-		                                                                                                        gl_principalPanel
-		                                                                                                                .createParallelGroup(
-		                                                                                                                        Alignment.LEADING)
-		                                                                                                                .addGroup(
-		                                                                                                                        gl_principalPanel
-		                                                                                                                                .createSequentialGroup()
-		                                                                                                                                .addComponent(
-		                                                                                                                                        lblEmail)
-		                                                                                                                                .addPreferredGap(
-		                                                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                                                .addComponent(
-		                                                                                                                                        txtEmail,
-		                                                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                                                        199,
-		                                                                                                                                        Short.MAX_VALUE))
-		                                                                                                                .addGroup(
-		                                                                                                                        gl_principalPanel
-		                                                                                                                                .createSequentialGroup()
-		                                                                                                                                .addComponent(
-		                                                                                                                                        lblCep)
-		                                                                                                                                .addPreferredGap(
-		                                                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                                                .addComponent(
-		                                                                                                                                        txtCEP,
-		                                                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                                                        196,
-		                                                                                                                                        Short.MAX_VALUE))
-		                                                                                                                .addGroup(
-		                                                                                                                        gl_principalPanel
-		                                                                                                                                .createSequentialGroup()
-		                                                                                                                                .addComponent(
-		                                                                                                                                        lblCity)
-		                                                                                                                                .addPreferredGap(
-		                                                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                                                .addComponent(
-		                                                                                                                                        cboCity,
-		                                                                                                                                        0,
-		                                                                                                                                        190,
-		                                                                                                                                        Short.MAX_VALUE))))))
-		                                                .addGroup(
-		                                                        gl_principalPanel
-		                                                                .createSequentialGroup()
-		                                                                .addGap(11)
-		                                                                .addComponent(separator,
-		                                                                        GroupLayout.DEFAULT_SIZE, 469,
-		                                                                        Short.MAX_VALUE))).addContainerGap()));
-		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblName)
-		                                .addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblStreet)
-		                                .addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNeighborhood)
-		                                .addComponent(txtNeighborhood, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblCep)
-		                                .addComponent(txtCEP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblState)
-		                                .addComponent(cboState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblCity)
-		                                .addComponent(cboCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblPhone)
-		                                .addComponent(txtPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblEmail)
-		                                .addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.RELATED)
-		                .addComponent(separator, GroupLayout.PREFERRED_SIZE, 9, GroupLayout.PREFERRED_SIZE)
-		                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
-		principalPanel.setLayout(gl_principalPanel);
+		principalPanel.setLayout(null);
+		
+		
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.setBounds(10, 11, 739, 144);
+		principalPanel.add(tabbedPane);
+										
+										JPanel panel = new JPanel();
+										tabbedPane.addTab("Pessoa Jurídica", null, panel, null);
+										panel.setLayout(null);
+										
+										JLabel lblRazoSocial = new JLabel("Razão Social");
+										lblRazoSocial.setBounds(10, 11, 82, 14);
+										panel.add(lblRazoSocial);
+										
+										txtRazao = new UpperTextField();
+										txtRazao.setBounds(10, 31, 312, 20);
+										panel.add(txtRazao);
+										txtRazao.setColumns(10);
+										
+										JLabel lblCnpj = new JLabel("CNPJ");
+										lblCnpj.setBounds(332, 11, 46, 14);
+										panel.add(lblCnpj);
+										
+										txtCnpj = new JTextField();
+										txtCnpj.setBounds(332, 31, 163, 20);
+										panel.add(txtCnpj);
+										txtCnpj.setColumns(10);
+										
+										JLabel lblIe = new JLabel("IE");
+										lblIe.setBounds(505, 11, 10, 14);
+										panel.add(lblIe);
+										
+										txtIE = new JTextField();
+										txtIE.setBounds(505, 31, 150, 20);
+										panel.add(txtIE);
+										txtIE.setColumns(10);
+										
+										JLabel lblNewLabel = new JLabel("Nome do contato");
+										lblNewLabel.setBounds(10, 62, 111, 14);
+										panel.add(lblNewLabel);
+										
+										txtContato = new UpperTextField();
+										txtContato.setBounds(10, 85, 283, 20);
+										panel.add(txtContato);
+										txtContato.setColumns(10);
+										
+										JPanel panelPf = new JPanel();
+										tabbedPane.addTab("Pessoa física", null, panelPf, null);
+										panelPf.setLayout(null);
+										
+												txtName = new UpperTextField();
+												txtName.setBounds(47, 8, 334, 20);
+												panelPf.add(txtName);
+												txtName.setColumns(10);
+												
+														lblName = new JLabel("Nome");
+														lblName.setBounds(10, 11, 33, 14);
+														panelPf.add(lblName);
+														
+														txtBirthDate = CalendarFactory.createDateField();
+														txtBirthDate.setBounds(517, 8, 97, 20);
+														panelPf.add(txtBirthDate);
+									
+														
+														JLabel lblDataDeNascimento = new JLabel("Data de nascimento");
+														lblDataDeNascimento.setBounds(391, 11, 125, 14);
+														panelPf.add(lblDataDeNascimento);
+														
+														lblRg = new JLabel("RG");
+														lblRg.setBounds(10, 53, 33, 14);
+														panelPf.add(lblRg);
+														
+														txtRG = new JTextField();
+														txtRG.setBounds(47, 50, 133, 20);
+														panelPf.add(txtRG);
+														txtRG.setColumns(10);
+														
+														lblCpf = new JLabel("CPF");
+														lblCpf.setBounds(190, 53, 38, 14);
+														panelPf.add(lblCpf);
+														
+														txtCPF = new JTextField();
+														txtCPF.setBounds(215, 50, 166, 20);
+														panelPf.add(txtCPF);
+														txtCPF.setColumns(10);
+														
+														cboSex = new JComboBox();
+														cboSex.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Feminino"}));
+														cboSex.setBounds(428, 50, 186, 20);
+														panelPf.add(cboSex);
+														
+														JLabel lblSexo = new JLabel("Sexo");
+														lblSexo.setBounds(391, 53, 38, 14);
+														panelPf.add(lblSexo);
+										
+										JPanel panel_1 = new JPanel();
+										tabbedPane.addTab("Correspondência", null, panel_1, null);
+										panel_1.setLayout(null);
+										
+										cboState = new JComboBox<State>();
+										cboState.setBounds(195, 42, 128, 20);
+										panel_1.add(cboState);
+										
+										JLabel label = new JLabel("Estado");
+										label.setBounds(156, 42, 42, 20);
+										panel_1.add(label);
+										
+										JLabel lblTe = new JLabel("Tel.");
+										lblTe.setBounds(10, 79, 42, 14);
+										panel_1.add(lblTe);
+										
+										txtPhone = new JFormattedTextField();
+										txtPhone.setColumns(10);
+										txtPhone.setBounds(49, 76, 191, 20);
+										panel_1.add(txtPhone);
+										
+										txtStreet = new UpperTextField();
+										txtStreet.setColumns(10);
+										txtStreet.setBounds(49, 11, 393, 20);
+										panel_1.add(txtStreet);
+										
+										JLabel label_2 = new JLabel("Rua");
+										label_2.setBounds(10, 14, 42, 14);
+										panel_1.add(label_2);
+										
+										txtCEP = new JFormattedTextField((Object) null);
+										txtCEP.setColumns(10);
+										txtCEP.setBounds(49, 42, 97, 20);
+										panel_1.add(txtCEP);
+										
+										JLabel label_3 = new JLabel("C.E.P");
+										label_3.setBounds(10, 45, 42, 14);
+										panel_1.add(label_3);
+										
+										JLabel label_4 = new JLabel("Cidade");
+										label_4.setBounds(333, 45, 51, 14);
+										panel_1.add(label_4);
+										
+										cboCity = new JComboBox<City>();
+										cboCity.setBounds(375, 42, 268, 20);
+										panel_1.add(cboCity);
+										
+										txtEmail = new JTextField();
+										txtEmail.setColumns(10);
+										txtEmail.setBounds(284, 76, 199, 20);
+										panel_1.add(txtEmail);
+										
+										JLabel label_5 = new JLabel("email");
+										label_5.setBounds(250, 79, 33, 14);
+										panel_1.add(label_5);
+										
+										txtNeighborhood = new UpperTextField();
+										txtNeighborhood.setColumns(10);
+										txtNeighborhood.setBounds(487, 11, 154, 20);
+										panel_1.add(txtNeighborhood);
+										
+										JLabel label_6 = new JLabel("Bairro");
+										label_6.setBounds(450, 12, 42, 14);
+										panel_1.add(label_6);
 		initializeBotton();
 	}
 
@@ -351,7 +293,91 @@ public class ClientRegisterFrame extends JFrame {
 				controller.closeFrame(frame);
 			}
 		});
-
+		
+		MouseListener mouseListener = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(e.getSource().equals(tabbedPane))
+				{
+					int selectedTab = tabbedPane.getSelectedIndex() ;
+					if(selectedTab == 0)
+					{
+						clearPFData();
+						txtRazao.grabFocus();
+					}
+					else
+					if(selectedTab == 1)
+					{
+						clearPJData();
+						txtName.grabFocus();
+					}
+					
+				}
+				
+			}
+		};
+		
+		KeyListener OnlyDigitsKeyListener = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getSource().equals(txtCPF))
+				{
+					if(!Character.isDigit(e.getKeyChar()) || txtCPF.getText().length() >=11)
+						e.setKeyChar('\0');
+				}
+				else
+				if(e.getSource().equals(txtCnpj))
+				{
+					if(!Character.isDigit(e.getKeyChar()))
+						e.setKeyChar('\0');
+				}
+				if(e.getSource().equals(txtIE))
+				{
+					if(!Character.isDigit(e.getKeyChar()))
+						e.setKeyChar('\0');
+				}
+			}
+				
+			
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+				
+		};
 		ActionListener buttonListener = new ActionListener() {
 
 			@Override
@@ -378,14 +404,36 @@ public class ClientRegisterFrame extends JFrame {
 						}
 					});
 				}
+				
 			}
 		};
+		
 		btnImport.addActionListener(buttonListener);
 		btnConfirmar.addActionListener(buttonListener);
 		btnCancel.addActionListener(buttonListener);
+		tabbedPane.addMouseListener(mouseListener);
+		txtCPF.addKeyListener(OnlyDigitsKeyListener);
+		txtCnpj.addKeyListener(OnlyDigitsKeyListener);
+		txtIE.addKeyListener(OnlyDigitsKeyListener);
 	}
-
+	private void clearPJData()
+	{	
+		txtRazao.setText("");
+		txtContato.setText("");
+		txtCnpj.setText("");
+		txtIE.setText("");
+	}
+	private void clearPFData()
+	{
+		txtName.setText("");
+		txtRG.setText("");
+		txtCPF.setText("");
+		cboSex.setSelectedItem(null);
+	}
 	private void doCliente() {
+		
+		SimpleDateFormat spdt = new SimpleDateFormat("dd/MM/yyyy");
+		
 		Client client = new Client();
 		String name = txtName.getText();
 		String street = txtStreet.getText();
@@ -395,7 +443,14 @@ public class ClientRegisterFrame extends JFrame {
 		State state = (State) cboState.getSelectedItem();
 		City city = (City) cboCity.getSelectedItem();
 		String email = txtEmail.getText();
-
+		String cpf = txtCPF.getText();
+		String cnpj = txtCnpj.getText();
+		String razao = txtRazao.getText();
+		String ie = txtIE.getText();
+		String sex = String.valueOf(cboSex.getSelectedItem().toString().charAt(0));
+		String contact =  txtContato.getText() ;
+		String rg = txtRG.getText();
+		
 		client.setName(name);
 		client.setStreet(street);
 		client.setNeighborhood(neighborhood);
@@ -404,6 +459,18 @@ public class ClientRegisterFrame extends JFrame {
 		client.setState(state);
 		client.setPhone(phone);
 		client.setEmail(email);
+		client.setCpf(cpf);
+		client.setRg(rg);
+		client.setCnpj(cnpj);
+		client.setCompanyNAme(razao);
+		client.setIe(ie);
+		client.setSex(sex);
+		client.setContactName(contact);
+		
+		
+		
+
+		
 
 		controller.doClienteRegistration(client);
 	}

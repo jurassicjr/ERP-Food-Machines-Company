@@ -1,5 +1,7 @@
 package model;
 
+import java.sql.Date;
+
 public class Client {
 
 	private int id;
@@ -13,6 +15,71 @@ public class Client {
 	private City city;
 	private String cnpj;
 	private String stateInscrition;
+	private String companyNAme;
+	private String cpf;
+	private String ie;
+	private String sex;
+	private String rg;
+	private String contactName;
+	private Date birthDate;
+	
+	
+	
+	public String getRg() {
+		return rg;
+	}
+
+	public void setRg(String rg) {
+		this.rg = rg;
+	}
+
+	public String getCompanyNAme() {
+		return companyNAme;
+	}
+
+	public void setCompanyNAme(String companyNAme) {
+		this.companyNAme = companyNAme;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getIe() {
+		return ie;
+	}
+
+	public void setIe(String ie) {
+		this.ie = ie;
+	}
+
+	public String getSex() {
+		return sex;
+	}
+
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+
+	public String getContactName() {
+		return contactName;
+	}
+
+	public void setContactName(String contactName) {
+		this.contactName = contactName;
+	}
+
+	public Date getBirthDate() {
+		return birthDate;
+	}
+
+	public void setBirthDate(Date birthDate) {
+		this.birthDate = birthDate;
+	}
 
 	public String getStateInscrition() {
 		return stateInscrition;
