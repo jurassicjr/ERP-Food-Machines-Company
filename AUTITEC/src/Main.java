@@ -16,8 +16,8 @@ import util.UpdateSoftware;
 public class Main {
 	
 	public static void main(String[] args) {
-		
-	
+
+	  
 		LoadingFrame loadingFrame = new LoadingFrame();  
 	
 		SwingUtilities.invokeLater(new Runnable(){  
@@ -30,7 +30,6 @@ public class Main {
 		new LoginFrame().setVisible(true);
 		loadingFrame.dispose();
 	
-		
 	}
 
 }
