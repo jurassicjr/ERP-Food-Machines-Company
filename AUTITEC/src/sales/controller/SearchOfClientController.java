@@ -75,7 +75,6 @@ public class SearchOfClientController
 		    	
 		    }  		
 		    sql+=" order by name";	
-		    System.err.println(sql);
 		    ArrayList<Client> clients = new ArrayList<Client>();
 			rs.beforeFirst();
 				while(rs.next()) {
