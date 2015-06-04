@@ -30,5 +30,22 @@ public class State {
 	public String toString() {
 		return name;
 	}
+	public boolean equals(Object object)
+	{
+		try {
+			State state;
+			if(object instanceof State)
+			{
+				state = (State) object;
+				return state.getId() == id;
+			}
+			else
+				return false;
+			
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
 
 }

@@ -36,5 +36,20 @@ public class City {
 	public String toString(){
 		return name;
 	}
-
+	public boolean equals(Object object)
+	{
+		try {
+			City city;
+			if(object instanceof City)
+			{
+				city = (City) object;
+				return city.getId() == id;
+			}
+			else
+				return false;
+			
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

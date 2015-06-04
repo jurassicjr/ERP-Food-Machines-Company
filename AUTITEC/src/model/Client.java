@@ -159,7 +159,7 @@ public class Client {
 
 	@Override
 	public String toString() {
-		return this.name;
+		return this.name!=null && !this.name.isEmpty()? this.name:this.companyNAme;
 	}
 
 	public String getCnpj() {
