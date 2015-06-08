@@ -17,6 +17,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -31,6 +32,7 @@ import javax.swing.table.TableModel;
 import product.view.search.SearchOfKitFrame;
 import model.Product;
 import sales.controller.SearchOfProductController;
+import util.ShowMessage;
 
 public class SearchOfProductFrame extends JFrame{
 
@@ -80,9 +82,11 @@ public class SearchOfProductFrame extends JFrame{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Consulta de Produtos");
 		setBounds(0, 0, 478, 382);
+		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 		controller.queryAll(table);
+		
 	}
     
 	
@@ -181,11 +185,13 @@ public class SearchOfProductFrame extends JFrame{
 	}
 
 	private void setListeners() {
+		table.addMouseListener(mouseListener);
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				controller.closeFrame(frame);
 			}
+			
 		});
 		
 		
@@ -198,11 +204,7 @@ public class SearchOfProductFrame extends JFrame{
 		};
 		btnSearch.addActionListener(buttonListener);
 	}
-	public void setProductRequester(JDialog reqFrame)
-	{
-		
-	}
-	
+
 	private void verify() {
 		String name = txtName.getText();
 		if(!name.isEmpty()) 
@@ -211,7 +213,58 @@ public class SearchOfProductFrame extends JFrame{
 			controller.queryAll(table);
 			
 	}
-
+	
+	
+	MouseListener mouseListener = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(e.getClickCount() == 2)
+			{	
+					int line = table.getSelectedRow();
+					if(line > -1)
+					{
+					   if(!controller.haveUpdatePermission())
+						   ShowMessage.errorMessage(null,"Solicite permissão"," Você não tem permissão para atualizar/excluir produtos");
+					   else
+					   {
+						   
+					   }
+					   
+					}
+				}
+			}
+				
+	};
+	
+	
+	
+	
+	
 	public void setProductSelectable(Boolean flag)
 	{
 		if(flag)

@@ -2,23 +2,34 @@ package sales.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.Product;
+import model.Session;
+import model.User;
 import util.ClearFrame;
 import database.DataBase;
 
 public class SearchOfProductController extends SalesController {
 
 	private DataBase dataBase;
-
 	public SearchOfProductController() {
 		dataBase = new DataBase();
 		dataBase.connect();
 	}
+	public boolean haveUpdatePermission()
+	{
+		
+	 User logedUser =	Session.getInstance().getUser();
 
+	 return logedUser.getPermissions().contains("UPD_PROD");
+	 
+	}
+	
+	
 	public void simpleSearch(JTable table, String name) {
 		String sql = "SELECT *FROM compost_product WHERE product LIKE ?";
 		name = name + "%";

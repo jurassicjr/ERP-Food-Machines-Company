@@ -7,6 +7,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Date;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
@@ -24,6 +25,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EtchedBorder;
+import javax.swing.text.MaskFormatter;
 
 import model.CNPJ;
 import model.City;
@@ -156,8 +158,12 @@ public class UpdateClientFrame extends JFrame{
 	   
 	   JLabel lblCnpj = new JLabel("CNPJ");
 	   
-	   txtCnpj = new JTextField();
-
+	   try {
+			txtCnpj = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	
 	   
 	   JLabel lblStateInscription = new JLabel("IE");
 	   
@@ -226,7 +232,8 @@ public class UpdateClientFrame extends JFrame{
 	   
 	   JLabel lblCpf = new JLabel("CPF");
 	   
-	   txtCpf = new JTextField();
+	   try { txtCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##")); } 
+		catch (ParseException e) { e.printStackTrace(); }
 
 	   cboSex = new JComboBox();
 	   cboSex.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Feminino"}));
@@ -302,13 +309,15 @@ public class UpdateClientFrame extends JFrame{
 	   
 	   JLabel lblPhone = new JLabel("Tel.");
 	   
-	   txtPhone = new JFormattedTextField();
+	   try { txtPhone = new JFormattedTextField(new MaskFormatter("(##) ####-####")); }
+		catch (ParseException e) { e.printStackTrace(); }
 	    
 	   txtStreet = new UpperTextField();
 
 	   JLabel lblStreet = new JLabel("Rua");
 	   
-	   txtCep = new JFormattedTextField((Object) null);
+	   try { txtCep = new JFormattedTextField(new MaskFormatter("##.###-###")); }
+		catch (ParseException e) { e.printStackTrace(); }
 	   
 	   JLabel lblCep = new JLabel("C.E.P");
 	   
@@ -453,10 +462,12 @@ public class UpdateClientFrame extends JFrame{
 		
 		selectedClient.setStreet(txtStreet.getText());
 		selectedClient.setNeighborhood(txtNeighborhood.getText());
-		selectedClient.setCep(txtCep.getText());
+		String formattedCep = txtCep.getText().replaceAll("\\D","");
+		selectedClient.setCep(formattedCep);
 		selectedClient.setState((State)cboState.getSelectedItem());
 		selectedClient.setCity((City)cboCity.getSelectedItem());
-		selectedClient.setPhone(txtPhone.getText());
+		String formattedPhone = txtPhone.getText().replaceAll("\\D","");
+		selectedClient.setPhone(formattedPhone);
 		selectedClient.setEmail(txtEmail.getText());
 	}
 	public void setClientData(Client client)

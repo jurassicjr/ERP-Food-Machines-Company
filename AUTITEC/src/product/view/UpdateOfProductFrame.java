@@ -405,7 +405,11 @@ public class UpdateOfProductFrame extends JFrame {
 		}
 
 	}
-
+	private void fillBySelectedProduct()
+	{
+			
+		
+	}
 	private void fill() {
 		Product product = (Product) cboProduct.getSelectedItem();
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
