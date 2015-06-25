@@ -197,7 +197,8 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Inserção de Epi's", false, "IST_EPI"),
 				new CheckBoxNode("Retirada de EPI's", false, "RMV_EPI"),
 				new CheckBoxNode("Registro de Treinamento", false, "REG_TRA"),
-				new CheckBoxNode("Atualização/Remoção de treinamento", false, "UPD_TRA")
+				new CheckBoxNode("Atualização/Remoção de treinamento", false, "UPD_TRA"),
+				new CheckBoxNode("Atualização/Remoção de Funcionário", false, "UPD_EMP")
 		};
 		    
 		CheckBoxNode financialOptions[] = {
@@ -222,7 +223,8 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Inserir Material em Estoque", false, "INS_STOCK"),
 				new CheckBoxNode("Relatório de Clientes", false, "CLI_REP"),
 				new CheckBoxNode("Consulta de Material", false, "SEA_MAT"),
-				new CheckBoxNode("Consulta de Produto", false, "SEA_PROD")
+				new CheckBoxNode("Consulta de Produto", false, "SEA_PROD"),
+				new CheckBoxNode("Consulta de Clientes", false, "SEA_CLI")
 		};
 		
 		CheckBoxNode productionOptions[] = {

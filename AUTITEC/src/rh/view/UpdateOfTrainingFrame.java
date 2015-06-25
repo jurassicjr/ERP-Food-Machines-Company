@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -23,14 +24,14 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
-import rh.controller.UpdateOfTrainingController;
+import model.Employee;
+import model.Training;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
+import rh.controller.UpdateOfTrainingController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
 import util.ShowMessage;
-import model.Employee;
-import model.Training;
 
 public class UpdateOfTrainingFrame extends JFrame{
 
@@ -96,6 +97,9 @@ public class UpdateOfTrainingFrame extends JFrame{
 		lblTraining = new JLabel("Treinamento");
 		
 		cboTraining = new JComboBox<Training>();
+		controller.fillTraining(cboTraining);
+		new ComboBoxAutoCompletion(cboTraining);
+		cboTraining.setSelectedIndex(-1);
 		
 		lblTitle = new JLabel("Título");
 		
@@ -314,6 +318,8 @@ public class UpdateOfTrainingFrame extends JFrame{
 				if(e.getSource().equals(cboTraining))fillFields();
 			}
 		};
+		
+		cboTraining.addActionListener(cboListener);
 	}
 	
 	private void addEmployee(){
@@ -345,5 +351,23 @@ public class UpdateOfTrainingFrame extends JFrame{
 		txtPlace.setText(t.getPlace());
 		txtDuration.setText(t.getDuration());
 		cboEventType.setSelectedItem(t.getEventType());
+		cboPeriod.setSelectedItem(t.getPeriod());
+		txtPlace.setText(t.getPlace());
+		String objective = t.getObjective();
+		if(objective.equalsIgnoreCase("Aplicação")){
+			rdbtnAplicative.setSelected(true);
+			rdbtnInformative.setSelected(false);
+		}else if(objective.equalsIgnoreCase("Informativo")){
+			rdbtnAplicative.setSelected(false);
+			rdbtnInformative.setSelected(false);
+		}
+		fillEmployeeTable(t);
+	}
+	
+	private void fillEmployeeTable(Training t){
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		List<Employee> employeeList = t.getEmployeeList();
+		if(employeeList == null)return;
+		employeeList.forEach(e -> tbl.addRow(new Object[]{e, e.getJob().getCbo().getTitle()}));
 	}
 }

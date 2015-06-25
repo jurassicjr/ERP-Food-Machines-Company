@@ -23,6 +23,7 @@ import rh.view.RegisterOfTrainingFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.RemoveOfEPIFrame;
 import rh.view.TechnicalStandardFrame;
+import rh.view.UpdateEmployeeFrame;
 import rh.view.UpdateOfEPIFrame;
 import rh.view.UpdateOfTrainingFrame;
 import rh.view.UpdatePermissionsFrame;
@@ -520,6 +521,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				UpdateOfTrainingFrame frame = new UpdateOfTrainingFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+	}
+
+	public void updateOfEmployee() {
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				UpdateEmployeeFrame frame = new UpdateEmployeeFrame(null);
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

@@ -7,7 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.Employee;
+import model.Training;
 import database.dao.EmployeeDAO;
+import database.dao.TrainingDAO;
 import util.ShowMessage;
 
 public class UpdateOfTrainingController {
@@ -27,5 +29,10 @@ public class UpdateOfTrainingController {
 	public void fillEmployees(JComboBox<Employee> cboEmployee){
 		List<Employee> list = new EmployeeDAO().getEmployees();
 		list.forEach(e -> cboEmployee.addItem(e));
+	}
+
+	public void fillTraining(JComboBox<Training> cboTraining) {
+		List<Training> list = new TrainingDAO().getTraining();
+		list.forEach(e -> cboTraining.addItem(e));
 	}
 }

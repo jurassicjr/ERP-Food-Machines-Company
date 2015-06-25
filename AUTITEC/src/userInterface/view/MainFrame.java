@@ -126,6 +126,12 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmUpdateOfTraining;
 
+	private JMenu mnSubRegisterRH;
+
+	private JMenu mnSubUpdateRH;
+
+	private JMenuItem mntmUpdateOfEmployee;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -170,8 +176,14 @@ public class MainFrame extends JFrame {
 		menuBar.add(mnRh);
 		mnRh.setVisible(false);
 		
+		mnSubRegisterRH = new JMenu("Registros");
+		mnRh.add(mnSubRegisterRH);
+		
+		mnSubUpdateRH = new JMenu("Atualizações e Remoções");
+		mnRh.add(mnSubUpdateRH);
+		
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
-		mnRh.add(mntmRegisterEmployee);
+		mnSubRegisterRH.add(mntmRegisterEmployee);
 		mntmRegisterEmployee.setVisible(false);
 		mntmRegisterEmployee.setName("REG_EMP");
 		
@@ -181,12 +193,12 @@ public class MainFrame extends JFrame {
 		mntmTechnicalStandard.setName("TEC_STD");
 
 		mntmRegisterUser = new JMenuItem("Registrar Usuário");
-		mnRh.add(mntmRegisterUser);
+		mnSubRegisterRH.add(mntmRegisterUser);
 		mntmRegisterUser.setVisible(false);
 		mntmRegisterUser.setName("REG_USER");
 		
 		mntmUpdateUser = new JMenuItem("Atualizar Permissões");
-		mnRh.add(mntmUpdateUser);
+		mnSubUpdateRH.add(mntmUpdateUser);
 		mntmUpdateUser.setVisible(false);
 		mntmUpdateUser.setName("UPD_PERM");
 		
@@ -196,12 +208,12 @@ public class MainFrame extends JFrame {
 		mntmEmployeeReport.setName("EMP_REP");
 
 		mntmEpiRegister = new JMenuItem("Registro de EPI's");
-		mnRh.add(mntmEpiRegister);
+		mnSubRegisterRH.add(mntmEpiRegister);
 		mntmEpiRegister.setVisible(false);
 		mntmEpiRegister.setName("EPI_REG");
 		
 		mntmEpiUpdate = new JMenuItem("Atualização/Remoção de EPI's");
-		mnRh.add(mntmEpiUpdate);
+		mnSubUpdateRH.add(mntmEpiUpdate);
 		mntmEpiUpdate.setVisible(false);
 		mntmEpiUpdate.setName("EPI_UPD");
 		
@@ -216,14 +228,19 @@ public class MainFrame extends JFrame {
 		mntmRemoveOfEPI.setName("RMV_EPI");
 		
 		mntmRegisterOfTraning = new JMenuItem("Registro de Treinamento");
-		mnRh.add(mntmRegisterOfTraning);
+		mnSubRegisterRH.add(mntmRegisterOfTraning);
 		mntmRegisterOfTraning.setVisible(false);
 		mntmRegisterOfTraning.setName("REG_TRA");
 		
-		mntmUpdateOfTraining = new JMenuItem("Atualização/Remoção de treinamento");
-		mnRh.add(mntmUpdateOfTraining);
+		mntmUpdateOfTraining = new JMenuItem("Atualização/Remoção de Treinamento");
+		mnSubUpdateRH.add(mntmUpdateOfTraining);
 		mntmUpdateOfTraining.setVisible(false);
 		mntmUpdateOfTraining.setName("UPD_TRA");
+		
+		mntmUpdateOfEmployee = new JMenuItem("Atualização/Remoção de Funcionário");
+		mnSubUpdateRH.add(mntmUpdateOfEmployee);
+		mntmUpdateOfEmployee.setVisible(false);
+		mntmUpdateOfEmployee.setName("UPD_EMP");
 		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
@@ -472,6 +489,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmRemoveOfEPI);
 		menuItens.add(mntmRegisterOfTraning);
 		menuItens.add(mntmUpdateOfTraining);
+		menuItens.add(mntmUpdateOfEmployee);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -535,6 +553,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRemoveOfEPI))controller.removeOfEPI();
 				else if(e.getSource().equals(mntmRegisterOfTraning))controller.registerOfTraining();
 				else if(e.getSource().equals(mntmUpdateOfTraining))controller.updateOfTraining();
+				else if(e.getSource().equals(mntmUpdateOfEmployee))controller.updateOfEmployee();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);

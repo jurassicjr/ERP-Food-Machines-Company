@@ -5,14 +5,15 @@ import java.util.List;
 
 public class Training {
 	
-	String title;
-	String objective;
-	String eventType;
-	String period;
-	String duration;
-	Date date;
-	List<Employee> employeeList;
-	String motive;
+	private String title;
+	private String objective;
+	private String eventType;
+	private String period;
+	private String duration;
+	private Date date;
+	private List<Employee> employeeList;
+	private String motive;
+	private int id;
 	private String place;
 	
 	public String getTitle() {
@@ -52,6 +53,8 @@ public class Training {
 		this.date = date;
 	}
 	public List<Employee> getEmployeeList() {
+		if(employeeList == null)return null;
+		if(employeeList.isEmpty())return null;
 		return employeeList;
 	}
 	public void setEmployeeList(List<Employee> employeeList) {
@@ -68,6 +71,16 @@ public class Training {
 	}
 	public void setPlace(String place) {
 		this.place = place;
+	}
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	@Override
+	public String toString() {
+		return this.title;
 	}
 
 }

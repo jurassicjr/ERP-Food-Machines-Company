@@ -43,7 +43,9 @@ import util.Icon;
 import util.ShowMessage;
 
 import javax.swing.DefaultComboBoxModel;
+
 import net.miginfocom.swing.MigLayout;
+
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 
@@ -77,7 +79,7 @@ public class ClientRegisterFrame extends JFrame {
 	private JTextField txtRG;
 	private JTextField txtCPF;
 	private JTextField txtEmail;
-	private UpperTextField txtRazao;
+	private UpperTextField txtCompanyName;
 	private JTextField txtCnpj;
 	private JTextField txtIE;
 	private UpperTextField txtContato;
@@ -138,14 +140,14 @@ public class ClientRegisterFrame extends JFrame {
 										tabbedPane.addTab("Pessoa Jurídica", null, panel, null);
 										panel.setLayout(null);
 										
-										JLabel lblRazoSocial = new JLabel("Razão Social");
-										lblRazoSocial.setBounds(10, 11, 141, 14);
-										panel.add(lblRazoSocial);
+										JLabel lblCompanyName = new JLabel("Razão Social");
+										lblCompanyName.setBounds(10, 11, 141, 14);
+										panel.add(lblCompanyName);
 										
-										txtRazao = new UpperTextField();
-										txtRazao.setBounds(10, 31, 312, 20);
-										panel.add(txtRazao);
-										txtRazao.setColumns(10);
+										txtCompanyName = new UpperTextField();
+										txtCompanyName.setBounds(10, 31, 312, 20);
+										panel.add(txtCompanyName);
+										txtCompanyName.setColumns(10);
 										
 										JLabel lblCnpj = new JLabel("CNPJ");
 										lblCnpj.setBounds(332, 11, 46, 14);
@@ -214,8 +216,8 @@ public class ClientRegisterFrame extends JFrame {
 														panelPf.add(txtCPF);
 														txtCPF.setColumns(10);
 														
-														cboSex = new JComboBox();
-														cboSex.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Feminino"}));
+														cboSex = new JComboBox<String>();
+														cboSex.setModel(new DefaultComboBoxModel<String>(new String[] {"Masculino", "Feminino"}));
 														cboSex.setBounds(428, 50, 186, 20);
 														panelPf.add(cboSex);
 														
@@ -350,7 +352,7 @@ public class ClientRegisterFrame extends JFrame {
 					if(selectedTab == 0)
 					{
 						clearPFData();
-						txtRazao.grabFocus();
+						txtCompanyName.grabFocus();
 					}
 					else
 					if(selectedTab == 1)
@@ -461,7 +463,7 @@ public class ClientRegisterFrame extends JFrame {
 	}
 	private void clearPJData()
 	{	
-		txtRazao.setText("");
+		txtCompanyName.setText("");
 		txtContato.setText("");
 		txtCnpj.setText("");
 		txtIE.setText("");
@@ -490,7 +492,7 @@ public class ClientRegisterFrame extends JFrame {
 		String email = txtEmail.getText();
 		String cpf = txtCPF.getText();
 		String cnpj = txtCnpj.getText();
-		String razao = txtRazao.getText();
+		String razao = txtCompanyName.getText();
 		String ie = txtIE.getText();
 		if(cboSex.getSelectedItem()!=null)
 			sex = String.valueOf(cboSex.getSelectedItem().toString().charAt(0));
