@@ -40,5 +40,11 @@ public class Session {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	public boolean havePermission(String menuName)
+	{
+			
+	 return this.getUser().getPermissions().contains(menuName);
+	 
+	}
 
 }

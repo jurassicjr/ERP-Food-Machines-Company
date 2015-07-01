@@ -85,7 +85,11 @@ public class UpdateOfProductFrame extends JFrame {
 		initialize();
 		setListeners();
 	}
-
+	public void setSelectedProduct(Product product)
+	{
+		cboProduct.setSelectedItem(product);
+		fill();
+	}
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setBounds(100, 100, 680, 485);
@@ -405,11 +409,7 @@ public class UpdateOfProductFrame extends JFrame {
 		}
 
 	}
-	private void fillBySelectedProduct()
-	{
-			
-		
-	}
+	
 	private void fill() {
 		Product product = (Product) cboProduct.getSelectedItem();
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();

@@ -43,5 +43,21 @@ public class Product {
 	public String toString() {
 	    return this.name;
 	}
-
+	
+	public boolean equals(Object obj)
+	{
+		try {
+			 if(obj instanceof Product)
+			 {
+				Product pr = (Product) obj;
+				return pr.id == this.id;
+				 
+			 }else return false;
+			
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
+	
 }

@@ -29,8 +29,10 @@ import javax.swing.SingleSelectionModel;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import product.view.UpdateOfProductFrame;
 import product.view.search.SearchOfKitFrame;
 import model.Product;
+import model.Session;
 import sales.controller.SearchOfProductController;
 import util.ShowMessage;
 
@@ -248,11 +250,16 @@ public class SearchOfProductFrame extends JFrame{
 					int line = table.getSelectedRow();
 					if(line > -1)
 					{
-					   if(!controller.haveUpdatePermission())
+					   if(!Session.getInstance().havePermission("UPD_PROD"))
 						   ShowMessage.errorMessage(null,"Solicite permissão"," Você não tem permissão para atualizar/excluir produtos");
 					   else
 					   {
-						   
+						      UpdateOfProductFrame fr =  new UpdateOfProductFrame();
+							  String productName = table.getModel().getValueAt(line,0).toString();
+							  Product product  = controller.getProductByName(productName);
+							  fr.setSelectedProduct(product);
+							  fr.setVisible(true);
+						 
 					   }
 					   
 					}

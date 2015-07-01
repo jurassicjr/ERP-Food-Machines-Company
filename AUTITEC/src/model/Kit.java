@@ -39,4 +39,20 @@ public class Kit {
 	public String toString() {
 	    return this.name;
 	}
+	
+	public boolean equals(Object obj)
+	{
+		try {
+			 if(obj instanceof Kit)
+			 {
+				Kit kit = (Kit) obj;
+				return kit.id == this.id;
+				 
+			 }else return false;
+			
+		} catch (Exception e) {
+			return false;
+		}
+		
+	}
 }

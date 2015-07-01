@@ -18,14 +18,19 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 
 import model.Product;
+import model.Session;
 import product.controller.SearchOfKitControlller;
+import product.view.UpdateOfProductFrame;
 import sales.view.search.SearchOfProductFrame;
 import util.Icon;
+import util.ShowMessage;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
 public class SearchOfKitFrame extends  JDialog 
@@ -245,5 +250,53 @@ public class SearchOfKitFrame extends  JDialog
 	};
 	
 	private JScrollPane scrollPane_1;
+	MouseListener mouseListener = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(e.getClickCount() == 2)
+			{	
+					int line = table.getSelectedRow();
+					if(line > -1)
+					{
+					   if(!Session.getInstance().havePermission("UPD_PROD"))
+						   ShowMessage.errorMessage(null,"Solicite permissão"," Você não tem permissão para atualizar/excluir kits");
+					   else
+					   {
+						   
+						 
+					   }
+					   
+					}
+				}
+			}
+				
+	};
+	
+
 }
 

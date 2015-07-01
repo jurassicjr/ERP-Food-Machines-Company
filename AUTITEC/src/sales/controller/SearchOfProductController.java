@@ -20,14 +20,7 @@ public class SearchOfProductController extends SalesController {
 		dataBase = new DataBase();
 		dataBase.connect();
 	}
-	public boolean haveUpdatePermission()
-	{
-		
-	 User logedUser =	Session.getInstance().getUser();
-
-	 return logedUser.getPermissions().contains("UPD_PROD");
-	 
-	}
+	
 	
 	
 	public void simpleSearch(JTable table, String name) {
@@ -45,6 +38,28 @@ public class SearchOfProductController extends SalesController {
 		} catch (SQLException e) {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
+        }
+	}
+	public Product getRegister(Integer id) {
+		
+		String sql = "SELECT * FROM compost_product WHERE product = ?";
+
+		try (ResultSet rs = dataBase.executeQuery(sql,id)) {
+			 Product product = new Product();
+			   
+			if (rs.next()) {
+				String prod = rs.getString("product");
+				String description = rs.getString("description");
+				Integer retId = rs.getInt("id");
+				product.setId(retId);
+				product.setName(prod);
+				product.setDescription(description);
+			}
+		   return product;
+		} catch (SQLException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	        return new Product();
         }
 	}
 	public void queryAll(JTable table)

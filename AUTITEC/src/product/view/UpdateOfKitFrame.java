@@ -404,7 +404,12 @@ public class UpdateOfKitFrame extends JFrame {
 		}
 
 	}
-
+	public void setSelectedKit(Kit kit)
+	{
+			cboKit.setSelectedItem(kit);
+			fill();
+		
+	}
 	private void fill() {
 		Kit kit = (Kit) cboKit.getSelectedItem();
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
