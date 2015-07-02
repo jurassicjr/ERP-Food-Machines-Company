@@ -3,12 +3,15 @@ package sales.view.search;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -258,7 +261,9 @@ public class SearchOfProductFrame extends JFrame{
 							  String productName = table.getModel().getValueAt(line,0).toString();
 							  Product product  = controller.getProductByName(productName);
 							  fr.setSelectedProduct(product);
+							  fr.addWindowListener(windowListener);
 							  fr.setVisible(true);
+							  
 						 
 					   }
 					   
@@ -267,7 +272,6 @@ public class SearchOfProductFrame extends JFrame{
 			}
 				
 	};
-	
 	
 	
 	
@@ -320,8 +324,52 @@ public class SearchOfProductFrame extends JFrame{
 						
 			};
 			table.addMouseListener(ac);
+			
 		}
 		
 	}
-	
+	WindowListener windowListener = new WindowListener() {
+		
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowClosing(WindowEvent e) {
+			controller.queryAll(table);
+			
+		}
+		
+		@Override
+		public void windowClosed(WindowEvent e) {
+			
+			
+		}
+		
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 }

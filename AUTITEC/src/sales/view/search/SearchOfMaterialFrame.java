@@ -5,12 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,13 +23,14 @@ import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ScrollPaneConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
+import model.Material;
+import model.Session;
 import sales.controller.SearchOfMaterialController;
-import util.ClearFrame;
+import sales.view.update.MaterialUpdateFrame;
 import util.ShowMessage;
 
 public class SearchOfMaterialFrame extends JFrame {
@@ -217,7 +220,62 @@ public class SearchOfMaterialFrame extends JFrame {
 			}
 		};
 		txtName.addKeyListener(txtKeyListerner);
+		table.addMouseListener(mouseListener);
+		
 	}
+	
+	MouseListener mouseListener = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(e.getClickCount() == 2)
+			{	
+					int line = table.getSelectedRow();
+					if(line > -1)
+					{
+					   if(!Session.getInstance().havePermission("UPD_MAT"))
+						   ShowMessage.errorMessage(null,"Solicite permissão"," Você não tem permissão para atualizar/excluir materiais");
+					   else
+					   {
+						      MaterialUpdateFrame fr =  new MaterialUpdateFrame();
+							  String materialName = table.getModel().getValueAt(line,0).toString();
+							  Material material  = controller.getMaterialByName(materialName);
+							  fr.setSelectedMaterial(material);
+							  fr.addWindowListener(windowListener);
+							  fr.setVisible(true);
+						 
+					   }
+					   
+					}
+				}
+			}
+				
+	};
+	
 	
 	private void verify() {
 		int max = (int) spinner.getValue();
@@ -225,4 +283,49 @@ public class SearchOfMaterialFrame extends JFrame {
 		String name = txtName.getText();
 		controller.search(table, max, min, name);		
 	}
+	WindowListener windowListener = new WindowListener() {
+		
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowClosing(WindowEvent e) {
+			controller.queryAll(table);
+			
+		}
+		
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
+
 }

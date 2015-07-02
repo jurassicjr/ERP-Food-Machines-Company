@@ -283,7 +283,21 @@ public class MaterialUpdateFrame extends JFrame {
 		btnConfirmar.addActionListener(buttonListerners);
 		btnApagar.addActionListener(buttonListerners);
 	}
-
+    public void setSelectedMaterial(Material material)
+    {
+    	cboProduto.setSelectedItem(material);
+    	fill();
+    	
+    }
+    public void fill()
+    {
+    	Material material = (Material) cboProduto.getSelectedItem();
+    	txtName.setText(material.getName());
+    	txtDescricao.setText(material.getDescrition());
+    	txtInternalCode.setText(material.getInternalCode());
+    	txtNCM.setText(material.getNCM());
+    	txtName.grabFocus();
+    }
 	private void fillFields(ResultSet rs) throws SQLException {
 		rs.next();
 		txtName.setText(rs.getString("name"));

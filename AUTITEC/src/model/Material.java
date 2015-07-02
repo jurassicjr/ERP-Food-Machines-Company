@@ -60,4 +60,18 @@ public class Material {
 	public void setAmmount(double ammount) {
 	    this.ammount = ammount;
     }
+	public boolean equals(Object obj)
+	{
+		try {
+				if(obj instanceof Material)
+				{
+					Material matTemp = (Material) obj;
+					return matTemp.id == this.id;
+				}
+				else return false;
+		} catch (Exception e) {
+			return false;
+		}	
+		
+	}
 }

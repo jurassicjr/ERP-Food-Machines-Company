@@ -66,6 +66,7 @@ public class SearchOfProductController extends SalesController {
 	{
 		String sql = "SELECT * FROM compost_product";
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		ClearFrame.clearTable(table);
 		try (ResultSet rs = dataBase.executeQuery(sql)) {
 			while (rs.next()) {
 				String n = rs.getString("product");

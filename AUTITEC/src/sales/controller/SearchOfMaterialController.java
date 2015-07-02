@@ -7,6 +7,7 @@ import java.util.List;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
+import model.Material;
 import util.ClearFrame;
 import database.DataBase;
 
@@ -107,6 +108,7 @@ public class SearchOfMaterialController extends SalesController{
 	public void queryAll(JTable table) {
 	    String sql = "SELECT * FROM Product ORDER BY NAME";
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		ClearFrame.clearTable(table);
 		try(ResultSet rs = dataBase.executeQuery(sql)){
 			while(rs.next()) {
 				String n = rs.getString("name");
@@ -115,6 +117,25 @@ public class SearchOfMaterialController extends SalesController{
 			}
 		} catch (SQLException e) {
 	        e.printStackTrace();
+        }
+    }
+	public Material getMaterialByName(String materialName) {
+	    String sql = "SELECT * FROM Product where name = ?";
+		Material material = new Material();
+		try{
+			ResultSet rs = dataBase.executeQuery(sql,materialName);
+			if(rs.next()) {
+				material.setId(rs.getInt("id"));
+				material.setName(rs.getString("name"));
+				material.setDescrition(rs.getString("descricao"));
+				material.setAmmount(rs.getInt("quantidade"));
+				material.setInternalCode(rs.getString("internal_code"));
+				material.setNCM(rs.getString("ncm"));
+			}
+			return material;
+		} catch (SQLException e) {
+	        e.printStackTrace();
+	        return new Material();
         }
     }
 	
