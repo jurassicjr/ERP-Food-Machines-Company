@@ -11,7 +11,8 @@ public class Kit {
 		this.description = description;
 
 	}
-
+	public Kit()
+	{}
 	public String getName() {
 		return name;
 	}

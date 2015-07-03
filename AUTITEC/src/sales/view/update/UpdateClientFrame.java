@@ -65,7 +65,6 @@ public class UpdateClientFrame extends JFrame{
 	private JComboBox<City> cboCity;
 	private JComboBox<State> cboState;
 	private JButton btnDelete;
-	private JButton btnCancel;
 	private JButton btnUpdate;
 	private boolean clientSelectableFlag = false;
 	private Client selectedClient;
@@ -107,10 +106,6 @@ public class UpdateClientFrame extends JFrame{
 	   btnDelete = new JButton("Apagar");
 	   btnDelete.setIcon(new ImageIcon(UpdateClientFrame.class.getResource("/resources/1419366170_17-16.png")));
 	   panActions.add(btnDelete);
-	   
-	   btnCancel = new JButton("Cancelar");
-	   btnCancel.setIcon(new ImageIcon(UpdateClientFrame.class.getResource("/resources/cancel.png")));
-	   panActions.add(btnCancel);
 	   
 	   btnUpdate = new JButton("Atualizar");
 	   btnUpdate.setIcon(new ImageIcon(UpdateClientFrame.class.getResource("/resources/update.png")));
@@ -474,7 +469,7 @@ public class UpdateClientFrame extends JFrame{
 	{
 		
 		clearFields();
-		
+		cboClients.setSelectedItem(client);
 		if(isPF(client))
 		{
 			txtName.setText(client.getName());
@@ -519,6 +514,7 @@ public class UpdateClientFrame extends JFrame{
 
 	ActionListener actionListener = new ActionListener() {
 		
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			  if(e.getSource().equals(cboClients))
@@ -556,10 +552,15 @@ public class UpdateClientFrame extends JFrame{
 						 ShowMessage.successMessage(null,title, message);
 					 }
 			  }
+			
 		}
 	}; 
+	public void setSelectedClient(Client client)
+	{
+		setClientData(client);
 		
-
+	}
+	
 	public void setListeners()
 	{
 		cboClients.addActionListener(actionListener);

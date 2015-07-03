@@ -4,7 +4,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
@@ -14,11 +20,12 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 
+import model.Client;
+import model.Session;
 import sales.controller.SearchOfClientController;
+import sales.view.update.UpdateClientFrame;
 import util.Icon;
 import util.ShowMessage;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 public class SearchOfClientFrame extends JDialog 
 {
@@ -66,6 +73,7 @@ public class SearchOfClientFrame extends JDialog
 		txtCPF.addKeyListener(txtSearchKeyListener);
 		txtName.addKeyListener(txtSearchKeyListener);
 		btnSearch.addActionListener(buttonListener);
+		tableClients.addMouseListener(mouseListener);
 	}
 	public void initializePrincipal()
 	{
@@ -179,4 +187,98 @@ public class SearchOfClientFrame extends JDialog
 		controller.search(tableClients,param, fieldToSearch);
 			
 	}
+	MouseListener mouseListener = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			if(e.getClickCount() == 2)
+			{	
+					int line = tableClients.getSelectedRow();
+					if(line > -1)
+					{
+					   if(!Session.getInstance().havePermission("UPD_CLI"))
+						   ShowMessage.errorMessage(null,"Solicite permissão"," Você não tem permissão para atualizar/excluir clientes");
+					   else
+					   {
+						      UpdateClientFrame fr =  new UpdateClientFrame();
+							  Client client  = controller.getClientByName(line);
+							  fr.setSelectedClient(client);
+							  fr.addWindowListener(windowListener);
+							  fr.setVisible(true);
+						 
+					   }
+					   
+					}
+				}
+			
+		}
+	};
+	WindowListener windowListener = new WindowListener() {
+		
+		@Override
+		public void windowOpened(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowIconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeiconified(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowDeactivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowClosing(WindowEvent e) {
+			controller.queryAll(tableClients);
+			
+		}
+		
+		@Override
+		public void windowClosed(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void windowActivated(WindowEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+	};
 }

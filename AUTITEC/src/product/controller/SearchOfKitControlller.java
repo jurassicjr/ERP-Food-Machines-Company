@@ -128,5 +128,26 @@ public class SearchOfKitControlller
 		}
 		
 	}
+	public Kit getKitByName(String name)
+	{
+		
+		String sql = "SELECT * FROM kit where kit_name = ?";
+		Kit kit =  new Kit();
+		try {
+			ResultSet rs = dataBase.executeQuery(sql,name);
+			if (rs.next()) {
+				kit.setId(rs.getInt("id"));
+				kit.setName(rs.getString("kit_name"));
+				kit.setDescription(rs.getString("descrition"));
+			}
+			return kit;
+		} catch (SQLException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+	        return new Kit();
+        }
+		
+		
+	}
 	
 }

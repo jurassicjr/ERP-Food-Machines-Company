@@ -297,6 +297,7 @@ public class UpdateOfKitFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "Atualização", "Deseja mesmo atualizar esse Kit?");
 					if (i == JOptionPane.YES_OPTION) {
 						Kit kit = (Kit) cboKit.getSelectedItem();
+						kit.setDescription(txtDescription.getText());
 						controller.update(kit, table);
 					}
 				}
@@ -419,4 +420,5 @@ public class UpdateOfKitFrame extends JFrame {
 		txtDescription.setText(kit.getDescription());
 		controller.fillProductTable(kit, table);
 	}
+	
 }

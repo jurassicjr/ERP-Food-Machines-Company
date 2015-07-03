@@ -64,6 +64,20 @@ public class UpdateOfKitController extends SalesController {
 		String sqlUpdate = "UPDATE kit SET kit_name =?, descrition = ? WHERE id = ?";
 		Object[] obj = new Object[] {kit.getName(), kit.getDescription(), kit.getId()};
 		dataBase.executeUpdate(sqlUpdate, obj);	
+		sqlUpdate = "delete from kit_relationship WHERE kit = ?";
+		dataBase.executeUpdate(sqlUpdate,kit.getId());	
+		
+		for(int i = 0;i<table.getRowCount();i++)
+		{
+			String productName = table.getModel().getValueAt(i,0).toString();
+			Product product = getProductByName(productName);
+			Integer quant = Integer.parseInt(table.getModel().getValueAt(i,1).toString());
+			obj = new Object[]{kit.getId(),product.getId(),quant};
+			
+			sqlUpdate = "INSERT into kit_relationship(kit,product,ammount) VALUES(?,?,?)";
+			dataBase.executeUpdate(sqlUpdate,obj);	
+		}
+		
 	}
 
 	public void addProduct(Product product, JTable table, JSpinner spinnerAmount, Kit kit) {
@@ -114,6 +128,29 @@ public class UpdateOfKitController extends SalesController {
 			e.printStackTrace();
 		}
 
+	}
+	@SuppressWarnings("finally")
+	public Product getProductByName(String name)
+	{
+		
+		String sql = "SELECT * FROM compost_product where product = ?";
+		Product product = new Product();
+		try (ResultSet rs = dataBase.executeQuery(sql,name)) {
+			if (rs.next()) {
+				product.setId(rs.getInt("id"));
+				product.setName(rs.getString("product"));
+				product.setDescription(rs.getString("description"));
+			}
+			
+		} catch (SQLException e) {
+	        // TODO Auto-generated catch block
+	        e.printStackTrace();
+        }
+		finally
+		{
+			return product;
+		}
+		
 	}
 
 }

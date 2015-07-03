@@ -174,4 +174,19 @@ public class Client {
 		this.stateInscrition = stateInscrition;
 
 	}
+	public boolean equals(Object obj)
+	{
+			try {
+					if(obj instanceof Client)
+					{
+						Client client = (Client) obj;
+						return client.getId() == this.id;
+						
+					}else return false;
+				
+			} catch (Exception e) {
+				return false;
+			}
+		
+	}
 }

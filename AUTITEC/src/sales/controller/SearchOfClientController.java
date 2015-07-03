@@ -6,7 +6,9 @@ import java.util.ArrayList;
 
 import javax.swing.JTable;
 
+import model.City;
 import model.Client;
+import model.State;
 import userInterface.components.ClientTableModel;
 import database.DataBase;
 
@@ -92,6 +94,53 @@ public class SearchOfClientController
 		        e.printStackTrace();
 	        }
 	}
-	
-	
+	public boolean isPF(Client client)
+	{
+		return client.getName() != null &&  !client.getName().isEmpty();
+	}
+	public Client getClientByName(Integer index)
+	{
+			Client lineClient = clientModel.getClient(index);
+		    String sql;
+		    ResultSet rs;
+		    Boolean isPF = isPF(lineClient);
+		    if(isPF)
+		    	sql =  "SELECT * FROM client where name = ?";
+		    else
+		    	sql = "SELECT * FROM client where companyname = ?";
+			try{
+				if(isPF)
+					rs = dataBase.executeQuery(sql,lineClient.getName());
+				else
+					rs = dataBase.executeQuery(sql,lineClient.getCompanyNAme());
+				
+				Client client  = new Client();
+				while(rs.next()) {
+					
+					client.setId(rs.getInt("id"));
+					client.setName(rs.getString("name"));
+					client.setCompanyNAme(rs.getString("companyname"));
+					client.setStreet(rs.getString("street"));
+					client.setBirthDate(rs.getDate("birthdate"));
+					client.setNeighborhood(rs.getString("neighborhood"));
+					client.setState(new State(rs.getInt("state"),""));
+					client.setCity(new City(rs.getInt("city"),"",client.getState()));
+					client.setCep(rs.getString("cep"));
+					client.setPhone(rs.getString("phone"));
+					client.setEmail(rs.getString("email"));
+					client.setCompanyNAme(rs.getString("companyname"));
+					client.setCpf(rs.getString("cpf"));
+					client.setCnpj(rs.getString("cnpj"));
+					client.setStateInscrition(rs.getString("ie"));
+					client.setSex(rs.getString("sex"));
+					client.setContactName(rs.getString("companycontactname"));
+					client.setRg(rs.getString("rg"));
+					
+				}
+				return client;
+			} catch (SQLException e) {
+		        e.printStackTrace();
+		        return new Client();
+	        }
+	}
 }
