@@ -224,7 +224,10 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Relatório de Clientes", false, "CLI_REP"),
 				new CheckBoxNode("Consulta de Material", false, "SEA_MAT"),
 				new CheckBoxNode("Consulta de Produto", false, "SEA_PROD"),
-				new CheckBoxNode("Consulta de Clientes", false, "SEA_CLI")
+				new CheckBoxNode("Consulta de Clientes", false, "SEA_CLI"),
+				new CheckBoxNode("Atualização/Remoção de Kit", false, "UPD_KIT"),
+				new CheckBoxNode("Atualizar/Remover Registro de Cliente", false, "UPD_CLI"),
+				new CheckBoxNode("Consulta de Kits", false, "SEA_KIT")
 		};
 		
 		CheckBoxNode productionOptions[] = {

@@ -1,19 +1,10 @@
 package userInterface.controller;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Date;
 
-import javax.swing.Box;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import model.Bill;
 import production.view.StagesProductionFrame;
 import rh.view.EmployeeReportFrame;
 import rh.view.EntryOfEPIFrame;
@@ -28,12 +19,10 @@ import rh.view.UpdateOfEPIFrame;
 import rh.view.UpdateOfTrainingFrame;
 import rh.view.UpdatePermissionsFrame;
 import sales.controller.SalesController;
-import userInterface.components.NotificationButton;
 import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
 import userInterface.view.RegisterIssueFrame;
 import util.ShowMessage;
-import database.DataBase;
 import financial.view.GenerateReportFrame;
 import financial.view.RegisterBillFrame;
 import financial.view.RegisterDebtsToReceiveFrame;
@@ -62,6 +51,8 @@ public class MainFrameController {
 	public static final int materialSearch = 16;
 	public static final int productSearch = 17;
 	public static final int clientSearch = 18;
+	public static final int clientUpdate = 19;
+	public static final int kitSearch = 20;
 	
 	private MainFrame mainFrame;
 
@@ -434,6 +425,11 @@ public class MainFrameController {
 			controller.productSearch();
 		}else if(i==18) {
 			controller.clientSearch();
+		}else if(i ==19) {
+			controller.clientUpdate();
+		}
+		else if(i == 20) {
+			controller.searchOfKit();
 		}
 	}
 

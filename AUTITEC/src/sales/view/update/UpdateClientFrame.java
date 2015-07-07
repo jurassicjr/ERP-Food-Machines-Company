@@ -6,7 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -27,7 +26,6 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EtchedBorder;
 import javax.swing.text.MaskFormatter;
 
-import model.CNPJ;
 import model.City;
 import model.Client;
 import model.State;
@@ -87,8 +85,8 @@ public class UpdateClientFrame extends JFrame{
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setTitle("Atualização/Remoção de Registro de Cliente");
 		setBounds(100, 100, 740, 275);
-		setMinimumSize(new Dimension(506, 270));
-		setPreferredSize(new Dimension(506, 270));
+		setMinimumSize(new Dimension(740, 275));
+		setPreferredSize(new Dimension(740, 275));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(null);
 		initializePrincipal();
@@ -115,7 +113,7 @@ public class UpdateClientFrame extends JFrame{
 	   
 	   JLabel lblClient = new JLabel("Cliente");
 	   
-	   cboClients = new JComboBox();
+	   cboClients = new JComboBox<Client>();
 	   GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 	   gl_principalPanel.setHorizontalGroup(
 	   	gl_principalPanel.createParallelGroup(Alignment.TRAILING)

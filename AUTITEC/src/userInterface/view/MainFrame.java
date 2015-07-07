@@ -76,8 +76,8 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmRegisterProduct;
 	
 	private JMenu mnSales;
-	private JMenu mnRegister;
-	private JMenu mnUpdates;
+	private JMenu mnSalesRegister;
+	private JMenu mnSalesUpdates;
 	private JMenu mnReports;
 
 	private JMenuItem mntmProductsReport;
@@ -91,8 +91,6 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmUpdateProduct;
 
 	private JMenu mnInventory;
-	
-	private JMenuItem mntmUpdateKit;
 
 	private ArrayList<JMenuItem> menuItens;
 
@@ -102,7 +100,7 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmClientReport;
 
-	private JMenu mnSearch;
+	private JMenu mnSalesSearch;
 
 	private JMenuItem mntmMaterialSearch;
 
@@ -131,6 +129,12 @@ public class MainFrame extends JFrame {
 	private JMenu mnSubUpdateRH;
 
 	private JMenuItem mntmUpdateOfEmployee;
+
+	private JMenuItem mntmUpdateOfKit;
+
+	private JMenuItem mntmUpdateOfClient;
+
+	private JMenuItem mntmSearchOfKit;
 
 	
 	/**
@@ -162,7 +166,7 @@ public class MainFrame extends JFrame {
 		
 		setTitle("Sistema de Gestão Empresarial - AUTITEC");
 		setLocationRelativeTo(null);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		Icon.setIcon(this);
 		
 		menuBar = new JMenuBar();
@@ -297,13 +301,13 @@ public class MainFrame extends JFrame {
 		menuBar.add(mnSales);
 		mnSales.setVisible(false);
 		
-		mnRegister = new JMenu("Registros");
-		mnSales.add(mnRegister);
-		mnRegister.setVisible(false);
+		mnSalesRegister = new JMenu("Registros");
+		mnSales.add(mnSalesRegister);
+		mnSalesRegister.setVisible(false);
 
-		mnUpdates = new JMenu("Atualizar/Remover Registros");
-		mnSales.add(mnUpdates);
-		mnUpdates.setVisible(false);
+		mnSalesUpdates = new JMenu("Atualizar/Remover Registros");
+		mnSales.add(mnSalesUpdates);
+		mnSalesUpdates.setVisible(false);
 
 		mnReports = new JMenu("Relátorios");
 		mnSales.add(mnReports);
@@ -313,7 +317,72 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnInventory);
 		mnInventory.setVisible(false);
 		
+		mntmRegisterOfMaterial = new JMenuItem("Registrar Material");
+		mnSalesRegister.add(mntmRegisterOfMaterial);
+		mntmRegisterOfMaterial.setVisible(false);
+		mntmRegisterOfMaterial.setName("REG_MAT");		
+		
+		mntmRegisterProduct = new JMenuItem("Registrar Produto");
+		mnSalesRegister.add(mntmRegisterProduct);
+		mntmRegisterProduct.setVisible(false);
+		mntmRegisterProduct.setName("REG_PROD");		
+		
+		mntmKitRegister = new JMenuItem("Registrar KIT");
+		mnSalesRegister.add(mntmKitRegister);
+		mntmKitRegister.setVisible(false);
+		mntmKitRegister.setName("REG_KIT");
+		
+		mntmProductUpdate = new JMenuItem("Atualizar/Remover Registro de Material");
+		mnSalesUpdates.add(mntmProductUpdate);
+		mntmProductUpdate.setVisible(false);
+		mntmProductUpdate.setName("UPD_MAT");
+		
+		mntmUpdateProduct = new JMenuItem("Atualizar/Remover Registro de Produtos");
+		mnSalesUpdates.add(mntmUpdateProduct);
+		mntmUpdateProduct.setVisible(false);
+		mntmUpdateProduct.setName("UPD_PROD");
+
+		mntmClientReport = new JMenuItem("Gerar Relatório de Cliente");
+		mnReports.add(mntmClientReport);
+		mntmClientReport.setVisible(false);
+		mntmClientReport.setName("CLI_REP");
+		
+		mnSalesSearch = new JMenu("Consultas");
+		mnSales.add(mnSalesSearch);
+		mnSales.setVisible(false);
+		
+		mntmMaterialSearch = new JMenuItem("Consulta de Materiais");
+		mnSalesSearch.add(mntmMaterialSearch);
+		mntmMaterialSearch.setName("SEA_MAT");
+		mntmMaterialSearch.setVisible(false);
+		
+		mntmProductSearch = new JMenuItem("Consulta de Produtos");
+		mnSalesSearch.add(mntmProductSearch);
+		mntmProductSearch.setName("SEA_PROD");
+		mntmProductSearch.setVisible(false);
+		
+		mntmClientSearch = new JMenuItem("Consulta de Clientes");
+		mnSalesSearch.add(mntmClientSearch);
+		mntmClientSearch.setName("SEA_CLI");
+		mntmClientSearch.setVisible(false);
+		
+		mntmUpdateOfKit = new JMenuItem("Atualizar/Remover Registro de Kit");
+		mnSalesUpdates.add(mntmUpdateOfKit);
+		mntmUpdateOfKit.setName("UPD_KIT");
+		mntmUpdateOfKit.setVisible(false);
+		
+		mntmUpdateOfClient = new JMenuItem("Atualizar/Remover Registro de Cliente");
+		mnSalesUpdates.add(mntmUpdateOfClient);
+		mntmUpdateOfClient.setName("UPD_CLI");
+		mntmUpdateOfClient.setVisible(false);
+		
+		mntmSearchOfKit = new JMenuItem("Consulta de Kits");
+		mnSalesSearch.add(mntmSearchOfKit);
+		mntmSearchOfKit.setName("SEA_KIT");
+		mntmSearchOfKit.setVisible(false);
+
 		//Compras
+		
 		mnBuy = new JMenu("Compras");
 		mnBuy.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/buy_icon.png")));
 		menuBar.add(mnBuy);
@@ -327,15 +396,15 @@ public class MainFrame extends JFrame {
 		mnBuy.add(mnBuyReports);
 		mnBuy.setVisible(false);
 		
+		mnUpdateBuy = new JMenu("Autalizar/Remover Registros");
+		mnBuy.add(mnUpdateBuy);
+		mnUpdateBuy.setVisible(false);
+
 		mntmResgisterOfSuppliers = new JMenuItem("Registrar Fornecedores");
 		mnRegisterBuy.add(mntmResgisterOfSuppliers);
 		mntmResgisterOfSuppliers.setVisible(false);
 		mntmResgisterOfSuppliers.setName("REG_SUP");
 		
-		mnUpdateBuy = new JMenu("Autalizar/Remover Registros");
-		mnBuy.add(mnUpdateBuy);
-		mnUpdateBuy.setVisible(false);
-
 		mntmApprovalOfSuppliers = new JMenuItem("Homologar Fornecedores");
 		mnBuy.add(mntmApprovalOfSuppliers);
 		mntmApprovalOfSuppliers.setVisible(false);
@@ -350,36 +419,6 @@ public class MainFrame extends JFrame {
 		mnBuy.add(mntmSalesOrder);
 		mntmSalesOrder.setVisible(false);
 		mntmSalesOrder.setName("SALE_DEM");
-		
-		mntmRegisterOfMaterial = new JMenuItem("Registrar Material");
-		mnRegister.add(mntmRegisterOfMaterial);
-		mntmRegisterOfMaterial.setVisible(false);
-		mntmRegisterOfMaterial.setName("REG_MAT");		
-		
-		mntmRegisterProduct = new JMenuItem("Registrar Produto");
-		mnRegister.add(mntmRegisterProduct);
-		mntmRegisterProduct.setVisible(false);
-		mntmRegisterProduct.setName("REG_PROD");		
-		
-		mntmKitRegister = new JMenuItem("Registrar KIT");
-		mnRegister.add(mntmKitRegister);
-		mntmKitRegister.setVisible(false);
-		mntmKitRegister.setName("REG_KIT");
-		
-		mntmProductUpdate = new JMenuItem("Atualizar/Remover Registro de Material");
-		mnUpdates.add(mntmProductUpdate);
-		mntmProductUpdate.setVisible(false);
-		mntmProductUpdate.setName("UPD_MAT");
-		
-		mntmUpdateKit = new JMenuItem("Atualiza/Remover Registro de Kit");
-		mnUpdates.add(mntmUpdateKit);
-		mntmUpdateKit.setVisible(false);
-		mntmUpdateKit.setName("UPD_KIT");
-
-		mntmUpdateProduct = new JMenuItem("Atualizar/Remover Registro de Produtos");
-		mnUpdates.add(mntmUpdateProduct);
-		mntmUpdateProduct.setVisible(false);
-		mntmUpdateProduct.setName("UPD_PROD");
 
 		mntmSupplierUpdate = new JMenuItem("Atualizar/Remover Registro de Fornecedores");
 		mnUpdateBuy.add(mntmSupplierUpdate);
@@ -402,45 +441,23 @@ public class MainFrame extends JFrame {
 		mntmAddMaterialToInvetory.setName("INS_STOCK");
 		
 		mntmClientRegister = new JMenuItem("Registrar Cliente");
-		mnRegister.add(mntmClientRegister);
+		mnSalesRegister.add(mntmClientRegister);
 		mntmClientRegister.setVisible(false);
 		mntmClientRegister.setName("REG_CLI");
+
+		//Produção
 		
 		mnProduction = new JMenu("Produção");
 		mnProduction.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/production.png")));
 		menuBar.add(mnProduction);
 		mnProduction.setVisible(false);
 		
-		mntmClientReport = new JMenuItem("Gerar Relatório de Cliente");
-		mnReports.add(mntmClientReport);
-		mntmClientReport.setVisible(false);
-		mntmClientReport.setName("CLI_REP");
-		
-		mnSearch = new JMenu("Consultas");
-		mnSales.add(mnSearch);
-		mnSales.setVisible(false);
-		
-		mntmMaterialSearch = new JMenuItem("Consulta de Materiais");
-		mnSearch.add(mntmMaterialSearch);
-		mntmMaterialSearch.setName("SEA_MAT");
-		mntmMaterialSearch.setVisible(false);
-		
-		mntmProductSearch = new JMenuItem("Consulta de Produtos");
-		mnSearch.add(mntmProductSearch);
-		mntmProductSearch.setName("SEA_PROD");
-		mntmProductSearch.setVisible(false);
-		
-		mntmClientSearch = new JMenuItem("Consulta de clientes");
-		mnSearch.add(mntmClientSearch);
-		mntmClientSearch.setName("SEA_CLI");
-		mntmClientSearch.setVisible(false);
-		
-		//Produção
 		mntmProductionStage = new JMenuItem("Estágios de Produção");
 		mnProduction.add(mntmProductionStage);
 		mntmProductionStage.setVisible(false);
 		mntmProductionStage.setName("PROD_STG");
 		
+		//Sobre
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
 		
@@ -513,13 +530,14 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmApprovalOfSuppliers);
 		menuItens.add(mntmSalesRequisition);
 		menuItens.add(mntmSalesOrder);
-		menuItens.add(mntmUpdateKit);
 		menuItens.add(mntmClientReport);
 		menuItens.add(mntmMaterialSearch);
 		menuItens.add(mntmProductSearch);
 		menuItens.add(mntmClientSearch);
+		menuItens.add(mntmUpdateOfKit);
 		menuItens.add(mntmProductionStage);
-		
+		menuItens.add(mntmUpdateOfClient);
+		menuItens.add(mntmSearchOfKit);
 	}
 
 	/**
@@ -569,11 +587,13 @@ public class MainFrame extends JFrame {
 				else if	(e.getSource().equals(mntmAddMaterialToInvetory)) controller.Sales(MainFrameController.inventory);
 				else if (e.getSource().equals(mntmKitRegister)) controller.Sales(MainFrameController.registerOfKit);
 				else if (e.getSource().equals(mntmUpdateProduct))controller.Sales(MainFrameController.updateOfCompostProduct);
-				else if (e.getSource().equals(mntmUpdateKit))controller.Sales(MainFrameController.updateOfKit);
+				else if (e.getSource().equals(mntmUpdateOfKit))controller.Sales(MainFrameController.updateOfKit);
 				else if (e.getSource().equals(mntmClientReport))controller.Sales(MainFrameController.clientReport);
 				else if (e.getSource().equals(mntmMaterialSearch))controller.Sales(MainFrameController.materialSearch);
 				else if (e.getSource().equals(mntmProductSearch))controller.Sales(MainFrameController.productSearch);
 				else if (e.getSource().equals(mntmClientSearch))controller.Sales(MainFrameController.clientSearch);
+				else if (e.getSource().equals(mntmUpdateOfClient))controller.Sales(MainFrameController.clientUpdate);
+				else if (e.getSource().equals(mntmSearchOfKit))controller.Sales(MainFrameController.kitSearch);
 			}
 		};
 		
@@ -613,11 +633,13 @@ public class MainFrame extends JFrame {
 		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		mntmKitRegister.addActionListener(menuListeners);
 		mntmUpdateProduct.addActionListener(menuListeners);	
-		mntmUpdateKit.addActionListener(menuListeners);
+		mntmUpdateOfKit.addActionListener(menuListeners);
 		mntmClientReport.addActionListener(menuListeners);
 		mntmProductSearch.addActionListener(menuListeners);
 		mntmMaterialSearch.addActionListener(menuListeners);
 		mntmClientSearch.addActionListener(menuListeners);
+		mntmUpdateOfClient.addActionListener(menuListeners);
+		mntmSearchOfKit.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

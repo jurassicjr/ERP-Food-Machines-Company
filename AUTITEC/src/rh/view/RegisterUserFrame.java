@@ -43,7 +43,6 @@ import javax.swing.tree.TreePath;
 
 import model.Employee;
 import rh.controller.RegisterUserFrameController;
-import rh.view.UpdatePermissionsFrame.CheckBoxNode;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.Icon;
 
@@ -217,37 +216,45 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Listar Contas a Pagar", false, "LIST_DEBT"),
 				new CheckBoxNode("Relatório Financeiro", false, "FIN_REP")
 		};
-		
+	
 		CheckBoxNode salesOptions[] = {
-				new CheckBoxNode("Registrar Fornecedor", false, "REG_SUP"),
 				new CheckBoxNode("Registrar Material", false, "REG_MAT"),
 				new CheckBoxNode("Registrar Produto", false, "REG_PROD"),
 				new CheckBoxNode("Registrar Kit", false, "REG_KIT"),
 				new CheckBoxNode("Registrar Cliente", false, "REG_CLI"),
 				new CheckBoxNode("Atualizar/Remover Material", false, "UPD_MAT"),
-				new CheckBoxNode("Atualizar/Remover Fornecedor", false, "UPD_SUP"),
 				new CheckBoxNode("Atualizar/Remover Produto", false, "UPD_PROD"),
 				new CheckBoxNode("Relatório de Fornecedores", false, "SUP_REP"),
 				new CheckBoxNode("Relatório de Materiais", false, "MAT_REP"),
 				new CheckBoxNode("Inserir Material em Estoque", false, "INS_STOCK"),
-				new CheckBoxNode("Homologar Fornecedor", false, "HOM_SUP"),
-				new CheckBoxNode("Requisição de Compra", false, "SALE_REQ"),
-				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM"),
+				new CheckBoxNode("Relatório de Clientes", false, "CLI_REP"),
 				new CheckBoxNode("Consulta de Material", false, "SEA_MAT"),
 				new CheckBoxNode("Consulta de Produto", false, "SEA_PROD"),
-				new CheckBoxNode("Consulta de Clientes", false, "SEA_CLI")
+				new CheckBoxNode("Consulta de Clientes", false, "SEA_CLI"),
+				new CheckBoxNode("Atualização/Remoção de Kit", false, "UPD_KIT"),
+				new CheckBoxNode("Atualizar/Remover Registro de Cliente", false, "UPD_CLI"),
+				new CheckBoxNode("Consulta de Kits", false, "SEA_KIT")
 		};
 		
 		CheckBoxNode productionOptions[] = {
 				new CheckBoxNode("Estágios de Produção", false, "PROD_STG")
 		};
 		    
+		CheckBoxNode buyOptions[] = {
+				new CheckBoxNode("Registrar Fornecedor", false, "REG_SUP"),
+				new CheckBoxNode("Atualizar/Remover Fornecedor", false, "UPD_SUP"),
+				new CheckBoxNode("Homologar Fornecedor", false, "HOM_SUP"),
+				new CheckBoxNode("Requisição de Compra", false, "SALE_REQ"),
+				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM")
+		};
+		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);
 		Vector<?> financialVector = new NamedVector("Financeiro", financialOptions);
 		Vector<?> salesVector = new NamedVector("Vendas", salesOptions);
 		Vector<?> productionVector = new NamedVector("Produção", productionOptions);
-		
-		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector };
+		Vector<?> buyVector = new NamedVector("Compras", buyOptions);
+
+		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector, buyVector};
 		
 		Vector<?> rootVector = new NamedVector("Root", rootNodes);
 		permissions = new JTree(rootVector);
@@ -419,7 +426,8 @@ public class RegisterUserFrame extends JFrame {
 			this.tree = tree;
 		}
 
-		public Object getCellEditorValue() {
+		@Override
+        public Object getCellEditorValue() {
 			
 			JCheckBox checkbox = renderer.getLeafRenderer();
 			CheckBoxNode checkBoxNode = new CheckBoxNode(checkbox.getText(), checkbox.isSelected(), checkbox.getName());
@@ -459,7 +467,8 @@ public class RegisterUserFrame extends JFrame {
 	
 			ItemListener itemListener = new ItemListener() {
 			    	
-				public void itemStateChanged(ItemEvent itemEvent) {
+				@Override
+                public void itemStateChanged(ItemEvent itemEvent) {
 					if (stopCellEditing()) fireEditingStopped();
 			    }
 			};

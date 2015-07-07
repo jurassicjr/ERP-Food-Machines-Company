@@ -263,6 +263,8 @@ public class UpdateOfTrainingFrame extends JFrame{
 		);
 		
 		table = new JTable();
+		String[] header = new String[] {"FUNCIONÁRIO", "CARGO"};
+		table.setModel(new DefaultTableModel(null, header));
 		scrollPane.setViewportView(table);
 		principalPanel.setLayout(gl_principalPanel);
 		initializeBotton();
@@ -366,6 +368,7 @@ public class UpdateOfTrainingFrame extends JFrame{
 	
 	private void fillEmployeeTable(Training t){
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		table.getModel().setValueAt("ok", 1, 1);
 		List<Employee> employeeList = t.getEmployeeList();
 		if(employeeList == null)return;
 		employeeList.forEach(e -> tbl.addRow(new Object[]{e, e.getJob().getCbo().getTitle()}));
