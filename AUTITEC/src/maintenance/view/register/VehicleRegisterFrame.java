@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Date;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -26,7 +27,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import maintenance.controller.VehicleRegisterController;
 import model.Vehicle;
 import net.sf.nachocalendar.components.DateField;
+import userInterface.components.FrameController;
 import userInterface.components.UpperTextField;
+import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
 
@@ -54,7 +57,7 @@ public class VehicleRegisterFrame extends JFrame {
 
 	public VehicleRegisterFrame()
 	{
-		controller = new VehicleRegisterController(this);
+		controller = new VehicleRegisterController();
 		initialize();
 		setListeners();
 		
@@ -63,11 +66,11 @@ public class VehicleRegisterFrame extends JFrame {
 	{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		Icon.setIcon(this);
-		setTitle("Registro	 De Veículos");
+		setTitle("Registro De Veículos");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 600, 350);
-		setMinimumSize(new Dimension(600, 350));
-		setPreferredSize(new Dimension(600, 350));
+		setBounds(100, 100, 650, 350);
+		setMinimumSize(new Dimension(650, 350));
+		setPreferredSize(new Dimension(650, 350));
 		initializePrincipal();
 		controller.fillCboType(cboType);
 		controller.fillCboBrand(cboBrand);
@@ -78,13 +81,8 @@ public class VehicleRegisterFrame extends JFrame {
 		btnConfirm.addActionListener(ButtonActions);
 		txtInitialKm.addKeyListener(OnlyDigitsKeyListener);
 		txtOilChangeInterval.addKeyListener(OnlyDigitsKeyListener);
+		FrameController.addConfirmationOnClose(this);
 		
-		addWindowListener(new WindowAdapter() {
-			@Override
-			public void windowClosing(WindowEvent e) {
-				controller.close();
-			}
-		});
 	}
 	private Vehicle getVehicleData()
 	{
@@ -111,7 +109,7 @@ public class VehicleRegisterFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource().equals(btnCancel))
-				controller.close();
+				FrameController.close(thisFrame);
 			else
 			if(e.getSource().equals(btnConfirm)){
 				if(verifyFields())
@@ -124,7 +122,7 @@ public class VehicleRegisterFrame extends JFrame {
 						{
 							
 								ShowMessage.successMessage(null,"RESULTADO","Veículo inserido com sucesso.");
-								thisFrame.dispose();
+								clearFields();
 							
 						}
 						else				
@@ -187,6 +185,16 @@ public class VehicleRegisterFrame extends JFrame {
 			return false;
 		}
 		
+	}
+	private void clearFields()
+	{
+		ClearFrame.clear(this);
+		controller.fillCboBrand(cboBrand);
+		controller.fillCboBrand(cboType);
+		txtIpvaDate.setValue(new Date());
+		txtLicenseDate.setValue(new Date());
+		txtLastOilChange.setValue(new Date());
+		txtModel.grabFocus();
 	}
 	private void initializePrincipal()
 	{
@@ -264,8 +272,13 @@ public class VehicleRegisterFrame extends JFrame {
 				.addGroup(gl_panelData.createSequentialGroup()
 					.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelData.createSequentialGroup()
+							.addContainerGap()
+							.addComponent(separator, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
+							.addContainerGap())
+						.addGroup(gl_panelData.createSequentialGroup()
 							.addGap(12)
 							.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
+								.addComponent(panelActions, GroupLayout.DEFAULT_SIZE, 624, Short.MAX_VALUE)
 								.addGroup(gl_panelData.createSequentialGroup()
 									.addComponent(lblTipo, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
 									.addGap(135)
@@ -313,12 +326,8 @@ public class VehicleRegisterFrame extends JFrame {
 								.addGroup(gl_panelData.createSequentialGroup()
 									.addComponent(txtIpvaDate, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
 									.addGap(12)
-									.addComponent(txtLicenseDate, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
-								.addComponent(panelActions, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)))
-						.addGroup(gl_panelData.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(separator, GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)))
-					.addContainerGap())
+									.addComponent(txtLicenseDate, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)))
+							.addContainerGap())))
 		);
 		gl_panelData.setVerticalGroup(
 			gl_panelData.createParallelGroup(Alignment.LEADING)
@@ -372,7 +381,8 @@ public class VehicleRegisterFrame extends JFrame {
 					.addGap(20)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(panelActions, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
+					.addComponent(panelActions, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE)
+					.addGap(6))
 		);
 		GroupLayout gl_panelActions = new GroupLayout(panelActions);
 		gl_panelActions.setHorizontalGroup(
@@ -392,6 +402,7 @@ public class VehicleRegisterFrame extends JFrame {
 						.addComponent(btnConfirm)))
 		);
 		panelActions.setLayout(gl_panelActions);
+		
 		panelData.setLayout(gl_panelData);
 	}
 	

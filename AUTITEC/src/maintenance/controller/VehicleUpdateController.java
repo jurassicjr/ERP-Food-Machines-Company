@@ -3,39 +3,23 @@ package maintenance.controller;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
 
-import model.Vehicle;
-import util.ShowMessage;
 import database.dao.VehicleDAO;
+import model.Vehicle;
 
-
-
-public class VehicleRegisterController {
+public class VehicleUpdateController {
 	
-	
-	public void fillCboType(JComboBox cboTypes)
-	{
-		ArrayList<String> typesList = new ArrayList<String>(){{
-			add("Convencional");
-			add("Utilitário");
-			add("Camioneta");
-			add("Caminhonete");
-			add("Caminhão");
-			add("Motocicleta");
-			
-		}};
-		cboTypes.removeAllItems();
-		
-		for(String type:typesList)
-			cboTypes.addItem(type);
-	}
-	public boolean insertVehicle(Vehicle vehicle)
+    
+	public void fillCboVehicles(JComboBox<Vehicle> cboVehicle)
 	{
 		VehicleDAO dao = new VehicleDAO();
-		return dao.persist(vehicle);
+		ArrayList<Vehicle> vehicles = (ArrayList<Vehicle>) dao.getList();
+		cboVehicle.removeAllItems();
+		for(Vehicle regVehicle:vehicles)
+			cboVehicle.addItem(regVehicle);
+			
 	}
+	
 	public void fillCboBrand(JComboBox cboBrands)
 	{
 		ArrayList<String> brandsList = new ArrayList<String>(){{
@@ -91,6 +75,38 @@ public class VehicleRegisterController {
 		
 		for(String type:brandsList)
 			cboBrands.addItem(type);
+	}
+	public void fillCboType(JComboBox cboTypes)
+	{
+		ArrayList<String> typesList = new ArrayList<String>(){{
+			add("Convencional");
+			add("Utilitário");
+			add("Camioneta");
+			add("Caminhonete");
+			add("Caminhão");
+			add("Motocicleta");
+			
+		}};
+		cboTypes.removeAllItems();
+		
+		for(String type:typesList)
+			cboTypes.addItem(type);
+	}
+	public Boolean updateVehicle(Vehicle vehicle)
+	{
+		VehicleDAO dao = new VehicleDAO();
+		return dao.update(vehicle);
+	}
+	public boolean deleteVehicle(Integer vehicleId)
+	{
+		VehicleDAO dao = new VehicleDAO();
+		return dao.delete(vehicleId);
+		
+	}
+	public Vehicle getRegister(Integer vehicleId)
+	{
+		VehicleDAO dao = new VehicleDAO();
+		return dao.getRegister(vehicleId);
 	}
 	
 }
