@@ -1,33 +1,32 @@
 package maintenance.view.register;
 
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
 import maintenance.controller.VehicleRegisterController;
 import model.Vehicle;
 import net.sf.nachocalendar.components.DateField;
 import userInterface.components.UpperTextField;
-import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
-
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
-import javax.swing.JPanel;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.border.EtchedBorder;
-import javax.swing.JButton;
-
-import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
 public class VehicleRegisterFrame extends JFrame {
 
@@ -62,11 +61,11 @@ public class VehicleRegisterFrame extends JFrame {
 	{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		Icon.setIcon(this);
-		setTitle("REGISTRO DE VEÍCULOS");
+		setTitle("Registro De Veículos");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 600, 350);
-		setMinimumSize(new Dimension(506, 270));
-		setPreferredSize(new Dimension(811, 270));
+		setMinimumSize(new Dimension(600, 350));
+		setPreferredSize(new Dimension(600, 350));
 		initializePrincipal();
 		controller.fillCboType(cboType);
 		controller.fillCboBrand(cboBrand);
@@ -246,62 +245,72 @@ public class VehicleRegisterFrame extends JFrame {
 		panelActions = new JPanel();
 		
 		 btnCancel = new JButton("Cancelar");
+		 btnCancel.setIcon(new ImageIcon(VehicleRegisterFrame.class.getResource("/resources/cancel.png")));
 		 btnConfirm = new JButton("Confirmar");
+		 btnConfirm.setIcon(new ImageIcon(VehicleRegisterFrame.class.getResource("/resources/ok.png")));
+		
+		separator = new JSeparator();
 		GroupLayout gl_panelData = new GroupLayout(panelData);
 		gl_panelData.setHorizontalGroup(
 			gl_panelData.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelData.createSequentialGroup()
-					.addGap(12)
 					.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panelData.createSequentialGroup()
-							.addComponent(lblTipo, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-							.addGap(135)
-							.addComponent(lblMarca, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-							.addGap(111)
-							.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelData.createSequentialGroup()
-							.addComponent(cboType, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(cboBrand, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
-							.addGap(13)
-							.addComponent(txtModel, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
-						.addComponent(lblDescrio, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-						.addComponent(txtDescription, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
-						.addGroup(gl_panelData.createSequentialGroup()
-							.addComponent(lblChassi, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-							.addGap(135)
-							.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
-							.addGap(109)
-							.addComponent(lblPlaca, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelData.createSequentialGroup()
-							.addComponent(txtChassi, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(txtRenavan, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
-							.addGap(16)
-							.addComponent(txtPlaca, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_panelData.createSequentialGroup()
-							.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblKmInicial, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtInitialKm, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
 							.addGap(12)
 							.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblltimaTrocaDe, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
-								.addComponent(txtLastOilChange, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE))
-							.addGap(3)
-							.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblTrocaDeleo, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
 								.addGroup(gl_panelData.createSequentialGroup()
+									.addComponent(lblTipo, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+									.addGap(135)
+									.addComponent(lblMarca, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+									.addGap(111)
+									.addComponent(lblNewLabel, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panelData.createSequentialGroup()
+									.addComponent(cboType, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+									.addGap(12)
+									.addComponent(cboBrand, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+									.addGap(13)
+									.addComponent(txtModel, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE))
+								.addComponent(lblDescrio, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+								.addComponent(txtDescription, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)
+								.addGroup(gl_panelData.createSequentialGroup()
+									.addComponent(lblChassi, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+									.addGap(135)
+									.addComponent(lblNewLabel_1, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE)
+									.addGap(109)
+									.addComponent(lblPlaca, GroupLayout.PREFERRED_SIZE, 70, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panelData.createSequentialGroup()
+									.addComponent(txtChassi, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+									.addGap(12)
+									.addComponent(txtRenavan, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+									.addGap(16)
+									.addComponent(txtPlaca, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_panelData.createSequentialGroup()
+									.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblKmInicial, GroupLayout.PREFERRED_SIZE, 101, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtInitialKm, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
+									.addGap(12)
+									.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblltimaTrocaDe, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
+										.addComponent(txtLastOilChange, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE))
 									.addGap(3)
-									.addComponent(txtOilChangeInterval, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))))
+									.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblTrocaDeleo, GroupLayout.PREFERRED_SIZE, 176, GroupLayout.PREFERRED_SIZE)
+										.addGroup(gl_panelData.createSequentialGroup()
+											.addGap(3)
+											.addComponent(txtOilChangeInterval, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))))
+								.addGroup(gl_panelData.createSequentialGroup()
+									.addComponent(lblVencimentoDoIpva, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
+									.addGap(23)
+									.addComponent(lblVencimentoDoLicenciamento))
+								.addGroup(gl_panelData.createSequentialGroup()
+									.addComponent(txtIpvaDate, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
+									.addGap(12)
+									.addComponent(txtLicenseDate, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
+								.addComponent(panelActions, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_panelData.createSequentialGroup()
-							.addComponent(lblVencimentoDoIpva, GroupLayout.PREFERRED_SIZE, 182, GroupLayout.PREFERRED_SIZE)
-							.addGap(23)
-							.addComponent(lblVencimentoDoLicenciamento))
-						.addGroup(gl_panelData.createSequentialGroup()
-							.addComponent(txtIpvaDate, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE)
-							.addGap(12)
-							.addComponent(txtLicenseDate, GroupLayout.PREFERRED_SIZE, 193, GroupLayout.PREFERRED_SIZE))
-						.addComponent(panelActions, GroupLayout.PREFERRED_SIZE, 560, GroupLayout.PREFERRED_SIZE)))
+							.addContainerGap()
+							.addComponent(separator, GroupLayout.DEFAULT_SIZE, 564, Short.MAX_VALUE)))
+					.addContainerGap())
 		);
 		gl_panelData.setVerticalGroup(
 			gl_panelData.createParallelGroup(Alignment.LEADING)
@@ -352,7 +361,9 @@ public class VehicleRegisterFrame extends JFrame {
 					.addGroup(gl_panelData.createParallelGroup(Alignment.LEADING)
 						.addComponent(txtIpvaDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txtLicenseDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(28)
+					.addGap(20)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panelActions, GroupLayout.PREFERRED_SIZE, 42, GroupLayout.PREFERRED_SIZE))
 		);
 		GroupLayout gl_panelActions = new GroupLayout(panelActions);
@@ -381,5 +392,6 @@ public class VehicleRegisterFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private JSeparator separator;
 	
 }

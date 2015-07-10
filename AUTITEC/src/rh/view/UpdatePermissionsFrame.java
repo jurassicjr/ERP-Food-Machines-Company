@@ -243,13 +243,18 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM")
 		};
 		    
+		CheckBoxNode maintenanceOptions[] = {
+				new CheckBoxNode("Registrar Veiculo", false, "REG_VEH")
+		};
+		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);
 		Vector<?> financialVector = new NamedVector("Financeiro", financialOptions);
 		Vector<?> salesVector = new NamedVector("Vendas", salesOptions);
 		Vector<?> productionVector = new NamedVector("Produção", productionOptions);
 		Vector<?> buyVector = new NamedVector("Compras", buyOptions);
+		Vector<?> maintenanceVector = new NamedVector("Manutenção", maintenanceOptions);
 		
-		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector, buyVector };
+		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector, buyVector, maintenanceVector};
 		
 		Vector<?> rootVector = new NamedVector("Root", rootNodes);
 		permissions = new JTree(rootVector);

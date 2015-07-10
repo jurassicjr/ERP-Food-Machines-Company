@@ -5,6 +5,7 @@ import java.awt.EventQueue;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import maintenance.view.register.VehicleRegisterFrame;
 import production.view.StagesProductionFrame;
 import rh.view.EmployeeReportFrame;
 import rh.view.EntryOfEPIFrame;
@@ -544,6 +545,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				InternalSatisfactionResearchFrame frame = new InternalSatisfactionResearchFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void vehicleRegister() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				VehicleRegisterFrame frame = new VehicleRegisterFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

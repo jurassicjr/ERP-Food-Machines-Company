@@ -138,6 +138,12 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmInternalSatisfactionResearch;
 
+	private JMenu mnMaintenance;
+
+	private JMenu mnMaintenanceRegister;
+
+	private JMenuItem mntmVehicleRegister;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -252,6 +258,7 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmInternalSatisfactionResearch);
 		mntmInternalSatisfactionResearch.setVisible(false);
 		mntmInternalSatisfactionResearch.setName("INT_RES");
+		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
 		mnFinancial.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/finance.png")));
@@ -463,6 +470,23 @@ public class MainFrame extends JFrame {
 		mntmProductionStage.setVisible(false);
 		mntmProductionStage.setName("PROD_STG");
 		
+		//Manutenção
+		
+		mnMaintenance = new JMenu("Manutenção");
+		mnMaintenance.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/icon_maintenance.png")));
+		menuBar.add(mnMaintenance);
+		mnMaintenance.setVisible(false);
+		
+		mnMaintenanceRegister = new JMenu("Registros");
+		mnMaintenance.add(mnMaintenanceRegister);
+		mnMaintenanceRegister.setVisible(false);
+		
+		mntmVehicleRegister = new JMenuItem("Registro de Veiculos");
+		mnMaintenanceRegister.add(mntmVehicleRegister);
+		mntmVehicleRegister.setVisible(false);
+		mntmVehicleRegister.setName("REG_VEH");
+		
+		
 		//Sobre
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
@@ -471,9 +495,9 @@ public class MainFrame extends JFrame {
 		mnAbout.add(mntmRegisterIssue);
 		
 		mntmAbout = new JMenuItem("Sobre o Software");
+		
 		mnAbout.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/about.png")));
 		mnAbout.add(mntmAbout);
-		
 		scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(150, 150));
 		scrollPane.setBorder(new TitledBorder("Notificações"));
@@ -545,6 +569,8 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmProductionStage);
 		menuItens.add(mntmUpdateOfClient);
 		menuItens.add(mntmSearchOfKit);
+		
+		menuItens.add(mntmVehicleRegister);
 	}
 
 	/**
@@ -602,6 +628,8 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmClientSearch))controller.Sales(MainFrameController.clientSearch);
 				else if (e.getSource().equals(mntmUpdateOfClient))controller.Sales(MainFrameController.clientUpdate);
 				else if (e.getSource().equals(mntmSearchOfKit))controller.Sales(MainFrameController.kitSearch);
+				
+				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
 			}
 		};
 		
@@ -649,6 +677,8 @@ public class MainFrame extends JFrame {
 		mntmClientSearch.addActionListener(menuListeners);
 		mntmUpdateOfClient.addActionListener(menuListeners);
 		mntmSearchOfKit.addActionListener(menuListeners);
+		
+		mntmVehicleRegister.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

@@ -249,13 +249,18 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM")
 		};
 		
+		CheckBoxNode maintenceOptions[] = {
+				new CheckBoxNode("Registrar Veiculo", false, "REG_VEH")
+		};
+		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);
 		Vector<?> financialVector = new NamedVector("Financeiro", financialOptions);
 		Vector<?> salesVector = new NamedVector("Vendas", salesOptions);
 		Vector<?> productionVector = new NamedVector("Produção", productionOptions);
 		Vector<?> buyVector = new NamedVector("Compras", buyOptions);
+		Vector<?> maintenceVector = new NamedVector("Manutenção", maintenceOptions);
 
-		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector, buyVector};
+		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector, buyVector, maintenceVector};
 		
 		Vector<?> rootVector = new NamedVector("Root", rootNodes);
 		permissions = new JTree(rootVector);
