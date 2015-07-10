@@ -3,14 +3,22 @@ package maintenance.controller;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
-import database.dao.VehicleDAO;
 import model.Vehicle;
+import util.ShowMessage;
+import database.dao.VehicleDAO;
 
 
 
 public class VehicleRegisterController {
 	
+	
+	private JFrame frame;
+	public VehicleRegisterController(JFrame frame) {
+		this.frame = frame;
+	}
 	
 	public void fillCboType(JComboBox cboTypes)
 	{
@@ -89,4 +97,8 @@ public class VehicleRegisterController {
 		for(String type:brandsList)
 			cboBrands.addItem(type);
 	}
+	public void close() {
+	    int i = ShowMessage.questionMessage(frame, "Fechar", "Deseja realmente fechar o registro de veiculos?\n Os dados não salvos serão perdidos");
+	    if(i == JOptionPane.YES_OPTION)frame.dispose();
+    }
 }

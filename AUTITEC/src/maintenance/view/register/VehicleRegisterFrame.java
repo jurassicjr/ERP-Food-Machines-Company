@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -52,7 +54,7 @@ public class VehicleRegisterFrame extends JFrame {
 
 	public VehicleRegisterFrame()
 	{
-		controller = new VehicleRegisterController();
+		controller = new VehicleRegisterController(this);
 		initialize();
 		setListeners();
 		
@@ -61,7 +63,7 @@ public class VehicleRegisterFrame extends JFrame {
 	{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		Icon.setIcon(this);
-		setTitle("Registro De Veículos");
+		setTitle("Registro	 De Veículos");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 600, 350);
 		setMinimumSize(new Dimension(600, 350));
@@ -76,6 +78,13 @@ public class VehicleRegisterFrame extends JFrame {
 		btnConfirm.addActionListener(ButtonActions);
 		txtInitialKm.addKeyListener(OnlyDigitsKeyListener);
 		txtOilChangeInterval.addKeyListener(OnlyDigitsKeyListener);
+		
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				controller.close();
+			}
+		});
 	}
 	private Vehicle getVehicleData()
 	{
@@ -102,10 +111,9 @@ public class VehicleRegisterFrame extends JFrame {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getSource().equals(btnCancel))
-				thisFrame.dispose();
+				controller.close();
 			else
-			if(e.getSource().equals(btnConfirm))
-			{
+			if(e.getSource().equals(btnConfirm)){
 				if(verifyFields())
 				{
 					if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo registrar veículo ?")==
