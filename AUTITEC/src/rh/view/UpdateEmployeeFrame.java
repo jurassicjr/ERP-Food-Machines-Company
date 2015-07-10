@@ -34,9 +34,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.event.ListSelectionEvent;
@@ -545,7 +545,8 @@ public class UpdateEmployeeFrame extends JFrame {
 			
 			Class<?>[] columnTypes = new Class[] {String.class, String.class, Date.class};
 			
-			public Class<?> getColumnClass(int columnIndex) {
+			@Override
+            public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 			

@@ -3,9 +3,11 @@ package database.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
+import java.util.Map;
 
 import model.Employee;
 import model.InternalSatisfactionResearch;
+import util.ShowMessage;
 import database.DataBase;
 
 public class InternalSatisfactionResearchDAO {
@@ -45,6 +47,36 @@ public class InternalSatisfactionResearchDAO {
 	        e1.printStackTrace();
         }
 		return null;
+    }
+
+	public void register(Map<String, Object> map) {
+	  
+	  int internalLighting = (int) map.get("internalLighting");
+	  int comunicationFacility = (int) map.get("comunicationFacility");
+	  int epi = (int) map.get("epi");
+	  int tooling = (int) map.get("tooling");
+	  int former = (int) map.get("howYouAvaiableTheFormer");
+	  int wc = (int) map.get("wc");
+	  int uniform = (int) map.get("uniform");
+	  int relationGroup = (int) map.get("relationGroup");
+	  int functionPerfomed = (int) map.get("functionPerformed");
+	  int workingArea = (int) map.get("workingArea");
+	  Employee e = (Employee) map.get("employee");
+	  int employeeID = e.getId();
+	  Date date = (Date) map.get("date");
+	  java.sql.Date researchDate = new java.sql.Date(date.getTime());
+	  
+	  String criticismsAndSuggestions = (String) map.get("criticismsAndSuggestions");
+	  String sql ="INSERT INTO internal_satisfaction_research(industry_internal_lighting, comunication_facility, epis, tooling, formers, wc, uniform, relation_group, function_performed, working_area, employee, research_date, criticisms_and_suggestions) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
+	  Object[] obj = new Object[] {internalLighting, comunicationFacility, epi, tooling, former, wc, uniform, relationGroup, functionPerfomed, workingArea, employeeID, researchDate, criticismsAndSuggestions}; 
+	  try {
+		  dataBase.executeUpdate(sql, obj);
+	    
+    } catch (Exception e2) {
+	    e2.printStackTrace();
+	    ShowMessage.errorMessage(null, "Erro", "Erro ao realizar o registro da pesquisa");
+    }
+	  
     }
 	
 	

@@ -136,6 +136,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmSearchOfKit;
 
+	private JMenuItem mntmInternalSatisfactionResearch;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -246,6 +248,10 @@ public class MainFrame extends JFrame {
 		mntmUpdateOfEmployee.setVisible(false);
 		mntmUpdateOfEmployee.setName("UPD_EMP");
 		
+		mntmInternalSatisfactionResearch = new JMenuItem("Pesquisa de Satisfação Interna");
+		mnRh.add(mntmInternalSatisfactionResearch);
+		mntmInternalSatisfactionResearch.setVisible(false);
+		mntmInternalSatisfactionResearch.setName("INT_RES");
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
 		mnFinancial.setIcon(new ImageIcon(MainFrame.class.getResource("/resources/finance.png")));
@@ -507,6 +513,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmRegisterOfTraning);
 		menuItens.add(mntmUpdateOfTraining);
 		menuItens.add(mntmUpdateOfEmployee);
+		menuItens.add(mntmInternalSatisfactionResearch);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -572,6 +579,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterOfTraning))controller.registerOfTraining();
 				else if(e.getSource().equals(mntmUpdateOfTraining))controller.updateOfTraining();
 				else if(e.getSource().equals(mntmUpdateOfEmployee))controller.updateOfEmployee();
+				else if(e.getSource().equals(mntmInternalSatisfactionResearch))controller.InternalSatisfactionResearch();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -620,6 +628,7 @@ public class MainFrame extends JFrame {
 		mntmRemoveOfEPI.addActionListener(menuListeners);
 		mntmRegisterOfTraning.addActionListener(menuListeners);
 		mntmUpdateOfTraining.addActionListener(menuListeners);
+		mntmInternalSatisfactionResearch.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

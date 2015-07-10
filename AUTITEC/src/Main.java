@@ -3,6 +3,7 @@ import javax.swing.SwingUtilities;
 import login.view.LoginFrame;
 import userInterface.view.LoadingFrame;
 
+
 /**
  * Classe principal, responsável por inicializar a aplicação.
  */
@@ -22,6 +23,7 @@ public class Main {
 		
 		new LoginFrame().setVisible(true);
 		loadingFrame.dispose();
+		
 
 	}
 

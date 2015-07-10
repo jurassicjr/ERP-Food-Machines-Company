@@ -17,6 +17,7 @@ public class InternalSatisfactionResearch {
 	private int EPIs;
 	private int uniform;
 	private int tooling;
+	private String criticismsAndSuggestions;
 	
 	public int getId() {
 		return id;
@@ -121,4 +122,13 @@ public class InternalSatisfactionResearch {
 	public void setTooling(int tooling) {
 		this.tooling = tooling;
 	}
+
+	public String getCriticismsAndSuggestions() {
+	    return criticismsAndSuggestions;
+    }
+
+	public void setCriticismsAndSuggestions(String criticismsAndSuggestions) {
+	    this.criticismsAndSuggestions = criticismsAndSuggestions;
+    }
+	
 }

@@ -9,7 +9,9 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.Date;
+import java.util.Enumeration;
 
+import javax.swing.AbstractButton;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -21,7 +23,9 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
+import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -31,9 +35,12 @@ import model.InternalSatisfactionResearch;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import rh.controller.InternalSatisfactionResearchController;
+import userInterface.components.ComboBoxAutoCompletion;
+import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
-public class InternalSatisfationResearchFrame extends JFrame{
+public class InternalSatisfactionResearchFrame extends JFrame{
 
 	/**
 	 * 
@@ -50,8 +57,8 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	private JLabel lblFuncionrioColaborador;
 	private JLabel lblWorkingArea;
 	private JLabel lblFunctionPerfomed;
+	private JLabel lblComunicationFacility;
 	private JLabel lblRelationGroup;
-	private JLabel lblGrupo;
 	private JLabel lblWcs;
 	private JLabel lblInternalLighting;
 	private JLabel lblWhowYouAvaibleTheFormers;
@@ -123,19 +130,31 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	private JButton btnConfirm;
 	private JButton btnCancel;
 	private JButton btnClear;
+	private ButtonGroup btnGroup01;
+	private ButtonGroup btnGroup02;
+	private ButtonGroup btnGroup03;
+	private ButtonGroup btnGroup04;
+	private ButtonGroup btnGroup05;
+	private ButtonGroup btnGroup06;
+	private ButtonGroup btnGroup07;
+	private ButtonGroup btnGroup08;
+	private ButtonGroup btnGroup09;
+	private ButtonGroup btnGroup10;
+	private JTextArea txtCriticismsAndSuggestions;
 
-    public InternalSatisfationResearchFrame() {
+    public InternalSatisfactionResearchFrame() {
     	controller = new InternalSatisfactionResearchController(this);
     	initialize();
     	setListeners();
     }
 
 	private void initialize() {
-	    setTitle("Pesquisa de satisfação interna");
+	    setTitle("Pesquisa de Satisfação Interna");
 	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-	    setBounds(100, 100, 567, 552);
-	    setPreferredSize(new Dimension(567, 552));
-	    setMinimumSize(new Dimension(567, 552));
+	    setBounds(100, 100, 576, 667);
+	    setPreferredSize(new Dimension(567, 667));
+	    setMinimumSize(new Dimension(567, 667));
+	    Icon.setIcon(this);
 	    getContentPane().setLayout(new BorderLayout(0, 0));
 	    initializePrincipal();
     }
@@ -147,6 +166,9 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    lblFuncionrioColaborador = new JLabel("Funcionário Colaborador");
 	    
 	    cboEmployee = new JComboBox<Employee>();
+	    controller.fillEmployee(cboEmployee);
+	    new ComboBoxAutoCompletion(cboEmployee);
+	    cboEmployee.setSelectedIndex(-1);
 	    
 	    lblDate = new JLabel("Data");
 	    
@@ -161,7 +183,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    		.addGroup(gl_principalPanel.createSequentialGroup()
 	    			.addContainerGap()
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-	    				.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
+	    				.addComponent(panel, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblFuncionrioColaborador)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
@@ -169,7 +191,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    					.addGap(18)
 	    					.addComponent(lblDate)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, 132, Short.MAX_VALUE)))
+	    					.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, 141, Short.MAX_VALUE)))
 	    			.addContainerGap())
 	    );
 	    gl_principalPanel.setVerticalGroup(
@@ -182,7 +204,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    				.addComponent(lblDate)
 	    				.addComponent(txtDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(18)
-	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
+	    			.addComponent(panel, GroupLayout.DEFAULT_SIZE, 533, Short.MAX_VALUE)
 	    			.addContainerGap())
 	    );
 	    
@@ -199,7 +221,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad01 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup01 = new ButtonGroup();
+	    btnGroup01 = new ButtonGroup();
 	    btnGroup01.add(rbntBad01);
 	    btnGroup01.add(rbntGood01);
 	    btnGroup01.add(rbntGreat01);
@@ -221,7 +243,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad02 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup02 = new ButtonGroup();
+	    btnGroup02 = new ButtonGroup();
 	    btnGroup02.add(rbntBad02);
 	    btnGroup02.add(rbntGood02);
 	    btnGroup02.add(rbntGreat02);
@@ -230,8 +252,8 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    JSeparator separator_1 = new JSeparator();
 	    
-	    lblGrupo = new JLabel("03 - Grupo ao qual se relaciona");
-	    lblGrupo.setToolTipText("Grupo ao qual se relaciona");
+	    lblRelationGroup = new JLabel("03 - Grupo ao qual se relaciona");
+	    lblRelationGroup.setToolTipText("Grupo ao qual se relaciona");
 	    
 	    rbntNotApply03 = new JRadioButton("Não se Aplica");
 	    
@@ -243,7 +265,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad03 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup03 = new ButtonGroup();
+	    btnGroup03 = new ButtonGroup();
 	    
 	    btnGroup03.add(rbntBad03);
 	    btnGroup03.add(rbntGood03);
@@ -253,8 +275,8 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    JSeparator separator_2 = new JSeparator();
 	    
-	    lblRelationGroup = new JLabel("04 - Facilidade de Comunicação com Superiores");
-	    lblRelationGroup.setToolTipText("Facilidade de Comunicação com Superiores");
+	    lblComunicationFacility = new JLabel("04 - Facilidade de Comunicação com Superiores");
+	    lblComunicationFacility.setToolTipText("Facilidade de Comunicação com Superiores");
 	    
 	    rbntNotApply04 = new JRadioButton("Não se Aplica");
 	    
@@ -266,7 +288,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad04 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup04 = new ButtonGroup();
+	    btnGroup04 = new ButtonGroup();
 	    btnGroup04.add(rbntBad04);
 	    btnGroup04.add(rbntGood04);
 	    btnGroup04.add(rbntGreat04);
@@ -287,7 +309,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad05 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup05 = new ButtonGroup();
+	    btnGroup05 = new ButtonGroup();
 	    btnGroup05.add(rbntBad05);
 	    btnGroup05.add(rbntGood05);
 	    btnGroup05.add(rbntGreat05);
@@ -308,7 +330,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad06 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup06 = new ButtonGroup();
+	    btnGroup06 = new ButtonGroup();
 	    btnGroup06.add(rbntBad06);
 	    btnGroup06.add(rbntGood06);
 	    btnGroup06.add(rbntGreat06);
@@ -329,7 +351,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad07 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup07 = new ButtonGroup();
+	    btnGroup07 = new ButtonGroup();
 	    btnGroup07.add(rbntBad07);
 	    btnGroup07.add(rbntRegular07);
 	    btnGroup07.add(rbntGood07);
@@ -350,7 +372,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad08 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup08 = new ButtonGroup();
+	    btnGroup08 = new ButtonGroup();
 	    btnGroup08.add(rbntBad08);
 	    btnGroup08.add(rbntGood08);
 	    btnGroup08.add(rbntGreat08);
@@ -371,7 +393,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad09 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup09 = new ButtonGroup();
+	    btnGroup09 = new ButtonGroup();
 	    btnGroup09.add(rbntBad09);
 	    btnGroup09.add(rbntGood09);
 	    btnGroup09.add(rbntGreat09);
@@ -392,183 +414,143 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    
 	    rbntBad10 = new JRadioButton("Ruim");
 	    
-	    ButtonGroup btnGroup10 = new ButtonGroup();
+	    btnGroup10 = new ButtonGroup();
 	    btnGroup10.add(rbntBad10);
 	    btnGroup10.add(rbntGood10);
 	    btnGroup10.add(rbntRegular10);
 	    btnGroup10.add(rbntNotApply10);
+	    btnGroup10.add(rbntGreat10);
+	    
+	    JSeparator separator_9 = new JSeparator();
+	    
+	    JLabel lblCriticasESugestes = new JLabel("Criticas e Sugestões");
+	    
+	    JScrollPane scrollPane = new JScrollPane();
 	    
 	    GroupLayout gl_panel = new GroupLayout(panel);
 	    gl_panel.setHorizontalGroup(
 	    	gl_panel.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(gl_panel.createSequentialGroup()
+	    			.addContainerGap()
 	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
-	    						.addGroup(gl_panel.createSequentialGroup()
-	    							.addComponent(lblFunctionPerfomed)
-	    							.addPreferredGap(ComponentPlacement.RELATED, 45, Short.MAX_VALUE)
-	    							.addComponent(rbntNotApply02, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addComponent(rbntGreat02, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addComponent(rbntGood02, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addComponent(rbntRegular02, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addComponent(rbntBad02, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-	    							.addGap(11))
-	    						.addGroup(gl_panel.createSequentialGroup()
-	    							.addComponent(lblWorkingArea)
-	    							.addPreferredGap(ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
-	    							.addComponent(rbntNotApply01)
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addComponent(rbntGreat01)
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addComponent(rbntGood01)
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addComponent(rbntRegular01)
-	    							.addPreferredGap(ComponentPlacement.UNRELATED)
-	    							.addComponent(rbntBad01)
-	    							.addGap(12))))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addGap(11)
-	    					.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addComponent(lblGrupo)
-	    					.addGap(32)
-	    					.addComponent(rbntNotApply03, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(rbntGreat03, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGood03, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntRegular03, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntBad03, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addGap(11)
-	    					.addComponent(separator_2, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addComponent(lblRelationGroup, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(18)
-	    					.addComponent(rbntNotApply04, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGreat04, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGood04, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntRegular04, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntBad04, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addComponent(separator_3, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addComponent(lblWcs)
-	    					.addGap(110)
-	    					.addComponent(rbntNotApply05, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGreat05, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGood05, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntRegular05, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntBad05, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addComponent(separator_4, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addComponent(lblInternalLighting)
-	    					.addGap(14)
-	    					.addComponent(rbntNotApply06, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGreat06, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGood06, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntRegular06, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntBad06, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
+	    				.addComponent(lblFerramental)
+	    				.addComponent(lblUniforme)
+	    				.addComponent(lblEpis)
+	    				.addComponent(lblWhowYouAvaibleTheFormers, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblInternalLighting)
+	    				.addComponent(lblWcs)
+	    				.addComponent(lblComunicationFacility, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblRelationGroup)
+	    				.addComponent(lblFunctionPerfomed)
+	    				.addComponent(lblWorkingArea))
+	    			.addGap(18, 33, Short.MAX_VALUE)
+	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(rbntNotApply10, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply09, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply08, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply07, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply06, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply05, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply04, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply03, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply02, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntNotApply01))
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(rbntGreat10, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat09, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat08, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat07, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat06, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat05, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat04, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat03, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat02, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGreat01))
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(rbntGood10, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood09, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood08, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood07, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood06, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood05, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood04, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood03, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood02, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntGood01))
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(rbntRegular10, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular09, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular08, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular07, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular06, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular05, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular04, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular03, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular02, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntRegular01))
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+	    				.addComponent(rbntBad10, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad09, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad08, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad07, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad06, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad05, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad04, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad03, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad02, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad01))
+	    			.addContainerGap())
+	    		.addGroup(gl_panel.createSequentialGroup()
+	    			.addGap(10)
+	    			.addComponent(separator_7, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+	    			.addGap(10))
+	    		.addGroup(gl_panel.createSequentialGroup()
+	    			.addContainerGap()
+	    			.addComponent(separator_6, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
 	    			.addContainerGap())
 	    		.addGroup(gl_panel.createSequentialGroup()
 	    			.addContainerGap()
-	    			.addComponent(separator_5, GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+	    			.addComponent(separator_5, GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
 	    			.addGap(11))
 	    		.addGroup(gl_panel.createSequentialGroup()
 	    			.addContainerGap()
-	    			.addComponent(lblWhowYouAvaibleTheFormers, GroupLayout.PREFERRED_SIZE, 170, GroupLayout.PREFERRED_SIZE)
+	    			.addComponent(separator_3, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+	    			.addContainerGap())
+	    		.addGroup(gl_panel.createSequentialGroup()
+	    			.addComponent(separator, GroupLayout.DEFAULT_SIZE, 516, Short.MAX_VALUE)
+	    			.addContainerGap(10, Short.MAX_VALUE))
+	    		.addGroup(gl_panel.createSequentialGroup()
 	    			.addGap(11)
-	    			.addComponent(rbntNotApply07, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntGreat07, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntGood07, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntRegular07, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntBad07, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-	    			.addContainerGap(19, Short.MAX_VALUE))
+	    			.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+	    			.addContainerGap(10, Short.MAX_VALUE))
+	    		.addGroup(gl_panel.createSequentialGroup()
+	    			.addGap(11)
+	    			.addComponent(separator_2, GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+	    			.addContainerGap(10, Short.MAX_VALUE))
 	    		.addGroup(gl_panel.createSequentialGroup()
 	    			.addContainerGap()
-	    			.addComponent(separator_6, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
+	    			.addComponent(separator_4, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
+	    			.addContainerGap(10, Short.MAX_VALUE))
+	    		.addGroup(gl_panel.createSequentialGroup()
+	    			.addContainerGap()
+	    			.addComponent(separator_8, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
 	    			.addContainerGap())
 	    		.addGroup(gl_panel.createSequentialGroup()
 	    			.addContainerGap()
-	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    				.addComponent(separator_7, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addComponent(lblEpis)
-	    					.addGap(136)
-	    					.addComponent(rbntNotApply08, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGreat08, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntGood08, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntRegular08, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(rbntBad08, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)))
+	    			.addComponent(separator_9, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
 	    			.addContainerGap())
 	    		.addGroup(gl_panel.createSequentialGroup()
 	    			.addContainerGap()
-	    			.addComponent(lblUniforme)
-	    			.addGap(118)
-	    			.addComponent(rbntNotApply09, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntGreat09, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntGood09, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntRegular09, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntBad09, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-	    			.addContainerGap(17, Short.MAX_VALUE))
+	    			.addComponent(lblCriticasESugestes)
+	    			.addContainerGap(470, Short.MAX_VALUE))
 	    		.addGroup(gl_panel.createSequentialGroup()
 	    			.addContainerGap()
-	    			.addComponent(separator_8, GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
+	    			.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 506, Short.MAX_VALUE)
 	    			.addContainerGap())
-	    		.addGroup(gl_panel.createSequentialGroup()
-	    			.addContainerGap()
-	    			.addComponent(lblFerramental)
-	    			.addGap(103)
-	    			.addComponent(rbntNotApply10, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntGreat10, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntGood10, GroupLayout.PREFERRED_SIZE, 45, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntRegular10, GroupLayout.PREFERRED_SIZE, 63, GroupLayout.PREFERRED_SIZE)
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(rbntBad10, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-	    			.addContainerGap(17, Short.MAX_VALUE))
 	    );
 	    gl_panel.setVerticalGroup(
 	    	gl_panel.createParallelGroup(Alignment.LEADING)
@@ -582,37 +564,37 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    				.addComponent(rbntGreat01)
 	    				.addComponent(rbntNotApply01))
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(separator, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE)
+	    			.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblFunctionPerfomed)
-	    				.addComponent(rbntBad02)
-	    				.addComponent(rbntRegular02)
-	    				.addComponent(rbntGood02)
+	    				.addComponent(rbntNotApply02)
 	    				.addComponent(rbntGreat02)
-	    				.addComponent(rbntNotApply02))
+	    				.addComponent(rbntGood02)
+	    				.addComponent(rbntRegular02)
+	    				.addComponent(rbntBad02))
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, 12, GroupLayout.PREFERRED_SIZE)
+	    			.addComponent(separator_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-	    				.addComponent(lblGrupo)
+	    				.addComponent(lblRelationGroup)
+	    				.addComponent(rbntNotApply03)
 	    				.addComponent(rbntGreat03)
 	    				.addComponent(rbntGood03)
-	    				.addComponent(rbntNotApply03)
 	    				.addComponent(rbntRegular03)
 	    				.addComponent(rbntBad03))
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addComponent(separator_2, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-	    				.addComponent(lblRelationGroup)
 	    				.addComponent(rbntNotApply04)
 	    				.addComponent(rbntGreat04)
 	    				.addComponent(rbntGood04)
 	    				.addComponent(rbntRegular04)
-	    				.addComponent(rbntBad04))
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(separator_3, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(rbntBad04)
+	    				.addComponent(lblComunicationFacility))
+	    			.addGap(9)
+	    			.addComponent(separator_3, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblWcs)
@@ -621,7 +603,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    				.addComponent(rbntGood05)
 	    				.addComponent(rbntRegular05)
 	    				.addComponent(rbntBad05))
-	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addPreferredGap(ComponentPlacement.RELATED)
 	    			.addComponent(separator_4, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 	    				.addGroup(gl_panel.createSequentialGroup()
@@ -636,19 +618,15 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    						.addComponent(rbntRegular06)
 	    						.addComponent(rbntBad06))))
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
-	    			.addComponent(separator_5, GroupLayout.PREFERRED_SIZE, 8, GroupLayout.PREFERRED_SIZE)
-	    			.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(lblWhowYouAvaibleTheFormers))
-	    				.addGroup(gl_panel.createSequentialGroup()
-	    					.addGap(6)
-	    					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-	    						.addComponent(rbntNotApply07)
-	    						.addComponent(rbntGreat07)
-	    						.addComponent(rbntGood07)
-	    						.addComponent(rbntRegular07)
-	    						.addComponent(rbntBad07))))
+	    			.addComponent(separator_5, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    			.addGap(10)
+	    			.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(rbntNotApply07)
+	    				.addComponent(rbntGreat07)
+	    				.addComponent(rbntGood07)
+	    				.addComponent(rbntRegular07)
+	    				.addComponent(rbntBad07)
+	    				.addComponent(lblWhowYouAvaibleTheFormers))
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addComponent(separator_6, GroupLayout.PREFERRED_SIZE, 2, GroupLayout.PREFERRED_SIZE)
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -679,8 +657,18 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    				.addComponent(rbntGood10)
 	    				.addComponent(rbntRegular10)
 	    				.addComponent(rbntBad10))
-	    			.addGap(13))
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addComponent(separator_9, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE)
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
+	    			.addComponent(lblCriticasESugestes)
+	    			.addPreferredGap(ComponentPlacement.RELATED)
+	    			.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 85, Short.MAX_VALUE)
+	    			.addContainerGap())
 	    );
+	    
+	    txtCriticismsAndSuggestions = new JTextArea();
+	    txtCriticismsAndSuggestions.setWrapStyleWord(true);
+	    scrollPane.setViewportView(txtCriticismsAndSuggestions);
 	    panel.setLayout(gl_panel);
 	    principalPanel.setLayout(gl_principalPanel);
 	    
@@ -693,11 +681,11 @@ public class InternalSatisfationResearchFrame extends JFrame{
 	    getContentPane().add(subPanel, BorderLayout.SOUTH);
 	    
 	    btnConfirm = new JButton("Confirmar");
-	    btnConfirm.setIcon(new ImageIcon(InternalSatisfationResearchFrame.class.getResource("/resources/ok.png")));
+	    btnConfirm.setIcon(new ImageIcon(InternalSatisfactionResearchFrame.class.getResource("/resources/ok.png")));
 	    btnCancel = new JButton("Cancelar");
-	    btnCancel.setIcon(new ImageIcon(InternalSatisfationResearchFrame.class.getResource("/resources/cancel.png")));
+	    btnCancel.setIcon(new ImageIcon(InternalSatisfactionResearchFrame.class.getResource("/resources/cancel.png")));
 	    btnClear = new JButton("Limpar");
-	    btnClear.setIcon(new ImageIcon(InternalSatisfationResearchFrame.class.getResource("/resources/ClearFrame.png")));
+	    btnClear.setIcon(new ImageIcon(InternalSatisfactionResearchFrame.class.getResource("/resources/ClearFrame.png")));
 	    
 	    subPanel.add(btnClear);
 	    subPanel.add(btnCancel);
@@ -718,6 +706,8 @@ public class InternalSatisfationResearchFrame extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource().equals(btnCancel))controller.close();
+				else if(e.getSource().equals(btnClear))clear();
+				else if(e.getSource().equals(btnConfirm))register();
 			}
 		};
 		
@@ -734,6 +724,7 @@ public class InternalSatisfationResearchFrame extends JFrame{
 		cboEmployee.addActionListener(cboListener);
 	}
 	
+	//Verifica se o funcionário em questão já fez o teste hoje !
 	private void checkEmployee() {
 		if(cboEmployee.getItemCount() == 0)return;
 		Employee e = (Employee) cboEmployee.getSelectedItem();
@@ -744,4 +735,135 @@ public class InternalSatisfationResearchFrame extends JFrame{
 			if(i == JOptionPane.NO_OPTION)this.dispose();
 		}
 	}
+	
+	//Faz a limpeza dos campos no frame
+	private void clear() {
+		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja limpar todos os dados já preenchidos ?");
+		if( i == JOptionPane.YES_OPTION)ClearFrame.clear(this);
+	}
+	
+	//registra e finaliza a pesquisa
+	private void register() {
+		int i = ShowMessage.questionMessage(this, "Registrar Pesquisa", "Deseja realmente registrar essa pesquisa ?");
+		if( i == JOptionPane.NO_OPTION)return;
+		if(cboEmployee.getSelectedIndex() == -1) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "informe qual funcionário está realizando está pesquisa");
+			return;
+		}
+		Employee e = (Employee) cboEmployee.getSelectedItem();
+		
+		int workingAreaPoint = -2;
+		workingAreaPoint = verifySelected(workingAreaPoint, btnGroup01);
+		if(workingAreaPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre o \"Ambiente de Trabalho\"");
+			return;
+		}
+		
+		int functionPerfomedPoint = -2;
+		functionPerfomedPoint = verifySelected(functionPerfomedPoint, btnGroup02);
+		if(functionPerfomedPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre a \"Função Desempenhada\"");
+			return;
+		}
+		
+		int relationGroupPoint = -2;
+		relationGroupPoint = verifySelected(relationGroupPoint, btnGroup03);
+		if(relationGroupPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre o \"grupo ao qual se relaciona\"");
+			return;
+		}
+		
+		int comunicationFacilityPoint = -2;
+		comunicationFacilityPoint = verifySelected(comunicationFacilityPoint, btnGroup04);
+		if(comunicationFacilityPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre a \"facilidade de comunicação com seus superiores\"");
+			return;
+		}
+		
+		int  wcPoint = -2;
+		wcPoint = verifySelected(wcPoint, btnGroup05);
+		if(wcPoint == -2 ) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre os banheiros");
+			return;
+		}
+		
+		int internalLightingPoint = -2;
+		internalLightingPoint = verifySelected(internalLightingPoint, btnGroup06);
+		if(internalLightingPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre \"Iluminação Interna\"");
+			return;
+		}
+		
+		int whoYouAvaibleTheFormersPoint = -2;
+		whoYouAvaibleTheFormersPoint = verifySelected(whoYouAvaibleTheFormersPoint, btnGroup07);
+		if(whoYouAvaibleTheFormersPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre \"Como você avalia os formulários\"");
+			return;
+		}
+		
+		int epiPoint = -2;
+		epiPoint = verifySelected(epiPoint, btnGroup08);
+		if(epiPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pegunta sobre \"epis\"");
+			return;
+		}
+		
+		int uniformPoint = -2;
+		uniformPoint = verifySelected(uniformPoint, btnGroup09);
+		if(uniformPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre \"Uniformes\"");
+			return;
+		}
+		
+		int  toolingPoint = -2;
+		toolingPoint = verifySelected(toolingPoint, btnGroup10);
+		if(toolingPoint == -2) {
+			ShowMessage.errorMessage(this, "Erro ao realizar pesquisa", "Insira uma resposta a pergunta sobre \"ferramental\"");
+			return;
+		}
+		
+		String criticismsAndSuggestions = txtCriticismsAndSuggestions.getText();
+		InternalSatisfactionResearch isr = new InternalSatisfactionResearch();
+		isr.setComunicationFacility(comunicationFacilityPoint);
+		Date date = (Date) txtDate.getValue();
+		isr.setDate(date);
+		isr.setEmployee(e);
+		isr.setEPIs(epiPoint);
+		isr.setFormers(whoYouAvaibleTheFormersPoint);
+		isr.setFunctionPerfomed(functionPerfomedPoint);
+		isr.setIndustryIntenalLighting(internalLightingPoint);
+		isr.setRelationGroup(relationGroupPoint);
+		isr.setTooling(toolingPoint);
+		isr.setUniform(uniformPoint);
+		isr.setWCs(wcPoint);
+		isr.setWorkingArea(workingAreaPoint);
+		isr.setCriticismsAndSuggestions(criticismsAndSuggestions);
+		controller.register(isr);
+		ShowMessage.successMessage(this, "Sucesso", "Pesquisa registrada com sucesso!");
+		ClearFrame.clear(this);
+	}
+
+	private int verifySelected(int funtion, ButtonGroup btnGroup) {
+		String string = null;
+		for (Enumeration<AbstractButton> buttons = btnGroup.getElements(); buttons.hasMoreElements();) {
+	            AbstractButton button = buttons.nextElement();
+
+	            if (button.isSelected()) {
+	            	 string = button.getText();
+	           }
+		}
+		if(string == null)return funtion;
+		else if(string.equalsIgnoreCase("Não se Aplica")) {
+			funtion = 0;
+		}else if(string.equalsIgnoreCase("Ótimo")) {
+			funtion = 3;
+		}else if(string.equalsIgnoreCase("Bom")) {
+			funtion = 2;
+		}else if(string.equalsIgnoreCase("Regular")) {
+			funtion = 1;
+		}else if(string.equalsIgnoreCase("ruim")) {
+			funtion = -1;
+		}
+		return funtion;
+    }
 }
