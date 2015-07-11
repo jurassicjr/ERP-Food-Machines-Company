@@ -1,5 +1,6 @@
 package maintenance.view.search;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -45,7 +46,9 @@ public class VehicleSearchFrame extends JFrame
 	private void initialize() {
 		setTitle("Consulta de veículos");
 		util.Icon.setIcon(this);
+		setMinimumSize(new Dimension(424,303));
 		setBounds(0, 0, 424, 303);
+		setPreferredSize(new Dimension(424,303));
 		initializePrincipal();	
 	}
 
@@ -106,40 +109,43 @@ public class VehicleSearchFrame extends JFrame
 		scrollPane.setViewportView(vehicleTable);
 		panelData.setLayout(gl_panelData);
 	}
-	ActionListener buttonActions = new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource().equals(btnSearch))
-				search();
-			
-		}
-	};
-	KeyListener keyListener = new KeyListener() {
-		
-		@Override
-		public void keyTyped(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void keyReleased(KeyEvent e) {
-			if(e.getSource().equals(txtVehicleDescription))
-				if(txtVehicleDescription.getText().isEmpty())
-					controller.queryAll(vehicleTable);
-				
-		}
-		
-		@Override
-		public void keyPressed(KeyEvent e) {
-			if(e.getSource().equals(txtVehicleDescription))
-				if(e.getKeyChar() == KeyEvent.VK_ENTER)
-					search();
-		}
-	};
+	
 	private void setListeners()
 	{
+		
+		ActionListener buttonActions = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(btnSearch))
+					search();
+				
+			}
+		};
+		KeyListener keyListener = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				if(e.getSource().equals(txtVehicleDescription))
+					if(txtVehicleDescription.getText().isEmpty())
+						controller.queryAll(vehicleTable);
+					
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getSource().equals(txtVehicleDescription))
+					if(e.getKeyChar() == KeyEvent.VK_ENTER)
+						search();
+			}
+		};
+		
 		btnSearch.addActionListener(buttonActions);
 		txtVehicleDescription.addKeyListener(keyListener);
 		FrameController.addConfirmationOnClose(this);

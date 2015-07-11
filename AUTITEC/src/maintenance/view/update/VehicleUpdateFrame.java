@@ -38,8 +38,8 @@ public class VehicleUpdateFrame extends JFrame
 	private VehicleUpdateController controller;
 	private JPanel panelData;
 	private JPanel panelActions;
-	private JComboBox cboType;
-	private JComboBox cboBrand;
+	private JComboBox<String> cboType;
+	private JComboBox<String> cboBrand;
 	private JTextField txtModel;
 	private JTextField txtChassi;
 	private JTextField txtRenavan;
@@ -52,8 +52,22 @@ public class VehicleUpdateFrame extends JFrame
 	private DateField txtLicenseDate;
 	private JButton btnUpdate;
 	private JButton btnRemove;
-	private JComboBox cboVehicles;
+	private JButton btnCancel;
+	private JComboBox<Vehicle> cboVehicles;
 	private final VehicleUpdateFrame thisFrame = this;
+	private static final long serialVersionUID = 1L;
+	private JLabel lblTipo;
+	private JLabel lblMarca;
+	private JLabel lblNewLabel;
+	private JLabel lblDescrio;
+	private JLabel lblChassi;
+	private JLabel lblNewLabel_1;
+	private JLabel lblPlaca;
+	private JLabel lblKmInicial;
+	private JLabel lblltimaTrocaDe;
+	private JLabel lblTrocaDeleo;
+	private JLabel lblVencimentoDoIpva;
+	private JLabel lblVencimentoDoLicenciamento;
 	
 
 	public VehicleUpdateFrame()
@@ -189,17 +203,116 @@ public class VehicleUpdateFrame extends JFrame
 		Icon.setIcon(this);
 		setTitle("ATUALIZAÇÃO DE VEÍCULOS");
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 600, 411);
-		setMinimumSize(new Dimension(506, 270));
-		setPreferredSize(new Dimension(811, 270));
+		setBounds(100, 100, 600,300);
+		setMinimumSize(new Dimension(600, 400));
+		setPreferredSize(new Dimension(600, 400));
 		initializePrincipal();
 		controller.fillCboType(cboType);
 		controller.fillCboBrand(cboBrand);
 	}
 	private void setListeners()
 	{
+		ActionListener ButtonActions = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(btnCancel))
+					FrameController.close(thisFrame);
+				
+				if(e.getSource().equals(btnRemove))
+				{
+					if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo apagar o veículo ?")==
+							JOptionPane.YES_OPTION)
+					{
+						Vehicle selectedVehicle = (Vehicle) cboVehicles.getSelectedItem();
+						controller.deleteVehicle(selectedVehicle.getId());
+						controller.fillCboVehicles(cboVehicles);
+						ClearFrame.clear(thisFrame);
+						if(cboVehicles.getItemCount() > 0)
+							cboVehicles.setSelectedIndex(0);
+					}
+				}
+				else
+				if(e.getSource().equals(btnUpdate))
+				{
+					if(verifyFields())
+					{
+						if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo alterar veículo ?")==
+								JOptionPane.YES_OPTION)
+						{
+							Vehicle vehicle = getVehicleData();
+							Vehicle selectedVehicle = (Vehicle) cboVehicles.getSelectedItem(); 
+							vehicle.setId(selectedVehicle.getId());
+							if(controller.updateVehicle(vehicle))
+							{
+								
+									ShowMessage.successMessage(null,"RESULTADO","Veículo alterado com sucesso.");
+									controller.fillCboVehicles(cboVehicles);
+								
+							}
+							else				
+								ShowMessage.errorMessage(null,"RESULTADO","Houve um erro ao alterar veículo.");	
+						}
+					}
+					else
+						ShowMessage.errorMessage(null,"VERIFIQUE","Preencha todos os campos.");
+				}
+				
+			}
+		};
+		ActionListener stateChangeListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(cboVehicles))
+				{
+					if(cboVehicles.getSelectedItem()!=null)
+					{
+						Vehicle selectedVehicle = (Vehicle) cboVehicles.getSelectedItem();
+						Vehicle register = controller.getRegister(selectedVehicle.getId());
+						setVehicleData(register);
+					}
+				}
+				
+			}
+		};
+			
+		
+		KeyListener OnlyDigitsKeyListener = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getSource().equals(txtInitialKm))
+				{
+					if(!Character.isDigit(e.getKeyChar()))
+						e.setKeyChar('\0');
+				}
+				else
+				if(e.getSource().equals(txtOilChangeInterval))
+				{
+					if(!Character.isDigit(e.getKeyChar()))
+						e.setKeyChar('\0');
+				}
+				
+			}
+				
+			
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+				
+		};
+		
 		btnUpdate.addActionListener(ButtonActions);
 		btnRemove.addActionListener(ButtonActions);
+		btnCancel.addActionListener(ButtonActions);
 		txtInitialKm.addKeyListener(OnlyDigitsKeyListener);
 		txtOilChangeInterval.addKeyListener(OnlyDigitsKeyListener);
 		cboVehicles.addActionListener(stateChangeListener);
@@ -242,100 +355,7 @@ public class VehicleUpdateFrame extends JFrame
 		txtLicenseDate.setValue(vehicle.getLicenseDate());
 		
 	}
-	ActionListener ButtonActions = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource().equals(btnRemove))
-			{
-				if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo apagar o veículo ?")==
-						JOptionPane.YES_OPTION)
-				{
-					Vehicle selectedVehicle = (Vehicle) cboVehicles.getSelectedItem();
-					controller.deleteVehicle(selectedVehicle.getId());
-					controller.fillCboVehicles(cboVehicles);
-					ClearFrame.clear(thisFrame);
-					if(cboVehicles.getItemCount() > 0)
-						cboVehicles.setSelectedIndex(0);
-				}
-			}
-			else
-			if(e.getSource().equals(btnUpdate))
-			{
-				if(verifyFields())
-				{
-					if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo alterar veículo ?")==
-							JOptionPane.YES_OPTION)
-					{
-						Vehicle vehicle = getVehicleData();
-						Vehicle selectedVehicle = (Vehicle) cboVehicles.getSelectedItem(); 
-						vehicle.setId(selectedVehicle.getId());
-						if(controller.updateVehicle(vehicle))
-						{
-							
-								ShowMessage.successMessage(null,"RESULTADO","Veículo alterado com sucesso.");
-								controller.fillCboVehicles(cboVehicles);
-							
-						}
-						else				
-							ShowMessage.errorMessage(null,"RESULTADO","Houve um erro ao alterar veículo.");	
-					}
-				}
-				else
-					ShowMessage.errorMessage(null,"VERIFIQUE","Preencha todos os campos.");
-			}
-			
-		}
-	};
-	ActionListener stateChangeListener = new ActionListener() {
-		
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource().equals(cboVehicles))
-			{
-				if(cboVehicles.getSelectedItem()!=null)
-				{
-					Vehicle selectedVehicle = (Vehicle) cboVehicles.getSelectedItem();
-					Vehicle register = controller.getRegister(selectedVehicle.getId());
-					setVehicleData(register);
-				}
-			}
-			
-		}
-	};
-		
-	
-	KeyListener OnlyDigitsKeyListener = new KeyListener() {
-		
-		@Override
-		public void keyTyped(KeyEvent e) {
-			if(e.getSource().equals(txtInitialKm))
-			{
-				if(!Character.isDigit(e.getKeyChar()))
-					e.setKeyChar('\0');
-			}
-			else
-			if(e.getSource().equals(txtOilChangeInterval))
-			{
-				if(!Character.isDigit(e.getKeyChar()))
-					e.setKeyChar('\0');
-			}
-			
-		}
-			
-		
-		
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void keyPressed(KeyEvent e) {
-			
-		}
-			
-	};
+
 	private boolean verifyFields()
 	{
 		try {
@@ -428,23 +448,30 @@ public class VehicleUpdateFrame extends JFrame
 		btnRemove = new JButton("Apagar");
 		btnRemove.setIcon(new ImageIcon(VehicleRegisterFrame.class.getResource("/resources/clear.png")));
 		
+		btnCancel = new JButton("Cancelar");
+		btnCancel.setIcon(new ImageIcon(VehicleRegisterFrame.class.getResource("/resources/cancel.png")));
+		
 		GroupLayout gl_panelActions = new GroupLayout(panelActions);
 		gl_panelActions.setHorizontalGroup(
 			gl_panelActions.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_panelActions.createSequentialGroup()
-					.addGap(315)
+					.addGap(192)
+					.addComponent(btnCancel)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnRemove, GroupLayout.PREFERRED_SIZE, 120, GroupLayout.PREFERRED_SIZE)
 					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(btnUpdate)
-					.addGap(211))
+					.addGap(1))
 		);
 		gl_panelActions.setVerticalGroup(
 			gl_panelActions.createParallelGroup(Alignment.TRAILING)
 				.addGroup(gl_panelActions.createSequentialGroup()
-					.addContainerGap(17, Short.MAX_VALUE)
+					.addContainerGap()
 					.addGroup(gl_panelActions.createParallelGroup(Alignment.BASELINE)
-						.addComponent(btnUpdate)
-						.addComponent(btnRemove)))
+						.addComponent(btnCancel)
+						.addComponent(btnRemove)
+						.addComponent(btnUpdate))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
 		panelActions.setLayout(gl_panelActions);
 	}
@@ -453,17 +480,5 @@ public class VehicleUpdateFrame extends JFrame
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 1L;
-	private JLabel lblTipo;
-	private JLabel lblMarca;
-	private JLabel lblNewLabel;
-	private JLabel lblDescrio;
-	private JLabel lblChassi;
-	private JLabel lblNewLabel_1;
-	private JLabel lblPlaca;
-	private JLabel lblKmInicial;
-	private JLabel lblltimaTrocaDe;
-	private JLabel lblTrocaDeleo;
-	private JLabel lblVencimentoDoIpva;
-	private JLabel lblVencimentoDoLicenciamento;
+	
 }

@@ -76,7 +76,70 @@ public class VehicleRegisterFrame extends JFrame {
 		controller.fillCboBrand(cboBrand);
 	}
 	private void setListeners()
-	{
+	{	
+		ActionListener ButtonActions = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(btnCancel))
+					FrameController.close(thisFrame);
+				else
+				if(e.getSource().equals(btnConfirm)){
+					if(verifyFields())
+					{
+						if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo registrar veículo ?")==
+								JOptionPane.YES_OPTION)
+						{
+							Vehicle vehicle = getVehicleData();
+							if(controller.insertVehicle(vehicle))
+							{
+								
+									ShowMessage.successMessage(null,"RESULTADO","Veículo inserido com sucesso.");
+									clearFields();
+								
+							}
+							else				
+								ShowMessage.errorMessage(null,"RESULTADO","Houve um erro ao inserir veículo.");	
+						}
+					}
+					else
+						ShowMessage.errorMessage(null,"VERIFIQUE","Preencha todos os campos.");
+				}
+			}
+		};
+		
+		KeyListener OnlyDigitsKeyListener = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				if(e.getSource().equals(txtInitialKm))
+				{
+					if(!Character.isDigit(e.getKeyChar()))
+						e.setKeyChar('\0');
+				}
+				else
+				if(e.getSource().equals(txtOilChangeInterval))
+				{
+					if(!Character.isDigit(e.getKeyChar()))
+						e.setKeyChar('\0');
+				}
+				
+			}
+				
+			
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				
+			}
+				
+		};
+		
 		btnCancel.addActionListener(ButtonActions);
 		btnConfirm.addActionListener(ButtonActions);
 		txtInitialKm.addKeyListener(OnlyDigitsKeyListener);
@@ -105,67 +168,8 @@ public class VehicleRegisterFrame extends JFrame {
 		
 		return vehicle;
 	}
-	ActionListener ButtonActions = new ActionListener() {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			if(e.getSource().equals(btnCancel))
-				FrameController.close(thisFrame);
-			else
-			if(e.getSource().equals(btnConfirm)){
-				if(verifyFields())
-				{
-					if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo registrar veículo ?")==
-							JOptionPane.YES_OPTION)
-					{
-						Vehicle vehicle = getVehicleData();
-						if(controller.insertVehicle(vehicle))
-						{
-							
-								ShowMessage.successMessage(null,"RESULTADO","Veículo inserido com sucesso.");
-								clearFields();
-							
-						}
-						else				
-							ShowMessage.errorMessage(null,"RESULTADO","Houve um erro ao inserir veículo.");	
-					}
-				}
-				else
-					ShowMessage.errorMessage(null,"VERIFIQUE","Preencha todos os campos.");
-			}
-		}
-	};
-	KeyListener OnlyDigitsKeyListener = new KeyListener() {
-		
-		@Override
-		public void keyTyped(KeyEvent e) {
-			if(e.getSource().equals(txtInitialKm))
-			{
-				if(!Character.isDigit(e.getKeyChar()))
-					e.setKeyChar('\0');
-			}
-			else
-			if(e.getSource().equals(txtOilChangeInterval))
-			{
-				if(!Character.isDigit(e.getKeyChar()))
-					e.setKeyChar('\0');
-			}
-			
-		}
-			
-		
-		
-		@Override
-		public void keyReleased(KeyEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void keyPressed(KeyEvent e) {
-			
-		}
-			
-	};
+	
+	
 	private boolean verifyFields()
 	{
 		try {
