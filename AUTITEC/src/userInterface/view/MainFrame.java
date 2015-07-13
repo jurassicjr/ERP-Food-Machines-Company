@@ -144,6 +144,16 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmVehicleRegister;
 
+	private JMenu mnMaitenanceUpdate;
+
+	private JMenu mnMaintenanceSearch;
+
+	private JMenuItem mntmVehicleUpdate;
+
+	private JMenuItem mntmVehicleSearch;
+
+	private JMenuItem mntmExternalSatisfactionResearch;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -258,6 +268,11 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmInternalSatisfactionResearch);
 		mntmInternalSatisfactionResearch.setVisible(false);
 		mntmInternalSatisfactionResearch.setName("INT_RES");
+		
+		mntmExternalSatisfactionResearch = new JMenuItem("Pesquisa de Satisfação Externa");
+		mnRh.add(mntmExternalSatisfactionResearch);
+		mntmExternalSatisfactionResearch.setVisible(false);
+		mntmExternalSatisfactionResearch.setName("EXT_RES");
 		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
@@ -481,11 +496,28 @@ public class MainFrame extends JFrame {
 		mnMaintenance.add(mnMaintenanceRegister);
 		mnMaintenanceRegister.setVisible(false);
 		
+		mnMaitenanceUpdate = new JMenu("Atualização/Remoção de Registro");
+		mnMaintenance.add(mnMaitenanceUpdate);
+		mnMaitenanceUpdate.setVisible(false);
+		
+		mnMaintenanceSearch = new JMenu("Consulta");
+		mnMaintenance.add(mnMaintenanceSearch);
+		mnMaintenanceSearch.setVisible(false);
+		
 		mntmVehicleRegister = new JMenuItem("Registro de Veiculos");
 		mnMaintenanceRegister.add(mntmVehicleRegister);
 		mntmVehicleRegister.setVisible(false);
 		mntmVehicleRegister.setName("REG_VEH");
 		
+		mntmVehicleUpdate = new JMenuItem("Atualizar/Remover Registro de Veículos");
+		mnMaitenanceUpdate.add(mntmVehicleUpdate);
+		mntmVehicleUpdate.setVisible(false);
+		mntmVehicleUpdate.setName("UPD_VEH");
+		
+		mntmVehicleSearch = new JMenuItem("Consulta de Veículos");
+		mnMaintenanceSearch.add(mntmVehicleSearch);
+		mntmVehicleSearch.setVisible(false);
+		mntmVehicleSearch.setName("SEA_VEH");
 		
 		//Sobre
 		mnAbout = new JMenu("Sobre");
@@ -538,6 +570,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmUpdateOfTraining);
 		menuItens.add(mntmUpdateOfEmployee);
 		menuItens.add(mntmInternalSatisfactionResearch);
+		menuItens.add(mntmExternalSatisfactionResearch);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -571,6 +604,9 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmSearchOfKit);
 		
 		menuItens.add(mntmVehicleRegister);
+		menuItens.add(mntmVehicleUpdate);
+		menuItens.add(mntmVehicleSearch);
+		
 	}
 
 	/**
@@ -605,7 +641,8 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterOfTraning))controller.registerOfTraining();
 				else if(e.getSource().equals(mntmUpdateOfTraining))controller.updateOfTraining();
 				else if(e.getSource().equals(mntmUpdateOfEmployee))controller.updateOfEmployee();
-				else if(e.getSource().equals(mntmInternalSatisfactionResearch))controller.InternalSatisfactionResearch();
+				else if(e.getSource().equals(mntmInternalSatisfactionResearch))controller.internalSatisfactionResearch();
+				else if(e.getSource().equals(mntmExternalSatisfactionResearch))controller.externalSatisfactionResearch();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -630,6 +667,8 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmSearchOfKit))controller.Sales(MainFrameController.kitSearch);
 				
 				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
+				else if(e.getSource().equals(mntmVehicleUpdate))controller.vehicleUpdate();
+				else if(e.getSource().equals(mntmVehicleSearch))controller.vehicleSearch();
 			}
 		};
 		
@@ -657,6 +696,7 @@ public class MainFrame extends JFrame {
 		mntmRegisterOfTraning.addActionListener(menuListeners);
 		mntmUpdateOfTraining.addActionListener(menuListeners);
 		mntmInternalSatisfactionResearch.addActionListener(menuListeners);
+		mntmExternalSatisfactionResearch.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
@@ -679,6 +719,8 @@ public class MainFrame extends JFrame {
 		mntmSearchOfKit.addActionListener(menuListeners);
 		
 		mntmVehicleRegister.addActionListener(menuListeners);
+		mntmVehicleUpdate.addActionListener(menuListeners);
+		mntmVehicleSearch.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

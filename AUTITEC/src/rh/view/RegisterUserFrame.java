@@ -205,7 +205,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Registro de Treinamento", false, "REG_TRA"),
 				new CheckBoxNode("Atualização/Remoção de Treinamento", false, "UPD_TRA"),
 				new CheckBoxNode("Atualização/Remoção de Funcionário", false, "UPD_EMP"),
-				new CheckBoxNode("Pesquisa de Satisfação Interna", false, "INT_RES")
+				new CheckBoxNode("Pesquisa de Satisfação Interna", false, "INT_RES"),
+				new CheckBoxNode("Pesquisa de Satisfação Externa", false, "EXT_RES")
 		};
 		    
 		CheckBoxNode financialOptions[] = {
@@ -250,7 +251,9 @@ public class RegisterUserFrame extends JFrame {
 		};
 		
 		CheckBoxNode maintenceOptions[] = {
-				new CheckBoxNode("Registrar Veiculo", false, "REG_VEH")
+				new CheckBoxNode("Registrar Veiculo", false, "REG_VEH"),
+				new CheckBoxNode("Atualizar/Remover Registro de Veículos", false, "UPD_VEH"),
+				new CheckBoxNode("Consulta de Veículos", false, "SEA_VEH")
 		};
 		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);

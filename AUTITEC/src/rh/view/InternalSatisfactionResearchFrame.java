@@ -726,6 +726,7 @@ public class InternalSatisfactionResearchFrame extends JFrame{
 	
 	//Verifica se o funcionário em questão já fez o teste hoje !
 	private void checkEmployee() {
+		if(cboEmployee.getSelectedIndex() == -1)return;
 		if(cboEmployee.getItemCount() == 0)return;
 		Employee e = (Employee) cboEmployee.getSelectedItem();
 		Date date = new Date();

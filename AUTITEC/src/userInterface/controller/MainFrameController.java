@@ -6,9 +6,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import maintenance.view.register.VehicleRegisterFrame;
+import maintenance.view.search.VehicleSearchFrame;
+import maintenance.view.update.VehicleUpdateFrame;
 import production.view.StagesProductionFrame;
 import rh.view.EmployeeReportFrame;
 import rh.view.EntryOfEPIFrame;
+import rh.view.ExternalSatisfactionResearchFrame;
 import rh.view.InternalSatisfactionResearchFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterOfEPIFrame;
@@ -539,7 +542,7 @@ public class MainFrameController {
 		});
 	}
 
-	public void InternalSatisfactionResearch() {
+	public void internalSatisfactionResearch() {
 	    EventQueue.invokeLater(new Runnable() {
 			
 			@Override
@@ -565,4 +568,42 @@ public class MainFrameController {
 		});
     }
 
+	public void vehicleUpdate() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				VehicleUpdateFrame frame = new VehicleUpdateFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void vehicleSearch() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				VehicleSearchFrame frame = new VehicleSearchFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void externalSatisfactionResearch() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ExternalSatisfactionResearchFrame frame = new ExternalSatisfactionResearchFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
 }
