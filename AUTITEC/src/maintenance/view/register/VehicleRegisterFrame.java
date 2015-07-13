@@ -53,7 +53,7 @@ public class VehicleRegisterFrame extends JFrame {
 	private JButton btnCancel;
 	private JButton btnConfirm;
 	private final VehicleRegisterFrame thisFrame = this;
-	
+	private String frameName ="Registro De Veículos" ;
 
 	public VehicleRegisterFrame()
 	{
@@ -66,7 +66,7 @@ public class VehicleRegisterFrame extends JFrame {
 	{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		Icon.setIcon(this);
-		setTitle("Registro De Veículos");
+		setTitle(frameName);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 650, 350);
 		setMinimumSize(new Dimension(650, 350));
@@ -81,7 +81,7 @@ public class VehicleRegisterFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource().equals(btnCancel))
-					FrameController.close(thisFrame);
+					FrameController.close(thisFrame,frameName);
 				else
 				if(e.getSource().equals(btnConfirm)){
 					if(verifyFields())
@@ -144,7 +144,7 @@ public class VehicleRegisterFrame extends JFrame {
 		btnConfirm.addActionListener(ButtonActions);
 		txtInitialKm.addKeyListener(OnlyDigitsKeyListener);
 		txtOilChangeInterval.addKeyListener(OnlyDigitsKeyListener);
-		FrameController.addConfirmationOnClose(this);
+		FrameController.addConfirmationOnClose(this,frameName);
 		
 	}
 	private Vehicle getVehicleData()

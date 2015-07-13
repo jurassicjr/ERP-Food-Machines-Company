@@ -68,6 +68,7 @@ public class VehicleUpdateFrame extends JFrame
 	private JLabel lblTrocaDeleo;
 	private JLabel lblVencimentoDoIpva;
 	private JLabel lblVencimentoDoLicenciamento;
+	private String frameName = "Atualização de veículos";
 	
 
 	public VehicleUpdateFrame()
@@ -201,7 +202,7 @@ public class VehicleUpdateFrame extends JFrame
 	private void initialize() 
 	{
 		Icon.setIcon(this);
-		setTitle("ATUALIZAÇÃO DE VEÍCULOS");
+		setTitle(frameName);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 600,300);
 		setMinimumSize(new Dimension(600, 400));
@@ -216,7 +217,7 @@ public class VehicleUpdateFrame extends JFrame
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource().equals(btnCancel))
-					FrameController.close(thisFrame);
+					FrameController.close(thisFrame,frameName);
 				
 				if(e.getSource().equals(btnRemove))
 				{
@@ -316,7 +317,7 @@ public class VehicleUpdateFrame extends JFrame
 		txtInitialKm.addKeyListener(OnlyDigitsKeyListener);
 		txtOilChangeInterval.addKeyListener(OnlyDigitsKeyListener);
 		cboVehicles.addActionListener(stateChangeListener);
-		FrameController.addConfirmationOnClose(thisFrame);
+		FrameController.addConfirmationOnClose(thisFrame,frameName);
 	}
 	private Vehicle getVehicleData()
 	{

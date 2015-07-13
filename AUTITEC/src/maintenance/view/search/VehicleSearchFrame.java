@@ -32,6 +32,7 @@ public class VehicleSearchFrame extends JFrame
 	private VehicleSearchController controller;
 	private JTable vehicleTable;
 	private JPanel panelData;
+	private String frameName ="Consulta de veículos";
 	public VehicleSearchFrame()
 	{
 		controller = new VehicleSearchController();
@@ -44,7 +45,7 @@ public class VehicleSearchFrame extends JFrame
 	}
 	
 	private void initialize() {
-		setTitle("Consulta de veículos");
+		setTitle(frameName);
 		util.Icon.setIcon(this);
 		setMinimumSize(new Dimension(424,303));
 		setBounds(0, 0, 424, 303);
@@ -148,7 +149,7 @@ public class VehicleSearchFrame extends JFrame
 		
 		btnSearch.addActionListener(buttonActions);
 		txtVehicleDescription.addKeyListener(keyListener);
-		FrameController.addConfirmationOnClose(this);
+		FrameController.addConfirmationOnClose(this,frameName);
 		
 	}
 	private void search()

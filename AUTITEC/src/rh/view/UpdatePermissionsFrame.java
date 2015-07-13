@@ -40,6 +40,7 @@ import javax.swing.tree.TreePath;
 import model.User;
 import rh.controller.UpdatePermissionsFrameController;
 import util.Icon;
+import util.ShowMessage;
 
 public class UpdatePermissionsFrame extends JFrame {
 	
@@ -153,8 +154,13 @@ public class UpdatePermissionsFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource().equals(btnReset)) controller.resetPermissions((User) cbUsers.getSelectedItem(), permissions); 
-				else if(e.getSource().equals(btnUpdate)) updatePermission();
+				if(cbUsers.getSelectedItem()!=null)
+				{
+					if(e.getSource().equals(btnReset))
+						controller.resetPermissions((User) cbUsers.getSelectedItem(), permissions);
+					else if(e.getSource().equals(btnUpdate)) updatePermission();
+				}else
+					ShowMessage.errorMessage(null,"Mensagem","Selecione um usuário.");
 			}
 		};
 		

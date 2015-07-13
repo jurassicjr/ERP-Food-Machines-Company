@@ -10,7 +10,7 @@ import util.ShowMessage;
 
 public class FrameController {
 	
-	public static void addConfirmationOnClose(JFrame frame)
+	public static void addConfirmationOnClose(JFrame frame,String frameName)
 	{
 		frame.setDefaultCloseOperation(frame.DO_NOTHING_ON_CLOSE);
 		frame.addWindowListener(new WindowAdapter() {
@@ -23,7 +23,7 @@ public class FrameController {
 			}
 		});
 	}
-	public static void close(JFrame frame)
+	public static void close(JFrame frame,String frameName)
 	{
 		if(ShowMessage.questionMessage(frame, "Fechar", "Deseja realmente fechar o "
 				+ "registro de veiculos?\n Os dados não salvos serão perdidos") == JOptionPane.YES_OPTION)
