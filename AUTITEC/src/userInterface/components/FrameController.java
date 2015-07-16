@@ -17,7 +17,7 @@ public class FrameController {
 			@Override
 			public void windowClosing(WindowEvent e) {
 				if(ShowMessage.questionMessage(frame, "Fechar", "Deseja realmente fechar o "
-						+ "registro de veiculos?\n Os dados não salvos serão perdidos") == JOptionPane.YES_OPTION)
+						+ frameName+"?\n Os dados não salvos serão perdidos") == JOptionPane.YES_OPTION)
 						frame.dispose();
 				
 			}
@@ -26,7 +26,7 @@ public class FrameController {
 	public static void close(JFrame frame,String frameName)
 	{
 		if(ShowMessage.questionMessage(frame, "Fechar", "Deseja realmente fechar o "
-				+ "registro de veiculos?\n Os dados não salvos serão perdidos") == JOptionPane.YES_OPTION)
+				+ frameName+"?\n Os dados não salvos serão perdidos") == JOptionPane.YES_OPTION)
 				frame.dispose();
 	}
 	

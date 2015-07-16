@@ -81,6 +81,11 @@ public class Employee {
 		this.job = job;
 	}
 	
+	public Employee() {
+		super();
+	
+	}
+
 	@SuppressWarnings("unchecked")
 	public Employee(Map<String, Object> data) {
 		
@@ -416,5 +421,6 @@ public class Employee {
 	public String getFormattedCellPhone() {
 		return "(" + cellphone.substring(0, 2) + ") " + cellphone.substring(2, 7) + "-" + cellphone.substring(7, 11);
 	}
-		
+	
+	
 }
