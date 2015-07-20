@@ -154,6 +154,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmExternalSatisfactionResearch;
 
+	private JMenuItem mntmRegisterOfFunctionDescription;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -273,6 +275,12 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmExternalSatisfactionResearch);
 		mntmExternalSatisfactionResearch.setVisible(false);
 		mntmExternalSatisfactionResearch.setName("EXT_RES");
+		
+		mntmRegisterOfFunctionDescription = new JMenuItem("Registro de Descrição de Cargo");
+		mnSubRegisterRH.add(mntmRegisterOfFunctionDescription);
+		mntmRegisterOfFunctionDescription.setVisible(false);
+		mntmRegisterOfFunctionDescription.setName("REG_FUD");
+		
 		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
@@ -571,6 +579,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmUpdateOfEmployee);
 		menuItens.add(mntmInternalSatisfactionResearch);
 		menuItens.add(mntmExternalSatisfactionResearch);
+		menuItens.add(mntmRegisterOfFunctionDescription);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -643,6 +652,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmUpdateOfEmployee))controller.updateOfEmployee();
 				else if(e.getSource().equals(mntmInternalSatisfactionResearch))controller.internalSatisfactionResearch();
 				else if(e.getSource().equals(mntmExternalSatisfactionResearch))controller.externalSatisfactionResearch();
+				else if(e.getSource().equals(mntmRegisterOfFunctionDescription))controller.registerFunctionDescription();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -697,6 +707,7 @@ public class MainFrame extends JFrame {
 		mntmUpdateOfTraining.addActionListener(menuListeners);
 		mntmInternalSatisfactionResearch.addActionListener(menuListeners);
 		mntmExternalSatisfactionResearch.addActionListener(menuListeners);
+		mntmRegisterOfFunctionDescription.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);

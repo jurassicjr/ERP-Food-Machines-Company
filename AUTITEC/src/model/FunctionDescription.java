@@ -7,9 +7,9 @@ import core.CBO;
 public class FunctionDescription {
 	
 	private int id;
-	private int needExperiences;
 	private List<String> knowledgementList;
 	private List<String> personalHabilitiesList;
+	private int needExperiences;
 	private CBO function;
 	private Employee employee;
 	private String sector;

@@ -109,17 +109,20 @@ public class RegisterOfFunctionDescriptionFrame extends JFrame{
 	    cboFunction = new JComboBox<core.CBO>();
 	    new FillCBO(cboFunction);
 	    new ComboBoxAutoCompletion(cboFunction);
+	    cboFunction.setSelectedIndex(-1);
 	    
 	    lblReportTo = new JLabel("Reporta-se á");
 	    
 	    cboReportTo = new JComboBox<Employee>();
 	    controller.fillEmployeeCBO(cboReportTo);
 	    new ComboBoxAutoCompletion(cboReportTo);
+	    cboReportTo.setSelectedIndex(-1);
 	    
 	    lblSetor = new JLabel("Setor");
 	    cboSector = new JComboBox<String>();
 	    controller.fillSectorComboBox(cboSector);
 	    new ComboBoxAutoCompletion(cboSector);
+	    cboSector.setSelectedIndex(-1);
 	    
 	    lblFuntionAtribuitions = new JLabel("Atribuições de Cargo/Responsábilidade");
 	    
@@ -379,6 +382,7 @@ public class RegisterOfFunctionDescriptionFrame extends JFrame{
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		String[] insertionString = new String[] {text};
 		tbl.addRow(insertionString);
+		txt.setText("");
 	}
 	
 	private void removeRowFromTable(KeyEvent e, JTable table) {
@@ -421,12 +425,12 @@ public class RegisterOfFunctionDescriptionFrame extends JFrame{
 			needExperience = 1;
 		}
 		if(!chbxNo.isSelected() && !chbxYes.isSelected()) {
-			ShowMessage.errorMessage(this, "Erro", "Erro ao registrar a descrição selecione selecione se é ou não nescessário a experiência profissional!");
+			ShowMessage.errorMessage(this, "Erro", "Erro ao registrar a descrição selecione se é ou não nescessário a experiência profissional!");
 			return;
 		}
 		
 		if(txtFuntionAtribuitions.getText().isEmpty()) {
-			ShowMessage.errorMessage(this, "Erro", "Erro ao registrar a descrição insira afunção do cargo!");
+			ShowMessage.errorMessage(this, "Erro", "Erro ao registrar a descrição insira a função do cargo!");
 			return;
 		}
 		
@@ -450,6 +454,8 @@ public class RegisterOfFunctionDescriptionFrame extends JFrame{
 		funDes.setPeriod(period);
 		funDes.setPersonalHabilitiesList(personalHabilitiesList);
 		funDes.setSector(sector);
+		
+		controller.register(funDes);
 	}
 
 	private List<String> tableToList(JTable table) {

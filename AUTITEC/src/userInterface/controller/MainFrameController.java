@@ -15,6 +15,7 @@ import rh.view.ExternalSatisfactionResearchFrame;
 import rh.view.InternalSatisfactionResearchFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterOfEPIFrame;
+import rh.view.RegisterOfFunctionDescriptionFrame;
 import rh.view.RegisterOfTrainingFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.RemoveOfEPIFrame;
@@ -600,6 +601,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				ExternalSatisfactionResearchFrame frame = new ExternalSatisfactionResearchFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void registerFunctionDescription() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				RegisterOfFunctionDescriptionFrame frame = new RegisterOfFunctionDescriptionFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

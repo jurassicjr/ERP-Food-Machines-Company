@@ -206,7 +206,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Atualização/Remoção de Treinamento", false, "UPD_TRA"),
 				new CheckBoxNode("Atualização/Remoção de Funcionário", false, "UPD_EMP"),
 				new CheckBoxNode("Pesquisa de Satisfação Interna", false, "INT_RES"),
-				new CheckBoxNode("Pesquisa de Satisfação Externa", false, "EXT_RES")
+				new CheckBoxNode("Pesquisa de Satisfação Externa", false, "EXT_RES"),
+				new CheckBoxNode("Registro de Descrição de Cargo", false, "REG_FUD")
 		};
 		    
 		CheckBoxNode financialOptions[] = {

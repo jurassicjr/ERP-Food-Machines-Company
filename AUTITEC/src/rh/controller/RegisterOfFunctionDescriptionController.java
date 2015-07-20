@@ -1,14 +1,19 @@
 package rh.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import model.Employee;
+import model.FunctionDescription;
 import util.ShowMessage;
+import core.CBO;
 import database.dao.EmployeeDAO;
+import database.dao.FunctionDescriptionDAO;
 
 public class RegisterOfFunctionDescriptionController {
 
@@ -43,5 +48,31 @@ public class RegisterOfFunctionDescriptionController {
 	    if(i == JOptionPane.YES_OPTION) {
 	    	frame.dispose();
 	    }
+    }
+
+	public void register(FunctionDescription funDes) {
+	    
+		Employee e = funDes.getEmployee();
+		CBO Function = funDes.getFunction();
+		String functionAtribuition = funDes.getFunctionAtribuition();
+		List<String> knowledgementList = funDes.getKnowledgementList();
+		String minimalGraduation = funDes.getMinimalGraduation();
+		int needExperiences = funDes.getNeedExperiences();
+		String period = funDes.getPeriod();
+		List<String> personalHabilitiesList = funDes.getPersonalHabilitiesList();
+		String sector = funDes.getSector();
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("employee", e);
+	    map.put("function", Function);
+	    map.put("functionAtribuition", functionAtribuition);
+	    map.put("knowledgementList", knowledgementList);
+	    map.put("minimalGraduation", minimalGraduation);
+	    map.put("needExperience", needExperiences);
+	    map.put("period", period);
+	    map.put("personalHabilitiesList", personalHabilitiesList);
+	    map.put("sector", sector);
+	    
+	    new FunctionDescriptionDAO().register(map);
     }
 }
