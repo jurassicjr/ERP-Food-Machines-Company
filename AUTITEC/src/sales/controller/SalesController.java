@@ -23,6 +23,7 @@ import product.view.UpdateOfKitFrame;
 import product.view.UpdateOfProductFrame;
 import product.view.search.SearchOfKitFrame;
 import sales.view.ApprovalOfSuppliersFrame;
+import sales.view.InventoryFrame;
 import sales.view.SalesOrderFrame;
 import sales.view.SalesRequisitionFrame;
 import sales.view.register.ClientRegisterFrame;
@@ -407,12 +408,10 @@ public class SalesController {
 
 			@Override
 			public void run() {
-				/*
 				InventoryFrame frame = new InventoryFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
-				*/
 			}
 		});
 	}

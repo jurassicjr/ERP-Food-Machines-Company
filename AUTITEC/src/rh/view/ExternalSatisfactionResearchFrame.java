@@ -2,6 +2,7 @@ package rh.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -35,6 +36,7 @@ import net.sf.nachocalendar.components.DateField;
 import rh.controller.ExternalSatisfactionResearchController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class ExternalSatisfactionResearchFrame extends JFrame{
@@ -117,6 +119,9 @@ public class ExternalSatisfactionResearchFrame extends JFrame{
 	    setTitle("Pesquisa de Satisfação Externa");
 	    setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 	    setBounds(100,100, 568,520);
+	    setMinimumSize(new Dimension(568, 520));
+	    setPreferredSize(new Dimension(568, 520));
+	    Icon.setIcon(this);
 	    getContentPane().setLayout(new BorderLayout(0, 0));
 	    initializePrincipal();
     }

@@ -34,6 +34,7 @@ import net.sf.nachocalendar.components.DateField;
 import sales.controller.ClientUpdateController;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class UpdateClientFrame extends JFrame{
@@ -87,6 +88,7 @@ public class UpdateClientFrame extends JFrame{
 		setBounds(100, 100, 740, 275);
 		setMinimumSize(new Dimension(740, 275));
 		setPreferredSize(new Dimension(740, 275));
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(null);
 		initializePrincipal();

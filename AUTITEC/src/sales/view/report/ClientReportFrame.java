@@ -23,6 +23,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import sales.controller.ReportOfClientController;
 import userInterface.components.FileChooser;
+import util.Icon;
 
 public class ClientReportFrame extends JFrame{
     /**
@@ -62,6 +63,7 @@ public class ClientReportFrame extends JFrame{
 		setBounds(100, 100, 595, 187);
 		setMinimumSize(new Dimension(595, 195));
 		setTitle("Relátorios de Clientes");
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

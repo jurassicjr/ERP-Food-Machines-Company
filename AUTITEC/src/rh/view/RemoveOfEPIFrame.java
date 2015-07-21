@@ -32,6 +32,7 @@ import net.sf.nachocalendar.components.DateField;
 import rh.controller.RemoveOfEPIController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class RemoveOfEPIFrame extends JFrame{
@@ -76,6 +77,7 @@ public class RemoveOfEPIFrame extends JFrame{
 		setBounds(100, 100, 400, 348);
 		setMinimumSize(new Dimension(400, 348));
 		setPreferredSize(new Dimension(400, 348));
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

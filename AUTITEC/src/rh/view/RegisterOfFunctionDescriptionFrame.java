@@ -38,6 +38,7 @@ import model.FunctionDescription;
 import rh.controller.RegisterOfFunctionDescriptionController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 import core.CBO;
 import database.FillCBO;
@@ -96,6 +97,7 @@ public class RegisterOfFunctionDescriptionFrame extends JFrame{
 	    setBounds(100,100, 666,650);
 	    setMinimumSize(new Dimension(666, 650));
 	    setPreferredSize(new Dimension(666, 650));
+	    Icon.setIcon(this);
 	    getContentPane().setLayout(new BorderLayout(0, 0));
 	    initializePrincipal();
     }

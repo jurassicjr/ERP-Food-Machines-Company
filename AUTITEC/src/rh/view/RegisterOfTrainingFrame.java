@@ -37,6 +37,7 @@ import net.sf.nachocalendar.components.DateField;
 import rh.controller.RegisterOfTrainingController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class RegisterOfTrainingFrame extends JFrame{
@@ -89,6 +90,7 @@ public class RegisterOfTrainingFrame extends JFrame{
 		setBounds(100, 100, 458, 530);
 		setMinimumSize(new Dimension(458, 530));
 		setPreferredSize(new Dimension(458, 530));
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}
@@ -269,7 +271,8 @@ public class RegisterOfTrainingFrame extends JFrame{
 					false, false
 				};
 				
-				public boolean isCellEditable(int row, int column) {
+				@Override
+                public boolean isCellEditable(int row, int column) {
 					return columnEditables[column];
 				}
 		
