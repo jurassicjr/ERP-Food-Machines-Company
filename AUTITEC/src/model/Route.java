@@ -8,6 +8,9 @@ public class Route {
 	private String description;
 	private Date date;
 	private Double initialKm;
+	private Double returnKm;
+	private Date returnDate;
+	private String returnObs;
 	private Employee conductor;
 	private Vehicle vehicle;
 	private User user;
@@ -15,70 +18,130 @@ public class Route {
 	
 	
 	
+
+	
+	
 	public Route(Integer id, String description, Date date, Double initialKm,
+			Double returnKm, Date returnDate, String returnObs,
 			Employee conductor, Vehicle vehicle, User user) {
 		super();
 		this.id = id;
 		this.description = description;
 		this.date = date;
 		this.initialKm = initialKm;
+		this.returnKm = returnKm;
+		this.returnDate = returnDate;
+		this.returnObs = returnObs;
 		this.conductor = conductor;
 		this.vehicle = vehicle;
 		this.user = user;
 	}
-	
-	
-	
+
+
 	public Route() {
 		super();
 		
 	}
 
 
-
 	public Integer getId() {
 		return id;
 	}
+
+
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+
 	public String getDescription() {
 		return description;
 	}
+
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
+
+
 	public Date getDate() {
 		return date;
 	}
+
+
 	public void setDate(Date date) {
 		this.date = date;
 	}
+
+
 	public Double getInitialKm() {
 		return initialKm;
 	}
+
+
 	public void setInitialKm(Double initialKm) {
 		this.initialKm = initialKm;
 	}
+
+
+	public Double getReturnKm() {
+		return returnKm;
+	}
+
+
+	public void setReturnKm(Double returnKm) {
+		this.returnKm = returnKm;
+	}
+
+
+	public Date getReturnDate() {
+		return returnDate;
+	}
+
+
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
+	}
+
+
+	public String getReturnObs() {
+		return returnObs;
+	}
+
+
+	public void setReturnObs(String returnObs) {
+		this.returnObs = returnObs;
+	}
+
+
 	public Employee getConductor() {
 		return conductor;
 	}
+
+
 	public void setConductor(Employee conductor) {
 		this.conductor = conductor;
 	}
+
+
 	public Vehicle getVehicle() {
 		return vehicle;
 	}
+
+
 	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
+
+
 	public User getUser() {
 		return user;
 	}
+
+
 	public void setUser(User user) {
 		this.user = user;
 	}
-
 
 
 	@Override

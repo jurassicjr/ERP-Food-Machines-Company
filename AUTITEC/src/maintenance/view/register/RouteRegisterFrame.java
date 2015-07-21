@@ -499,8 +499,10 @@ public class RouteRegisterFrame extends JFrame
 			if(cboClient.getSelectedItem()!=null)
 				destination.setClient((Client)cboClient.getSelectedItem());
 			else
+			{
 				destination.setOtherDestination(txtOther.getText());
-			
+				destination.setClient(null);
+			}
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode();
 			node.setUserObject(destination);
 			
@@ -577,7 +579,7 @@ public class RouteRegisterFrame extends JFrame
 		route.setInitialKm(initialHodometer);
 		route.setVehicle((Vehicle)cboVehicle.getSelectedItem());
 		route.setConductor((Employee)cboConductor.getSelectedItem());
-		route.setUser((User)Session.getInstance().getUser());
+		route.setUser(Session.getInstance().getUser());
 		if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo registrar o trajeto ?")==
 				JOptionPane.YES_OPTION)
 		{

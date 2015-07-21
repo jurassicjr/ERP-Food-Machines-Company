@@ -6,6 +6,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
+import model.RouteProduct;
+
 public class RouteDestinationTreeNodeRenderer extends DefaultTreeCellRenderer 
 {	
 	private final ImageIcon BASENODE_ICON = new ImageIcon(this.getClass().getResource("/resources/truck.png"));
@@ -23,7 +25,7 @@ public class RouteDestinationTreeNodeRenderer extends DefaultTreeCellRenderer
 		            tree, value, sel,
 		            expanded, leaf, row,
 		            hasFocus);
-		if (leaf) 
+		if ( leaf) 
 			setIcon(LEAF_ICON);
 		else
 			setIcon(BASENODE_ICON);
