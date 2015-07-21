@@ -29,6 +29,7 @@ import model.Material;
 import sales.controller.SalesController;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class RegisterOfMaterialFrame extends JFrame {
@@ -73,6 +74,7 @@ public class RegisterOfMaterialFrame extends JFrame {
 
 	private void initializePrincipal() {
 		this.setTitle("Cadastro de Produto");
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 450, 338);
 		setPreferredSize(new Dimension(450, 338));

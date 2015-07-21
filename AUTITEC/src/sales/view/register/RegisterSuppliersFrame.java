@@ -45,6 +45,7 @@ import sales.controller.MaterialUpdateController;
 import sales.controller.SalesController;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class RegisterSuppliersFrame extends JFrame {
@@ -119,6 +120,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		setPreferredSize(new Dimension(510,538));
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setTitle("Registro de Fornecedores");
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);

@@ -1,6 +1,7 @@
 package rh.view;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -31,6 +32,7 @@ import net.sf.nachocalendar.components.DateField;
 import rh.controller.UpdateOfTrainingController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class UpdateOfTrainingFrame extends JFrame{
@@ -86,6 +88,9 @@ public class UpdateOfTrainingFrame extends JFrame{
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Atualização e Remoção de fornecedores");
 		setBounds(100, 100, 458, 530);
+		setPreferredSize(new Dimension(458, 530));
+		setMinimumSize(new Dimension(458, 530));
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

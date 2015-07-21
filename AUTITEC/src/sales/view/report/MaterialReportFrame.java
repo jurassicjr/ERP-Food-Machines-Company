@@ -23,6 +23,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import sales.controller.MaterialReportController;
 import userInterface.components.FileChooser;
+import util.Icon;
 
 public class MaterialReportFrame extends JFrame {
 
@@ -63,6 +64,7 @@ public class MaterialReportFrame extends JFrame {
 		setBounds(100, 100, 595, 187);
 		setMinimumSize(new Dimension(595, 195));
 		setTitle("Relátorios de materias");
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

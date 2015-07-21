@@ -17,14 +17,15 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.JSeparator;
 
 import model.EPI;
 import rh.controller.RegisterOfEPIController;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class RegisterOfEPIFrame extends JFrame{
@@ -62,6 +63,7 @@ public class RegisterOfEPIFrame extends JFrame{
 		setBounds(100, 100, 470, 257);
 		setPreferredSize(new Dimension(470, 257));
 		setMinimumSize(new Dimension(470,257));
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

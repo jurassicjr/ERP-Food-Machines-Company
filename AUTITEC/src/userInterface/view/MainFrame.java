@@ -728,6 +728,7 @@ public class MainFrame extends JFrame {
 		mntmClientSearch.addActionListener(menuListeners);
 		mntmUpdateOfClient.addActionListener(menuListeners);
 		mntmSearchOfKit.addActionListener(menuListeners);
+		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		
 		mntmVehicleRegister.addActionListener(menuListeners);
 		mntmVehicleUpdate.addActionListener(menuListeners);

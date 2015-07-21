@@ -23,6 +23,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 
 import sales.controller.SupplierReportController;
 import userInterface.components.FileChooser;
+import util.Icon;
 
 public class SupplierReportFrame extends JFrame {
 	/**
@@ -62,6 +63,7 @@ public class SupplierReportFrame extends JFrame {
 		setBounds(100, 100, 595, 187);
 		setMinimumSize(new Dimension(595, 195));
 		setTitle("Relátorio de Fornecedores");
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}

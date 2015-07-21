@@ -27,6 +27,7 @@ import model.EPI;
 import rh.controller.UpdateOfEPiController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
+import util.Icon;
 import util.ShowMessage;
 
 public class UpdateOfEPIFrame extends JFrame{
@@ -61,6 +62,7 @@ public class UpdateOfEPIFrame extends JFrame{
 		setBounds(100, 100, 470, 338);
 		setMinimumSize(new Dimension(470, 338));
 		setPreferredSize(new Dimension(470, 338));
+		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 	}
