@@ -5,8 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import maintenance.view.register.RouteRegisterFrame;
 import maintenance.view.register.VehicleRegisterFrame;
 import maintenance.view.search.VehicleSearchFrame;
+import maintenance.view.update.VehicleReturnUpdateFrame;
 import maintenance.view.update.VehicleUpdateFrame;
 import production.view.StagesProductionFrame;
 import rh.view.EmployeeReportFrame;
@@ -447,7 +449,7 @@ public class MainFrameController {
 		int response = ShowMessage.questionMessage(mainFrame, title, message);
 
 		if (response == JOptionPane.YES_OPTION) {
-			mainFrame.dispose();
+			System.exit(0);
 		}
 
 	}
@@ -614,6 +616,32 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				RegisterOfFunctionDescriptionFrame frame = new RegisterOfFunctionDescriptionFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void routeRegister() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				RouteRegisterFrame frame = new RouteRegisterFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void updateRoute() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				VehicleReturnUpdateFrame frame = new VehicleReturnUpdateFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

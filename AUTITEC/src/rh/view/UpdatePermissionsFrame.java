@@ -254,7 +254,9 @@ public class UpdatePermissionsFrame extends JFrame {
 		CheckBoxNode maintenanceOptions[] = {
 				new CheckBoxNode("Registrar Veiculo", false, "REG_VEH"),
 				new CheckBoxNode("Atualizar/Remover Registro de Veículos", false, "UPD_VEH"),
-				new CheckBoxNode("Consulta de Veículos", false, "SEA_VEH")
+				new CheckBoxNode("Consulta de Veículos", false, "SEA_VEH"),
+				new CheckBoxNode("Registrar Trajeto", false, "ROU_REG"),
+				new CheckBoxNode("Atualizar/Finalizar Trajeto", false, "UPD_ROU")
 		};
 		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);

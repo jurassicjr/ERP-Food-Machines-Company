@@ -68,6 +68,7 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 	private JButton btnCancel;
 	private JButton btnClear;
 	private AssessmentOfCompetenceController controller;
+	private DateField txtAssessmentDate;
 
 	public AssessmentOfCompetenceFrame() {
 		controller = new AssessmentOfCompetenceController(this);
@@ -146,170 +147,104 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 
 		txtPoints = new JTextField();
 		txtPoints.setColumns(10);
+		
+		JLabel lblAssessmentDate = new JLabel("Data da Avaliação");
+		
+		txtAssessmentDate = CalendarFactory.createDateField();
+		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel
-		        .setHorizontalGroup(gl_principalPanel
-		                .createParallelGroup(Alignment.TRAILING)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createSequentialGroup()
-		                                .addContainerGap()
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createParallelGroup(Alignment.LEADING)
-		                                                .addComponent(scrollPaneHabilities, GroupLayout.DEFAULT_SIZE,
-		                                                        580, Short.MAX_VALUE)
-		                                                .addComponent(scrollPaneTrainer, GroupLayout.DEFAULT_SIZE, 580,
-		                                                        Short.MAX_VALUE)
-		                                                .addGroup(
-		                                                        gl_principalPanel
-		                                                                .createSequentialGroup()
-		                                                                .addGroup(
-		                                                                        gl_principalPanel
-		                                                                                .createParallelGroup(
-		                                                                                        Alignment.LEADING,
-		                                                                                        false)
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblScholarity)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtScholarity))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblNome)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        cboEmployee,
-		                                                                                                        GroupLayout.PREFERRED_SIZE,
-		                                                                                                        261,
-		                                                                                                        GroupLayout.PREFERRED_SIZE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblFunction)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtFunction)))
-		                                                                .addGap(18)
-		                                                                .addGroup(
-		                                                                        gl_principalPanel
-		                                                                                .createParallelGroup(
-		                                                                                        Alignment.LEADING)
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblSector)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtSector,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        167,
-		                                                                                                        Short.MAX_VALUE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblHireDate)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtHireDate,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        180,
-		                                                                                                        Short.MAX_VALUE))
-		                                                                                .addGroup(
-		                                                                                        gl_principalPanel
-		                                                                                                .createSequentialGroup()
-		                                                                                                .addComponent(
-		                                                                                                        lblExperience)
-		                                                                                                .addPreferredGap(
-		                                                                                                        ComponentPlacement.RELATED)
-		                                                                                                .addComponent(
-		                                                                                                        txtExperience,
-		                                                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                                                        146,
-		                                                                                                        Short.MAX_VALUE))))
-		                                                .addComponent(scrollPaneQualification,
-		                                                        GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-		                                                .addGroup(
-		                                                        gl_principalPanel.createSequentialGroup()
-		                                                                .addComponent(lblIsEnable)
-		                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                                                                .addComponent(rdbtnYes)
-		                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                                                                .addComponent(rdbtnNo))
-		                                                .addGroup(
-		                                                        gl_principalPanel
-		                                                                .createSequentialGroup()
-		                                                                .addComponent(lblPoints)
-		                                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                                .addComponent(txtPoints,
-		                                                                        GroupLayout.PREFERRED_SIZE,
-		                                                                        GroupLayout.DEFAULT_SIZE,
-		                                                                        GroupLayout.PREFERRED_SIZE)))
-		                                .addContainerGap()));
-		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNome)
-		                                .addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblSector)
-		                                .addComponent(txtSector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblFunction)
-		                                .addComponent(txtFunction, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblHireDate)
-		                                .addComponent(txtHireDate, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblScholarity)
-		                                .addComponent(txtScholarity, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblExperience)
-		                                .addComponent(txtExperience, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addComponent(scrollPaneQualification, GroupLayout.PREFERRED_SIZE, 113,
-		                        GroupLayout.PREFERRED_SIZE)
-		                .addGap(18)
-		                .addComponent(scrollPaneTrainer, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
-		                .addGap(18)
-		                .addComponent(scrollPaneHabilities, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel.createParallelGroup(Alignment.BASELINE).addComponent(lblIsEnable)
-		                                .addComponent(rdbtnYes).addComponent(rdbtnNo))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblPoints)
-		                                .addComponent(txtPoints, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)).addContainerGap(27, Short.MAX_VALUE)));
+		gl_principalPanel.setHorizontalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPaneHabilities, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+						.addComponent(scrollPaneTrainer, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblScholarity)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtScholarity))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblNome)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblFunction)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtFunction)))
+							.addGap(18)
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblSector)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtSector, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblHireDate)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtHireDate, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
+								.addGroup(gl_principalPanel.createSequentialGroup()
+									.addComponent(lblExperience)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txtExperience, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))))
+						.addComponent(scrollPaneQualification, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblIsEnable)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(rdbtnYes)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(rdbtnNo))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblPoints)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtPoints, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblAssessmentDate)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtAssessmentDate, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
+		);
+		gl_principalPanel.setVerticalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNome)
+						.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblSector)
+						.addComponent(txtSector, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblFunction)
+						.addComponent(txtFunction, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblHireDate)
+						.addComponent(txtHireDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblScholarity)
+						.addComponent(txtScholarity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblExperience)
+						.addComponent(txtExperience, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(scrollPaneQualification, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(scrollPaneTrainer, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addComponent(scrollPaneHabilities, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblIsEnable)
+						.addComponent(rdbtnYes)
+						.addComponent(rdbtnNo))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblPoints)
+						.addComponent(txtPoints, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblAssessmentDate)
+						.addComponent(txtAssessmentDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+		);
 
 		JPanel habilitiesPanel = new JPanel();
 		scrollPaneHabilities.setViewportView(habilitiesPanel);

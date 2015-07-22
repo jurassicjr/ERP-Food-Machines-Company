@@ -84,7 +84,7 @@ public class RouteRegisterController
 	}
 	public void fillProductCbo(JComboBox<Product> cboProduct)
 	{
-		 String sql = "SELECT id,name FROM product order by name";
+		 String sql = "SELECT id,name FROM Product order by name";
 		 cboProduct.removeAllItems();
 		 
 		 try{

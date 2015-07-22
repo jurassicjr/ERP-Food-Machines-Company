@@ -251,10 +251,12 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM")
 		};
 		
-		CheckBoxNode maintenceOptions[] = {
+		CheckBoxNode maintenanceOptions[] = {
 				new CheckBoxNode("Registrar Veiculo", false, "REG_VEH"),
 				new CheckBoxNode("Atualizar/Remover Registro de Veículos", false, "UPD_VEH"),
-				new CheckBoxNode("Consulta de Veículos", false, "SEA_VEH")
+				new CheckBoxNode("Consulta de Veículos", false, "SEA_VEH"),
+				new CheckBoxNode("Registrar Trajeto", false, "ROU_REG"),
+				new CheckBoxNode("Atualizar/Finalizar Trajeto", false, "UPD_ROU")
 		};
 		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);
@@ -262,7 +264,7 @@ public class RegisterUserFrame extends JFrame {
 		Vector<?> salesVector = new NamedVector("Vendas", salesOptions);
 		Vector<?> productionVector = new NamedVector("Produção", productionOptions);
 		Vector<?> buyVector = new NamedVector("Compras", buyOptions);
-		Vector<?> maintenceVector = new NamedVector("Manutenção", maintenceOptions);
+		Vector<?> maintenceVector = new NamedVector("Manutenção", maintenanceOptions);
 
 		Object rootNodes[] = { rhVector, financialVector, salesVector, productionVector, buyVector, maintenceVector};
 		

@@ -156,6 +156,10 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmRegisterOfFunctionDescription;
 
+	private JMenuItem mntmRouteRegister;
+
+	private JMenuItem mntmUpdateRoute;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -527,6 +531,16 @@ public class MainFrame extends JFrame {
 		mntmVehicleSearch.setVisible(false);
 		mntmVehicleSearch.setName("SEA_VEH");
 		
+		mntmRouteRegister = new JMenuItem("Registro de Trajeto");
+		mnMaintenanceRegister.add(mntmRouteRegister);
+		mntmRouteRegister.setVisible(false);
+		mntmRouteRegister.setName("ROU_REG");
+		
+		mntmUpdateRoute = new JMenuItem("Atualização/Finalização de Trajeto");
+		mnMaitenanceUpdate.add(mntmUpdateRoute);
+		mntmUpdateRoute.setVisible(false);
+		mntmUpdateRoute.setName("UPD_ROU");
+		
 		//Sobre
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
@@ -615,7 +629,8 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmVehicleRegister);
 		menuItens.add(mntmVehicleUpdate);
 		menuItens.add(mntmVehicleSearch);
-		
+		menuItens.add(mntmRouteRegister);
+		menuItens.add(mntmUpdateRoute);
 	}
 
 	/**
@@ -679,6 +694,8 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
 				else if(e.getSource().equals(mntmVehicleUpdate))controller.vehicleUpdate();
 				else if(e.getSource().equals(mntmVehicleSearch))controller.vehicleSearch();
+				else if(e.getSource().equals(mntmRouteRegister))controller.routeRegister();
+				else if(e.getSource().equals(mntmUpdateRoute))controller.updateRoute();
 			}
 		};
 		
@@ -733,6 +750,8 @@ public class MainFrame extends JFrame {
 		mntmVehicleRegister.addActionListener(menuListeners);
 		mntmVehicleUpdate.addActionListener(menuListeners);
 		mntmVehicleSearch.addActionListener(menuListeners);
+		mntmRouteRegister.addActionListener(menuListeners);
+		mntmUpdateRoute.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

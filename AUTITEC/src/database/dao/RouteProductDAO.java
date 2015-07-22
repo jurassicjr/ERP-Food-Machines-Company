@@ -62,7 +62,7 @@ public class RouteProductDAO {
 					RouteProduct product = new RouteProduct();
 					
 					product.setId(result.getInt("id"));
-					sql = "select * from product where id = ?";
+					sql = "select * from Product where id = ?";
 					ResultSet rs = dataBase.executeQuery(sql,result.getInt("product"));
 					rs.next();
 					
