@@ -1,7 +1,4 @@
-import javax.swing.SwingUtilities;
-
-import login.view.LoginFrame;
-import userInterface.view.LoadingFrame;
+import rh.view.AssessmentOfCompetenceFrame;
 
 
 /**
@@ -12,18 +9,19 @@ public class Main {
 	public static void main(String[] args) {
 		
 	  
-		LoadingFrame loadingFrame = new LoadingFrame();  
-	
-		SwingUtilities.invokeLater(new Runnable(){  
-			@Override public void run() { loadingFrame.setVisible(true); }  
-		});
+//		LoadingFrame loadingFrame = new LoadingFrame();  
+//	
+//		SwingUtilities.invokeLater(new Runnable(){  
+//			@Override public void run() { loadingFrame.setVisible(true); }  
+//		});
+//		
+//		//new UpdateSoftware(loadingFrame);
+//		//if(!new VerifySerial().verify()) System.exit(0);
+//		
+//		new LoginFrame().setVisible(true);
+//		loadingFrame.dispose();
 		
-		//new UpdateSoftware(loadingFrame);
-		//if(!new VerifySerial().verify()) System.exit(0);
-		
-		new LoginFrame().setVisible(true);
-		loadingFrame.dispose();
-		
+		new AssessmentOfCompetenceFrame().setVisible(true);
 	}
 
 }

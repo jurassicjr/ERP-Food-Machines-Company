@@ -74,7 +74,6 @@ public class RouteProductDAO {
 						product.setRouteDestination(destination);
 						product.setQuantity(result.getDouble("quantity"));
 						routeList.add(product);
-					
 				}
 
 		}catch(Exception ex)

@@ -134,8 +134,8 @@ public class FTP {
 		
 		try {
 			
+			System.out.println(FTPPath + folder + fileName);
 			if(!connect()) return false;
-			
 			ftp.changeWorkingDirectory(FTPPath + folder);
 			FileOutputStream fos = new FileOutputStream(file);
 			

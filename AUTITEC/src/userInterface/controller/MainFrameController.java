@@ -11,6 +11,7 @@ import maintenance.view.search.VehicleSearchFrame;
 import maintenance.view.update.VehicleReturnUpdateFrame;
 import maintenance.view.update.VehicleUpdateFrame;
 import production.view.StagesProductionFrame;
+import rh.view.AssessmentOfCompetenceFrame;
 import rh.view.EmployeeReportFrame;
 import rh.view.EntryOfEPIFrame;
 import rh.view.ExternalSatisfactionResearchFrame;
@@ -642,6 +643,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				VehicleReturnUpdateFrame frame = new VehicleReturnUpdateFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void assessmentOfCompetence() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				AssessmentOfCompetenceFrame frame = new AssessmentOfCompetenceFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

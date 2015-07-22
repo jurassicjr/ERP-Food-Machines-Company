@@ -4,9 +4,14 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -14,6 +19,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
@@ -23,13 +29,20 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
+import model.AssessmentOfCompetence;
+import model.CBO;
 import model.Employee;
+import model.FunctionDescription;
+import model.Training;
 import net.miginfocom.swing.MigLayout;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import rh.controller.AssessmentOfCompetenceController;
+import util.ClearFrame;
 import util.Icon;
+import util.ShowMessage;
 
 public class AssessmentOfCompetenceFrame extends JFrame {
 
@@ -45,7 +58,7 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 
 	private DateField txtHireDate;
 
-	private JTable table;
+	private JTable trainingTable;
 
 	private JComboBox<Employee> cboEmployee;
 
@@ -63,12 +76,28 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 	
 	private JPanel subPanel;
 	private JPanel principalPanel;
+	private JPanel habilitiesPanel;
+	private JPanel qualificationPanel;
 
 	private JButton btnConfirm;
 	private JButton btnCancel;
 	private JButton btnClear;
+
 	private AssessmentOfCompetenceController controller;
+	
 	private DateField txtAssessmentDate;
+
+	private List<ButtonGroup> btnGroupList = new ArrayList<ButtonGroup>();
+	
+	private JLabel lblRequiredScholarity;
+	private JLabel lblRequiredExperience;
+
+	private JTextField txtRequiredScholarit;
+	private JTextField txtRequiredExperience;
+	
+	private List<String> functionList = new ArrayList<String>();
+	private ButtonGroup btnGroupIsEnable;
+	private FunctionDescription funDes;
 
 	public AssessmentOfCompetenceFrame() {
 		controller = new AssessmentOfCompetenceController(this);
@@ -79,9 +108,9 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 	private void initialize() {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Avaliação de Competência");
-		setBounds(100, 100, 616, 592);
-		setMinimumSize(new Dimension(616, 592));
-		setPreferredSize(new Dimension(616, 592));
+		setBounds(100, 100, 632, 656);
+		setPreferredSize(new Dimension(632, 656));
+		setMinimumSize(new Dimension(632, 656));
 		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
@@ -94,17 +123,19 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 		lblNome = new JLabel("Nome");
 
 		cboEmployee = new JComboBox<Employee>();
-
+		controller.fillEmployee(cboEmployee);
+		cboEmployee.setSelectedIndex(-1);
+		
 		lblSector = new JLabel("Departamento/Setor");
 
 		txtSector = new JTextField();
-		txtSector.setEnabled(false);
+		txtSector.setEditable(false);
 		txtSector.setColumns(10);
 
 		lblFunction = new JLabel("Cargo");
 
 		txtFunction = new JTextField();
-		txtFunction.setEnabled(false);
+		txtFunction.setEditable(false);
 		txtFunction.setColumns(10);
 
 		lblHireDate = new JLabel("Data da Admissão");
@@ -114,7 +145,7 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 		lblScholarity = new JLabel("Escolaridade Apresentada");
 
 		txtScholarity = new JTextField();
-		txtScholarity.setEnabled(false);
+		txtScholarity.setEditable(false);
 		txtScholarity.setColumns(10);
 
 		lblExperience = new JLabel("Experiência Apresentada");
@@ -129,8 +160,6 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 		scrollPaneQualification.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		JScrollPane scrollPaneTrainer = new JScrollPane();
-		scrollPaneTrainer.setViewportBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 3), "Treinamentos",
-		        TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		scrollPaneTrainer.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
 		JScrollPane scrollPaneHabilities = new JScrollPane();
@@ -140,9 +169,13 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 		lblIsEnable = new JLabel("O colaborador está apto à trabalhar na empresa ?");
 
 		rdbtnYes = new JRadioButton("Sim");
-
+		rdbtnYes.setActionCommand("Yes");
 		rdbtnNo = new JRadioButton("Não");
-
+		rdbtnNo.setActionCommand("No");
+		btnGroupIsEnable = new ButtonGroup();
+		btnGroupIsEnable.add(rdbtnNo);
+		btnGroupIsEnable.add(rdbtnYes);
+		
 		lblPoints = new JLabel("Se sim, qual a nota da avaliação");
 
 		txtPoints = new JTextField();
@@ -152,43 +185,24 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 		
 		txtAssessmentDate = CalendarFactory.createDateField();
 		
+		lblRequiredScholarity = new JLabel("Escolaridade Requerida");
+		
+		txtRequiredScholarit = new JTextField();
+		txtRequiredScholarit.setEditable(false);
+		txtRequiredScholarit.setColumns(10);
+		
+		lblRequiredExperience = new JLabel("Experiência Requerida");
+		
+		txtRequiredExperience = new JTextField();
+		txtRequiredExperience.setEditable(false);
+		txtRequiredExperience.setColumns(10);
+		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_principalPanel.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPaneHabilities, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-						.addComponent(scrollPaneTrainer, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblScholarity)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtScholarity))
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblNome)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblFunction)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtFunction)))
-							.addGap(18)
-							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblSector)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtSector, GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblHireDate)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtHireDate, GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE))
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblExperience)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtExperience, GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE))))
-						.addComponent(scrollPaneQualification, GroupLayout.DEFAULT_SIZE, 580, Short.MAX_VALUE)
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblIsEnable)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -202,7 +216,49 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 							.addGap(18)
 							.addComponent(lblAssessmentDate)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtAssessmentDate, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(txtAssessmentDate, GroupLayout.PREFERRED_SIZE, 152, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING, false)
+								.addComponent(scrollPaneHabilities, Alignment.LEADING)
+								.addComponent(scrollPaneTrainer, Alignment.LEADING)
+								.addComponent(scrollPaneQualification, Alignment.LEADING)
+								.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+									.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_principalPanel.createSequentialGroup()
+											.addComponent(lblRequiredScholarity)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtRequiredScholarit))
+										.addGroup(gl_principalPanel.createSequentialGroup()
+											.addComponent(lblScholarity)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtScholarity))
+										.addGroup(gl_principalPanel.createSequentialGroup()
+											.addComponent(lblNome)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 261, GroupLayout.PREFERRED_SIZE))
+										.addGroup(gl_principalPanel.createSequentialGroup()
+											.addComponent(lblFunction)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtFunction)))
+									.addGap(18)
+									.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_principalPanel.createSequentialGroup()
+											.addComponent(lblRequiredExperience)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtRequiredExperience))
+										.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+											.addComponent(lblExperience)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtExperience))
+										.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+											.addComponent(lblHireDate)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtHireDate, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+										.addGroup(gl_principalPanel.createSequentialGroup()
+											.addComponent(lblSector)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtSector, GroupLayout.DEFAULT_SIZE, 183, Short.MAX_VALUE)))))
+							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(
@@ -227,35 +283,60 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 						.addComponent(lblExperience)
 						.addComponent(txtExperience, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblRequiredScholarity)
+						.addComponent(txtRequiredScholarit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblRequiredExperience)
+						.addComponent(txtRequiredExperience, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
 					.addComponent(scrollPaneQualification, GroupLayout.PREFERRED_SIZE, 113, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(scrollPaneTrainer, GroupLayout.PREFERRED_SIZE, 65, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
 					.addComponent(scrollPaneHabilities, GroupLayout.PREFERRED_SIZE, 92, GroupLayout.PREFERRED_SIZE)
 					.addGap(18)
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblIsEnable)
-						.addComponent(rdbtnYes)
-						.addComponent(rdbtnNo))
-					.addGap(18)
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblPoints)
-						.addComponent(txtPoints, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAssessmentDate)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblIsEnable)
+								.addComponent(rdbtnYes)
+								.addComponent(rdbtnNo))
+							.addGap(18)
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblPoints)
+								.addComponent(txtPoints, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblAssessmentDate)))
 						.addComponent(txtAssessmentDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addContainerGap(34, Short.MAX_VALUE))
 		);
 
-		JPanel habilitiesPanel = new JPanel();
+		habilitiesPanel = new JPanel();
 		scrollPaneHabilities.setViewportView(habilitiesPanel);
 		habilitiesPanel.setLayout(new MigLayout("wrap 3", "[] 100 [] 20 []"));
 
-		table = new JTable();
-		scrollPaneTrainer.setViewportView(table);
+		trainingTable = new JTable();
+		String[] header = new String[] {"Treinamentos realizados"};
+		trainingTable.setModel(new DefaultTableModel(null, header) {
 
-		JPanel QualificationPanel = new JPanel();
-		scrollPaneQualification.setViewportView(QualificationPanel);
-		QualificationPanel.setLayout(new MigLayout("wrap 3", "[] 100 [] 20 []"));
+			/**
+			 * 
+			 */
+            private static final long serialVersionUID = 6243666037667322458L;
+			
+            boolean[] columnEditables = new boolean[] {
+					false
+			};
+			
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		scrollPaneTrainer.setViewportView(trainingTable);
+
+		qualificationPanel = new JPanel();
+		scrollPaneQualification.setViewportView(qualificationPanel);
+		qualificationPanel.setLayout(new MigLayout("wrap 3", "[] 100 [] 20 []"));
 
 		principalPanel.setLayout(gl_principalPanel);
 
@@ -286,5 +367,141 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 				controller.close();
 			}
 		});
+		
+		ActionListener cboListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(cboEmployee))fillFields();
+			}
+
+		};
+		cboEmployee.addActionListener(cboListener);
+		
+		ActionListener buttonListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(btnConfirm))register();
+				else if(e.getSource().equals(btnClear))clearFrame();
+				else if(e.getSource().equals(btnCancel))controller.close();
+			}
+		};
+		btnConfirm.addActionListener(buttonListener);
+		btnCancel.addActionListener(buttonListener);
+		btnClear.addActionListener(buttonListener);
 	}
+	
+	private void register() {
+		int i = ShowMessage.questionMessage(this, "Registrar", "Deseja realmente registrar a avaliação de competência com esses dados?");
+		if(i == JOptionPane.NO_OPTION)return;
+		if(!verifySelections()) return;
+		if(txtExperience.getText().isEmpty()) {
+			ShowMessage.errorMessage(this, "Erro", "Insira a experiência apresentada pelo colaborador");
+			return;
+		}
+		if(btnGroupIsEnable.getSelection() == null) {
+			ShowMessage.errorMessage(this, "Erro", "Selecione se o colaborar está apto ou não à trabalhar na empresa !");
+			return;
+		}
+		if(txtPoints.getText().isEmpty()) {
+			ShowMessage.errorMessage(this, "Erro", "Insira a nota do colaborador!");
+			return;
+		}
+		if(cboEmployee.getSelectedIndex() == -1) {
+			ShowMessage.errorMessage(this, "Erro", "Selecione um colaborador!");
+			return;
+		}
+		Employee e = (Employee) cboEmployee.getSelectedItem();
+		String isE = btnGroupIsEnable.getSelection().getActionCommand();
+		String point = txtPoints.getText();
+		String experience = txtExperience.getText();
+		boolean isEna;
+		AssessmentOfCompetence assOfCom = new AssessmentOfCompetence();
+		assOfCom.setBtnGroupList(btnGroupList);
+		assOfCom.setEmployee(e);
+		assOfCom.setExperience(experience);
+		assOfCom.setFunDes(funDes);
+		assOfCom.setFuntion(functionList);
+		assOfCom.setPoint(point);
+		if(isE.equalsIgnoreCase("Yes")) {
+			isEna = true;
+		}else {
+			isEna = false;
+		}
+		assOfCom.setEnable(isEna);
+		controller.register(assOfCom);
+		ShowMessage.successMessage(this, "Sucesso", "sucesso ao realizar a Avaliação de Competência!");
+		ClearFrame.clear(this);
+		this.revalidate();
+		habilitiesPanel.removeAll();
+		habilitiesPanel.repaint();
+		qualificationPanel.removeAll();
+		qualificationPanel.removeAll();
+	}
+	
+	private boolean verifySelections() {
+		for (ButtonGroup buttonGroup : btnGroupList) {
+	          if(buttonGroup.getSelection() == null) {
+	          	ShowMessage.errorMessage(this, "Erro", "Selecione sim ou não para as habilidades e cursos!");
+	           	return false;
+	          }
+        }
+	    return true;
+    }
+
+	private void clearFrame() {
+		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar esse dados ?");
+		if(i == JOptionPane.NO_OPTION)return;
+		ClearFrame.clear(this);
+	}
+	
+	private void fillFields() {
+		if(cboEmployee.getSelectedIndex() == -1)return;
+		Employee e = (Employee) cboEmployee.getSelectedItem();
+		txtFunction.setText(e.getJob().getCbo().getTitle());
+		CBO cbo = e.getJob().getCbo();
+		funDes = controller.getFunctionDescription(cbo);
+		txtScholarity.setText(e.getSchoolingStr());
+		txtSector.setText(funDes.getSector());
+		fillPanel(habilitiesPanel, funDes);
+		fillPanel(qualificationPanel, funDes);
+		txtHireDate.setValue(e.getJob().getAdmissionDate());
+		if(funDes.getPeriod() == null)txtRequiredExperience.setText("Não é nescessário experiência");
+		else txtRequiredExperience.setText(funDes.getPeriod());
+		List<Training> tList = controller.getTraining(e.getId());
+		fillTable(trainingTable, tList);
+		txtRequiredScholarit.setText(funDes.getMinimalGraduation());
+	}
+
+	private void fillTable(JTable table, List<Training> tList) {
+	    DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+	    tList.forEach(t -> tbl.addRow(new Object[] {t}));
+    }
+
+	private void fillPanel(JPanel panel, FunctionDescription funDes) {
+		List<String> list = null;
+		if(panel == habilitiesPanel) {			
+			list =funDes.getPersonalHabilitiesList();
+		}else if(panel == qualificationPanel) {
+			list = funDes.getKnowledgementList();
+		}
+		if(list == null)return;
+		for (String s : list) {
+	        panel.add(new JLabel(s));
+	        JRadioButton rdbtnYes = new JRadioButton("Sim");
+	        rdbtnYes.setActionCommand("Yes");
+	        JRadioButton rdbtnNo = new JRadioButton("Não");
+	        rdbtnNo.setActionCommand("No");
+	        panel.add(rdbtnNo);
+	        panel.add(rdbtnYes);
+	        ButtonGroup btnGroup = new ButtonGroup();
+	        btnGroup.add(rdbtnNo);
+	        btnGroup.add(rdbtnYes);
+	        btnGroupList.add(btnGroup);
+	        functionList.add(s);
+        }
+		this.revalidate();
+		panel.repaint();
+    }
 }

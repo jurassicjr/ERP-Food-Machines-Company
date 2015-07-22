@@ -43,13 +43,13 @@ public class TrainingDAO {
 			e.printStackTrace();
 		}
 		
-		String sqlAssociation = "INSERT INTO training_employee_relation(training, employee) VALUES(?,?)";
+		String sqlAssociation = "INSERT INTO training_employee_relation(training, employee, is_completed) VALUES(?,?, ?)";
 		
 		list.forEach(new Consumer<Employee>() {
 
 			@Override
 			public void accept(Employee e) {
-				Object[] obj = new Object[]{trainingID, e.getId()};
+				Object[] obj = new Object[]{trainingID, e.getId(), false};
 				try{
 					dataBase.executeUpdate(sqlAssociation, obj);
 				}catch(Exception e1){
@@ -111,6 +111,56 @@ public class TrainingDAO {
 			e.printStackTrace();
 		}
 		return list;
+	}
+
+	public List<Training> getTrainingsListByEmployee(int id) {
+		String sql = "SELECT *FROM training_employee_relation WHERE employee = ? AND is_completed = ?";
+		Object[] data = new Object[] {id, true};
+		List<Training> trainingList = new ArrayList<Training>();
+		try(ResultSet rs = dataBase.executeQuery(sql, data)){
+			while(rs.next()) {
+				int trainingID = rs.getInt("training");
+				Training t = getTrainingByID(trainingID);
+				trainingList.add(t);
+			}
+			return trainingList;
+		} catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		
+		return trainingList;
+    }
+
+	private Training getTrainingByID(int trainingID) {
+		String sql = "SELECT * FROM training WHERE id = ?";
+		Training t = new Training();
+		try(ResultSet rs = dataBase.executeQuery(sql, trainingID)){
+			if(rs.next()){
+			int id = rs.getInt("id");
+			Date date = rs.getDate("date");
+			String duration = rs.getString("Duration");
+			List<Employee> employeeList = getEmployeeFromTraining(id);
+			String eventType = rs.getString("event_type");
+			String motive = rs.getString("motive");
+			String objective = rs.getString("objective");
+			String period = rs.getString("period");
+			String place = rs.getString("place");
+			String title = rs.getString("title");
+			t.setTitle(title);
+			t.setPlace(place);
+			t.setPeriod(period);
+			t.setObjective(objective);
+			t.setMotive(motive);
+			t.setEventType(eventType);
+			t.setDate(date);
+			t.setDuration(duration);
+			t.setEmployeeList(employeeList);
+			}
+			return t;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 }

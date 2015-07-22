@@ -402,6 +402,9 @@ public class RegisterOfFunctionDescriptionFrame extends JFrame{
 	}
 	
 	private void register() {
+		int i = ShowMessage.questionMessage(this, "Registrar", "Deseja realmente realizar a descrição de cargos com essas especificações?");
+		if(i == JOptionPane.NO_OPTION)return;
+		
 		if(cboFunction.getSelectedIndex() == -1) {
 			ShowMessage.errorMessage(this, "Erro", "Erro ao registrar a descrição selecione um cargo!");
 			return;
@@ -458,6 +461,8 @@ public class RegisterOfFunctionDescriptionFrame extends JFrame{
 		funDes.setSector(sector);
 		
 		controller.register(funDes);
+		ShowMessage.successMessage(this, "Sucesso", "Descrição de Cargo concluida com sucesso!");
+		ClearFrame.clear(this);
 	}
 
 	private List<String> tableToList(JTable table) {
