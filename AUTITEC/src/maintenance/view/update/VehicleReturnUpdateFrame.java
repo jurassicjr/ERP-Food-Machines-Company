@@ -207,6 +207,7 @@ public class VehicleReturnUpdateFrame extends JFrame {
 									route.setReturnObs(txtObs.getText());
 									controller.updateRoute(route);
 									getActiveRoutes();
+									clearFields();
 								}
 							}
 							else
@@ -238,11 +239,9 @@ public class VehicleReturnUpdateFrame extends JFrame {
 				{
 					try{
 						String hour = txtReturnHour.getText().replace(":","");
-						if(Integer.parseInt(hour) > 2359)
-						{
+						String minute = txtReturnHour.getText().split(":")[1];
+						if(Integer.parseInt(hour) > 2359 || Integer.parseInt(minute) > 59)
 							txtReturnHour.setValue("00:00");
-						}
-							
 						
 					}catch(Exception ex)
 					{
@@ -278,6 +277,14 @@ public class VehicleReturnUpdateFrame extends JFrame {
 		} catch (Exception e) {
 			return false;
 		}
+	}
+	private void clearFields()
+	{
+		txtDate.setValue(null);
+		txtObs.setText("");
+		txtReturnHodometer.setText("");
+		txtReturnHour.setText("");
+		
 	}
 	private void getActiveRoutes()
 	{
