@@ -190,11 +190,11 @@ public class TechnicalStandardFrameController {
 		
 		if(!document.exists()) {
 			FTP ftp = new FTP();
-			ftp.download(document, fileName, "/Autitec/Normas_Tecnicas/");
+			boolean b = ftp.download(document, fileName, "/Normas_Tecnicas/");
+			System.out.println("aqui " + b);
 		}
 				
-		try {
-			System.out.println(document);
+		try {			
 			Desktop desktop = Desktop.getDesktop();
 			desktop.open(document);
 		} catch (IOException e) {

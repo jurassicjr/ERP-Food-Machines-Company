@@ -16,10 +16,8 @@ import javax.swing.ListSelectionModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-import model.Session;
 import model.TechnicalStandard;
 import model.TechnicalStandardVersion;
-import model.User;
 import rh.controller.TechnicalStandardFrameController;
 import util.Icon;
 
@@ -75,9 +73,7 @@ public class TechnicalStandardFrame extends JFrame {
 		JScrollPane scrollPane = new JScrollPane();
 		contentPane.add(scrollPane, BorderLayout.CENTER);
 		
-		User u = Session.getInstance().getUser();
-		
-		
+		//User u = Session.getInstance().getUser();
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(

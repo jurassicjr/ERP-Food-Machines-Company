@@ -94,7 +94,7 @@ public class FTP {
 	public boolean upload(File file, String fileName, String folder) {
 		
 		try {
-			System.out.println(FTPPath + folder + fileName);
+			
 			if(!connect()) return false;
 			
 			FileInputStream fis = new FileInputStream(file);
@@ -134,9 +134,11 @@ public class FTP {
 		
 		try {
 			
+			if(!connect()) {
+				return false;
+			}
 			
-			if(!connect()) return false;
-			ftp.changeWorkingDirectory(folder);
+			ftp.changeWorkingDirectory(FTPPath + folder);
 			FileOutputStream fos = new FileOutputStream(file);
 			
 			if(file.getAbsolutePath().endsWith(".txt")) {
@@ -153,7 +155,7 @@ public class FTP {
 			return b;
 			
 		} catch (IOException e) {
-			ShowMessage.errorMessage(null, "Erro ao subir o arquivo", "Houve um erro ao subir o arquivo.\nPor favor, consulte o suporte");
+			ShowMessage.errorMessage(null, "Erro ao fazer download do arquivo", "Houve um erro ao subir o arquivo.\nPor favor, consulte o suporte");
 			e.printStackTrace();
 			return false;
 		}
