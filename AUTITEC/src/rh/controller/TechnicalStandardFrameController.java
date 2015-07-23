@@ -190,7 +190,7 @@ public class TechnicalStandardFrameController {
 		
 		if(!document.exists()) {
 			FTP ftp = new FTP();
-			ftp.download(document, fileName, "/autitec/docs/");
+			ftp.download(document, fileName, "/Autitec/Normas_Tecnicas/");
 		}
 				
 		try {

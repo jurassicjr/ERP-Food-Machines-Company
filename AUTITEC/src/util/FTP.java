@@ -94,7 +94,7 @@ public class FTP {
 	public boolean upload(File file, String fileName, String folder) {
 		
 		try {
-			
+			System.out.println(FTPPath + folder + fileName);
 			if(!connect()) return false;
 			
 			FileInputStream fis = new FileInputStream(file);
@@ -134,9 +134,9 @@ public class FTP {
 		
 		try {
 			
-			System.out.println(FTPPath + folder + fileName);
+			
 			if(!connect()) return false;
-			ftp.changeWorkingDirectory(FTPPath + folder);
+			ftp.changeWorkingDirectory(folder);
 			FileOutputStream fos = new FileOutputStream(file);
 			
 			if(file.getAbsolutePath().endsWith(".txt")) {
