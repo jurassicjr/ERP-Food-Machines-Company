@@ -1,0 +1,21 @@
+CREATE TABLE `vehicle_debt` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `vehicle` int(11) NOT NULL,
+  `conductor` int(11) DEFAULT NULL,
+  `debttype` varchar(10) NOT NULL,
+  `description` varchar(300) DEFAULT NULL,
+  `fueltype` varchar(80) DEFAULT NULL,
+  `fuelquantity` double DEFAULT NULL,
+  `obs` varchar(500) DEFAULT NULL,
+  `paydate` date DEFAULT NULL,
+  `duedate` date NOT NULL,
+  `value` double NOT NULL,
+  `user` int(11) NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `fk_vehicle_debts_vehicle_idx` (`vehicle`),
+  KEY `fk_vehicle_debts_conductor_idx` (`conductor`),
+  KEY `fk_vehicle_debts_user_idx` (`user`),
+  CONSTRAINT `fk_vehicle_debts_conductor` FOREIGN KEY (`conductor`) REFERENCES `employee` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_vehicle_debts_user` FOREIGN KEY (`user`) REFERENCES `user` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_vehicle_debts_vehicle` FOREIGN KEY (`vehicle`) REFERENCES `vehicle` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
