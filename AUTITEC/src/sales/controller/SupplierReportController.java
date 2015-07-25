@@ -15,6 +15,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperExportManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 import model.City;
 import model.State;
 import model.Supplier;
@@ -53,21 +58,28 @@ public class SupplierReportController extends SalesController {
 				supplier.setCep(rs.getString(15));
 				supplier.setCertificated(rs.getBoolean("certificate"));
 				supplier.setEmail(rs.getString("email"));
-				supplier.setExpireCertificateDate(rs.getDate("expireCertificationDate"));
-				supplier.setFiscalClassification(rs.getString("fical_classification"));
+				supplier.setExpireCertificateDate(rs
+						.getDate("expireCertificationDate"));
+				supplier.setFiscalClassification(rs
+						.getString("fical_classification"));
 				supplier.setId(rs.getInt("id"));
 				supplier.setJustificative(rs.getString("justificative"));
-				supplier.setMaterialCertication(rs.getBoolean("material_certificate"));
+				supplier.setMaterialCertication(rs
+						.getBoolean("material_certificate"));
 				supplier.setNeighborhood(rs.getString("neighborhood"));
 				supplier.setPhone(rs.getString("phone"));
-				supplier.setStateRegistration(rs.getString("state_registration"));
+				supplier.setStateRegistration(rs
+						.getString("state_registration"));
 				supplier.setStreet(rs.getString("street"));
-				ResultSet rsState = dataBase.executeQuery("SELECT *FROM state WHERE id = ?", rs.getInt("state"));
+				ResultSet rsState = dataBase.executeQuery(
+						"SELECT *FROM state WHERE id = ?", rs.getInt("state"));
 				while (rsState.next()) {
 					int id = rsState.getInt("id");
 					String name = rsState.getString("name");
 					State state = new State(id, name);
-					ResultSet rsCity = dataBase.executeQuery("SELECT *FROM city where id = ?", rs.getInt("city"));
+					ResultSet rsCity = dataBase
+							.executeQuery("SELECT *FROM city where id = ?",
+									rs.getInt("city"));
 					while (rsCity.next()) {
 						int idCity = rsCity.getInt("id");
 						String nameCity = rsCity.getString("name");
@@ -104,7 +116,8 @@ public class SupplierReportController extends SalesController {
 				} else {
 					certificate = "Não";
 				}
-				tbl.addRow(new String[] { companyName, CNPJ, stateRegistration, materialCertification, certificate });
+				tbl.addRow(new String[] { companyName, CNPJ, stateRegistration,
+						materialCertification, certificate });
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -126,48 +139,81 @@ public class SupplierReportController extends SalesController {
 		}
 	}
 
+	public void generateReport2(String reportPathFile, boolean openFile)
+			throws JRException, IOException {
+		JasperPrint print = JasperFillManager.fillReport(
+				"D:/Autitec/Ireport Templates/reportSuppliersHorizontal.jasper", null,
+				dataBase.getConnection());
+		if (openFile) {
+			JasperViewer view = new JasperViewer(print);
+			view.setVisible(true);
+		} else {
+			JasperExportManager.exportReportToPdfFile(print, reportPathFile);
+			ShowMessage.successMessage(frame, "Relatório Criado",
+					"O relatório foi salvo em " + reportPathFile
+							+ "\ncom sucesso");
+		}
+
+	}
+
 	public void generateReport(String reportPathFile, boolean openFile) {
 		File file = new File(reportPathFile);
 		StringBuffer content = new StringBuffer();
 		for (Supplier supplier : s) {
 
 			content.append("<div style='page-break-after: always'>");
-			
-			content.append("<h2>Fornecedor: " + supplier.getCompanyName() + "</h2>");
+
+			content.append("<h2>Fornecedor: " + supplier.getCompanyName()
+					+ "</h2>");
 			content.append("<h3>INFORMAÇÕES:</h3>");
-			content.append("<h4>Telefone: " + supplier.getFormattedPhone() + "</h4>");
+			content.append("<h4>Telefone: " + supplier.getFormattedPhone()
+					+ "</h4>");
 			content.append("<h4>email: " + supplier.getEmail() + "</h4>");
 			content.append("<h4>CNPJ: " + supplier.getFormattedCNPJ() + "</h4>");
-			content.append("<h4>Inscrição Estadual: " + supplier.getStateRegistration() + "</h4>");
-			content.append("<h4>Classificação Fiscal: " + supplier.getFiscalClassification() + "</h4>");
+			content.append("<h4>Inscrição Estadual: "
+					+ supplier.getStateRegistration() + "</h4>");
+			content.append("<h4>Classificação Fiscal: "
+					+ supplier.getFiscalClassification() + "</h4>");
 			if (supplier.isCertificated()) {
-				content.append("<h4>Certificado: ISO9001:2008, " + TAB + "Data de Expiração: "
-				        + new SimpleDateFormat("dd/MM/yyyy").format(supplier.getExpireCertificateDate()) + "</h4>");
+				content.append("<h4>Certificado: ISO9001:2008, "
+						+ TAB
+						+ "Data de Expiração: "
+						+ new SimpleDateFormat("dd/MM/yyyy").format(supplier
+								.getExpireCertificateDate()) + "</h4>");
 			} else {
 				content.append("<h4>Fornecedor sem certificado" + "</h4>");
 			}
 			if (supplier.isMaterialCertication()) {
-				content.append("<h4>Possui certificado do material: SIM" + "</h4>");
+				content.append("<h4>Possui certificado do material: SIM"
+						+ "</h4>");
 			} else {
-				content.append("<h4>Possui certificado do material: NÃO" + "</h4>");
+				content.append("<h4>Possui certificado do material: NÃO"
+						+ "</h4>");
 			}
 			content.append("<h3>Endereço:</h3>");
 			content.append("<h4>");
 			content.append("<br/>" + TAB + "C.E.P: " + supplier.getCep());
-			content.append("<br/>" + TAB + "Cidade/UF: " + supplier.getCity().getName() + "/" + supplier.getState());
-			content.append("<br/>" + TAB + "Rua/Avenida: " + supplier.getStreet());
-			content.append("<br/>" + TAB + "Bairro: " + supplier.getNeighborhood());
+			content.append("<br/>" + TAB + "Cidade/UF: "
+					+ supplier.getCity().getName() + "/" + supplier.getState());
+			content.append("<br/>" + TAB + "Rua/Avenida: "
+					+ supplier.getStreet());
+			content.append("<br/>" + TAB + "Bairro: "
+					+ supplier.getNeighborhood());
 			content.append("</h4>");
 			int supplierId = supplier.getId();
 			content.append("<h3>PRODUTOS:</h3>");
 			content.append("<h4>");
-			try (ResultSet rs = dataBase.executeQuery("SELECT *FROM supplier_product_association WHERE supplier = ?",
-			        supplierId)) {
+			try (ResultSet rs = dataBase
+					.executeQuery(
+							"SELECT *FROM supplier_product_association WHERE supplier = ?",
+							supplierId)) {
 				while (rs.next()) {
-					try (ResultSet resultSet = dataBase.executeQuery("SELECT *FROM Product WHERE id = ?",
-					        rs.getInt("product"))) {
+					try (ResultSet resultSet = dataBase.executeQuery(
+							"SELECT *FROM Product WHERE id = ?",
+							rs.getInt("product"))) {
 						while (resultSet.next()) {
-							content.append("<br/>" + TAB + "- " + resultSet.getString("name"));
+							content.append("<br/>" + TAB + "- "
+									+ resultSet.getString("name"));
 						}
 					}
 				}
@@ -179,13 +225,15 @@ public class SupplierReportController extends SalesController {
 			if (supplier.equals(s.get(s.size() - 1))) {
 				Date now = new Date();
 				String formattedDate = new SimpleDateFormat().format(now);
-				content.append("<br/><br/><hr /><small><i>Relatório criado em: " + formattedDate + "</i></small>");
+				content.append("<br/><br/><hr /><small><i>Relatório criado em: "
+						+ formattedDate + "</i></small>");
 			}
 
 			content.append("</div>");
 		}
 
-		createPdf(reportPathFile, "Relatório de Fornecedores", content.toString());
+		createPdf(reportPathFile, "Relatório de Fornecedores",
+				content.toString());
 
 		if (openFile) {
 			try {
@@ -194,13 +242,14 @@ public class SupplierReportController extends SalesController {
 				e.printStackTrace();
 			}
 		} else {
-			ShowMessage.successMessage(frame, "Relatório Criado", "O relatório foi salvo em " + reportPathFile
-			        + "\ncom sucesso");
+			ShowMessage.successMessage(frame, "Relatório Criado",
+					"O relatório foi salvo em " + reportPathFile
+							+ "\ncom sucesso");
 		}
 	}
 
 	private File createPdf(String reportPathFile, String title, String content) {
-		
+
 		File output = new File(reportPathFile);
 		Html html = new Html(output);
 		html.createFile(title, content.toString());
