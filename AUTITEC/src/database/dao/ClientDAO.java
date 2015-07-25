@@ -1,8 +1,15 @@
 package database.dao;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import model.City;
+import model.Client;
+import model.State;
 import database.DataBase;
 
 public class ClientDAO {
@@ -38,4 +45,38 @@ public class ClientDAO {
 				+ "companyNAme,cpf,cnpj,ie,sex,companycontactname,birthdate,rg) VALUES(?, ?, ? ,? , ?, ?, ?, ?,?,?,?,?,?,?,?,?)";
 		dataBase.executeUpdate(sql, persist);
 	}
+	public List<Client> getAllClients() {
+	    String sql = "SELECT * FROM client order by name";
+	    List<Client> cList = new ArrayList<Client>();
+	    	    
+		try(ResultSet rs = dataBase.executeQuery(sql)){
+			while(rs.next()) {
+				
+				Client client  = new Client();
+				client.setId(rs.getInt("id"));
+				client.setName(rs.getString("name"));
+				client.setCompanyNAme(rs.getString("companyname"));
+				client.setStreet(rs.getString("street"));
+				client.setBirthDate(rs.getDate("birthdate"));
+				client.setNeighborhood(rs.getString("neighborhood"));
+				client.setState(new State(rs.getInt("state"),""));
+				client.setCity(new City(rs.getInt("city"),"",client.getState()));
+				client.setCep(rs.getString("cep"));
+				client.setPhone(rs.getString("phone"));
+				client.setEmail(rs.getString("email"));
+				client.setCompanyNAme(rs.getString("companyname"));
+				client.setCpf(rs.getString("cpf"));
+				client.setCnpj(rs.getString("cnpj"));
+				client.setStateInscrition(rs.getString("ie"));
+				client.setSex(rs.getString("sex"));
+				client.setContactName(rs.getString("companycontactname"));
+				client.setRg(rs.getString("rg"));
+				cList.add(client);
+			}
+				
+		} catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		return cList;
+    }
 }

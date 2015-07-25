@@ -15,6 +15,7 @@ public class Training {
 	private String motive;
 	private int id;
 	private String place;
+	private String otherMotive;
 	
 	public String getTitle() {
 		return title;
@@ -82,5 +83,11 @@ public class Training {
 	public String toString() {
 		return this.title;
 	}
+	public String getOtherMotive() {
+	    return otherMotive;
+    }
+	public void setOtherMotive(String otherMotive) {
+	    this.otherMotive = otherMotive;
+    }
 
 }

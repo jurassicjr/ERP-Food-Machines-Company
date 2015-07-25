@@ -10,7 +10,6 @@ import java.awt.event.KeyListener;
 import java.util.Calendar;
 import java.util.Date;
 
-import model.Session;
 import javax.swing.ButtonGroup;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -26,13 +25,13 @@ import javax.swing.JTextField;
 
 import maintenance.controller.VehicleDebtRegisterController;
 import model.Employee;
+import model.Session;
 import model.Vehicle;
 import model.VehicleDebt;
 import net.sf.nachocalendar.components.DateField;
 import userInterface.components.FrameController;
 import userInterface.components.RealNumberField;
 import userInterface.components.UpperTextField;
-import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
 
@@ -72,9 +71,9 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		Icon.setIcon(this);
 		setTitle(frameName);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 634, 580);
-		setMinimumSize(new Dimension(634, 580));
-		setPreferredSize(new Dimension(634, 580));
+		setBounds(100, 100, 573, 580);
+		setMinimumSize(new Dimension(573, 580));
+		setPreferredSize(new Dimension(573, 580));
 		initializePrincipal();
 		controller.fillEmployeeCbo(cboConductor);
 		controller.fillVehicleCbo(cboVehicle);
@@ -245,7 +244,7 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		rdbtnOthers.setBounds(472, 141, 149, 23);
 		panel.add(rdbtnOthers);
 		
-		JLabel lblFixDescription = new JLabel("Descrição consert/reparo");
+		JLabel lblFixDescription = new JLabel("Descrição conserto/reparo");
 		lblFixDescription.setBounds(12, 175, 247, 15);
 		panel.add(lblFixDescription);
 		
@@ -311,7 +310,7 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		panel.add(lblValue);
 		
 		btnConfirm = new JButton("Confirmar");
-		btnConfirm.setBounds(398, 491, 191, 25);
+		btnConfirm.setBounds(398, 491, 145, 25);
 		btnConfirm.setIcon(new ImageIcon(VehicleRegisterFrame.class.getResource("/resources/ok.png")));
 		panel.add(btnConfirm);
 		

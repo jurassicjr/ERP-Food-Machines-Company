@@ -257,7 +257,9 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Atualizar/Remover Registro de Veículos", false, "UPD_VEH"),
 				new CheckBoxNode("Consulta de Veículos", false, "SEA_VEH"),
 				new CheckBoxNode("Registrar Trajeto", false, "ROU_REG"),
-				new CheckBoxNode("Atualizar/Finalizar Trajeto", false, "UPD_ROU")
+				new CheckBoxNode("Atualizar/Finalizar Trajeto", false, "UPD_ROU"),
+				new CheckBoxNode("Registrar contas com o veículos", false, "DEB_VEH"),
+				new CheckBoxNode("Registro de Não Conformidade", false, "REG_RNC")
 		};
 		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);

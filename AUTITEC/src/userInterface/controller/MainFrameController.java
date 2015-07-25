@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import maintenance.view.register.RouteRegisterFrame;
+import maintenance.view.register.VehicleDebtRegisterFrame;
 import maintenance.view.register.VehicleRegisterFrame;
 import maintenance.view.search.VehicleSearchFrame;
 import maintenance.view.update.VehicleReturnUpdateFrame;
@@ -22,6 +23,7 @@ import rh.view.RegisterOfFunctionDescriptionFrame;
 import rh.view.RegisterOfTrainingFrame;
 import rh.view.RegisterUserFrame;
 import rh.view.RemoveOfEPIFrame;
+import rh.view.RncRegisterFrame;
 import rh.view.TechnicalStandardFrame;
 import rh.view.UpdateEmployeeFrame;
 import rh.view.UpdateOfEPIFrame;
@@ -656,6 +658,32 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				AssessmentOfCompetenceFrame frame = new AssessmentOfCompetenceFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void vechileDebtRegister() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				VehicleDebtRegisterFrame frame = new VehicleDebtRegisterFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void rnc() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				RncRegisterFrame frame = new RncRegisterFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

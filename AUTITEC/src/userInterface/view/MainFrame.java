@@ -162,6 +162,10 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmAssessmentOfCompetence;
 
+	private JMenuItem mntmVehicleDebtRegisterFrame;
+
+	private JMenuItem mntmRNCRegister;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -292,6 +296,12 @@ public class MainFrame extends JFrame {
 		mnSubRegisterRH.add(mntmAssessmentOfCompetence);
 		mntmAssessmentOfCompetence.setVisible(false);
 		mntmAssessmentOfCompetence.setName("REG_ASS");
+		
+		mntmRNCRegister = new JMenuItem("Registro de RCN");
+		mnSubRegisterRH.add(mntmRNCRegister);
+		mntmRNCRegister.setVisible(false);
+		mntmRNCRegister.setName("REG_RNC");
+		
 		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
@@ -427,6 +437,7 @@ public class MainFrame extends JFrame {
 		mnSalesSearch.add(mntmSearchOfKit);
 		mntmSearchOfKit.setName("SEA_KIT");
 		mntmSearchOfKit.setVisible(false);
+		
 
 		//Compras
 		
@@ -548,6 +559,13 @@ public class MainFrame extends JFrame {
 		mntmUpdateRoute.setVisible(false);
 		mntmUpdateRoute.setName("UPD_ROU");
 		
+
+		mntmVehicleDebtRegisterFrame = new JMenuItem("Registro de Contas com veículos");
+		mnMaintenanceRegister.add(mntmVehicleDebtRegisterFrame);
+		mntmVehicleDebtRegisterFrame.setVisible(false);
+		mntmVehicleDebtRegisterFrame.setName("DEB_VEH");
+		
+		
 		//Sobre
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
@@ -602,6 +620,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmExternalSatisfactionResearch);
 		menuItens.add(mntmRegisterOfFunctionDescription);
 		menuItens.add(mntmAssessmentOfCompetence);
+		menuItens.add(mntmRNCRegister);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -639,6 +658,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmVehicleSearch);
 		menuItens.add(mntmRouteRegister);
 		menuItens.add(mntmUpdateRoute);
+		menuItens.add(mntmVehicleDebtRegisterFrame);
 	}
 
 	/**
@@ -705,6 +725,8 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmVehicleSearch))controller.vehicleSearch();
 				else if(e.getSource().equals(mntmRouteRegister))controller.routeRegister();
 				else if(e.getSource().equals(mntmUpdateRoute))controller.updateRoute();
+				else if(e.getSource().equals(mntmVehicleDebtRegisterFrame))controller.vechileDebtRegister();
+				else if(e.getSource().equals(mntmRNCRegister))controller.rnc();
 			}
 		};
 		
@@ -762,6 +784,8 @@ public class MainFrame extends JFrame {
 		mntmVehicleSearch.addActionListener(menuListeners);
 		mntmRouteRegister.addActionListener(menuListeners);
 		mntmUpdateRoute.addActionListener(menuListeners);
+		mntmVehicleDebtRegisterFrame.addActionListener(menuListeners);
+		mntmRNCRegister.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

@@ -39,33 +39,49 @@ import util.ShowMessage;
 
 public class UpdateClientFrame extends JFrame{
 	
-	private JTabbedPane tabPanClientData;
-	private JPanel principalPanel;
+	
+	/**
+	 * 
+	 */
+    private static final long serialVersionUID = 1828019472533831859L;
+	
+    private JTabbedPane tabPanClientData;
+	
+    private JPanel principalPanel;
 	private JPanel panActions ;
 	private JPanel panPJ;
 	private JPanel panPF;
 	private JPanel panAdresses;
+	
 	private JTextField txtCnpj;
 	private JTextField txtStateInscription;
 	private JTextField txtRG;
 	private JTextField txtCpf;
 	private JTextField txtEmail;
+	
 	private UpperTextField txtStreet;
 	private UpperTextField txtContactName;
 	private UpperTextField txtCompanyName;
 	private UpperTextField txtName;
 	private UpperTextField txtNeighborhood;
+	
 	private JFormattedTextField txtCep;
 	private JFormattedTextField txtPhone;
+	
 	private DateField txtBirthDate;
+	
 	private ClientUpdateController controller;
-	private JComboBox cboClients;
-	private JComboBox cboSex;
+	private JComboBox<Client> cboClients;
+	private JComboBox<String> cboSex;
+	
 	private JComboBox<City> cboCity;
 	private JComboBox<State> cboState;
+	
 	private JButton btnDelete;
 	private JButton btnUpdate;
+	
 	private boolean clientSelectableFlag = false;
+	
 	private Client selectedClient;
 	
 	//ÍNDICES DO PAINEL TABULADO 
@@ -230,8 +246,8 @@ public class UpdateClientFrame extends JFrame{
 	   try { txtCpf = new JFormattedTextField(new MaskFormatter("###.###.###-##")); } 
 		catch (ParseException e) { e.printStackTrace(); }
 
-	   cboSex = new JComboBox();
-	   cboSex.setModel(new DefaultComboBoxModel(new String[] {"Masculino", "Feminino"}));
+	   cboSex = new JComboBox<String>();
+	   cboSex.setModel(new DefaultComboBoxModel<String>(new String[] {"Masculino", "Feminino"}));
 	   
 	   JLabel lblSex = new JLabel("Sexo");
 	   GroupLayout gl_panPF = new GroupLayout(panPF);

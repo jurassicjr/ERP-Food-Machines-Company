@@ -32,10 +32,11 @@ public class TrainingDAO {
 		String duration = (String) map.get("duration");
 		java.sql.Date trainingDate = new java.sql.Date(date.getTime());
 		String place = (String) map.get("place");
+		String otherMotive = (String) map.get("otherMotive");
 		
 		int trainingID = dataBase.getAutoIncrementValue("training");
-		String sqlTraining = "INSERT INTO training(title, objective, date, motive, event_type, period, duration, place) VALUES(?,?,?,?,?,?,?,?)";
-		Object[] objTraining = new Object[]{title, objetive, trainingDate, motive, eventType, period, duration, place};
+		String sqlTraining = "INSERT INTO training(title, objective, date, motive, event_type, period, duration, place, other_motive) VALUES(?,?,?,?,?,?,?,?,?)";
+		Object[] objTraining = new Object[]{title, objetive, trainingDate, motive, eventType, period, duration, place, otherMotive};
 		
 		try{
 			dataBase.executeUpdate(sqlTraining, objTraining);

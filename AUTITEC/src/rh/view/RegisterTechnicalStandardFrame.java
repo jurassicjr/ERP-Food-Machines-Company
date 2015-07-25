@@ -277,6 +277,7 @@ public class RegisterTechnicalStandardFrame extends Thread {
 	/**
 	 * Fecha a janela de registro da norma técnica
 	 */
+	
 	private void closeFrame() {
 		
 		int response = ShowMessage.questionMessage(frame, "Cancelar o registro", "Deseja cancelar o registro da Norma Técnica?\nOs dados da Norma Técnica serão perdidos");
@@ -293,6 +294,7 @@ public class RegisterTechnicalStandardFrame extends Thread {
 	 * 
 	 * @return true se a norma técnica foi registrado e false se nenhuma norma técnica foi registrada
 	 */
+	
 	public boolean isRegistred() {
 		return registered;
 	}

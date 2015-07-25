@@ -75,6 +75,8 @@ public class RegisterOfTrainingFrame extends JFrame{
 	private JButton btnClear;
 	private RegisterOfTrainingController controller;
 	private JComboBox<Employee> cboEmployee;
+	private JTextField txtOther;
+	private JRadioButton rdbtnOther;
 
 	
 	public RegisterOfTrainingFrame() {
@@ -87,7 +89,7 @@ public class RegisterOfTrainingFrame extends JFrame{
 	private void initialize() {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Registro de Treinamento");
-		setBounds(100, 100, 458, 530);
+		setBounds(100, 100, 458, 513);
 		setMinimumSize(new Dimension(458, 530));
 		setPreferredSize(new Dimension(458, 530));
 		Icon.setIcon(this);
@@ -110,10 +112,13 @@ public class RegisterOfTrainingFrame extends JFrame{
 		rdbtnInfomative = new JRadioButton("Informativo");
 		
 		rdbtnAplication = new JRadioButton("Aplicação");
+
+		rdbtnOther = new JRadioButton("Outro");
 		
 		bg = new ButtonGroup();
 		bg.add(rdbtnAplication);
 		bg.add(rdbtnInfomative);
+		bg.add(rdbtnOther);
 		
 		lblEventType = new JLabel("Tipo do Evento");
 		
@@ -165,48 +170,57 @@ public class RegisterOfTrainingFrame extends JFrame{
 		
 		txtDate = CalendarFactory.createDateField();
 		
+		
+		txtOther = new JTextField();
+		txtOther.setEnabled(false);
+		txtOther.setColumns(10);
+		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_principalPanel.createSequentialGroup()
+				.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE)
-						.addGroup(gl_principalPanel.createSequentialGroup()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblTitle)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 322, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblObjective)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(rdbtnInfomative)
-							.addGap(18)
-							.addComponent(rdbtnAplication))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(rdbtnAplication)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(rdbtnOther)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtOther, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblEventType)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboEventType, 0, 258, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(cboEventType, 0, 346, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblPeriod)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboPeriod, 0, 307, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(cboPeriod, 0, 382, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblDuration)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtDuration, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(lblDate)
 							.addGap(4)
-							.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, 170, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblPlace)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtPlace, GroupLayout.DEFAULT_SIZE, 325, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(txtPlace, GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblTrainingMotive)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtTrainingMotive, GroupLayout.DEFAULT_SIZE, 201, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(txtTrainingMotive, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblEmployee)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
@@ -221,16 +235,18 @@ public class RegisterOfTrainingFrame extends JFrame{
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblTitle)
 						.addComponent(txtTitle, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(26)
+					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblObjective)
 						.addComponent(rdbtnInfomative)
-						.addComponent(rdbtnAplication))
+						.addComponent(rdbtnAplication)
+						.addComponent(rdbtnOther)
+						.addComponent(txtOther, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblEventType)
 						.addComponent(cboEventType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(27)
+					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPeriod)
 						.addComponent(cboPeriod, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -240,7 +256,7 @@ public class RegisterOfTrainingFrame extends JFrame{
 						.addComponent(lblDuration)
 						.addComponent(lblDate)
 						.addComponent(txtDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addGap(22)
+					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblPlace)
 						.addComponent(txtPlace, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -254,7 +270,7 @@ public class RegisterOfTrainingFrame extends JFrame{
 						.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAdd))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 55, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 122, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
@@ -320,10 +336,13 @@ public class RegisterOfTrainingFrame extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource().equals(btnAdd))add();
+				if(e.getSource().equals(btnAdd))addEmployee();
 				else if(e.getSource().equals(btnConfirm))register();
 				else if(e.getSource().equals(btnClear))clear();
 				else if(e.getSource().equals(btnCancel))controller.close();
+				else if(e.getSource().equals(rdbtnOther))checkJTextField();
+				else if(e.getSource().equals(rdbtnAplication))checkJTextField();
+				else if(e.getSource().equals(rdbtnInfomative))checkJTextField();
 			}
 		};
 		
@@ -331,6 +350,7 @@ public class RegisterOfTrainingFrame extends JFrame{
 		btnAdd.addActionListener(buttonListener);
 		btnClear.addActionListener(buttonListener);
 		btnConfirm.addActionListener(buttonListener);
+		rdbtnOther.addActionListener(buttonListener);
 		
 		KeyListener tableKeyListener = new KeyListener() {
 			
@@ -353,7 +373,15 @@ public class RegisterOfTrainingFrame extends JFrame{
 		table.addKeyListener(tableKeyListener);
 	}
 	
-	private void add(){
+	private void checkJTextField() {
+		if (rdbtnOther.isSelected()) {
+	        txtOther.setEnabled(true);
+        }else {
+        	txtOther.setEnabled(false);
+        }
+	}
+	
+	private void addEmployee(){
 		if(cboEmployee.getSelectedIndex() == -1){
 			ShowMessage.errorMessage(this, "Erro", "Selecione um empregados para adicionar");
 			return;
@@ -410,8 +438,15 @@ public class RegisterOfTrainingFrame extends JFrame{
 			objective = "Aplicação";
 		}else if(rdbtnInfomative.isSelected()){
 			objective = "Informativo";
+		}else if(rdbtnOther.isSelected()) {
+			objective = "Outro";
+			if(txtOther.getText().isEmpty()) {
+				ShowMessage.errorMessage(this, "Erro", "Insira qual o outro tipo de treinamento");
+				return;
+			}
 		}
 		String period = (String) cboPeriod.getSelectedItem();
+		String otherMotive = txtOther.getText();
 		String title = txtTitle.getText();
 		List<Employee> list = fillList();
 		
@@ -424,6 +459,7 @@ public class RegisterOfTrainingFrame extends JFrame{
 		t.setTitle(title);
 		t.setEmployeeList(list);
 		t.setPlace(txtPlace.getText());
+		t.setOtherMotive(otherMotive);
 		controller.register(t);
 		ShowMessage.successMessage(this, "Sucesso", "Treinamento registrado com êxito!");
 		ClearFrame.clear(this);

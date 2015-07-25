@@ -1,4 +1,4 @@
-package maintenance.view.register;
+package rh.view;
 
 import java.awt.Component;
 import java.awt.Dimension;
@@ -23,12 +23,11 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
-import maintenance.controller.RncRegisterController;
 import model.Employee;
 import model.Rnc;
 import net.sf.nachocalendar.components.DateField;
+import rh.controller.RncRegisterController;
 import userInterface.components.FrameController;
-import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
 
@@ -38,7 +37,7 @@ public class RncRegisterFrame extends JFrame {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private final String frameName = "Registro de RNC";
+	private final String frameName = "Registro de Não Conformidade";
 	private final RncRegisterFrame thisFrame = this;
 	private RncRegisterController controller;
 	private JTextField txtSequenceNumber;
@@ -82,8 +81,8 @@ public class RncRegisterFrame extends JFrame {
 		Icon.setIcon(this);
 		setTitle(frameName);
 		setBounds(100, 100, 608, 664);
-		setMinimumSize(new Dimension(608, 560));
-		setPreferredSize(new Dimension(608, 560));
+		setMinimumSize(new Dimension(608, 664));
+		setPreferredSize(new Dimension(608, 664));
 		initializePrincipal();
 		controller.fillEmployeeCbo(cboEmitter);
 		controller.fillEmployeeCbo(cboResponsible);

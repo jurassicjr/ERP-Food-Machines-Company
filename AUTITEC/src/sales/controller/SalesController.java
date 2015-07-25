@@ -295,7 +295,7 @@ public class SalesController {
 
 	public void doMaterialRegister(Material material) {
 		try {
-			if (material.equals(null)) {
+			if (material == null) {
 				throw new Exception();
 			} else {
 				Map<String, Object> mapa = new HashMap<String, Object>();
@@ -303,7 +303,7 @@ public class SalesController {
 				mapa.put("descricao", material.getDescrition());
 				mapa.put("internalCode", material.getInternalCode());
 				mapa.put("ncm", material.getNCM());
-				mapa.put("ammounr", material.getAmmount());
+				mapa.put("ammount", material.getAmmount());
 				materialDAO = new MaterialDAO(mapa);
 			}
 		} catch (Exception e) {
