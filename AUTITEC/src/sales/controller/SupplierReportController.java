@@ -139,10 +139,11 @@ public class SupplierReportController extends SalesController {
 		}
 	}
 
-	public void generateReport2(String reportPathFile, boolean openFile)
+	public void generateReport(String reportPathFile, boolean openFile)
 			throws JRException, IOException {
+		// direcionar para a pasta resources/filesReportsTemplate 
 		JasperPrint print = JasperFillManager.fillReport(
-				"D:/Autitec/Ireport Templates/reportSuppliersHorizontal.jasper", null,
+				"/resources/filesReportsTemplate/reportSuppliersHorizontal.jasper", null,
 				dataBase.getConnection());
 		if (openFile) {
 			JasperViewer view = new JasperViewer(print);
@@ -156,97 +157,97 @@ public class SupplierReportController extends SalesController {
 
 	}
 
-	public void generateReport(String reportPathFile, boolean openFile) {
-		File file = new File(reportPathFile);
-		StringBuffer content = new StringBuffer();
-		for (Supplier supplier : s) {
-
-			content.append("<div style='page-break-after: always'>");
-
-			content.append("<h2>Fornecedor: " + supplier.getCompanyName()
-					+ "</h2>");
-			content.append("<h3>INFORMAÇÕES:</h3>");
-			content.append("<h4>Telefone: " + supplier.getFormattedPhone()
-					+ "</h4>");
-			content.append("<h4>email: " + supplier.getEmail() + "</h4>");
-			content.append("<h4>CNPJ: " + supplier.getFormattedCNPJ() + "</h4>");
-			content.append("<h4>Inscrição Estadual: "
-					+ supplier.getStateRegistration() + "</h4>");
-			content.append("<h4>Classificação Fiscal: "
-					+ supplier.getFiscalClassification() + "</h4>");
-			if (supplier.isCertificated()) {
-				content.append("<h4>Certificado: ISO9001:2008, "
-						+ TAB
-						+ "Data de Expiração: "
-						+ new SimpleDateFormat("dd/MM/yyyy").format(supplier
-								.getExpireCertificateDate()) + "</h4>");
-			} else {
-				content.append("<h4>Fornecedor sem certificado" + "</h4>");
-			}
-			if (supplier.isMaterialCertication()) {
-				content.append("<h4>Possui certificado do material: SIM"
-						+ "</h4>");
-			} else {
-				content.append("<h4>Possui certificado do material: NÃO"
-						+ "</h4>");
-			}
-			content.append("<h3>Endereço:</h3>");
-			content.append("<h4>");
-			content.append("<br/>" + TAB + "C.E.P: " + supplier.getCep());
-			content.append("<br/>" + TAB + "Cidade/UF: "
-					+ supplier.getCity().getName() + "/" + supplier.getState());
-			content.append("<br/>" + TAB + "Rua/Avenida: "
-					+ supplier.getStreet());
-			content.append("<br/>" + TAB + "Bairro: "
-					+ supplier.getNeighborhood());
-			content.append("</h4>");
-			int supplierId = supplier.getId();
-			content.append("<h3>PRODUTOS:</h3>");
-			content.append("<h4>");
-			try (ResultSet rs = dataBase
-					.executeQuery(
-							"SELECT *FROM supplier_product_association WHERE supplier = ?",
-							supplierId)) {
-				while (rs.next()) {
-					try (ResultSet resultSet = dataBase.executeQuery(
-							"SELECT *FROM Product WHERE id = ?",
-							rs.getInt("product"))) {
-						while (resultSet.next()) {
-							content.append("<br/>" + TAB + "- "
-									+ resultSet.getString("name"));
-						}
-					}
-				}
-			} catch (SQLException e) {
-
-				e.printStackTrace();
-			}
-			content.append("</h4>");
-			if (supplier.equals(s.get(s.size() - 1))) {
-				Date now = new Date();
-				String formattedDate = new SimpleDateFormat().format(now);
-				content.append("<br/><br/><hr /><small><i>Relatório criado em: "
-						+ formattedDate + "</i></small>");
-			}
-
-			content.append("</div>");
-		}
-
-		createPdf(reportPathFile, "Relatório de Fornecedores",
-				content.toString());
-
-		if (openFile) {
-			try {
-				Desktop.getDesktop().open(file);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		} else {
-			ShowMessage.successMessage(frame, "Relatório Criado",
-					"O relatório foi salvo em " + reportPathFile
-							+ "\ncom sucesso");
-		}
-	}
+//	public void generateReport(String reportPathFile, boolean openFile) {
+//		File file = new File(reportPathFile);
+//		StringBuffer content = new StringBuffer();
+//		for (Supplier supplier : s) {
+//
+//			content.append("<div style='page-break-after: always'>");
+//
+//			content.append("<h2>Fornecedor: " + supplier.getCompanyName()
+//					+ "</h2>");
+//			content.append("<h3>INFORMAÇÕES:</h3>");
+//			content.append("<h4>Telefone: " + supplier.getFormattedPhone()
+//					+ "</h4>");
+//			content.append("<h4>email: " + supplier.getEmail() + "</h4>");
+//			content.append("<h4>CNPJ: " + supplier.getFormattedCNPJ() + "</h4>");
+//			content.append("<h4>Inscrição Estadual: "
+//					+ supplier.getStateRegistration() + "</h4>");
+//			content.append("<h4>Classificação Fiscal: "
+//					+ supplier.getFiscalClassification() + "</h4>");
+//			if (supplier.isCertificated()) {
+//				content.append("<h4>Certificado: ISO9001:2008, "
+//						+ TAB
+//						+ "Data de Expiração: "
+//						+ new SimpleDateFormat("dd/MM/yyyy").format(supplier
+//								.getExpireCertificateDate()) + "</h4>");
+//			} else {
+//				content.append("<h4>Fornecedor sem certificado" + "</h4>");
+//			}
+//			if (supplier.isMaterialCertication()) {
+//				content.append("<h4>Possui certificado do material: SIM"
+//						+ "</h4>");
+//			} else {
+//				content.append("<h4>Possui certificado do material: NÃO"
+//						+ "</h4>");
+//			}
+//			content.append("<h3>Endereço:</h3>");
+//			content.append("<h4>");
+//			content.append("<br/>" + TAB + "C.E.P: " + supplier.getCep());
+//			content.append("<br/>" + TAB + "Cidade/UF: "
+//					+ supplier.getCity().getName() + "/" + supplier.getState());
+//			content.append("<br/>" + TAB + "Rua/Avenida: "
+//					+ supplier.getStreet());
+//			content.append("<br/>" + TAB + "Bairro: "
+//					+ supplier.getNeighborhood());
+//			content.append("</h4>");
+//			int supplierId = supplier.getId();
+//			content.append("<h3>PRODUTOS:</h3>");
+//			content.append("<h4>");
+//			try (ResultSet rs = dataBase
+//					.executeQuery(
+//							"SELECT *FROM supplier_product_association WHERE supplier = ?",
+//							supplierId)) {
+//				while (rs.next()) {
+//					try (ResultSet resultSet = dataBase.executeQuery(
+//							"SELECT *FROM Product WHERE id = ?",
+//							rs.getInt("product"))) {
+//						while (resultSet.next()) {
+//							content.append("<br/>" + TAB + "- "
+//									+ resultSet.getString("name"));
+//						}
+//					}
+//				}
+//			} catch (SQLException e) {
+//
+//				e.printStackTrace();
+//			}
+//			content.append("</h4>");
+//			if (supplier.equals(s.get(s.size() - 1))) {
+//				Date now = new Date();
+//				String formattedDate = new SimpleDateFormat().format(now);
+//				content.append("<br/><br/><hr /><small><i>Relatório criado em: "
+//						+ formattedDate + "</i></small>");
+//			}
+//
+//			content.append("</div>");
+//		}
+//
+//		createPdf(reportPathFile, "Relatório de Fornecedores",
+//				content.toString());
+//
+//		if (openFile) {
+//			try {
+//				Desktop.getDesktop().open(file);
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		} else {
+//			ShowMessage.successMessage(frame, "Relatório Criado",
+//					"O relatório foi salvo em " + reportPathFile
+//							+ "\ncom sucesso");
+//		}
+//	}
 
 	private File createPdf(String reportPathFile, String title, String content) {
 

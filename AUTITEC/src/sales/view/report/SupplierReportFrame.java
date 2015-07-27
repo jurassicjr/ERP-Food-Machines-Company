@@ -217,7 +217,7 @@ public class SupplierReportFrame extends JFrame {
 
 		getContentPane().setCursor(
 				Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		controller.generateReport2(reportFilePath, openFile);
+		controller.generateReport(reportFilePath, openFile);
 		getContentPane().setCursor(
 				Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
