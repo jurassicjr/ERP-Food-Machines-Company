@@ -24,6 +24,7 @@ import net.sf.nachocalendar.components.DateField;
 import product.view.RegisterKitFrame;
 import product.view.RegisterProductFrame;
 import util.ShowMessage;
+import equipmenteMaintenance.controller.EquipmentRegisterController;
 import financial.view.GenerateFinancialReportFrame;
 
 public class EquipmentRegisterFrame extends JFrame {
