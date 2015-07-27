@@ -16,8 +16,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import equipmenteMaintenance.controller.EquipmentRegisterController;
-import financial.view.GenerateFinancialReportFrame;
 import maintenance.view.register.VehicleRegisterFrame;
 import model.Brand;
 import model.Equipment;
@@ -26,6 +24,7 @@ import net.sf.nachocalendar.components.DateField;
 import product.view.RegisterKitFrame;
 import product.view.RegisterProductFrame;
 import util.ShowMessage;
+import financial.view.GenerateFinancialReportFrame;
 
 public class EquipmentRegisterFrame extends JFrame {
 

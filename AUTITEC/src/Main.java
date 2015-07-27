@@ -2,6 +2,8 @@ import javax.swing.SwingUtilities;
 
 import login.view.LoginFrame;
 import userInterface.view.LoadingFrame;
+import util.UpdateSoftware;
+
 
 
 /**
@@ -18,12 +20,14 @@ public class Main {
 			@Override public void run() { loadingFrame.setVisible(true); }  
 		});
 		
-		//new UpdateSoftware(loadingFrame);
+		new UpdateSoftware(loadingFrame);
 		//if(!new VerifySerial().verify()) System.exit(0);
 		
 		new LoginFrame().setVisible(true);
 		loadingFrame.dispose();
 		
+		
+
 	}
 
 }

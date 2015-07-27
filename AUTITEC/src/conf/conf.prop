@@ -1,11 +1,11 @@
-DataBaseServer=104.236.80.37
+DataBaseServer=localhost
 DataBaseName=autitec_producao
-DataBaseUser=autitec
-DataBasePass=autitec123
-FTPServer=104.236.80.37
+DataBaseUser=root
+DataBasePass=kawabanga
+FTPServer=192.168.100.5
 FTPUser=autitec
-FTPPass=autitec123
-FTPPath=/home/autitec/
+FTPPass=1234
+FTPPath=/Autitec/
 EmailServer= smtp.gmail.com
 EmailAccount=projetos@eurekasolucoesemprojetos.com
 EmailPassword=kawabanga
