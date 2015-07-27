@@ -1,4 +1,4 @@
-package rh.view;
+package sales.view.register;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -29,7 +29,7 @@ import javax.swing.border.TitledBorder;
 import model.ClientProrpeties;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
-import rh.controller.ClientPropertiesOutputController;
+import sales.controller.ClientPropertiesOutputController;
 import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;

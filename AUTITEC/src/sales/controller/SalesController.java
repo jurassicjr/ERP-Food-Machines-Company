@@ -26,6 +26,7 @@ import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.InventoryFrame;
 import sales.view.SalesOrderFrame;
 import sales.view.SalesRequisitionFrame;
+import sales.view.register.ClientPropertiesRegisterFrame;
 import sales.view.register.ClientRegisterFrame;
 import sales.view.register.RegisterOfMaterialFrame;
 import sales.view.register.RegisterSuppliersFrame;
@@ -530,6 +531,19 @@ public class SalesController {
 			@Override
 			public void run() {
 				SearchOfKitFrame frame = new SearchOfKitFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void clientPropertiesRegister() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ClientPropertiesRegisterFrame frame = new ClientPropertiesRegisterFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

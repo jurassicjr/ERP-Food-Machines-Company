@@ -237,7 +237,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Consulta de Clientes", false, "SEA_CLI"),
 				new CheckBoxNode("Atualização/Remoção de Kit", false, "UPD_KIT"),
 				new CheckBoxNode("Atualizar/Remover Registro de Cliente", false, "UPD_CLI"),
-				new CheckBoxNode("Consulta de Kits", false, "SEA_KIT")
+				new CheckBoxNode("Consulta de Kits", false, "SEA_KIT"),
+				new CheckBoxNode("Registro de Propriedade do Cliente", false, "REG_CLI_PROP")
 		};
 		
 		CheckBoxNode productionOptions[] = {

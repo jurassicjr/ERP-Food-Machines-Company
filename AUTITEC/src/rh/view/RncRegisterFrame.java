@@ -10,6 +10,7 @@ import java.util.Date;
 import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
@@ -335,8 +336,10 @@ public class RncRegisterFrame extends JFrame {
 		panelRncRegister.add(subPanel);
 		
 		btnCancel = new JButton("Cancelar");
+		btnCancel.setIcon(new ImageIcon(RncRegisterFrame.class.getResource("/resources/cancel.png")));
 		
 		btnConfirm = new JButton("Confirmar");
+		btnConfirm.setIcon(new ImageIcon(RncRegisterFrame.class.getResource("/resources/ok.png")));
 		
 		GroupLayout gl_subPanel = new GroupLayout(subPanel);
 		gl_subPanel.setHorizontalGroup(

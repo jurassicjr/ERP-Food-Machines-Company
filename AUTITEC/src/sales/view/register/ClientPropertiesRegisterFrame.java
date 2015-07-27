@@ -1,4 +1,4 @@
-package rh.view;
+package sales.view.register;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -38,7 +38,7 @@ import model.ClientProrpeties;
 import model.Material;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
-import rh.controller.ClientPropertiesRegisterController;
+import sales.controller.ClientPropertiesRegisterController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
 import util.Icon;

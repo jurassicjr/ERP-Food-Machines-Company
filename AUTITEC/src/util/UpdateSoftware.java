@@ -1,5 +1,7 @@
 package util;
 
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -8,6 +10,11 @@ import java.net.URL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+
 import net.lingala.zip4j.core.ZipFile;
 import net.lingala.zip4j.exception.ZipException;
 import userInterface.view.LoadingFrame;
@@ -15,9 +22,15 @@ import database.DataBase;
 
 public class UpdateSoftware {
 	
-	public static final double VERSION = 0.6;
+	public static final double VERSION = 0.9;
 	
 	private DataBase dataBase;
+
+	private JProgressBar jpB;
+
+	private JPanel panel;
+
+	private JLabel lbl;
 	
 	public UpdateSoftware(LoadingFrame frame) {
 		
@@ -80,10 +93,22 @@ public class UpdateSoftware {
 						
 			InputStream inputStream = url.openStream();
 			FileOutputStream fileOutputStream = new FileOutputStream(localFile);
-			
+			JFrame frame = gui();
+			frame.pack();
+			frame.setVisible(true);
+			jpB.setMaximum((url.openConnection().getContentLength())/1024);
+			jpB.setValue(0);
 			int b;
+			int len = 0;
 			while((b = inputStream.read()) != -1) {
 				fileOutputStream.write(b);
+				len += b;
+				lbl.setText("Tamanho:" + String.valueOf(len/1024));
+				jpB.setValue(len/1024);
+				frame.revalidate();
+				jpB.repaint();
+				lbl.repaint();
+
 			}
 			
 			inputStream.close();
@@ -104,6 +129,21 @@ public class UpdateSoftware {
 		
 	}	
 	
+	private JFrame gui() {
+	    JFrame frame = new JFrame();
+	    frame.setTitle("Atualização");
+	    frame.getContentPane().setBounds(100, 100, 150, 300);
+	    frame.getContentPane().setLayout(new BorderLayout(0, 0));
+	    panel = new JPanel();
+	    frame.getContentPane().add(panel, BorderLayout.CENTER);
+	    panel.setLayout(new FlowLayout(FlowLayout.LEFT));
+	    lbl = new JLabel("Tamanho:");
+	    jpB = new JProgressBar();
+	    panel.add(lbl);
+	    panel.add(jpB);
+	    return frame;
+    }
+
 	private void extract(File f) {
 				
 		String destination = System.getProperty("user.dir");

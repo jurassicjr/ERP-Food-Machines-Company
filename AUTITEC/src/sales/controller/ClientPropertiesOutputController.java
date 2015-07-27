@@ -1,4 +1,4 @@
-package rh.controller;
+package sales.controller;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;

@@ -64,6 +64,7 @@ public class MainFrameController {
 	public static final int clientSearch = 18;
 	public static final int clientUpdate = 19;
 	public static final int kitSearch = 20;
+	public static final int clientPropertiesRegister = 21;
 	
 	private MainFrame mainFrame;
 
@@ -398,50 +399,29 @@ public class MainFrameController {
 		
 	public void Sales(int i) {
 		SalesController controller = new SalesController(mainFrame);
-		if(i == 0) {
-			controller.ApprovalOfSuppliers();
-		}else if(i == 1) {
-			controller.salesRequisition();
-		}else if(i == 2) {
-			controller.registerOfSuppliers();
-		}else if(i == 3) {
-			controller.salesOrder();
-		}else if(i==4) {
-			controller.registerOfProduct();
-		}else if(i==5) {
-			controller.updateOfMaterials();
-		}else if(i==6) {
-			controller.supplierUpdateFrame();
-		}else if(i==7) {
-			controller.supplierReportFrame();
-		}else if(i==8){
-			controller.productReport();
-		}else if(i==9) {
-			controller.registerOfClient();
-		}else if(i == 10) {
-			controller.registerProduct();
-		}else if(i==11) {
-			controller.invetoryFrame();
-		}else if(i==12) {
-			controller.registerOfKit();
-		}else if(i==13) {
-			controller.updateOfProducts();
-		}else if(i==14) {
-			controller.updateOfKit();
-		}else if(i==15) {
-			controller.ClientReport();
-		}else if(i==16) {
-			controller.materialSearch();
-		}else if(i==17) {
-			controller.productSearch();
-		}else if(i==18) {
-			controller.clientSearch();
-		}else if(i ==19) {
-			controller.clientUpdate();
-		}
-		else if(i == 20) {
-			controller.searchOfKit();
-		}
+		if(i == 0) controller.ApprovalOfSuppliers();
+		else if(i==1)controller.salesRequisition();
+		else if(i==2)controller.registerOfSuppliers();
+		else if(i==3)controller.salesOrder();
+		else if(i==4)controller.registerOfProduct();
+		else if(i==5)controller.updateOfMaterials();
+		else if(i==6)controller.supplierUpdateFrame();
+		else if(i==7)controller.supplierReportFrame();
+		else if(i==8)controller.productReport();
+		else if(i==9)controller.registerOfClient();
+		else if(i==10)controller.registerProduct();
+		else if(i==11)controller.invetoryFrame();
+		else if(i==12)controller.registerOfKit();
+		else if(i==13)controller.updateOfProducts();
+		else if(i==14)controller.updateOfKit();
+		else if(i==15)controller.ClientReport();
+		else if(i==16)controller.materialSearch();
+		else if(i==17)controller.productSearch();
+		else if(i==18)controller.clientSearch();
+		else if(i==19)controller.clientUpdate();
+		else if(i==20)controller.searchOfKit();
+		else if(i==21)controller.clientPropertiesRegister();
+		
 	}
 
 	public void closeFrame() {

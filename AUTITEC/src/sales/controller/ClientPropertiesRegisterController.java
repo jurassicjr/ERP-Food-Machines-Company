@@ -1,4 +1,4 @@
-package rh.controller;
+package sales.controller;
 
 import java.util.Date;
 import java.util.HashMap;

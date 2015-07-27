@@ -166,6 +166,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmRNCRegister;
 
+	private JMenuItem mntmClientProperties;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -438,6 +440,10 @@ public class MainFrame extends JFrame {
 		mntmSearchOfKit.setName("SEA_KIT");
 		mntmSearchOfKit.setVisible(false);
 		
+		mntmClientProperties = new JMenuItem("Registro de Propriedades do Cliente");
+		mnSalesRegister.add(mntmClientProperties);
+		mntmClientProperties.setVisible(false);
+		mntmClientProperties.setName("REG_CLI_PROP");
 
 		//Compras
 		
@@ -652,6 +658,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmProductionStage);
 		menuItens.add(mntmUpdateOfClient);
 		menuItens.add(mntmSearchOfKit);
+		menuItens.add(mntmClientProperties);
 		
 		menuItens.add(mntmVehicleRegister);
 		menuItens.add(mntmVehicleUpdate);
@@ -719,6 +726,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmClientSearch))controller.Sales(MainFrameController.clientSearch);
 				else if (e.getSource().equals(mntmUpdateOfClient))controller.Sales(MainFrameController.clientUpdate);
 				else if (e.getSource().equals(mntmSearchOfKit))controller.Sales(MainFrameController.kitSearch);
+				else if (e.getSource().equals(mntmClientProperties))controller.Sales(MainFrameController.clientPropertiesRegister);
 				
 				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
 				else if(e.getSource().equals(mntmVehicleUpdate))controller.vehicleUpdate();
@@ -778,6 +786,7 @@ public class MainFrame extends JFrame {
 		mntmUpdateOfClient.addActionListener(menuListeners);
 		mntmSearchOfKit.addActionListener(menuListeners);
 		mntmAddMaterialToInvetory.addActionListener(menuListeners);
+		mntmClientProperties.addActionListener(menuListeners);
 		
 		mntmVehicleRegister.addActionListener(menuListeners);
 		mntmVehicleUpdate.addActionListener(menuListeners);
