@@ -2,8 +2,6 @@ package model;
 
 import java.sql.Date;
 
-import groovy.transform.ToString;
-
 public class Equipment {
 
 	private int id;

@@ -1,13 +1,10 @@
 package sales.controller;
 
-import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,14 +12,15 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import database.DataBase;
+import model.City;
+import model.State;
+import model.Supplier;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperExportManager;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
-import model.City;
-import model.State;
-import model.Supplier;
 import sales.view.report.SupplierReportFrame;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.PDFFilter;
@@ -30,7 +28,6 @@ import util.HandlesFile;
 import util.Html;
 import util.HtmlToPdf;
 import util.ShowMessage;
-import database.DataBase;
 
 public class SupplierReportController extends SalesController {
 	private DataBase dataBase;

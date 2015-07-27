@@ -1,37 +1,31 @@
 package equipmentMaintenance.view.register;
 
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Date;
 
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.JComboBox;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.LayoutStyle.ComponentPlacement;
 
-import util.ShowMessage;
 import equipmenteMaintenance.controller.EquipmentRegisterController;
 import financial.view.GenerateFinancialReportFrame;
 import maintenance.view.register.VehicleRegisterFrame;
 import model.Brand;
 import model.Equipment;
 import model.Maintenance;
-import net.sf.jasperreports.engine.util.Java14BigDecimalHandler;
 import net.sf.nachocalendar.components.DateField;
-
-import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane.SystemMenuBar;
-
 import product.view.RegisterKitFrame;
 import product.view.RegisterProductFrame;
+import util.ShowMessage;
 
 public class EquipmentRegisterFrame extends JFrame {
 

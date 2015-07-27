@@ -32,6 +32,12 @@ public class DataBase {
 	/**
 	 * Cria o objeto para manipulação do banco de dados
 	 */
+	
+	public Connection getConnection()
+	{
+		return connection;
+		
+	}
 	public DataBase() {
 		
 		Properties properties = new Properties();
