@@ -208,7 +208,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Pesquisa de Satisfação Interna", false, "INT_RES"),
 				new CheckBoxNode("Pesquisa de Satisfação Externa", false, "EXT_RES"),
 				new CheckBoxNode("Registro de Descrição de Cargo", false, "REG_FUD"),
-				new CheckBoxNode("Registro de Avaliação de Competência", false, "REG_ASS")
+				new CheckBoxNode("Registro de Avaliação de Competência", false, "REG_ASS"),
+				new CheckBoxNode("Acompanhamento de Não Conformidade", false, "MON_IMP")
 		};
 		    
 		CheckBoxNode financialOptions[] = {

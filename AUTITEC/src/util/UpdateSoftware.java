@@ -1,6 +1,7 @@
 package util;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -96,15 +97,18 @@ public class UpdateSoftware {
 			JFrame frame = gui();
 			frame.pack();
 			frame.setVisible(true);
-			jpB.setMaximum((url.openConnection().getContentLength())/1024);
+			frame.setLocationRelativeTo(null);
+			//Long size = url.openConnection().getContentLengthLong()/1024;
+			//Integer intSize = size != null ? size.intValue() :null;
+			jpB.setIndeterminate(true);
+			//System.out.println(intSize);
 			jpB.setValue(0);
 			int b;
 			int len = 0;
 			while((b = inputStream.read()) != -1) {
 				fileOutputStream.write(b);
 				len += b;
-				lbl.setText("Tamanho:" + String.valueOf(len/1024));
-				jpB.setValue(len/1024);
+				lbl.setText("Tamanho:" + String.valueOf(len) + " bytes");
 				frame.revalidate();
 				jpB.repaint();
 				lbl.repaint();
@@ -132,8 +136,11 @@ public class UpdateSoftware {
 	private JFrame gui() {
 	    JFrame frame = new JFrame();
 	    frame.setTitle("Atualização");
-	    frame.getContentPane().setBounds(100, 100, 150, 300);
+	    frame.getContentPane().setBounds(100, 100, 300, 90);
+	    frame.setMinimumSize(new Dimension(300, 90));
+	    frame.setPreferredSize(new Dimension(300, 90));
 	    frame.getContentPane().setLayout(new BorderLayout(0, 0));
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	    panel = new JPanel();
 	    frame.getContentPane().add(panel, BorderLayout.CENTER);
 	    panel.setLayout(new FlowLayout(FlowLayout.LEFT));

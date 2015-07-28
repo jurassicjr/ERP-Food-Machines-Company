@@ -17,6 +17,7 @@ import rh.view.EmployeeReportFrame;
 import rh.view.EntryOfEPIFrame;
 import rh.view.ExternalSatisfactionResearchFrame;
 import rh.view.InternalSatisfactionResearchFrame;
+import rh.view.MonitoringImplementationFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterOfEPIFrame;
 import rh.view.RegisterOfFunctionDescriptionFrame;
@@ -664,6 +665,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				RncRegisterFrame frame = new RncRegisterFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void monitoringImplementation() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				MonitoringImplementationFrame frame = new MonitoringImplementationFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

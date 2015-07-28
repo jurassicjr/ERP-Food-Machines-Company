@@ -1,7 +1,14 @@
 package database.dao;
 
-import database.DataBase;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import model.Employee;
 import model.Rnc;
+import database.DataBase;
 
 public class RncDAO {
 	
@@ -59,4 +66,52 @@ public class RncDAO {
 			System.err.println(e.getMessage());
 		}
 	}
+
+	public List<Rnc> getAllRncNotActive() {
+	    List<Rnc> rncList = new ArrayList<Rnc>();
+	    String query = " SELECT *FROM rnc WHERE isActive = false";
+	    try(ResultSet rs = dataBase.executeQuery(query)){
+	    	while(rs.next()) {	    		
+	    		String actionType = rs.getString("actionType");
+	    		String sequenceNumber = rs.getString("sequencenumber");
+	    		Integer emitterID = rs.getInt("emitter");
+	    		new EmployeeDAO();
+	    		Employee emitter = EmployeeDAO.getEmployeeById(emitterID);
+	    		Date date = rs.getDate("date");
+	    		String origin = rs.getString("origin");
+	    		String description = rs.getString("description");
+	    		String posAction = rs.getString("posaction");
+	    		String actionDescription = rs.getString("actiondescription");
+	    		String cause = rs.getString("cause");
+	    		Boolean actionPlanNeed = rs.getBoolean("actionplanneed");
+	    		String actionPlanDescription = rs.getString("actionplandescription");
+	    		int responsibleID = rs.getInt("responsible");
+	    		Employee responsible = EmployeeDAO.getEmployeeById(responsibleID);
+	    		Date deadLine = rs.getDate("deadline");
+	    		int id = rs.getInt("id");
+	    		
+	    		Rnc rnc = new Rnc();
+	    		rnc.setActionDescription(actionDescription);
+	    		rnc.setActionPlanDescription(actionPlanDescription);
+	    		rnc.setActionPlanNeed(actionPlanNeed);
+	    		rnc.setActiontype(actionType);
+	    		rnc.setCause(cause);
+	    		rnc.setDate(date);
+	    		rnc.setDeadLine(deadLine);
+	    		rnc.setDescription(description);
+	    		rnc.setEmitter(emitter);
+	    		rnc.setId(id);
+	    		rnc.setOrigin(origin);
+	    		rnc.setPosaction(posAction);
+	    		rnc.setResponsible(responsible);
+	    		rnc.setSequenceNumber(sequenceNumber);
+	    		
+	    		rncList.add(rnc);
+	    	}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		
+		return rncList;
+    }
 }

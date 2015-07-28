@@ -18,6 +18,7 @@ public class Rnc {
 	private String actionPlanDescription;
 	private Employee responsible;
 	private Date deadLine;
+	private Boolean isActive;
 	
 	
 	
@@ -156,6 +157,12 @@ public class Rnc {
 			return false;
 		return true;
 	}
+	public Boolean getIsActive() {
+	    return isActive;
+    }
+	public void setIsActive(Boolean isActive) {
+	    this.isActive = isActive;
+    }
 	
 	
 	

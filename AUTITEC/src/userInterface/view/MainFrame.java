@@ -168,6 +168,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmClientProperties;
 
+	private JMenuItem mntmMonitoringImplementation;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -299,10 +301,15 @@ public class MainFrame extends JFrame {
 		mntmAssessmentOfCompetence.setVisible(false);
 		mntmAssessmentOfCompetence.setName("REG_ASS");
 		
-		mntmRNCRegister = new JMenuItem("Registro de RCN");
+		mntmRNCRegister = new JMenuItem("Registro de Não Conformidade");
 		mnSubRegisterRH.add(mntmRNCRegister);
 		mntmRNCRegister.setVisible(false);
 		mntmRNCRegister.setName("REG_RNC");
+		
+		mntmMonitoringImplementation = new JMenuItem("Acompanhamento de Não Conformidade");
+		mnRh.add(mntmMonitoringImplementation);
+		mntmMonitoringImplementation.setVisible(false);
+		mntmMonitoringImplementation.setName("MON_IMP");
 		
 		
 		//Financeiro(Gestão)
@@ -627,6 +634,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmRegisterOfFunctionDescription);
 		menuItens.add(mntmAssessmentOfCompetence);
 		menuItens.add(mntmRNCRegister);
+		menuItens.add(mntmMonitoringImplementation);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -704,6 +712,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmExternalSatisfactionResearch))controller.externalSatisfactionResearch();
 				else if(e.getSource().equals(mntmRegisterOfFunctionDescription))controller.registerFunctionDescription();
 				else if(e.getSource().equals(mntmAssessmentOfCompetence))controller.assessmentOfCompetence();
+				else if(e.getSource().equals(mntmMonitoringImplementation))controller.monitoringImplementation();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -765,6 +774,7 @@ public class MainFrame extends JFrame {
 		mntmExternalSatisfactionResearch.addActionListener(menuListeners);
 		mntmRegisterOfFunctionDescription.addActionListener(menuListeners);
 		mntmAssessmentOfCompetence.addActionListener(menuListeners);
+		mntmMonitoringImplementation.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
