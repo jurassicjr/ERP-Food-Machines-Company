@@ -190,6 +190,7 @@ public class RncRegisterFrame extends JFrame {
 		 rnc.setActionPlanDescription(txtCorretiveAction.getText());
 		 rnc.setResponsible((Employee)cboResponsible.getSelectedItem());
 		 rnc.setDeadLine((Date) txtDeadLine.getValue());
+		 rnc.setIsActive(true);
 		 return rnc;
 	}
 	private void clearFields()

@@ -44,7 +44,7 @@ public class Rnc {
 	}
 	public Rnc() {
 		super();
-		// TODO Auto-generated constructor stub
+		
 	}
 	public Integer getId() {
 		return id;
