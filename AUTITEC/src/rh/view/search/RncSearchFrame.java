@@ -32,12 +32,14 @@ public class RncSearchFrame extends JFrame
 	private RncSearchFrameController controller;
 	private DateField txtInitialDate;
 	private DateField txtFinalDate;
+	private JCheckBox chkbShowInactives;
 	private JTable tableRnc;
 	private JComboBox<Employee> cboEmitter;
 	private JButton btnSearch ;
 	private JButton btnClearSearch;
 	private RncSearchFrame thisFrame = this;
 	private String frameName = "Consulta de RNC";
+
 	
 	
 	public RncSearchFrame()
@@ -59,10 +61,28 @@ public class RncSearchFrame extends JFrame
 		getRncs();
 		tableRnc.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		tableRnc.setColumnSelectionAllowed(false);
+		btnClearSearch.setEnabled(false);
 	}
-	public void getRncs()
+	private void getRncs()
 	{	
-		controller.fillRncTable(tableRnc);
+		controller.fillRncTable(tableRnc,chkbShowInactives.isSelected());
+		tableRnc.getColumnModel().getColumn(2).setCellRenderer(new RncTableCellRenderer());
+	}	
+	private void searchRncs()
+	{
+		java.sql.Date iniDate =null;
+		java.sql.Date finDate= null;
+		Employee emitter = null;
+		try {
+				iniDate = new java.sql.Date(((java.util.Date) txtInitialDate.getValue()).getTime());
+				finDate = new java.sql.Date(((java.util.Date) txtFinalDate.getValue()).getTime());
+				emitter = (Employee) cboEmitter.getSelectedItem();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		controller.fillRncTableBySearch(tableRnc,emitter,
+				iniDate,finDate, chkbShowInactives.isSelected());
 		tableRnc.getColumnModel().getColumn(2).setCellRenderer(new RncTableCellRenderer());
 	}
 	public void setListeners()
@@ -73,13 +93,43 @@ public class RncSearchFrame extends JFrame
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource().equals(btnSearch))
 				{
+					setSeachParametersState(false);
+					searchRncs();
+					
 				}
+				else
+				if(e.getSource().equals(chkbShowInactives))
+				{
+					if(btnSearch.isEnabled())
+					   getRncs();
+					else
+					   searchRncs();	
+					
+				}
+				else
+				if(e.getSource().equals(btnClearSearch))
+				{
+					setSeachParametersState(true);
+					getRncs();
+					
+				}
+				
 			}
+			
 		};
 		btnSearch.addActionListener(buttonActions);
-		btnClearSearch.addActionListener(buttonActions);
+		btnClearSearch.addActionListener(buttonActions);	
+		chkbShowInactives.addActionListener(buttonActions);
 		
 		FrameController.addConfirmationOnClose(thisFrame, frameName);
+	}
+	private void setSeachParametersState(Boolean flag)
+	{
+		btnClearSearch.setEnabled(!flag);
+		btnSearch.setEnabled(flag);
+		cboEmitter.setEnabled(flag);
+		txtFinalDate.setEnabled(flag);
+		txtInitialDate.setEnabled(flag);
 	}
 	public void initializePrincipal()
 	{
@@ -130,7 +180,7 @@ public class RncSearchFrame extends JFrame
 		lblFinalDate.setBounds(206, 90, 70, 15);
 		panelRncSearch.add(lblFinalDate);
 		
-		JCheckBox chkbShowInactives = new JCheckBox("Mostrar Rnc(s) Inativas");
+		chkbShowInactives = new JCheckBox("Mostrar Rnc(s) Inativos");
 		chkbShowInactives.setBounds(12, 125, 222, 23);
 		panelRncSearch.add(chkbShowInactives);
 	}

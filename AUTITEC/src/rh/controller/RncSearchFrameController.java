@@ -1,16 +1,17 @@
 package rh.controller;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
+import database.DataBase;
+import database.dao.RncDAO;
 import model.Employee;
 import model.Rnc;
 import userInterface.components.RncTableModel;
-import database.DataBase;
-import database.dao.RncDAO;
 
 public class RncSearchFrameController
 {
@@ -22,10 +23,30 @@ public class RncSearchFrameController
 		dataBase = new DataBase();
 		dataBase.connect();
 	}
-	public void fillRncTable(JTable tableRnc)
+	public void fillRncTable(JTable tableRnc,Boolean showInactives)
 	{
 		try {
-			ArrayList<Rnc> rncs = new RncDAO().getList();
+			ArrayList<Rnc> rncs = new RncDAO().getList(showInactives);
+			if(!rncs.isEmpty())
+				rncModel = new RncTableModel(rncs);
+			else
+				rncModel = new RncTableModel();
+			
+			
+			tableRnc.setModel(rncModel);
+			rncModel.fireTableDataChanged();
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+	public void fillRncTableBySearch(JTable tableRnc,Employee emitter
+			, Date initialDate,Date finalDate,Boolean showInactives)
+	{
+		try {
+			ArrayList<Rnc> rncs = new RncDAO().getListByArguments(emitter,
+					initialDate, finalDate, showInactives);
+			
 			if(!rncs.isEmpty())
 				rncModel = new RncTableModel(rncs);
 			else

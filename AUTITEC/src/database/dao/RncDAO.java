@@ -66,24 +66,39 @@ public class RncDAO {
 			System.err.println(e.getMessage());
 		}
 	}
-	public ArrayList<Rnc> getListByArguments(Employee emitter,Date initialDate,Date finalDate,Boolean showInactives)
+	public ArrayList<Rnc> getListByArguments(Employee emitter,Date initialDate,
+				Date finalDate,Boolean showInactives)
 	{
 		ArrayList<Rnc> rncList = new ArrayList<>();
 		try {
 			 String searchParameters = "";
-			 Integer parameterCount = 0 ;
+			 List<Object> parameters = new ArrayList<>();
 			 if(emitter!=null)
 			 {
 				 Integer empId = emitter.getId();
-				 searchParameters = " emitter = "+empId;
+				 searchParameters = " emitter = ?";
+				 parameters.add(empId);
 			 }
-			 if(initialDate!=null)
+			 if(initialDate!=null && finalDate!=null)
 			 {
-				
+				if(parameters.size() > 0)
+					searchParameters+=" and ";
+  
+				searchParameters+=  " date >= ? and  date <= ?";
+				parameters.add(initialDate);
+				parameters.add(finalDate);		
+			 }
+			 if(!showInactives)
+			 {
+				 if(parameters.size() > 0)
+					 searchParameters+=" and ";
+				 
+				 searchParameters+=" isActive = true ";
 				 
 			 }
-			 String sql = "select id,date,sequencenumber,isActive from rnc where "+searchParameters+" order by date  ";
-			ResultSet rs =  dataBase.executeQuery(sql);
+			 String sql = "select id,date,sequencenumber,isActive"
+			 		+ " from rnc where "+searchParameters+" order by date  ";
+			 ResultSet rs =  dataBase.executeQuery(sql,parameters);
 			while(rs.next())
 			{
 				Rnc rnc = new Rnc();
@@ -104,7 +119,34 @@ public class RncDAO {
 	{
 		ArrayList<Rnc> rncList = new ArrayList<>();
 		try {
-			 String sql = "select id,date,sequencenumber,isActive from rnc order by date  ";
+			 String sql = "select id,date,sequencenumber,isActi	ve from rnc where isActive = true order by date  ";
+			ResultSet rs =  dataBase.executeQuery(sql);
+			while(rs.next())
+			{
+				Rnc rnc = new Rnc();
+				rnc.setId(rs.getInt("id"));
+				rnc.setDate(rs.getDate("date"));
+				rnc.setSequenceNumber(rs.getString("sequencenumber"));
+				rnc.setIsActive(rs.getBoolean("isActive"));
+			    rncList.add(rnc);
+			}
+			 
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return rncList;
+	}
+	public ArrayList<Rnc> getList(Boolean showInactives)
+	{
+		ArrayList<Rnc> rncList = new ArrayList<>();
+		try {
+			String parameter;
+			if(showInactives)
+				parameter  = "";
+			else
+				parameter = "where isActive is true";
+			
+			String sql = "select id,date,sequencenumber,isActive from rnc "+parameter+" order by date  ";
 			ResultSet rs =  dataBase.executeQuery(sql);
 			while(rs.next())
 			{
