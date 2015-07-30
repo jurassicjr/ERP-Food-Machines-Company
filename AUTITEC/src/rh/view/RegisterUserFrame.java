@@ -209,7 +209,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Pesquisa de Satisfação Externa", false, "EXT_RES"),
 				new CheckBoxNode("Registro de Descrição de Cargo", false, "REG_FUD"),
 				new CheckBoxNode("Registro de Avaliação de Competência", false, "REG_ASS"),
-				new CheckBoxNode("Acompanhamento de Não Conformidade", false, "MON_IMP")
+				new CheckBoxNode("Acompanhamento de Não Conformidade", false, "MON_IMP"),
+				new CheckBoxNode("Consulta de Não Conformidade", false, "SEA_RNC")
 		};
 		    
 		CheckBoxNode financialOptions[] = {
@@ -239,7 +240,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Atualização/Remoção de Kit", false, "UPD_KIT"),
 				new CheckBoxNode("Atualizar/Remover Registro de Cliente", false, "UPD_CLI"),
 				new CheckBoxNode("Consulta de Kits", false, "SEA_KIT"),
-				new CheckBoxNode("Registro de Propriedade do Cliente", false, "REG_CLI_PROP")
+				new CheckBoxNode("Registro de Propriedade do Cliente", false, "REG_CLI_PROP"),
+				new CheckBoxNode("Registro de Saída de Propriedade do Cliente", false, "EXI_CLI_PROP")
 		};
 		
 		CheckBoxNode productionOptions[] = {

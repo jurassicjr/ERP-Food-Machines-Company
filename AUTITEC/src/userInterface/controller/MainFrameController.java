@@ -30,7 +30,9 @@ import rh.view.UpdateEmployeeFrame;
 import rh.view.UpdateOfEPIFrame;
 import rh.view.UpdateOfTrainingFrame;
 import rh.view.UpdatePermissionsFrame;
+import rh.view.search.RncSearchFrame;
 import sales.controller.SalesController;
+import sales.view.register.ClientPropertiesOutputFrame;
 import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
 import userInterface.view.RegisterIssueFrame;
@@ -678,6 +680,32 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				MonitoringImplementationFrame frame = new MonitoringImplementationFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void searchOfNC() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				RncSearchFrame frame = new RncSearchFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void exitOfClientProperties() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ClientPropertiesOutputFrame frame = new ClientPropertiesOutputFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

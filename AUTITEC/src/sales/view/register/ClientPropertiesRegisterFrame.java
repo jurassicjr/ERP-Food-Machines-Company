@@ -33,8 +33,8 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.table.DefaultTableModel;
 
 import model.Client;
+import model.ClientProperties;
 import model.ClientPropertiesMaterial;
-import model.ClientProrpeties;
 import model.Material;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
@@ -50,22 +50,30 @@ public class ClientPropertiesRegisterFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = -2532417792876582285L;
 	private JPanel principalPanel;
-	private DateField txtEntryDate;
-	private JTable table;
-	private JTextField txtFiscalNote;
 	private JPanel subPanel;
+	
+	private DateField txtEntryDate;
+	
+	private JTable table;
+	
+	private JTextField txtFiscalNote;
+	
 	private JLabel lblClient;
-	private JComboBox<Client> cboClient;
 	private JLabel lblEntryDate;
 	private JLabel lblProperties;
-	private JComboBox<Material> cboMaterial;
 	private JLabel lblAmmount;
-	private JSpinner ammountSpinner;
-	private JButton btnAddPropertie;
 	private JLabel lblFiscalNote;
+	
+	private JComboBox<Client> cboClient;
+	private JComboBox<Material> cboMaterial;
+
+	private JSpinner ammountSpinner;
+
+	private JButton btnAddPropertie;
 	private JButton btnConfirm;
 	private JButton btnCancel;
 	private JButton btnClear;
+	
 	private ClientPropertiesRegisterController controller;
 
 	public ClientPropertiesRegisterFrame() {
@@ -364,7 +372,7 @@ public class ClientPropertiesRegisterFrame extends JFrame {
 		}
 		String fiscalNote = txtFiscalNote.getText();
 
-		ClientProrpeties cp = new ClientProrpeties();
+		ClientProperties cp = new ClientProperties();
 		cp.setEntryDate(entryDate);
 		cp.setFiscalNote(fiscalNote);
 		cp.setPropertiesList(generateClientPropertiesMaterial(cp));
@@ -372,7 +380,7 @@ public class ClientPropertiesRegisterFrame extends JFrame {
 
 	}
 
-	private List<ClientPropertiesMaterial> generateClientPropertiesMaterial(ClientProrpeties cp) {
+	private List<ClientPropertiesMaterial> generateClientPropertiesMaterial(ClientProperties cp) {
 		List<ClientPropertiesMaterial> cpmList = new ArrayList<ClientPropertiesMaterial>();
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		for (int i = 0; i < table.getRowCount(); i++) {

@@ -5,7 +5,8 @@ public class ClientPropertiesMaterial {
 	private int id;
 	private Material material;
 	private int ammount;
-	private ClientProrpeties clientProrpeties;
+	private ClientProperties clientProrpeties;
+	private String exitFiscalNote;
 	
 	public int getId() {
 		return id;
@@ -25,10 +26,21 @@ public class ClientPropertiesMaterial {
 	public void setAmmount(int ammount) {
 		this.ammount = ammount;
 	}
-	public ClientProrpeties getClientProrpeties() {
+	public ClientProperties getClientProrpeties() {
 		return clientProrpeties;
 	}
-	public void setClientProrpeties(ClientProrpeties clientProrpeties) {
+	public void setClientProrpeties(ClientProperties clientProrpeties) {
 		this.clientProrpeties = clientProrpeties;
 	}
+	
+	@Override
+	public String toString() {
+		return material.getName();
+	}
+	public String getExitFiscalNote() {
+	    return exitFiscalNote;
+    }
+	public void setExitFiscalNote(String exitFiscalNote) {
+	    this.exitFiscalNote = exitFiscalNote;
+    }
 }

@@ -59,4 +59,26 @@ public class MaterialDAO {
 		}
 		return mList;
 	}
+
+	public Material getMaterialById(int materialID) {
+		try {
+
+			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product WHERE id = ?", materialID);
+
+			Material material = new Material();
+			if (rs.next()) {
+				material.setName(rs.getString("name"));
+				material.setDescrition(rs.getString("descricao"));
+				material.setId(rs.getInt("id"));
+				material.setAmmount(rs.getInt("quantidade"));
+			}
+			
+			dataBase.close();
+			return material;
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+    }
 }

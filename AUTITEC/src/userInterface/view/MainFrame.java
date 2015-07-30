@@ -170,6 +170,12 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmMonitoringImplementation;
 
+	private JMenu mnSubSearchRh;
+
+	private JMenuItem mntmSearchOfNC;
+
+	private JMenuItem mntmExitOfClientProperties;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -220,6 +226,10 @@ public class MainFrame extends JFrame {
 		mnSubUpdateRH = new JMenu("Atualizações e Remoções");
 		mnRh.add(mnSubUpdateRH);
 		
+		mnSubSearchRh = new JMenu("Consultas");
+		mnRh.add(mnSubSearchRh);
+		mnSubSearchRh.setVisible(false);
+
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnSubRegisterRH.add(mntmRegisterEmployee);
 		mntmRegisterEmployee.setVisible(false);
@@ -311,6 +321,10 @@ public class MainFrame extends JFrame {
 		mntmMonitoringImplementation.setVisible(false);
 		mntmMonitoringImplementation.setName("MON_IMP");
 		
+		mntmSearchOfNC = new JMenuItem("Pesquisa de Não Conformidade");
+		mnSubSearchRh.add(mntmSearchOfNC);
+		mntmSearchOfNC.setVisible(false);
+		mntmSearchOfNC.setName("SEA_RNC");
 		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
@@ -383,6 +397,11 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnInventory);
 		mnInventory.setVisible(false);
 		
+		mntmClientRegister = new JMenuItem("Registrar Cliente");
+		mnSalesRegister.add(mntmClientRegister);
+		mntmClientRegister.setVisible(false);
+		mntmClientRegister.setName("REG_CLI");
+		
 		mntmRegisterOfMaterial = new JMenuItem("Registrar Material");
 		mnSalesRegister.add(mntmRegisterOfMaterial);
 		mntmRegisterOfMaterial.setVisible(false);
@@ -432,6 +451,7 @@ public class MainFrame extends JFrame {
 		mntmClientSearch.setName("SEA_CLI");
 		mntmClientSearch.setVisible(false);
 		
+		
 		mntmUpdateOfKit = new JMenuItem("Atualizar/Remover Registro de Kit");
 		mnSalesUpdates.add(mntmUpdateOfKit);
 		mntmUpdateOfKit.setName("UPD_KIT");
@@ -451,6 +471,12 @@ public class MainFrame extends JFrame {
 		mnSalesRegister.add(mntmClientProperties);
 		mntmClientProperties.setVisible(false);
 		mntmClientProperties.setName("REG_CLI_PROP");
+		
+		mntmExitOfClientProperties = new JMenuItem("Registro de Saída de propriedades do Cliente");
+		mnSalesRegister.add(mntmExitOfClientProperties);
+		mntmExitOfClientProperties.setVisible(false);
+		mntmExitOfClientProperties.setName("EXI_CLI_PROP");
+		
 
 		//Compras
 		
@@ -511,10 +537,6 @@ public class MainFrame extends JFrame {
 		mntmAddMaterialToInvetory.setVisible(false);
 		mntmAddMaterialToInvetory.setName("INS_STOCK");
 		
-		mntmClientRegister = new JMenuItem("Registrar Cliente");
-		mnSalesRegister.add(mntmClientRegister);
-		mntmClientRegister.setVisible(false);
-		mntmClientRegister.setName("REG_CLI");
 
 		//Produção
 		
@@ -579,6 +601,7 @@ public class MainFrame extends JFrame {
 		mntmVehicleDebtRegisterFrame.setName("DEB_VEH");
 		
 		
+		
 		//Sobre
 		mnAbout = new JMenu("Sobre");
 		menuBar.add(mnAbout);
@@ -635,6 +658,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmAssessmentOfCompetence);
 		menuItens.add(mntmRNCRegister);
 		menuItens.add(mntmMonitoringImplementation);
+		menuItens.add(mntmSearchOfNC);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -667,6 +691,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmUpdateOfClient);
 		menuItens.add(mntmSearchOfKit);
 		menuItens.add(mntmClientProperties);
+		menuItens.add(mntmExitOfClientProperties);
 		
 		menuItens.add(mntmVehicleRegister);
 		menuItens.add(mntmVehicleUpdate);
@@ -713,6 +738,8 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterOfFunctionDescription))controller.registerFunctionDescription();
 				else if(e.getSource().equals(mntmAssessmentOfCompetence))controller.assessmentOfCompetence();
 				else if(e.getSource().equals(mntmMonitoringImplementation))controller.monitoringImplementation();
+				else if(e.getSource().equals(mntmSearchOfNC))controller.searchOfNC();
+				else if(e.getSource().equals(mntmExitOfClientProperties))controller.exitOfClientProperties();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -775,6 +802,7 @@ public class MainFrame extends JFrame {
 		mntmRegisterOfFunctionDescription.addActionListener(menuListeners);
 		mntmAssessmentOfCompetence.addActionListener(menuListeners);
 		mntmMonitoringImplementation.addActionListener(menuListeners);
+		mntmSearchOfNC.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
@@ -797,6 +825,7 @@ public class MainFrame extends JFrame {
 		mntmSearchOfKit.addActionListener(menuListeners);
 		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		mntmClientProperties.addActionListener(menuListeners);
+		mntmExitOfClientProperties.addActionListener(menuListeners);
 		
 		mntmVehicleRegister.addActionListener(menuListeners);
 		mntmVehicleUpdate.addActionListener(menuListeners);

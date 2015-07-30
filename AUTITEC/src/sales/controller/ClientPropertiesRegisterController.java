@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 
 import model.Client;
 import model.ClientPropertiesMaterial;
-import model.ClientProrpeties;
+import model.ClientProperties;
 import model.Material;
 import util.ShowMessage;
 import database.dao.ClientDAO;
@@ -45,7 +45,7 @@ public class ClientPropertiesRegisterController {
 	    		
     }
 
-	public void register(ClientProrpeties cp) {
+	public void register(ClientProperties cp) {
 	    Date date = cp.getEntryDate();
 	    String fiscalNote = cp.getFiscalNote();
 	    List<ClientPropertiesMaterial> cpmList = cp.getPropertiesList();
