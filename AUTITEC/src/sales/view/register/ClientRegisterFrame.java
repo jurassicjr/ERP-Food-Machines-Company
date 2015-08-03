@@ -29,6 +29,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.MaskFormatter;
 
 import model.City;
 import model.Client;
@@ -77,10 +79,10 @@ public class ClientRegisterFrame extends JFrame {
 	private JLabel lblCpf;
 	
 	private JTextField txtRG;
-	private JTextField txtCPF;
+	private JFormattedTextField txtCPF;
 	private JTextField txtEmail;
 	private UpperTextField txtCompanyName;
-	private JTextField txtCnpj;
+	private JFormattedTextField txtCnpj;
 	private JTextField txtIE;
 	private UpperTextField txtContato;
 	private JFormattedTextField txtCEP;
@@ -153,7 +155,20 @@ public class ClientRegisterFrame extends JFrame {
 										lblCnpj.setBounds(332, 11, 46, 14);
 										panel.add(lblCnpj);
 										
-										txtCnpj = new JTextField();
+										MaskFormatter maskCNPJ = null;
+										MaskFormatter maskCPF= null;
+										MaskFormatter maskCEP= null;
+										MaskFormatter maskPhone = null;
+										try {
+											maskCNPJ = new MaskFormatter("##.###.###/####-##");
+											maskCPF  =new MaskFormatter("###.###.###-##");
+											maskCEP = new MaskFormatter("#####-###");
+											maskPhone = new MaskFormatter("(##)####-####");
+										} catch (ParseException e) {
+											e.printStackTrace();
+										}
+										txtCnpj =  new JFormattedTextField();
+										maskCNPJ.install(txtCnpj);
 										txtCnpj.setBounds(332, 31, 163, 20);
 										panel.add(txtCnpj);
 										txtCnpj.setColumns(10);
@@ -194,7 +209,7 @@ public class ClientRegisterFrame extends JFrame {
 														panelPf.add(txtBirthDate);
 									
 														
-														JLabel lblDataDeNascimento = new JLabel("Data de nascimento");
+														JLabel lblDataDeNascimento = new JLabel("Data de Nasc.");
 														lblDataDeNascimento.setBounds(391, 11, 125, 14);
 														panelPf.add(lblDataDeNascimento);
 														
@@ -211,10 +226,11 @@ public class ClientRegisterFrame extends JFrame {
 														lblCpf.setBounds(185, 53, 38, 14);
 														panelPf.add(lblCpf);
 														
-														txtCPF = new JTextField();
+														txtCPF = new JFormattedTextField();
+														maskCPF.install(txtCPF);
 														txtCPF.setBounds(215, 50, 166, 20);
 														panelPf.add(txtCPF);
-														txtCPF.setColumns(10);
+					
 														
 														cboSex = new JComboBox<String>();
 														cboSex.setModel(new DefaultComboBoxModel<String>(new String[] {"Masculino", "Feminino"}));
@@ -242,9 +258,10 @@ public class ClientRegisterFrame extends JFrame {
 										panel_1.add(lblTe);
 										
 										txtPhone = new JFormattedTextField();
-										txtPhone.setColumns(10);
 										txtPhone.setBounds(49, 76, 191, 20);
+										maskPhone.install(txtPhone);
 										panel_1.add(txtPhone);
+										
 										
 										txtStreet = new UpperTextField();
 										txtStreet.setColumns(10);
@@ -255,8 +272,8 @@ public class ClientRegisterFrame extends JFrame {
 										label_2.setBounds(10, 14, 42, 14);
 										panel_1.add(label_2);
 										
-										txtCEP = new JFormattedTextField((Object) null);
-										txtCEP.setColumns(10);
+										txtCEP = new JFormattedTextField();
+										maskCEP.install(txtCEP);
 										txtCEP.setBounds(49, 42, 97, 20);
 										panel_1.add(txtCEP);
 										
@@ -372,7 +389,7 @@ public class ClientRegisterFrame extends JFrame {
 			public void keyTyped(KeyEvent e) {
 				if(e.getSource().equals(txtCPF))
 				{
-					if(!Character.isDigit(e.getKeyChar()) || txtCPF.getText().length() >=11)
+					if(!Character.isDigit(e.getKeyChar()))
 						e.setKeyChar('\0');
 				}
 				else
