@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import maintenance.view.register.RouteRegisterFrame;
+import maintenance.view.register.ToolRegisterFrame;
 import maintenance.view.register.VehicleDebtRegisterFrame;
 import maintenance.view.register.VehicleRegisterFrame;
 import maintenance.view.search.VehicleSearchFrame;
@@ -706,6 +707,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				ClientPropertiesOutputFrame frame = new ClientPropertiesOutputFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void toolsResearch() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ToolRegisterFrame frame = new ToolRegisterFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

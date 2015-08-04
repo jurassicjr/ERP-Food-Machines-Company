@@ -176,6 +176,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmExitOfClientProperties;
 
+	private JMenuItem mntmToolsRegister;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -569,6 +571,11 @@ public class MainFrame extends JFrame {
 		mnMaintenance.add(mnMaintenanceSearch);
 		mnMaintenanceSearch.setVisible(false);
 		
+		mntmToolsRegister = new JMenuItem("Registro de Ferramentas");
+		mnMaintenanceRegister.add(mntmToolsRegister);
+		mntmToolsRegister.setVisible(false);
+		mntmToolsRegister.setName("TOO_REG");
+		
 		mntmVehicleRegister = new JMenuItem("Registro de Veiculos");
 		mnMaintenanceRegister.add(mntmVehicleRegister);
 		mntmVehicleRegister.setVisible(false);
@@ -699,6 +706,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmRouteRegister);
 		menuItens.add(mntmUpdateRoute);
 		menuItens.add(mntmVehicleDebtRegisterFrame);
+		menuItens.add(mntmToolsRegister);
 	}
 
 	/**
@@ -771,6 +779,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmUpdateRoute))controller.updateRoute();
 				else if(e.getSource().equals(mntmVehicleDebtRegisterFrame))controller.vechileDebtRegister();
 				else if(e.getSource().equals(mntmRNCRegister))controller.rnc();
+				else if(e.getSource().equals(mntmToolsRegister))controller.toolsResearch();
 			}
 		};
 		
@@ -834,6 +843,7 @@ public class MainFrame extends JFrame {
 		mntmUpdateRoute.addActionListener(menuListeners);
 		mntmVehicleDebtRegisterFrame.addActionListener(menuListeners);
 		mntmRNCRegister.addActionListener(menuListeners);
+		mntmToolsRegister.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			
