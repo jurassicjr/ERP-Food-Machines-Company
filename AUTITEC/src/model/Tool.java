@@ -88,6 +88,13 @@ public class Tool {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		
+		return model+" "+brand;
+	
+	}
 	
 	
 	
