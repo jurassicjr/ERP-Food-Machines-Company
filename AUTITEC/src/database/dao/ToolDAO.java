@@ -49,8 +49,7 @@ public class ToolDAO {
 					tool.getModel(),
 					tool.getDescription(),
 					tool.getSerialNumber(),
-					tool.getId()
-					
+					tool.getId()	
 			};
 			
 			dataBase.executeUpdate(sql,parameters);
@@ -63,7 +62,7 @@ public class ToolDAO {
 	{
 		ArrayList<Tool> tools = new ArrayList<>();
 		try {
-			String sql = "select model,brand from tool"; 
+			String sql = "select * from tool order by model"; 
 			ResultSet rs = dataBase.executeQuery(sql);
 			Tool tool;
 			while(rs.next())
@@ -82,6 +81,43 @@ public class ToolDAO {
 		}
 		return tools;	
 	}
+	public Tool getRegister(Integer toolId)
+	{
+			Tool tool = new Tool();
+		try {
+				String sql = "select * from tool where id = ?"; 
+				ResultSet rs = dataBase.executeQuery(sql,toolId);
+				if(rs.next())
+				{
+					tool = new Tool();
+					tool.setId(rs.getInt("id"));
+					tool.setBrand(rs.getString("brand"));
+					tool.setModel(rs.getString("model"));
+					tool.setDescription(rs.getString("description"));
+					tool.setSerialNumber(rs.getString("serialnumber"));
+			
+				}
+			}catch(Exception ex)
+			{
+				
+			}
+			return tool;
+			
+		}
+	public void remove(Integer toolId)
+	{
+		Tool tool = new Tool();
+		try {
+				String sql = "delete from tool where id = ?"; 
+				dataBase.executeUpdate(sql,toolId);
+				
+			}catch(Exception ex)
+			{
+				
+			}
+			
+	}
+	
 	
 	
 
