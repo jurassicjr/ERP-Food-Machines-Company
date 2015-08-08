@@ -1,27 +1,20 @@
 package model;
 
-public class Tool {
-	
-	private Integer id;
-	private String brand;
-	private String model;
-	private String description;
-	private String serialNumber;
-	
-	
+public class ToolBox {
 
-	public Tool(Integer id, String brand, String model, String description, String serialNumber) {
+	private Integer id;
+	private String description;
+	private Integer responsible;
+	
+	public ToolBox(Integer id, String description, Integer responsible) {
 		super();
 		this.id = id;
-		this.brand = brand;
-		this.model = model;
 		this.description = description;
-		this.serialNumber = serialNumber;
+		this.responsible = responsible;
 	}
 
-	public Tool() {
-		super();
-		// TODO Auto-generated constructor stub
+	public ToolBox() {
+
 	}
 
 	public Integer getId() {
@@ -32,22 +25,6 @@ public class Tool {
 		this.id = id;
 	}
 
-	public String getBrand() {
-		return brand;
-	}
-
-	public void setBrand(String brand) {
-		this.brand = brand;
-	}
-
-	public String getModel() {
-		return model;
-	}
-
-	public void setModel(String model) {
-		this.model = model;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -56,12 +33,17 @@ public class Tool {
 		this.description = description;
 	}
 
-	public String getSerialNumber() {
-		return serialNumber;
+	public Integer getResponsible() {
+		return responsible;
 	}
 
-	public void setSerialNumber(String serialNumber) {
-		this.serialNumber = serialNumber;
+	public void setResponsible(Integer responsible) {
+		this.responsible = responsible;
+	}
+
+	@Override
+	public String toString() {
+		return responsible+" "+description;
 	}
 
 	@Override
@@ -80,7 +62,7 @@ public class Tool {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Tool other = (Tool) obj;
+		ToolBox other = (ToolBox) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -88,13 +70,9 @@ public class Tool {
 			return false;
 		return true;
 	}
-
-	@Override
-	public String toString() {
-		
-		return model+" "+brand+" "+serialNumber;
 	
-	}
+	
+	
 	
 	
 	
