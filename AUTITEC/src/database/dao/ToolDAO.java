@@ -81,6 +81,29 @@ public class ToolDAO {
 		}
 		return tools;	
 	}
+	public ArrayList<Tool> getUnusedTools()
+	{
+		ArrayList<Tool> tools = new ArrayList<>();
+		try {
+			String sql = "select * from tool  where id not in (select tool from toolbox_tool) order by model"; 
+			ResultSet rs = dataBase.executeQuery(sql);
+			Tool tool;
+			while(rs.next())
+			{
+				tool = new Tool();
+				tool.setId(rs.getInt("id"));
+				tool.setBrand(rs.getString("brand"));
+				tool.setModel(rs.getString("model"));
+				tool.setDescription(rs.getString("description"));
+				tool.setSerialNumber(rs.getString("serialnumber"));
+				tools.add(tool);
+			}
+		}catch(Exception ex)
+		{
+			
+		}
+		return tools;	
+	}
 	public Tool getRegister(Integer toolId)
 	{
 			Tool tool = new Tool();

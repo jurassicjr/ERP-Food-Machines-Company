@@ -1,6 +1,6 @@
 package database.dao;
 
-import java.util.ArrayList;
+import java.util.Vector;
 
 import database.DataBase;
 import model.Tool;
@@ -32,7 +32,7 @@ public class ToolBoxDAO {
 			// TODO: handle exception
 		}
 	}
-	public void persistTools(ArrayList<Tool> tools,Integer toolBoxId)
+	public void persistTools(Vector<Tool> tools,Integer toolBoxId)
 	{
 		try{
 			for(Tool tool:tools)
@@ -40,8 +40,8 @@ public class ToolBoxDAO {
 				String sql = "insert into toolbox_tool(toolbox,tool) values(?,?)";
 				Object[] parameters = 
 					{
-							tool.getId(),
-							toolBoxId
+							toolBoxId,
+							tool.getId()	
 					};
 				dataBase.executeUpdate(sql,parameters);
 				

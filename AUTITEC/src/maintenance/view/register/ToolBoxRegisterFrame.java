@@ -3,24 +3,30 @@ package maintenance.view.register;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+
+import com.itextpdf.text.pdf.parser.Vector;
 
 import maintenance.controller.ToolBoxRegisterFrameController;
 import model.Employee;
 import model.Tool;
+import model.ToolBox;
 import userInterface.components.FrameController;
+import util.ClearFrame;
 import util.Icon;
+import util.ShowMessage;
 
 public class ToolBoxRegisterFrame extends JFrame {
 
@@ -38,7 +44,7 @@ public class ToolBoxRegisterFrame extends JFrame {
 	private JButton btnRemoveTool;
 	private JButton btnCancel;
 	private JButton btnConfirm;
-	private JTable tableTools;
+	private JList<Tool> toolList;
 	
 	public ToolBoxRegisterFrame()
 	{
@@ -58,10 +64,7 @@ public class ToolBoxRegisterFrame extends JFrame {
 		initializePrincipal();
 		controller.fillResponsibleCbo(cboResponsible);
 		controller.fillToolCbo(cboTools);
-		controller.initToolsTable(tableTools);
-		tableTools.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		tableTools.setRowSelectionAllowed(true);
-		tableTools.setFocusable(true);
+		toolList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 	}
 	public void initializePrincipal()
 	{
@@ -104,8 +107,8 @@ public class ToolBoxRegisterFrame extends JFrame {
 		scrollPane.setBounds(12, 122, 539, 70);
 		getContentPane().add(scrollPane);
 		
-		tableTools = new JTable();
-		scrollPane.setViewportView(tableTools);
+		toolList = new JList<Tool>();
+		scrollPane.setViewportView(toolList);
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(12, 222, 549, 53);
@@ -139,6 +142,8 @@ public class ToolBoxRegisterFrame extends JFrame {
 				{
 				   removeTool();
 				}
+				if(e.getSource().equals(btnConfirm))
+					persistToolBoxAndTools();
 			}
 		};
 		btnCancel.addActionListener(buttonListener);
@@ -154,19 +159,44 @@ public class ToolBoxRegisterFrame extends JFrame {
 		if(objTool!=null)
 		{
 			Tool tool = (Tool) objTool;
-			controller.addTool(tool);
+			controller.addTool(tool, toolList,cboTools);
 		}
+		else
+			ShowMessage.errorMessage(null,"Mensagem", "Selecione uma ferramenta");
 	}
 	public void removeTool()
 	{
-		int line = tableTools.getSelectedRow();
-	
-		if(line > -1)
+		Tool tool =  toolList.getSelectedValue();
+		if(tool!=null)
+			controller.removeTool(tool, toolList,cboTools);	
+		else
+		ShowMessage.errorMessage(null,"Mensagem", "Selecione uma ferramenta");
+	}
+	public void persistToolBoxAndTools()
+	{
+		if(!txtDescription.getText().isEmpty() && cboResponsible.getSelectedItem()!=null)
 		{
-			controller.removeTool(line);			
+			if(ShowMessage.questionMessage(thisFrame, "REGISTRO", "Deseja mesmo inserir a caixa de ferramentas?")==
+					JOptionPane.YES_OPTION)
+			{
+				ToolBox toolBox = new ToolBox();
+				toolBox.setDescription(txtDescription.getText());
+				toolBox.setResponsible(cboResponsible.getItemAt(cboResponsible.getSelectedIndex()).getId());
+				
+				Integer toolBoxId = controller.persistToolBox(toolBox);
+				controller.persistToolBoxTools(toolBoxId);
+				controller.fillToolCbo(cboTools);
+				clearFields();
+				ShowMessage.successMessage(null,"Mensagem","Caixa de ferramentas inserida com sucesso");
+			}
 		}
-
-		
-		
+		else
+		ShowMessage.errorMessage(null,"Mensagem", "Preencha os dados da caixa de ferramentas");
+	}
+	public void clearFields()
+	{
+		txtDescription.setText(null);
+		cboResponsible.setSelectedItem(null);
+		controller.clearToolList(toolList);
 	}
 }
