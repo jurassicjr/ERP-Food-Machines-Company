@@ -421,6 +421,28 @@ public class Employee {
 	public String getFormattedCellPhone() {
 		return "(" + cellphone.substring(0, 2) + ") " + cellphone.substring(2, 7) + "-" + cellphone.substring(7, 11);
 	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + id;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Employee other = (Employee) obj;
+		if (id != other.id)
+			return false;
+		return true;
+	}
 	
 	
 }

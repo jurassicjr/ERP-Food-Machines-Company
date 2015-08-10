@@ -58,12 +58,46 @@ public class ToolDAO {
 			// TODO: handle exception
 		}
 	}
+	public void removeByToolBox(Integer toolBoxId)
+	{
+		try {
+			String sql = "delete from toolbox_tool where toolbox = ?";
+			dataBase.executeUpdate(sql,toolBoxId);
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
 	public ArrayList<Tool> getList()
 	{
 		ArrayList<Tool> tools = new ArrayList<>();
 		try {
 			String sql = "select * from tool order by model"; 
 			ResultSet rs = dataBase.executeQuery(sql);
+			Tool tool;
+			while(rs.next())
+			{
+				tool = new Tool();
+				tool.setId(rs.getInt("id"));
+				tool.setBrand(rs.getString("brand"));
+				tool.setModel(rs.getString("model"));
+				tool.setDescription(rs.getString("description"));
+				tool.setSerialNumber(rs.getString("serialnumber"));
+				tools.add(tool);
+			}
+		}catch(Exception ex)
+		{
+			
+		}
+		return tools;	
+	}
+	public ArrayList<Tool> getListByToolBox(Integer toolBoxId)
+	{
+		ArrayList<Tool> tools = new ArrayList<>();
+		try {
+			String sql = "select * from tool,toolbox_tool where tool.id = toolbox_tool.tool "
+					+ "and toolbox_tool.toolbox = ? order by model"; 
+			ResultSet rs = dataBase.executeQuery(sql,toolBoxId);
 			Tool tool;
 			while(rs.next())
 			{

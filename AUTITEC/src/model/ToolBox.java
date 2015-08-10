@@ -43,7 +43,7 @@ public class ToolBox {
 
 	@Override
 	public String toString() {
-		return responsible+" "+description;
+		return description;
 	}
 
 	@Override
