@@ -6,10 +6,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import maintenance.view.register.RouteRegisterFrame;
+import maintenance.view.register.ToolBoxRegisterFrame;
 import maintenance.view.register.ToolRegisterFrame;
 import maintenance.view.register.VehicleDebtRegisterFrame;
 import maintenance.view.register.VehicleRegisterFrame;
 import maintenance.view.search.VehicleSearchFrame;
+import maintenance.view.update.ToolUpdateFrame;
 import maintenance.view.update.VehicleReturnUpdateFrame;
 import maintenance.view.update.VehicleUpdateFrame;
 import production.view.StagesProductionFrame;
@@ -31,6 +33,8 @@ import rh.view.UpdateEmployeeFrame;
 import rh.view.UpdateOfEPIFrame;
 import rh.view.UpdateOfTrainingFrame;
 import rh.view.UpdatePermissionsFrame;
+import rh.view.report.ExternalSatisfactionResearchReport;
+import rh.view.report.InternalSatisfactionResearchReport;
 import rh.view.search.RncSearchFrame;
 import sales.controller.SalesController;
 import sales.view.register.ClientPropertiesOutputFrame;
@@ -714,12 +718,64 @@ public class MainFrameController {
 		});
     }
 
-	public void toolsResearch() {
+	public void toolsRegister() {
 	    EventQueue.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
 				ToolRegisterFrame frame = new ToolRegisterFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void toolsUpdate() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ToolUpdateFrame frame = new ToolUpdateFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void externalSatisfactionReport() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ExternalSatisfactionResearchReport frame = new ExternalSatisfactionResearchReport();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void internalSatisfactionReport() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				InternalSatisfactionResearchReport frame = new InternalSatisfactionResearchReport();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void toolsBoxRegister() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ToolBoxRegisterFrame frame = new ToolBoxRegisterFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

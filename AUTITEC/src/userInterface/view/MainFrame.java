@@ -178,6 +178,16 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmToolsRegister;
 
+	private JMenuItem mntmToolsUpdate;
+
+	private JMenu mnRHReport;
+
+	private JMenuItem mntmExternalSatisfactionReport;
+
+	private JMenuItem mntmInternalSatisfactionReport;
+
+	private JMenuItem mntmToolBoxRegister;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -231,6 +241,10 @@ public class MainFrame extends JFrame {
 		mnSubSearchRh = new JMenu("Consultas");
 		mnRh.add(mnSubSearchRh);
 		mnSubSearchRh.setVisible(false);
+		
+		mnRHReport = new JMenu("Relatórios");
+		mnRh.add(mnRHReport);
+		mnRHReport.setVisible(false);
 
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnSubRegisterRH.add(mntmRegisterEmployee);
@@ -327,6 +341,16 @@ public class MainFrame extends JFrame {
 		mnSubSearchRh.add(mntmSearchOfNC);
 		mntmSearchOfNC.setVisible(false);
 		mntmSearchOfNC.setName("SEA_RNC");
+
+		mntmExternalSatisfactionReport = new JMenuItem("Relatório de Pesquisa de Satisfação Externa");
+		mnRHReport.add(mntmExternalSatisfactionReport);
+		mntmExternalSatisfactionReport.setVisible(false);
+		mntmExternalSatisfactionReport.setName("REP_EXT_SEA");
+		
+		mntmInternalSatisfactionReport = new JMenuItem("Relatório de Pesquisa de Satisfação Interna");
+		mnRHReport.add(mntmInternalSatisfactionReport);
+		mntmInternalSatisfactionReport.setVisible(false);
+		mntmInternalSatisfactionReport.setName("REP_INT_SEA");
 		
 		//Financeiro(Gestão)
 		mnFinancial = new JMenu("Financeiro");
@@ -576,6 +600,16 @@ public class MainFrame extends JFrame {
 		mntmToolsRegister.setVisible(false);
 		mntmToolsRegister.setName("TOO_REG");
 		
+		mntmToolsUpdate = new JMenuItem("Atualização/Remoção de Registro de Ferramentas");
+		mnMaitenanceUpdate.add(mntmToolsUpdate);
+		mntmToolsUpdate.setVisible(true);
+		mntmToolsUpdate.setName("UPD_TOO");
+		
+		mntmToolBoxRegister = new JMenuItem("Registro de Caixa de Ferramenta");
+		mnMaintenanceRegister.add(mntmToolBoxRegister);
+		mntmToolBoxRegister.setVisible(false);
+		mntmToolBoxRegister.setName("REG_BOX_TOO");
+		
 		mntmVehicleRegister = new JMenuItem("Registro de Veiculos");
 		mnMaintenanceRegister.add(mntmVehicleRegister);
 		mntmVehicleRegister.setVisible(false);
@@ -666,6 +700,8 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmRNCRegister);
 		menuItens.add(mntmMonitoringImplementation);
 		menuItens.add(mntmSearchOfNC);
+		menuItens.add(mntmExternalSatisfactionReport);
+		menuItens.add(mntmInternalSatisfactionReport);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -707,6 +743,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmUpdateRoute);
 		menuItens.add(mntmVehicleDebtRegisterFrame);
 		menuItens.add(mntmToolsRegister);
+		menuItens.add(mntmToolBoxRegister);
 	}
 
 	/**
@@ -748,6 +785,8 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmMonitoringImplementation))controller.monitoringImplementation();
 				else if(e.getSource().equals(mntmSearchOfNC))controller.searchOfNC();
 				else if(e.getSource().equals(mntmExitOfClientProperties))controller.exitOfClientProperties();
+				else if(e.getSource().equals(mntmExternalSatisfactionReport))controller.externalSatisfactionReport();
+				else if(e.getSource().equals(mntmInternalSatisfactionReport))controller.internalSatisfactionReport();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -779,7 +818,9 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmUpdateRoute))controller.updateRoute();
 				else if(e.getSource().equals(mntmVehicleDebtRegisterFrame))controller.vechileDebtRegister();
 				else if(e.getSource().equals(mntmRNCRegister))controller.rnc();
-				else if(e.getSource().equals(mntmToolsRegister))controller.toolsResearch();
+				else if(e.getSource().equals(mntmToolsRegister))controller.toolsRegister();
+				else if(e.getSource().equals(mntmToolsUpdate))controller.toolsUpdate();
+				else if(e.getSource().equals(mntmToolBoxRegister))controller.toolsBoxRegister();
 			}
 		};
 		
@@ -812,6 +853,8 @@ public class MainFrame extends JFrame {
 		mntmAssessmentOfCompetence.addActionListener(menuListeners);
 		mntmMonitoringImplementation.addActionListener(menuListeners);
 		mntmSearchOfNC.addActionListener(menuListeners);
+		mntmExternalSatisfactionReport.addActionListener(menuListeners);
+		mntmInternalSatisfactionReport.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
@@ -844,6 +887,8 @@ public class MainFrame extends JFrame {
 		mntmVehicleDebtRegisterFrame.addActionListener(menuListeners);
 		mntmRNCRegister.addActionListener(menuListeners);
 		mntmToolsRegister.addActionListener(menuListeners);
+		mntmToolsUpdate.addActionListener(menuListeners);
+		mntmToolBoxRegister.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

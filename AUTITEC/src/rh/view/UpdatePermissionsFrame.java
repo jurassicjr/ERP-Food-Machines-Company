@@ -210,7 +210,9 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Registro de Descrição de Cargo", false, "REG_FUD"),
 				new CheckBoxNode("Registro de Avaliação de Competência", false, "REG_ASS"),
 				new CheckBoxNode("Acompanhamento de Não Conformidade", false, "MON_IMP"),
-				new CheckBoxNode("Consulta de Não Conformidades", false, "SEA_RNC")
+				new CheckBoxNode("Consulta de Não Conformidades", false, "SEA_RNC"),
+				new CheckBoxNode("Gerar Relatório de Pesquisa de Satisfação Externa", false, "REP_EXT_SEA"),
+				new CheckBoxNode("Gerar Relatório de Pesquisa de Satisfação Interna", false, "REP_INT_SEA")
 		};
 		    
 		CheckBoxNode financialOptions[] = {
@@ -264,7 +266,9 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Atualizar/Finalizar Trajeto", false, "UPD_ROU"),
 				new CheckBoxNode("Registrar contas com o veículos", false, "DEB_VEH"),
 				new CheckBoxNode("Registro de Não Conformidade", false, "REG_RNC"),
-				new CheckBoxNode("Registro de Ferramentas", false, "TOO_REG")
+				new CheckBoxNode("Registro de Ferramentas", false, "TOO_REG"),
+				new CheckBoxNode("Atualização/Remoção de Registro de Ferramenta", false, "UPD_TOO"),
+				new CheckBoxNode("Registro de Caixa de Ferramentas", false, "REG_BOX_TOO")
 		};
 		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);

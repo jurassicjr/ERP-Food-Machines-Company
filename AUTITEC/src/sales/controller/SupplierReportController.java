@@ -1,12 +1,10 @@
 package sales.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import javax.swing.JFrame;
 import javax.swing.JTable;
@@ -23,9 +21,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.view.JasperViewer;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.PDFFilter;
-import util.HandlesFile;
-import util.Html;
-import util.HtmlToPdf;
 import util.ShowMessage;
 import database.DataBase;
 
@@ -139,8 +134,8 @@ public class SupplierReportController extends SalesController {
 	public void generateReport(String reportPathFile, boolean openFile)
 			throws JRException, IOException {
 		// direcionar para a pasta resources/filesReportsTemplate 
-		JasperPrint print = JasperFillManager.fillReport(
-				"/resources/filesReportsTemplate/reportSuppliersHorizontal.jasper", null,
+		java.io.InputStream jasperIS = getClass().getResourceAsStream("/resources/filesReportsTemplate/reportSuppliersHorizontal.jasper");
+		JasperPrint print = JasperFillManager.fillReport(jasperIS, null,
 				dataBase.getConnection());
 		if (openFile) {
 			JasperViewer view = new JasperViewer(print);
@@ -246,29 +241,29 @@ public class SupplierReportController extends SalesController {
 //		}
 //	}
 
-	private File createPdf(String reportPathFile, String title, String content) {
-
-		File output = new File(reportPathFile);
-		Html html = new Html(output);
-		html.createFile(title, content.toString());
-
-		String s = html.getHtml();
-
-		UUID id = UUID.randomUUID();
-		File temp = new File(id.toString());
-
-		try {
-			temp.createNewFile();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		HandlesFile.writeFile(temp, s);
-
-		HtmlToPdf.convert(temp, output);
-
-		temp.delete();
-
-		return output;
-
-	}
+//	private File createPdf(String reportPathFile, String title, String content) {
+//
+//		File output = new File(reportPathFile);
+//		Html html = new Html(output);
+//		html.createFile(title, content.toString());
+//
+//		String s = html.getHtml();
+//
+//		UUID id = UUID.randomUUID();
+//		File temp = new File(id.toString());
+//
+//		try {
+//			temp.createNewFile();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		HandlesFile.writeFile(temp, s);
+//
+//		HtmlToPdf.convert(temp, output);
+//
+//		temp.delete();
+//
+//		return output;
+//
+//	}
 }

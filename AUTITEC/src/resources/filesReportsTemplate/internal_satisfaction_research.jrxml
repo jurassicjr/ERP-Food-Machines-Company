@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.1.0.final using JasperReports Library version 6.1.0  -->
+<!-- 2015-08-09T20:54:56 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="internal_satisfaction_research" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="7a5c9b49-9dc5-422a-ac69-e92cf61ef530">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="autitec_producao_teste"/>
+	<style name="Title" forecolor="#FFFFFF" fontName="Times New Roman" fontSize="50" isBold="false"/>
+	<style name="SubTitle" forecolor="#CCCCCC" fontName="Times New Roman" fontSize="18" isBold="false"/>
+	<style name="Column header" forecolor="#666666" fontName="Times New Roman" fontSize="14" isBold="true"/>
+	<style name="Detail" mode="Transparent" fontName="Times New Roman"/>
+	<style name="Row" mode="Transparent" fontName="Times New Roman" pdfFontName="Times-Roman">
+		<conditionalStyle>
+			<conditionExpression><![CDATA[$V{REPORT_COUNT}%2 == 0]]></conditionExpression>
+			<style mode="Opaque" backcolor="#F0EFEF"/>
+		</conditionalStyle>
+	</style>
+	<parameter name="inicialDate" class="java.sql.Date"/>
+	<parameter name="finalDate" class="java.sql.Date"/>
+	<queryString>
+		<![CDATA[SELECT r.id, r.research_date, r.comunication_facility, r.epis, r.formers, r.function_performed, 
+r.industry_internal_lighting, r.relation_group, r.tooling, r.uniform, r.wc, r.working_area,
+r.criticisms_and_suggestions, emp.id, emp.name from internal_satisfaction_research r, employee emp WHERE
+r.employee = emp.id AND r.research_date <= $P{finalDate} AND r.research_date >= $P{inicialDate} ]]>
+	</queryString>
+	<field name="id" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="research_date" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="comunication_facility" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="epis" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="formers" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="function_performed" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="industry_internal_lighting" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="relation_group" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tooling" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="uniform" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="wc" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="working_area" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="criticisms_and_suggestions" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="COLUMN_14" class="java.lang.Integer"/>
+	<field name="name" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="102" splitType="Stretch">
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement x="725" y="0" width="77" height="102" uuid="651ccc4b-e999-40fe-bcbf-1f25bcfc98af"/>
+				<box topPadding="2" leftPadding="2" bottomPadding="2" rightPadding="2">
+					<topPen lineWidth="0.9"/>
+					<leftPen lineWidth="0.9"/>
+					<bottomPen lineWidth="0.9"/>
+					<rightPen lineWidth="0.9"/>
+				</box>
+				<imageExpression><![CDATA["AUTITEC_LOGO.png"]]></imageExpression>
+			</image>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="0" width="721" height="66" backcolor="#334F36" uuid="d8d9e644-3a32-491d-97cb-a277aff17133"/>
+				<staticText>
+					<reportElement style="Title" x="0" y="0" width="370" height="66" uuid="27d8f6ee-f0a9-44f6-a160-1763c3b00f30"/>
+					<box topPadding="4" leftPadding="4" bottomPadding="4" rightPadding="4"/>
+					<textElement verticalAlignment="Bottom">
+						<font isBold="false"/>
+					</textElement>
+					<text><![CDATA[AUTITEC]]></text>
+				</staticText>
+				<staticText>
+					<reportElement style="SubTitle" x="370" y="37" width="316" height="29" uuid="cfa21334-0634-4605-9ea7-aca4981f67e4"/>
+					<textElement textAlignment="Right">
+						<font size="22" isBold="false"/>
+					</textElement>
+					<text><![CDATA[Relatório de Pesquisa de Satisfação Interna]]></text>
+				</staticText>
+			</frame>
+			<frame>
+				<reportElement mode="Opaque" x="0" y="70" width="721" height="32" forecolor="#000000" backcolor="#BABABA" uuid="b0c895f6-6dbd-477d-9858-9ad66af087e1"/>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement x="553" y="12" width="144" height="20" forecolor="#FFFFFF" uuid="a33fce3b-20c1-4696-873a-fe134d1e7d88"/>
+					<textElement textAlignment="Right">
+						<font size="12"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="30" splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="125" splitType="Stretch">
+			<frame>
+				<reportElement style="Row" mode="Opaque" x="0" y="35" width="802" height="20" uuid="34a2ae4b-4055-476b-8676-d499f6af510b"/>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="1" y="0" width="80" height="20" uuid="4dc4fcc5-024f-400e-900f-16980331ad5a"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{comunication_facility}.equals(1)) ? new String("Regular") : ($F{comunication_facility}.equals(0))? new String("Não se Aplica"): ($F{comunication_facility}.equals(2))? new String("Bom"): ($F{comunication_facility}.equals(3))? new String("Ótimo") :
+($F{comunication_facility}.equals(-1))? new String("Ruim"):
+$F{research_date}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="81" y="0" width="69" height="20" uuid="0541ee34-4fe0-4fcc-bb6f-80fcda784649"/>
+					<box>
+						<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{epis}.equals(1)) ? new String("Regular") : ($F{epis}.equals(0))? new String("Não se Aplica"): ($F{epis}.equals(2))? new String("Bom"): ($F{epis}.equals(3))? new String("Ótimo") :
+($F{epis}.equals(-1))? new String("Ruim"):
+$F{epis}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="696" y="0" width="105" height="20" uuid="3f355914-a5ad-46fd-b6bc-f266a199509e"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{working_area}.equals(1)) ? new String("Regular") :
+($F{working_area}.equals(0))? new String("Não se Aplica"):
+($F{working_area}.equals(2))? new String("Bom"):
+($F{working_area}.equals(3))? new String("Ótimo") :
+($F{working_area}.equals(-1))? new String("Ruim"):
+$F{working_area}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="615" y="0" width="82" height="20" uuid="0423b74c-233f-45e8-ae79-72b1cb46ea40"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{wc}.equals(1)) ? new String("Regular") :
+($F{wc}.equals(0))? new String("Não se Aplica"):
+($F{wc}.equals(2))? new String("Bom"):
+($F{wc}.equals(3))? new String("Ótimo") :
+($F{wc}.equals(-1))? new String("Ruim"):
+$F{wc}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="534" y="0" width="81" height="20" uuid="f9161140-ccdd-410e-8553-80cebd2c1e12"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{uniform}.equals(1)) ? new String("Regular") :
+($F{uniform}.equals(0))? new String("Não se Aplica"):
+($F{uniform}.equals(2))? new String("Bom"):
+($F{uniform}.equals(3))? new String("Ótimo") :
+($F{uniform}.equals(-1))? new String("Ruim"):
+$F{uniform}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="456" y="0" width="78" height="20" uuid="a21f7fee-bf1d-47a7-8d68-17b34a4498cf"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{tooling}.equals(1)) ? new String("Regular") :
+($F{tooling}.equals(0))? new String("Não se Aplica"):
+($F{tooling}.equals(2))? new String("Bom"):
+($F{tooling}.equals(3))? new String("Ótimo") :
+($F{tooling}.equals(-1))? new String("Ruim"):
+$F{tooling}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="356" y="0" width="100" height="20" uuid="5f9f91f1-c265-4f96-a261-5fd00973f184"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{relation_group}.equals(1)) ? new String("Regular") : ($F{relation_group}.equals(0))? new String("Não se Aplica"): ($F{relation_group}.equals(2))? new String("Bom"): 
+($F{relation_group}.equals(3))? new String("Ótimo") :
+($F{relation_group}.equals(-1))? new String("Ruim"):
+$F{relation_group}]]></textFieldExpression>
+				</textField>
+				<textField isStretchWithOverflow="true">
+					<reportElement style="Detail" positionType="Float" x="286" y="0" width="70" height="20" uuid="74be2598-0577-488d-b988-66c686777106"/>
+					<box>
+						<topPen lineWidth="0.0"/>
+						<leftPen lineWidth="0.0"/>
+						<bottomPen lineWidth="0.0"/>
+						<rightPen lineWidth="0.0"/>
+					</box>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[($F{industry_internal_lighting}.equals(1)) ? new String("Regular") : ($F{industry_internal_lighting}.equals(0))? new String("Não se Aplica"): ($F{industry_internal_lighting}.equals(2))? new String("Bom"): ($F{industry_internal_lighting}.equals(3))? new String("Ótimo") :
+($F{industry_internal_lighting}.equals(-1))? new String("Ruim"):
+$F{industry_internal_lighting}]]></textFieldExpression>
+				</textField>
+			</frame>
+			<textField>
+				<reportElement x="100" y="80" width="702" height="30" uuid="0107a8e4-6e55-444a-9ef6-517515c9511c"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{criticisms_and_suggestions}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="80" width="100" height="30" uuid="43ba2051-e7c6-4c22-876d-dd7b90661b90"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="11" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Criticas e Sugestões:]]></text>
+			</staticText>
+			<line>
+				<reportElement x="1" y="80" width="800" height="1" uuid="48fe822b-d96a-430b-9d30-48e4f4f353b6"/>
+			</line>
+			<line>
+				<reportElement x="-1" y="110" width="802" height="1" uuid="f9c97cf1-ddb9-4cd8-a757-9c04a5112367"/>
+			</line>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="220" y="35" width="66" height="20" uuid="172981c7-b0cf-43dc-9b86-7197e1c5cd97"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{function_performed}.equals(1)) ? new String("Regular") : ($F{function_performed}.equals(0))? new String("Não se Aplica"): ($F{function_performed}.equals(2))? new String("Bom"): ($F{function_performed}.equals(3))? new String("Ótimo") :
+($F{function_performed}.equals(-1))? new String("Ruim"):
+$F{function_performed}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="150" y="35" width="70" height="20" uuid="b0126d7a-ab4b-4d04-bdec-da27d861e154"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[($F{formers}.equals(1)) ? new String("Regular") : ($F{formers}.equals(0))? new String("Não se Aplica"): ($F{formers}.equals(2))? new String("Bom"): ($F{formers}.equals(3))? new String("Ótimo") :
+($F{formers}.equals(-1))? new String("Ruim"):
+$F{formers}]]></textFieldExpression>
+			</textField>
+			<textField isStretchWithOverflow="true" pattern="dd/MM/yy">
+				<reportElement style="Detail" positionType="Float" x="690" y="0" width="111" height="18" uuid="63135d96-fd97-4298-ad23-3c86c6c3703d"/>
+				<box>
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<bottomPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="#000000"/>
+				</box>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{research_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement style="Column header" x="660" y="0" width="30" height="18" forecolor="#000000" uuid="5e894352-d742-4192-85d9-edc9e93696e4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Data]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="1" y="17" width="80" height="18" forecolor="#000000" uuid="9bc1ce8a-d562-4350-90fb-73ed86e37fd1"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Comunicação]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="81" y="17" width="69" height="18" forecolor="#000000" uuid="fbd6f7ae-fd37-4b6c-9646-864ce790177b"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[EPI's]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="150" y="17" width="70" height="18" forecolor="#000000" uuid="b15b713e-257b-40e6-b757-4634efaf4a8d"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Formulários]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="286" y="17" width="70" height="18" forecolor="#000000" uuid="aa90a264-52b9-4ac1-b363-62cb4eacc34d"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Iluminação Interna]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="356" y="17" width="100" height="18" forecolor="#000000" uuid="f3fe63a6-9a00-43be-bbf9-56971410df4f"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Relacionamento em Grupo]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="456" y="17" width="78" height="18" forecolor="#000000" uuid="4028212e-c914-4506-b996-e17c4b0b053d"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Ferramentas]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="534" y="17" width="81" height="18" forecolor="#000000" uuid="f5610e18-9a83-4e8d-80d4-05d6f0487fc4"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Uniforme]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="615" y="17" width="82" height="18" forecolor="#000000" uuid="7309ac72-0700-4c10-936f-b1b0a93edf30"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Banheiros]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="696" y="17" width="106" height="18" forecolor="#000000" uuid="58e86e19-5a25-45c7-bd22-4631518878c5"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Area de Trabalho]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="220" y="17" width="66" height="18" forecolor="#000000" uuid="f5eb7e6f-c28b-4e8e-9576-93d1f1763a03"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Função Desempenhada]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="0" y="0" width="79" height="18" forecolor="#000000" uuid="bdc50c43-0ee4-4015-8692-b66b26717e2c"/>
+				<textElement>
+					<font isBold="false"/>
+				</textElement>
+				<text><![CDATA[Funcionário]]></text>
+			</staticText>
+			<textField isStretchWithOverflow="true">
+				<reportElement style="Detail" positionType="Float" x="80" y="0" width="500" height="17" uuid="04e7ca3e-5d42-4623-934d-f753ac1d74fb"/>
+				<box>
+					<topPen lineWidth="0.0"/>
+					<leftPen lineWidth="0.0"/>
+					<bottomPen lineWidth="0.0"/>
+					<rightPen lineWidth="0.0"/>
+				</box>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{name}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="85" splitType="Stretch">
+			<frame>
+				<reportElement mode="Opaque" x="0" y="60" width="802" height="25" forecolor="#D0B48E" backcolor="#000000" uuid="ffb10ec8-0371-4545-8eaa-96d62ad3cec0"/>
+				<textField evaluationTime="Report">
+					<reportElement style="Column header" x="757" y="3" width="40" height="20" forecolor="#FFFFFF" uuid="b5521ea6-5f36-4864-856f-58d0bcd011f2"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement style="Column header" x="677" y="3" width="80" height="20" forecolor="#FFFFFF" uuid="e625ea3c-1741-4cfe-81cf-fbbdd00162c8"/>
+					<textElement textAlignment="Right" verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA["Pagina "+$V{PAGE_NUMBER}+" de"]]></textFieldExpression>
+				</textField>
+				<textField pattern="EEEEE dd MMMMM yyyy">
+					<reportElement style="Column header" x="2" y="3" width="197" height="20" forecolor="#FFFFFF" uuid="0c9f7e91-d3f5-47f9-82b7-0b2b3a43a5d6"/>
+					<textElement verticalAlignment="Middle">
+						<font size="10" isBold="false"/>
+					</textElement>
+					<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+				</textField>
+			</frame>
+		</band>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>

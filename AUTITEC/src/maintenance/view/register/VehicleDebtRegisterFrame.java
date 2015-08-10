@@ -71,7 +71,7 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		Icon.setIcon(this);
 		setTitle(frameName);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 573, 580);
+		setBounds(100, 100, 605, 580);
 		setMinimumSize(new Dimension(573, 580));
 		setPreferredSize(new Dimension(573, 580));
 		initializePrincipal();
@@ -208,8 +208,8 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(12, 12, 607, 516);
-		getContentPane().add(panel);
+		panel.setBounds(12, 12, 573, 580);
+		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(null);
 		
 		JLabel lbVeiculo = new JLabel("Veículo");
@@ -217,7 +217,7 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		panel.add(lbVeiculo);
 		
 		cboVehicle = new JComboBox<Vehicle>();
-		cboVehicle.setBounds(12, 39, 493, 24);
+		cboVehicle.setBounds(12, 39, 551, 24);
 		panel.add(cboVehicle);
 		
 		JLabel lbConductor = new JLabel("Condutor");
@@ -225,23 +225,23 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		panel.add(lbConductor);
 		
 		cboConductor = new JComboBox<Employee>();
-		cboConductor.setBounds(12, 101, 493, 24);
+		cboConductor.setBounds(12, 101, 551, 24);
 		panel.add(cboConductor);
 		
 		rdbtnFix = new JRadioButton("Conserto/Reparo");
-		rdbtnFix.setBounds(12, 141, 149, 23);
+		rdbtnFix.setBounds(12, 141, 114, 23);
 		panel.add(rdbtnFix);
 		
 		rdbtnFuelFillin = new JRadioButton("Abastecimento");
-		rdbtnFuelFillin.setBounds(166, 141, 149, 23);
+		rdbtnFuelFillin.setBounds(128, 141, 97, 23);
 		panel.add(rdbtnFuelFillin);
 		
 		rdbtnOilChange = new JRadioButton("Troca de óleo");
-		rdbtnOilChange.setBounds(319, 141, 149, 23);
+		rdbtnOilChange.setBounds(227, 141, 91, 23);
 		panel.add(rdbtnOilChange);
 		
 		rdbtnOthers = new JRadioButton("Outros");
-		rdbtnOthers.setBounds(472, 141, 149, 23);
+		rdbtnOthers.setBounds(320, 141, 59, 23);
 		panel.add(rdbtnOthers);
 		
 		JLabel lblFixDescription = new JLabel("Descrição conserto/reparo");
@@ -249,7 +249,7 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		panel.add(lblFixDescription);
 		
 		txtFixDescription = new UpperTextField();
-		txtFixDescription.setBounds(12, 202, 493, 24);
+		txtFixDescription.setBounds(12, 202, 551, 24);
 		panel.add(txtFixDescription);
 		txtFixDescription.setColumns(10);
 		
@@ -266,12 +266,12 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		panel.add(lblFuelQuant);
 		
 		txtFuelQuantity = new JTextField();
-		txtFuelQuantity.setBounds(354, 260, 114, 24);
+		txtFuelQuantity.setBounds(354, 260, 209, 24);
 		panel.add(txtFuelQuantity);
 		txtFuelQuantity.setColumns(10);
 		
 		txtObs = new JTextArea();
-		txtObs.setBounds(12, 329, 459, 55);
+		txtObs.setBounds(12, 329, 551, 55);
 		panel.add(txtObs);
 		
 		JLabel lblObs = new JLabel("Observações");
@@ -279,6 +279,7 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		panel.add(lblObs);
 		
 		txtDueDate = new DateField();
+		txtDueDate.getFormattedTextField().setLocation(1, 419);
 		txtDueDate.setBounds(12, 424, 149, 30);
 		Calendar cal = Calendar.getInstance();
 		cal.add(Calendar.DAY_OF_MONTH,30);
@@ -287,7 +288,7 @@ public class VehicleDebtRegisterFrame extends JFrame {
 
 		
 		JLabel lblDueDAte = new JLabel("Data de vencimento");
-		lblDueDAte.setBounds(12, 397, 164, 30);
+		lblDueDAte.setBounds(12, 389, 164, 30);
 		panel.add(lblDueDAte);
 		
 		txtPayDate = new DateField();
@@ -296,12 +297,12 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		panel.add(txtPayDate);
 		
 		JLabel lblPayDate = new JLabel("Data de pagamento");
-		lblPayDate.setBounds(12, 458, 164, 15);
+		lblPayDate.setBounds(12, 459, 164, 15);
 		panel.add(lblPayDate);
 		
 		
 		txtValue = new RealNumberField();
-		txtValue.setBounds(201, 424, 114, 24);
+		txtValue.setBounds(201, 427, 114, 24);
 		panel.add(txtValue);
 		txtValue.setColumns(10);
 		
@@ -310,17 +311,17 @@ public class VehicleDebtRegisterFrame extends JFrame {
 		panel.add(lblValue);
 		
 		btnConfirm = new JButton("Confirmar");
-		btnConfirm.setBounds(398, 491, 145, 25);
+		btnConfirm.setBounds(398, 488, 145, 25);
 		btnConfirm.setIcon(new ImageIcon(VehicleRegisterFrame.class.getResource("/resources/ok.png")));
 		panel.add(btnConfirm);
 		
 		btnCancel = new JButton("Cancelar");
-		btnCancel.setBounds(194, 491, 191, 25);
+		btnCancel.setBounds(194, 488, 191, 25);
 		btnCancel.setIcon(new ImageIcon(VehicleRegisterFrame.class.getResource("/resources/cancel.png")));
 		panel.add(btnCancel);
 		
 		chkbPaid = new JCheckBox("Pago");
-		chkbPaid.setBounds(339, 422, 129, 23);
+		chkbPaid.setBounds(339, 428, 129, 23);
 		panel.add(chkbPaid);
 	
 		vehicleDebtTypeGroup = new ButtonGroup();

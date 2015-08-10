@@ -6,6 +6,7 @@ import util.UpdateSoftware;
 
 
 
+
 /**
  * Classe principal, responsável por inicializar a aplicação.
  */
@@ -23,7 +24,7 @@ public class Main {
 		new UpdateSoftware(loadingFrame);
 		//if(!new VerifySerial().verify()) System.exit(0);
 		
-		new LoginFrame().setVisible(true);
+		new LoginFrame().setVisible(true); 
 		loadingFrame.dispose();
 		
 	}
