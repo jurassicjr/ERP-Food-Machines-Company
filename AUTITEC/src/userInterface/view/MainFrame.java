@@ -188,6 +188,12 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmToolBoxRegister;
 
+	private JMenuItem mntmProcedures;
+
+	private JMenuItem mntmManualQuality;
+
+	private JMenuItem mntmToolBoxUpdate;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -255,6 +261,16 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmTechnicalStandard);
 		mntmTechnicalStandard.setVisible(false);
 		mntmTechnicalStandard.setName("TEC_STD");
+		
+		mntmProcedures = new JMenuItem("Procedimentos");
+		mnRh.add(mntmProcedures);
+		mntmProcedures.setVisible(false);
+		mntmProcedures.setName("PROC");
+		
+		mntmManualQuality = new JMenuItem("Manual de Qualidade");
+		mnRh.add(mntmManualQuality);
+		mntmManualQuality.setVisible(false);
+		mntmManualQuality.setName("MAN_QUAL");
 
 		mntmRegisterUser = new JMenuItem("Registrar Usuário");
 		mnSubRegisterRH.add(mntmRegisterUser);
@@ -610,6 +626,11 @@ public class MainFrame extends JFrame {
 		mntmToolBoxRegister.setVisible(false);
 		mntmToolBoxRegister.setName("REG_BOX_TOO");
 		
+		mntmToolBoxUpdate = new JMenuItem("Atualização/Remoção de Registro de Caixa de Ferramenta");
+		mnMaitenanceUpdate.add(mntmToolBoxUpdate);
+		mntmToolBoxUpdate.setVisible(false);
+		mntmToolBoxUpdate.setName("UPD_TOO_BOX");
+		
 		mntmVehicleRegister = new JMenuItem("Registro de Veiculos");
 		mnMaintenanceRegister.add(mntmVehicleRegister);
 		mntmVehicleRegister.setVisible(false);
@@ -634,8 +655,7 @@ public class MainFrame extends JFrame {
 		mnMaitenanceUpdate.add(mntmUpdateRoute);
 		mntmUpdateRoute.setVisible(false);
 		mntmUpdateRoute.setName("UPD_ROU");
-		
-
+	
 		mntmVehicleDebtRegisterFrame = new JMenuItem("Registro de Contas com veículos");
 		mnMaintenanceRegister.add(mntmVehicleDebtRegisterFrame);
 		mntmVehicleDebtRegisterFrame.setVisible(false);
@@ -702,6 +722,8 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmSearchOfNC);
 		menuItens.add(mntmExternalSatisfactionReport);
 		menuItens.add(mntmInternalSatisfactionReport);
+		menuItens.add(mntmProcedures);
+		menuItens.add(mntmManualQuality);
 		
 		menuItens.add(mntmRegisterBill);
 		menuItens.add(mntmPayBill);
@@ -744,6 +766,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmVehicleDebtRegisterFrame);
 		menuItens.add(mntmToolsRegister);
 		menuItens.add(mntmToolBoxRegister);
+		menuItens.add(mntmToolBoxUpdate);
 	}
 
 	/**
@@ -787,6 +810,8 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmExitOfClientProperties))controller.exitOfClientProperties();
 				else if(e.getSource().equals(mntmExternalSatisfactionReport))controller.externalSatisfactionReport();
 				else if(e.getSource().equals(mntmInternalSatisfactionReport))controller.internalSatisfactionReport();
+				else if(e.getSource().equals(mntmProcedures))controller.procedures();
+				else if(e.getSource().equals(mntmManualQuality))controller.manualQuality();
 				
 				else if (e.getSource().equals(mntmApprovalOfSuppliers)) controller.Sales(MainFrameController.approvalOfSupliers);	
 				else if (e.getSource().equals(mntmSalesRequisition)) controller.Sales(MainFrameController.salesRequisition);
@@ -821,6 +846,7 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmToolsRegister))controller.toolsRegister();
 				else if(e.getSource().equals(mntmToolsUpdate))controller.toolsUpdate();
 				else if(e.getSource().equals(mntmToolBoxRegister))controller.toolsBoxRegister();
+				else if(e.getSource().equals(mntmToolBoxUpdate))controller.toolBoxUpdate();
 			}
 		};
 		
@@ -855,6 +881,8 @@ public class MainFrame extends JFrame {
 		mntmSearchOfNC.addActionListener(menuListeners);
 		mntmExternalSatisfactionReport.addActionListener(menuListeners);
 		mntmInternalSatisfactionReport.addActionListener(menuListeners);
+		mntmProcedures.addActionListener(menuListeners);
+		mntmManualQuality.addActionListener(menuListeners);
 		
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
@@ -889,6 +917,7 @@ public class MainFrame extends JFrame {
 		mntmToolsRegister.addActionListener(menuListeners);
 		mntmToolsUpdate.addActionListener(menuListeners);
 		mntmToolBoxRegister.addActionListener(menuListeners);
+		mntmToolBoxUpdate.addActionListener(menuListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			

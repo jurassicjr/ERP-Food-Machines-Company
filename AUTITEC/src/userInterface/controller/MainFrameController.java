@@ -5,8 +5,10 @@ import java.awt.EventQueue;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import maintenance.controller.ToolBoxUpdateFrameController;
 import maintenance.view.register.RouteRegisterFrame;
 import maintenance.view.register.ToolBoxRegisterFrame;
+import maintenance.view.register.ToolBoxUpdateFrame;
 import maintenance.view.register.ToolRegisterFrame;
 import maintenance.view.register.VehicleDebtRegisterFrame;
 import maintenance.view.register.VehicleRegisterFrame;
@@ -20,7 +22,9 @@ import rh.view.EmployeeReportFrame;
 import rh.view.EntryOfEPIFrame;
 import rh.view.ExternalSatisfactionResearchFrame;
 import rh.view.InternalSatisfactionResearchFrame;
+import rh.view.ManualQualityFrame;
 import rh.view.MonitoringImplementationFrame;
+import rh.view.ProcedureFrame;
 import rh.view.RegisterEmployeeFrame;
 import rh.view.RegisterOfEPIFrame;
 import rh.view.RegisterOfFunctionDescriptionFrame;
@@ -776,6 +780,46 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				ToolBoxRegisterFrame frame = new ToolBoxRegisterFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void procedures() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ProcedureFrame frame = new ProcedureFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void manualQuality() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ManualQualityFrame frame = new ManualQualityFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		}); 
+	    
+    }
+
+	public void toolBoxUpdate() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ToolBoxUpdateFrame frame = new ToolBoxUpdateFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

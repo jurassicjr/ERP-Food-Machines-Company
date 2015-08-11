@@ -57,8 +57,8 @@ public class ToolBoxUpdateFrame extends JFrame
 		Icon.setIcon(this);
 		setTitle(frameName);
 		setBounds(100, 100, 573, 370);
-		setMinimumSize(new Dimension(573, 329));
-		setPreferredSize(new Dimension(573, 329));
+		setMinimumSize(new Dimension(573, 370));
+		setPreferredSize(new Dimension(573, 370));
 		initializePrincipal();
 		controller.fillResponsibleCbo(cboResponsible);
 		controller.fillToolCbo(cboTools);
@@ -97,6 +97,7 @@ public class ToolBoxUpdateFrame extends JFrame
 		getContentPane().add(cboTools);
 		
 		btnAddTool = new JButton("Adicionar");
+		btnAddTool.setIcon(new ImageIcon(ToolBoxUpdateFrame.class.getResource("/resources/plus.png")));
 		btnAddTool.setBounds(451, 126, 100, 25);
 		getContentPane().add(btnAddTool);
 		

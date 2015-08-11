@@ -195,6 +195,8 @@ public class RegisterUserFrame extends JFrame {
 		CheckBoxNode rhOptions[] = {
 				new CheckBoxNode("Registrar Funcionario", false, "REG_EMP"),
 				new CheckBoxNode("Normas Técnicas", false, "TEC_STD"),
+				new CheckBoxNode("Procedimentos", false, "PROC"),
+				new CheckBoxNode("Manual de Qualidade", false, "MAN_QUAL"),
 				new CheckBoxNode("Registrar Usuário", false, "REG_USER"),
 				new CheckBoxNode("Relatório de Funcionários", false, "EMP_REP"),
 				new CheckBoxNode("Atualizar Permissões", false, "UPD_PERM"),
@@ -268,7 +270,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Registro de Não Conformidade", false, "REG_RNC"),
 				new CheckBoxNode("Registro de Ferramentas", false, "TOO_REG"),
 				new CheckBoxNode("Atualização/Remoção de Registro de Ferramenta", false, "UPD_TOO"),
-				new CheckBoxNode("Registro de Caixa de Ferramentas", false, "REG_BOX_TOO")
+				new CheckBoxNode("Registro de Caixa de Ferramentas", false, "REG_BOX_TOO"),
+				new CheckBoxNode("Atualizar/Deletar Registro de Caixa de Ferramenta", false, "UPD_TOO_BOX")
 		};
 		
 		Vector<?> rhVector = new NamedVector("RH", rhOptions);
