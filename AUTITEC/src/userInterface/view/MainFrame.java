@@ -194,6 +194,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmToolBoxUpdate;
 
+	private JMenuItem mntmRegisterBankAccount;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -416,6 +418,11 @@ public class MainFrame extends JFrame {
 		mnFinancial.add(mntmGenerateReport);
 		mntmGenerateReport.setVisible(false);
 		mntmGenerateReport.setName("FIN_REP");
+		
+		mntmRegisterBankAccount = new JMenuItem("Registro de conta bancária");
+		mnFinancial.add(mntmRegisterBankAccount);
+		mntmRegisterBankAccount.setVisible(false);
+		mntmRegisterBankAccount.setName("REG_BAK_ACC");
 
 		//Vendas
 		mnSales = new JMenu("Vendas");
@@ -732,6 +739,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmReceiveDebt);
 		menuItens.add(mntmListDebts);
 		menuItens.add(mntmGenerateReport);
+		menuItens.add(mntmRegisterBankAccount);
 		
 		menuItens.add(mntmResgisterOfSuppliers);
 		menuItens.add(mntmRegisterOfMaterial);
@@ -835,6 +843,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmUpdateOfClient))controller.Sales(MainFrameController.clientUpdate);
 				else if (e.getSource().equals(mntmSearchOfKit))controller.Sales(MainFrameController.kitSearch);
 				else if (e.getSource().equals(mntmClientProperties))controller.Sales(MainFrameController.clientPropertiesRegister);
+				else if (e.getSource().equals(mntmRegisterBankAccount))controller.registerBankAccount();
 				
 				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
 				else if(e.getSource().equals(mntmVehicleUpdate))controller.vehicleUpdate();
@@ -906,6 +915,7 @@ public class MainFrame extends JFrame {
 		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		mntmClientProperties.addActionListener(menuListeners);
 		mntmExitOfClientProperties.addActionListener(menuListeners);
+		mntmRegisterBankAccount.addActionListener(menuListeners);
 		
 		mntmVehicleRegister.addActionListener(menuListeners);
 		mntmVehicleUpdate.addActionListener(menuListeners);

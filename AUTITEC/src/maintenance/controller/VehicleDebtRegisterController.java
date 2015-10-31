@@ -6,12 +6,12 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 
-import database.DataBase;
-import database.dao.VehicleDAO;
-import database.dao.VehicleDebtDAO;
 import model.Employee;
 import model.Vehicle;
 import model.VehicleDebt;
+import database.DataBase;
+import database.dao.VehicleDAO;
+import database.dao.VehicleDebtDAO;
 
 public class VehicleDebtRegisterController {
 	
@@ -28,11 +28,11 @@ public class VehicleDebtRegisterController {
 	public void fillVehicleCbo(JComboBox<Vehicle> cboVehicle)
 	{
 		VehicleDAO dao = new VehicleDAO();
-		List vehicleList = dao.getList();
+		List<Vehicle> vehicleList = dao.getList();
 		cboVehicle.removeAllItems();
 		if(vehicleList.size() > 0)
 		{	
-			ArrayList<Vehicle> vehicles = (ArrayList<Vehicle>) vehicleList;
+			ArrayList<Vehicle> vehicles = ((ArrayList<Vehicle>) vehicleList);
 			for(Vehicle vehicle : vehicles)
 				cboVehicle.addItem(vehicle);
 		}
@@ -59,7 +59,12 @@ public class VehicleDebtRegisterController {
 	public void fillFuelTypeCbo(JComboBox<String> cboFuel)
 	{
 		cboFuel.removeAllItems();
-		ArrayList<String> fuelTypes = new ArrayList<String>(){{
+		ArrayList<String> fuelTypes = new ArrayList<String>(){/**
+			 * 
+			 */
+            private static final long serialVersionUID = 1L;
+
+		{
 		add("Biodiesel");
 		add("Diesel Comum");
 		add("Etanol");

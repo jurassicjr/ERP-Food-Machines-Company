@@ -224,7 +224,8 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Registrar Conta a Receber", false, "REG_DEBT"),
 				new CheckBoxNode("Receber Conta", false, "REC_DEBT"),
 				new CheckBoxNode("Listar Contas a Pagar", false, "LIST_DEBT"),
-				new CheckBoxNode("Relatório Financeiro", false, "FIN_REP")
+				new CheckBoxNode("Relatório Financeiro", false, "FIN_REP"),
+				new CheckBoxNode("Registro de contas bancárias", false, "REG_BAK_ACC")
 		};
 		
 		CheckBoxNode salesOptions[] = {

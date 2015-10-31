@@ -35,7 +35,7 @@ public class RouteRegisterController
 	public void fillVehicleCbo(JComboBox<Vehicle> cboVehicle)
 	{
 		VehicleDAO dao = new VehicleDAO();
-		List vehicleList = dao.getList();
+		List<Vehicle> vehicleList = dao.getList();
 		cboVehicle.removeAllItems();
 		if(vehicleList.size() > 0)
 		{	

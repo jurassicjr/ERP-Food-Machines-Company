@@ -5,7 +5,6 @@ import java.awt.EventQueue;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
-import maintenance.controller.ToolBoxUpdateFrameController;
 import maintenance.view.register.RouteRegisterFrame;
 import maintenance.view.register.ToolBoxRegisterFrame;
 import maintenance.view.register.ToolBoxUpdateFrame;
@@ -47,6 +46,8 @@ import userInterface.view.MainFrame;
 import userInterface.view.RegisterIssueFrame;
 import util.ShowMessage;
 import financial.view.GenerateReportFrame;
+import financial.view.ListBillsFrame;
+import financial.view.RegisterBankAccountFrame;
 import financial.view.RegisterBillFrame;
 import financial.view.RegisterDebtsToReceiveFrame;
 
@@ -252,17 +253,17 @@ public class MainFrameController {
 	
 	public void payBill() {
 		
-//		EventQueue.invokeLater(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				
-//				ListBillsFrame frame = new ListBillsFrame(true);
-//				frame.setVisible(true);
-//				frame.setLocationRelativeTo(mainFrame);
-//				
-//			}
-//		});
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				ListBillsFrame frame = new ListBillsFrame(true);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
 		
 	}
 	
@@ -820,6 +821,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				ToolBoxUpdateFrame frame = new ToolBoxUpdateFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void registerBankAccount() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				RegisterBankAccountFrame frame = new RegisterBankAccountFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

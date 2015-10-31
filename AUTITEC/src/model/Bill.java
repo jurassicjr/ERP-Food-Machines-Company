@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class Bill {
 	
+	
 	private double value;
 	private Date payedDate;
 	private Date expiration;
@@ -11,6 +12,11 @@ public class Bill {
 	private String creditor;
 	private BillName billName; 
 	private BillSubGroup subGroup;
+	private Integer id;
+	
+	public Bill getBill() {
+		return this;
+	}
 	
 	public Bill(double value, Date payed_date, Date expiration, String observation, String creditor, BillName billName, BillSubGroup subGroup) {
 		this.value = value;
@@ -30,6 +36,13 @@ public class Bill {
 		this.creditor = creditor;
 		this.billName = billName;
 		this.subGroup = subGroup;
+	}
+
+	public Bill(String billName, String creditor2, String observation2, int billId) {
+		creditor = creditor2;
+		observation = observation2;
+		id = billId;
+		this.billName.setName(billName);
 	}
 
 	public double getValue() {
@@ -87,5 +100,13 @@ public class Bill {
 	public void setExpiration(Date expiration) {
 		this.expiration = expiration;
 	}
+
+	public Integer getId() {
+	    return id;
+    }
+
+	public void setId(Integer id) {
+	    this.id = id;
+    }
 	
 }
