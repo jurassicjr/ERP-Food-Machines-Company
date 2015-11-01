@@ -128,6 +128,11 @@ public class InventoryController extends SalesController {
 		map.put("supplier", i.getSupplier().getId());
 		map.put("material", i.getMaterial().getId());
 		map.put("fiscalNote", i.getFiscalNote());
+		map.put("icms", i.getIcms());
+		map.put("pis", i.getPis());
+		map.put("noteValue", i.getNoteValue());
+		map.put("entryValue", i.getEntryValue());
+		
 		InvetoryDAO iDAO = new InvetoryDAO();
 		iDAO.persist(map);
 	}

@@ -31,9 +31,11 @@ public class MaterialDAO {
 		String name = (String) data.get("name");
 		String intenalCode = (String) data.get("internalCode");
 		String ncm = (String) data.get("ncm");
+		String model = (String) data.get("model");
+		String materialType = (String) data.get("materialType");
 		double ammount = (double) data.get("ammount");
-		insertData = new Object[] { descrition, name, intenalCode, ncm, ammount };
-		String sql = "INSERT INTO Product(descricao, name, internal_code, ncm, quantidade) VALUES (?, ?, ?, ?, ?)";
+		insertData = new Object[] { descrition, name, intenalCode, ncm, ammount, model, materialType };
+		String sql = "INSERT INTO Product(descricao, name, internal_code, ncm, quantidade, model, material_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
 		dataBase.executeUpdate(sql, insertData);
 		ShowMessage.successMessage(null, "GRAVAÇÂO", "Gravação concluida com sucesso!");
 	}
@@ -51,6 +53,8 @@ public class MaterialDAO {
 				material.setDescrition(rs.getString("descricao"));
 				material.setId(rs.getInt("id"));
 				material.setAmmount(rs.getInt("quantidade"));
+				material.setModel(rs.getString("model"));
+				material.setMaterialType(rs.getString("material_type"));
 				mList.add(material);
 			}
 
@@ -71,6 +75,8 @@ public class MaterialDAO {
 				material.setDescrition(rs.getString("descricao"));
 				material.setId(rs.getInt("id"));
 				material.setAmmount(rs.getInt("quantidade"));
+				material.setModel(rs.getString("model"));
+				material.setMaterialType(rs.getString("materialType"));
 			}
 			
 			dataBase.close();

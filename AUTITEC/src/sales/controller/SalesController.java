@@ -305,6 +305,8 @@ public class SalesController {
 				mapa.put("internalCode", material.getInternalCode());
 				mapa.put("ncm", material.getNCM());
 				mapa.put("ammount", material.getAmmount());
+				mapa.put("model", material.getModel());
+				mapa.put("materialType", material.getMaterialType());		
 				materialDAO = new MaterialDAO(mapa);
 			}
 		} catch (Exception e) {

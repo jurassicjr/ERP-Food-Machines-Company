@@ -60,6 +60,10 @@ public class RegisterOfMaterialFrame extends JFrame {
 	private JLabel lblInternalCode;
 
 	private JLabel lblNCM;
+	private JLabel lblMaterialType;
+	private JTextField txtMaterialType;
+	private JLabel lblModel;
+	private JTextField txtModel;
 
 	public RegisterOfMaterialFrame() {
 		frame = this;
@@ -76,9 +80,9 @@ public class RegisterOfMaterialFrame extends JFrame {
 		this.setTitle("Cadastro de Produto");
 		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 450, 338);
-		setPreferredSize(new Dimension(450, 338));
-		setMinimumSize(new Dimension(450, 338));
+		setBounds(100, 100, 450, 428);
+		setPreferredSize(new Dimension(450, 428));
+		setMinimumSize(new Dimension(450, 428));
 		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
 
@@ -104,59 +108,73 @@ public class RegisterOfMaterialFrame extends JFrame {
 
 		txtInternalCode = new JTextField();
 		txtInternalCode.setColumns(10);
+		
+		lblMaterialType = new JLabel("Tipo do material");
+		
+		txtMaterialType = new JTextField();
+		txtMaterialType.setColumns(10);
+		
+		lblModel = new JLabel("Modelo");
+		
+		txtModel = new JTextField();
+		txtModel.setColumns(10);
+		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
-		gl_principalPanel.setHorizontalGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.TRAILING)
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createSequentialGroup()
-		                                                .addComponent(lblName)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383,
-		                                                        Short.MAX_VALUE))
-		                                .addComponent(separator, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-		                                .addComponent(panel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-		                                .addGroup(
-		                                        gl_principalPanel
-		                                                .createSequentialGroup()
-		                                                .addComponent(lblNCM)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(txtNCM, GroupLayout.PREFERRED_SIZE,
-		                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                                .addGap(18)
-		                                                .addComponent(lblInternalCode)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(txtInternalCode, GroupLayout.PREFERRED_SIZE, 174,
-		                                                        GroupLayout.PREFERRED_SIZE))).addContainerGap()));
-		gl_principalPanel.setVerticalGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING).addGroup(
-		        gl_principalPanel
-		                .createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblName)
-		                                .addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addGroup(
-		                        gl_principalPanel
-		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblNCM)
-		                                .addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblInternalCode)
-		                                .addComponent(txtInternalCode, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-		                .addPreferredGap(ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
-		                .addComponent(panel, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
-		                .addPreferredGap(ComponentPlacement.RELATED)
-		                .addComponent(separator, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE)));
+		gl_principalPanel.setHorizontalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+						.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+							.addComponent(lblName)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
+						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+						.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+							.addComponent(lblNCM)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblInternalCode)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtInternalCode, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblMaterialType)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtMaterialType, GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblModel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtModel, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		gl_principalPanel.setVerticalGroup(
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
+					.addContainerGap()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblName)
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblNCM)
+						.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblInternalCode)
+						.addComponent(txtInternalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMaterialType)
+						.addComponent(txtMaterialType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblModel)
+						.addComponent(txtModel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE))
+		);
 		panel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -211,6 +229,7 @@ public class RegisterOfMaterialFrame extends JFrame {
 						else if(txtDescricao.getText().isEmpty()) ShowMessage.errorMessage(frame, "Erro", "Insira a descrição do material");
 						else if(txtInternalCode.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira o código interno do material");
 						else if(txtNCM.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira o  código NCM do produto");
+						else if(txtMaterialType.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira o tipo do material");
 						else {
 							material = createMaterial();
 						}
@@ -237,6 +256,8 @@ public class RegisterOfMaterialFrame extends JFrame {
 		material.setNCM(txtNCM.getText());
 		material.setInternalCode(txtInternalCode.getText());
 		material.setAmmount(0);
+		material.setModel(txtModel.getText());
+		material.setMaterialType(txtMaterialType.getText());
 		return material;
 	}
 }

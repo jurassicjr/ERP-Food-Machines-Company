@@ -7,6 +7,8 @@ public class Material {
 	private String NCM;
 	private String internalCode;
 	private double ammount;
+	private String materialType;
+	private String model;
 
 	public int getId() {
 		return id;
@@ -60,7 +62,8 @@ public class Material {
 	public void setAmmount(double ammount) {
 	    this.ammount = ammount;
     }
-	public boolean equals(Object obj)
+	@Override
+    public boolean equals(Object obj)
 	{
 		try {
 				if(obj instanceof Material)
@@ -73,5 +76,20 @@ public class Material {
 			return false;
 		}	
 		
+	}
+
+	public void setMaterialType(String materialType) {
+		this.materialType = materialType;    
+    }
+	
+	public String getMaterialType() {
+		return this.materialType;
+	}
+	
+	public void setModel(String model) {
+		this.model = model;
+	}
+	public String getModel() {
+		return this.model;
 	}
 }

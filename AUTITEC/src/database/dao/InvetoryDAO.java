@@ -21,8 +21,13 @@ public class InvetoryDAO {
 		int cnpj = (int) map.get("cnpj");
 		String fiscalNote = (String) map.get("fiscalNote");
 		int ammount = (int) map.get("ammount");
-		Object[] persist = new Object[] {material, supplier, cnpj, fiscalNote, ammount};
-		String sql = "INSERT INTO inventory(material, supplier, cnpj, fiscal_note, ammount) VALUES(?,?,?,?,?)";
+		double icms = (double) map.get("icms");
+		double pis = (double) map.get("pis");
+		double noteValue = (double) map.get("noteValue");
+		double entryValue = (double) map.get("entryValue");
+		
+		Object[] persist = new Object[] {material, supplier, cnpj, fiscalNote, ammount, icms, pis, noteValue, entryValue};
+		String sql = "INSERT INTO inventory(material, supplier, cnpj, fiscal_note, ammount, icms, pis, note_value, entry_value) VALUES(?,?,?,?,?,?,?,?,?)";
 		try{
 			dataBase.executeUpdate(sql, persist);
 			try(ResultSet rs = dataBase.executeQuery("SELECT *FROM Product WHERE id = ?", material)){
