@@ -2,6 +2,8 @@ package sales.controller;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DecimalFormat;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -11,6 +13,7 @@ import javax.swing.table.DefaultTableModel;
 
 import model.City;
 import model.Client;
+import model.Inventory;
 import model.Kit;
 import model.Material;
 import model.Product;
@@ -19,6 +22,9 @@ import model.State;
 import sales.view.PTC;
 import util.ShowMessage;
 import database.DataBase;
+import database.dao.InvetoryDAO;
+import database.dao.MaterialDAO;
+import database.dao.ProductDAO;
 
 public class PTCController {
 
@@ -158,7 +164,7 @@ public class PTCController {
 		}
 	}
 
-	public void insertMaterial(Material material, double amount, JTable table) {
+	public void insertMaterial(Material material, double amount, int ammount, JTable table) {
 
 		for (int i = 0; i < table.getRowCount(); ++i) {
 
@@ -172,14 +178,15 @@ public class PTCController {
 		}
 
 		((DefaultTableModel) table.getModel()).addRow(new Object[] { null, null, null });
-
+		DecimalFormat df = new DecimalFormat("0.00");
 		int row = table.getRowCount() - 1;
 		table.setValueAt(material, row, 0);
-		table.setValueAt(amount, row, 1);
+		table.setValueAt(df.format(amount*ammount), row, 1);
+		table.setValueAt(ammount, row, 2);
 
 	}
 
-	public void insertProduct(Product product, double amount, JTable table) {
+	public void insertProduct(Product product, double amount, int ammount, JTable table) {
 
 		for (int i = 0; i < table.getRowCount(); ++i) {
 
@@ -195,12 +202,14 @@ public class PTCController {
 		((DefaultTableModel) table.getModel()).addRow(new Object[] { null, null, null });
 
 		int row = table.getRowCount() - 1;
+		DecimalFormat df = new DecimalFormat("0.00");
 		table.setValueAt(product, row, 0);
-		table.setValueAt(amount, row, 1);
+		table.setValueAt(df.format(amount*ammount), row, 1);
+		table.setValueAt(ammount, row, 2);
 
 	}
 
-	public void insertKit(Kit kit, double amount, JTable table) {
+	public void insertKit(Kit kit, double amount, int ammount, JTable table) {
 
 		for (int i = 0; i < table.getRowCount(); ++i) {
 
@@ -215,8 +224,10 @@ public class PTCController {
 		((DefaultTableModel) table.getModel()).addRow(new Object[] { null, null, null });
 
 		int row = table.getRowCount() - 1;
+		DecimalFormat df = new DecimalFormat("0.00");
 		table.setValueAt(kit, row, 0);
-		table.setValueAt(amount, row, 1);
+		table.setValueAt(df.format(amount*ammount), row, 1);
+		table.setValueAt(ammount, row, 2);
 
 	}
 
@@ -237,5 +248,32 @@ public class PTCController {
 		serviceTable.setValueAt(service, row, 0);
 		serviceTable.setValueAt(service.getObservation(), row, 1);
 	}
+
+	public Inventory getInventory(int id) {
+		Inventory i = new InvetoryDAO().getInventory(id);
+		return i;
+    }
+
+	public List<Inventory> getInventoryListForProduct(int id) {
+	    List<Material> materialList = new MaterialDAO().getMaterialAssociationWithProduct(id);
+	    List<Inventory> inventoryList = new InvetoryDAO().getInventoryList(materialList);
+	    return inventoryList;
+    }
+
+	public double getProductListforKit(int id) {
+	    List<Product> productList = new ProductDAO().getProductAssociationWithKit(id);
+	    double prodTotal = 0;
+	    for (Product p : productList) {
+	    	int idP = p.getId();
+			List<Inventory> list = getInventoryListForProduct(idP);
+			double total = 0.0;
+			for (Inventory inventory : list) {
+		        double value = inventory.getEntryValue();
+		        total += value;
+	        }
+			prodTotal += total*p.getAuxAmmount();
+        }
+		return prodTotal;
+    }
 
 }

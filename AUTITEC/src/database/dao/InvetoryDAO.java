@@ -1,8 +1,13 @@
 package database.dao;
 
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
+import model.Inventory;
+import model.Material;
 import util.ShowMessage;
 import database.DataBase;
 
@@ -44,4 +49,64 @@ public class InvetoryDAO {
 			return;
 		}
 	}
+
+	public Inventory getInventory(int id) {
+		
+	    String sql = "SELECT *FROM inventory WHERE material = ?";
+	    try(ResultSet rs = dataBase.executeQuery(sql, id)){
+	    	if(rs.next()) {
+	    		Inventory i = new Inventory();
+	    		i.setAmmount(rs.getInt("ammount"));
+	    		i.setCofins(rs.getDouble("cofins"));
+	    		String query = "SELECT MAX(entry_value) from inventory WHERE material = ?";
+	    		try(ResultSet rs2 = dataBase.executeQuery(query, id)){
+	    			if(rs2.next()) {
+	    				i.setEntryValue(rs2.getDouble(1));
+	    			}
+	    		}
+	    		i.setFiscalNote(rs.getString("fiscal_note"));
+	    		i.setIcms(rs.getDouble("icms"));
+	    		i.setId(rs.getInt("id"));
+	    		i.setIr(rs.getDouble("ir"));
+	    		i.setNoteValue(rs.getDouble("note_value"));
+	    		i.setPis(rs.getDouble("pis"));
+	    		return i;
+	    	}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		return null;
+    }
+
+	public List<Inventory> getInventoryList(List<Material> materialList) {
+	    List<Inventory> list = new ArrayList<Inventory>();
+	    String sql = "SELECT *FROM inventory WHERE material = ?";
+	    for (Material m : materialList) {
+	  	    try(ResultSet rs = dataBase.executeQuery(sql, m.getId())){
+	  	    	if(rs.next()) {
+	  	    		Inventory i = new Inventory();
+	  	    		i.setAmmount(rs.getInt("ammount"));
+	  	    		i.setCofins(rs.getDouble("cofins"));
+	  	    		String query = "SELECT MAX(entry_value) from inventory WHERE material = ?";
+	  	    		try(ResultSet rs2 = dataBase.executeQuery(query, m.getId())){
+	  	    			if(rs2.next()) {
+	  	    				i.setEntryValue(rs2.getDouble(1)*m.getAuxAmmount());
+	  	    			}else {
+	  	    				i.setEntryValue(0.00);
+	  	    			}
+	  	    		}
+	  	    		i.setFiscalNote(rs.getString("fiscal_note"));
+	  	    		i.setIcms(rs.getDouble("icms"));
+	  	    		i.setId(rs.getInt("id"));
+	  	    		i.setIr(rs.getDouble("ir"));
+	  	    		i.setNoteValue(rs.getDouble("note_value"));
+	  	    		i.setPis(rs.getDouble("pis"));
+	  	    		list.add(i);
+	  	    	}
+	  	    } catch (SQLException e) {
+	  	        e.printStackTrace();
+	          }
+        }
+		return list;
+    }
 }

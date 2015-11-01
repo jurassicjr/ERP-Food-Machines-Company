@@ -6,9 +6,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
+import java.util.List;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -27,13 +31,13 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 
 import model.Client;
+import model.Inventory;
 import model.Kit;
 import model.Material;
 import model.Product;
 import model.Service;
 import sales.controller.PTCController;
 import userInterface.components.ComboBoxAutoCompletion;
-import userInterface.components.JNumberFormatField;
 import util.ClearFrame;
 import util.ShowMessage;
 
@@ -44,44 +48,56 @@ public class PTC extends JFrame {
 	 */
 	private static final long serialVersionUID = -2031745677196812709L;
 	private JPanel principalPanel;
+	
 	private JTextField txtRastreabilityCode;
 	private JTextField txtTitle;
+	private JTextField txtBruteValue;
+	private JTextField txtUpload;
+	private JTextField txtKitPrice;
+	private JTextField txtProductPrice;
+	private JTextField txtPriceMaterial;
+	
 	private JTable productTable;
 	private JTable kitTable;
 	private JTable materialTable;
+	private JTable serviceTable;
+	
 	private JLabel lblRastreabilityCode;
 	private JLabel lblClient;
-	private JComboBox<Client> cboClient;
 	private JLabel lblTitle;
 	private JLabel lblProducts;
 	private JLabel lblService;
-	private JComboBox<Service> cboService;
-	private JButton btnAddService;
-	private JScrollPane scrollPane_3;
 	private JLabel lblUpload;
-	private JTextField txtUpload;
-	private JButton btnPath;
 	private JLabel lblBruteValue;
-	private JTextField txtBruteValue;
 	private JLabel lblProductPrice;
-	private JTextField txtProductPrice;
 	private JLabel lblKitPrice;
-	private JTextField txtKitPrice;
 	private JLabel lblMaterialPrice;
-	private JTextField txtPriceMaterial;
+	private JLabel lblKits;
+	private JLabel lblMaterial;
+	
+	private JComboBox<Material> cboMaterial;
+	private JComboBox<Client> cboClient;
+	private JComboBox<Service> cboService;
+	private JComboBox<Product> cboProduct;
+	private JComboBox<Kit> cboKits;
+
+	private JButton btnPath;
+	private JButton btnAddService;
 	private JButton btnCancel;
 	private JButton btnConfirm;
 	private JButton btnClear;
-	private PTCController controller;
-	private JComboBox<Product> cboProduct;
-	private JButton btnAddProduct;
-	private JLabel lblKits;
-	private JComboBox<Kit> cboKits;
-	private JButton btnAddKit;
-	private JLabel lblMaterial;
-	private JComboBox<Material> cboMaterial;
 	private JButton btnAddMaterial;
-	private JTable serviceTable;
+	private JButton btnAddProduct;
+	private JButton btnAddKit;
+	
+	private JScrollPane scrollPane_3;
+	private PTCController controller;
+	private JLabel lblMaterialAmmount;
+	private JTextField txtProductAmmount;
+	private JLabel lblProductAmmount;
+	private JTextField txtKitAmmount;
+	private JLabel lblKitAmmount;
+	private JTextField txtMaterialAmmount;
 
 	public PTC() {
 		controller = new PTCController(this);
@@ -91,9 +107,9 @@ public class PTC extends JFrame {
 
 	private void initialize() {
 		  setTitle("Registro de proposta técnica comercial!");
-		  setBounds(100, 100, 701, 696);
-		  setMinimumSize(new Dimension(701, 696));
-		  setPreferredSize(new Dimension(701,696));
+		  setBounds(100, 100, 756, 696);
+		  setMinimumSize(new Dimension(756, 696));
+		  setPreferredSize(new Dimension(756,696));
 		  setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		  getContentPane().setLayout(new BorderLayout(0, 0));
 		  initializePrincipal();
@@ -175,7 +191,7 @@ public class PTC extends JFrame {
 	    
 	    lblBruteValue = new JLabel("Valor Bruto da P.T.C");
 	    
-	    txtBruteValue = new JNumberFormatField(new DecimalFormat("R$ 0.00"));
+	    txtBruteValue = new JTextField();
 	    txtBruteValue.setColumns(10);
 	    
 	    lblProductPrice = new JLabel("Preço");
@@ -193,13 +209,31 @@ public class PTC extends JFrame {
 	    txtPriceMaterial = new JTextField();
 	    txtPriceMaterial.setColumns(10);
 	    
+	    lblMaterialAmmount = new JLabel("Quantidade");
+	    
+	    txtProductAmmount = new JTextField();
+	    txtProductAmmount.setText("1");
+	    txtProductAmmount.setColumns(10);
+	    
+	    lblProductAmmount = new JLabel("Quantidade");
+	    
+	    txtKitAmmount = new JTextField();
+	    txtKitAmmount.setText("1");
+	    txtKitAmmount.setColumns(10);
+	    
+	    lblKitAmmount = new JLabel("Quantidade");
+	    
+	    txtMaterialAmmount = new JTextField();
+	    txtMaterialAmmount.setText("1");
+	    txtMaterialAmmount.setColumns(10);
+	    
 	    GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 	    gl_principalPanel.setHorizontalGroup(
 	    	gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(gl_principalPanel.createSequentialGroup()
 	    			.addContainerGap()
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-	    				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+	    				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
@@ -219,16 +253,20 @@ public class PTC extends JFrame {
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblTitle)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 359, Short.MAX_VALUE))
+	    							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE))
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblProductPrice)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
 	    							.addComponent(txtProductPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    							.addPreferredGap(ComponentPlacement.UNRELATED)
+	    							.addComponent(lblMaterialAmmount)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(txtProductAmmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    							.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
 	    							.addComponent(btnAddProduct))))
-	    				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
-	    				.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
-	    				.addComponent(scrollPane_3, GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
+	    				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+	    				.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+	    				.addComponent(scrollPane_3, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblService)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
@@ -253,7 +291,11 @@ public class PTC extends JFrame {
 	    					.addComponent(lblKitPrice)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addComponent(txtKitPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addPreferredGap(ComponentPlacement.UNRELATED)
+	    					.addComponent(lblProductAmmount)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtKitAmmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addPreferredGap(ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
 	    					.addComponent(btnAddKit))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblMaterial)
@@ -263,7 +305,11 @@ public class PTC extends JFrame {
 	    					.addComponent(lblMaterialPrice)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addComponent(txtPriceMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addPreferredGap(ComponentPlacement.UNRELATED)
+	    					.addComponent(lblKitAmmount)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtMaterialAmmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
 	    					.addComponent(btnAddMaterial)))
 	    			.addContainerGap())
 	    );
@@ -286,7 +332,9 @@ public class PTC extends JFrame {
 	    				.addComponent(cboProduct, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblProductPrice)
 	    				.addComponent(txtProductPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addComponent(btnAddProduct))
+	    				.addComponent(btnAddProduct)
+	    				.addComponent(lblMaterialAmmount)
+	    				.addComponent(txtProductAmmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(18)
 	    			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
 	    			.addGap(18)
@@ -295,7 +343,9 @@ public class PTC extends JFrame {
 	    				.addComponent(cboKits, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblKitPrice)
 	    				.addComponent(txtKitPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addComponent(btnAddKit))
+	    				.addComponent(btnAddKit)
+	    				.addComponent(lblProductAmmount)
+	    				.addComponent(txtKitAmmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(20)
 	    			.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 47, GroupLayout.PREFERRED_SIZE)
 	    			.addGap(18)
@@ -304,7 +354,9 @@ public class PTC extends JFrame {
 	    				.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblMaterialPrice)
 	    				.addComponent(txtPriceMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addComponent(btnAddMaterial))
+	    				.addComponent(btnAddMaterial)
+	    				.addComponent(lblKitAmmount)
+	    				.addComponent(txtMaterialAmmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(20)
 	    			.addComponent(scrollPane_2, GroupLayout.PREFERRED_SIZE, 44, GroupLayout.PREFERRED_SIZE)
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
@@ -323,7 +375,7 @@ public class PTC extends JFrame {
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblBruteValue)
 	    				.addComponent(txtBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-	    			.addContainerGap(94, Short.MAX_VALUE))
+	    			.addContainerGap(18, Short.MAX_VALUE))
 	    );
 	    gl_principalPanel.linkSize(SwingConstants.VERTICAL, new Component[] {scrollPane, scrollPane_1, scrollPane_2, scrollPane_3});
 	    
@@ -348,7 +400,7 @@ public class PTC extends JFrame {
 	    scrollPane_3.setViewportView(serviceTable);
 	    
 	    materialTable = new JTable();
-	    String[] materialTableHeader = new String[] {"Material", "Preço"};
+    String[] materialTableHeader = new String[] {"Material", "Preço", "Quantidade"};
 	    materialTable.setModel(new DefaultTableModel(null, materialTableHeader) {
 
 			/**
@@ -357,7 +409,7 @@ public class PTC extends JFrame {
             private static final long serialVersionUID = 7250548222777451750L;
             
             boolean[] columnEditables = new boolean[] {
-					false, false
+					false, false, false
 			};
 			
 			@Override
@@ -369,7 +421,7 @@ public class PTC extends JFrame {
 	    scrollPane_2.setViewportView(materialTable);
 	    
 	    kitTable = new JTable();
-	    String[] kitTableHeader = new String[] {"Kit", "Preço"};
+	    String[] kitTableHeader = new String[] {"Kit", "Preço", "Quantidade"};
 	    kitTable.setModel(new DefaultTableModel(null, kitTableHeader) {
 
 			/**
@@ -378,7 +430,7 @@ public class PTC extends JFrame {
             private static final long serialVersionUID = 278905383466848631L;
 	    	
             boolean[] columnEditables = new boolean[] {
-					false, false
+					false, false, false
 			};
 			
 			@Override
@@ -389,7 +441,7 @@ public class PTC extends JFrame {
 	    scrollPane_1.setViewportView(kitTable);
 	    
 	    productTable = new JTable();
-	    String[] productTableHeader = new String[] {"Produto", "Preço"};
+	    String[] productTableHeader = new String[] {"Produto", "Preço", "Quantidade"};
 	    productTable.setModel(new DefaultTableModel(null, productTableHeader) {
 
 			/**
@@ -398,7 +450,7 @@ public class PTC extends JFrame {
             private static final long serialVersionUID = 1835899774627173017L;
 	    	
             boolean[] columnEditables = new boolean[] {
-					false, false
+					false, false, false
 			};
 			
 			@Override
@@ -457,7 +509,81 @@ public class PTC extends JFrame {
 		btnAddProduct.addActionListener(buttonListener);
 		btnAddKit.addActionListener(buttonListener);
 		btnAddService.addActionListener(buttonListener);
+		
+		KeyListener tableKeyListener = new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getSource().equals(materialTable) && e.getKeyCode() == KeyEvent.VK_DELETE)deleteRow(materialTable);
+				else if(e.getSource().equals(productTable) && e.getKeyCode() == KeyEvent.VK_DELETE)deleteRow(productTable);
+				else if(e.getSource().equals(kitTable)&& e.getKeyCode() == KeyEvent.VK_DELETE)deleteRow(kitTable);
+				else if(e.getSource().equals(serviceTable) && e.getKeyCode() == KeyEvent.VK_DELETE)deleteRow(serviceTable);
+			}
+		};
+		materialTable.addKeyListener(tableKeyListener);
+		productTable.addKeyListener(tableKeyListener);
+		kitTable.addKeyListener(tableKeyListener);
+		
+		ActionListener cboListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(cboMaterial))showValueForMaterial();
+				else if(e.getSource().equals(cboProduct))showValueForProduct();
+				else if(e.getSource().equals(cboKits))showValueForKit();
+			}
+		};
+		cboMaterial.addActionListener(cboListener);
+		cboProduct.addActionListener(cboListener);
+		cboKits.addActionListener(cboListener);
 	}
+	
+	
+	private void showValueForKit() {
+		if(cboKits.getSelectedIndex() == -1)return;
+		Kit k = (Kit) cboKits.getSelectedItem();
+		int id = k.getId();
+		double kitValue = controller.getProductListforKit(id);
+		DecimalFormat df = new DecimalFormat("0.00");
+		txtKitPrice.setText(df.format(kitValue));
+	}
+	
+	private void showValueForProduct() {
+		if(cboProduct.getSelectedIndex() == -1)return;
+		Product p = (Product) cboProduct.getSelectedItem();
+		int id = p.getId();
+		List<Inventory> list = controller.getInventoryListForProduct(id);
+		double total = 0.0;
+		for (Inventory inventory : list) {
+	        double value = inventory.getEntryValue();
+	        if(value <0.1) {
+	        	int  i = ShowMessage.questionMessage(this, "Erro", "Um dos materiais do produto não tem histórico de entrada no inventário, gostaria de continuar?");
+	        	if(i == JOptionPane.NO_OPTION)return;
+	        }
+	        total += inventory.getEntryValue();
+        }
+		DecimalFormat df =new DecimalFormat("0.00");
+		txtProductPrice.setText(String.valueOf(df.format(total)));
+	}
+	
+	private void showValueForMaterial() {
+		if(cboMaterial.getSelectedIndex() == -1)return;
+		Material m = (Material) cboMaterial.getSelectedItem();
+		int id = m.getId();
+		Inventory i = controller.getInventory(id);
+		if(i == null) {
+			txtPriceMaterial.setText("");
+			return;
+		}
+		txtPriceMaterial.setText(String.valueOf(i.getEntryValue()));
+	}
+	
+	private void deleteRow(JTable table) {
+		int i = table.getSelectedRow();
+		if(i == -1)return;
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		tbl.removeRow(i);
+	}
+	
 	
 	private void clearFrame() {
 		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar os campos da PTC ?");
@@ -472,6 +598,8 @@ public class PTC extends JFrame {
 	private void register() {
 		int i = ShowMessage.questionMessage(this, "Registrar", "Deseja realmente registrar essa PTC ?");
 		if(i == JOptionPane.NO_OPTION)return;
+		
+		
 	}
 	
 	private void insertMaterial() {
@@ -483,7 +611,12 @@ public class PTC extends JFrame {
 			ShowMessage.errorMessage(this, "Erro", "Insira o valor do material");
 			return;
 		}
-		controller.insertMaterial((Material) cboMaterial.getSelectedItem(),Double.parseDouble(txtPriceMaterial.getText().replaceAll("R|\\$", "").replaceAll(",",	 "\\.").trim()), materialTable);
+		if(txtMaterialAmmount.getText().isEmpty()) {
+			ShowMessage.errorMessage(this, "Erro", "Insira a quantidade de material!");
+			return;
+		}
+		
+		controller.insertMaterial((Material) cboMaterial.getSelectedItem(),Double.parseDouble(txtPriceMaterial.getText().replaceAll("R|\\$", "").replaceAll(",",	 "\\.").trim()), Integer.parseInt(txtMaterialAmmount.getText()), materialTable);
 	}
 	
 	private void insertProduct() {
@@ -493,9 +626,13 @@ public class PTC extends JFrame {
 		}
 		if(txtProductPrice.getText().isEmpty()) {
 			ShowMessage.errorMessage(this, "Erro", "Insira o valor do produto!");
+			return;
 		}
-		
-		controller.insertProduct((Product) cboProduct.getSelectedItem(),Double.parseDouble(txtProductPrice.getText().replaceAll("R|\\$", "").replaceAll(",",	 "\\.").trim()), productTable);
+		if(txtProductAmmount.getText().isEmpty()) {
+			ShowMessage.errorMessage(this, "Erro", "Insira a quantidade do produto");
+			return;
+		}
+		controller.insertProduct((Product) cboProduct.getSelectedItem(),Double.parseDouble(txtProductPrice.getText().replaceAll("R|\\$", "").replaceAll(",",	 "\\.").trim()),Integer.parseInt(txtProductAmmount.getText()), productTable);
 	}
 	private void insertKit() {
 		if(cboKits.getSelectedIndex() == -1) {
@@ -506,8 +643,12 @@ public class PTC extends JFrame {
 			ShowMessage.errorMessage(this, "Erro", "Insira o valor do kit");				
 			return;
 		}
+		if(txtKitPrice.getText().isEmpty()) {
+			ShowMessage.errorMessage(this, "Erro", "Insira a quantidade de kit");
+			return;
+		}
 		
-		controller.insertKit((Kit) cboKits.getSelectedItem(),Double.parseDouble(txtKitPrice.getText().replaceAll("R|\\$", "").replaceAll(",",	 "\\.").trim()), kitTable);
+		controller.insertKit((Kit) cboKits.getSelectedItem(),Double.parseDouble(txtKitPrice.getText().replaceAll("R|\\$", "").replaceAll(",",	 "\\.").trim()), Integer.parseInt(txtKitAmmount.getText()), kitTable);
 	}
 	
 	private void insertService() {

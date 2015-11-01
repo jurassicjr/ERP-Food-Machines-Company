@@ -9,7 +9,8 @@ public class Material {
 	private double ammount;
 	private String materialType;
 	private String model;
-
+	private int auxAmmount;
+	
 	public int getId() {
 		return id;
 	}
@@ -92,4 +93,12 @@ public class Material {
 	public String getModel() {
 		return this.model;
 	}
+
+	public int getAuxAmmount() {
+	    return auxAmmount;
+    }
+
+	public void setAuxAmmount(int auxAmmount) {
+	    this.auxAmmount = auxAmmount;
+    }
 }

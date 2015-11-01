@@ -24,7 +24,7 @@ public class MaterialDAO {
 	public MaterialDAO() {
 		this.dataBase = new DataBase();
 		dataBase.connect();
-    }
+	}
 
 	private void persist(Map<String, Object> data) {
 		String descrition = (String) data.get("descricao");
@@ -78,7 +78,7 @@ public class MaterialDAO {
 				material.setModel(rs.getString("model"));
 				material.setMaterialType(rs.getString("materialType"));
 			}
-			
+
 			dataBase.close();
 			return material;
 
@@ -86,5 +86,29 @@ public class MaterialDAO {
 			e.printStackTrace();
 		}
 		return null;
-    }
+	}
+
+	public List<Material> getMaterialAssociationWithProduct(int id) {
+		List<Material> list = new ArrayList<Material>();
+		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM material_relationship WHERE product = ?", id)) {
+			while (rs.next()) {
+				Material m = new Material();
+				m.setAuxAmmount(rs.getInt("ammount"));
+				try (ResultSet rsName = dataBase.executeQuery("SELECT *From Product WHERE id = ?",
+				        rs.getInt("material"))) {
+					if (rsName.next()) {
+						m.setName(rsName.getString("name"));
+						m.setAmmount(rsName.getDouble("quantidade"));
+						m.setId(rsName.getInt("id"));
+						m.setNCM(rsName.getString("ncm"));
+						m.setInternalCode(rsName.getString("internal_code"));
+						list.add(m);
+					}
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return list;
+	}
 }

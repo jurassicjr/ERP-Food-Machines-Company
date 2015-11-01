@@ -535,7 +535,7 @@ public class MainFrame extends JFrame {
 		mntmServiceRegister.setVisible(false);
 		mntmServiceRegister.setName("SER_REG");
 		
-		mntmPTCRegister = new JMenuItem();
+		mntmPTCRegister = new JMenuItem("Registro de Proposta Técnica Comercial");
 		mnSalesRegister.add(mntmPTCRegister);
 		mntmPTCRegister.setVisible(false);
 		mntmPTCRegister.setName("PTC_REG");
@@ -929,7 +929,6 @@ public class MainFrame extends JFrame {
 		mntmClientSearch.addActionListener(menuListeners);
 		mntmUpdateOfClient.addActionListener(menuListeners);
 		mntmSearchOfKit.addActionListener(menuListeners);
-		mntmAddMaterialToInvetory.addActionListener(menuListeners);
 		mntmClientProperties.addActionListener(menuListeners);
 		mntmExitOfClientProperties.addActionListener(menuListeners);
 		mntmRegisterBankAccount.addActionListener(menuListeners);

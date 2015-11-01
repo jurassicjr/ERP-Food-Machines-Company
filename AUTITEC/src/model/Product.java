@@ -5,9 +5,9 @@ public class Product {
 	private int id;
 	private String name;
 	private String description;
+	private int auxAmmount;
 	
 	public Product() {
-	    // TODO Auto-generated constructor stub
     }
 	
 	public Product(int id, String name, String description) {
@@ -44,7 +44,8 @@ public class Product {
 	    return this.name;
 	}
 	
-	public boolean equals(Object obj)
+	@Override
+    public boolean equals(Object obj)
 	{
 		try {
 			 if(obj instanceof Product)
@@ -59,5 +60,13 @@ public class Product {
 		}
 		
 	}
+
+	public int getAuxAmmount() {
+	    return auxAmmount;
+    }
+
+	public void setAuxAmmount(int auxAmmount) {
+	    this.auxAmmount = auxAmmount;
+    }
 	
 }
