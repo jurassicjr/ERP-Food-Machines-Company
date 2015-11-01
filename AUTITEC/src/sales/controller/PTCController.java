@@ -228,7 +228,6 @@ public class PTCController {
 		table.setValueAt(kit, row, 0);
 		table.setValueAt(df.format(amount*ammount), row, 1);
 		table.setValueAt(ammount, row, 2);
-
 	}
 
 	public void insertService(Service service, JTable serviceTable) {
@@ -274,6 +273,19 @@ public class PTCController {
 			prodTotal += total*p.getAuxAmmount();
         }
 		return prodTotal;
+    }
+
+	public double calculateTablePrice(JTable table) {
+		if(table.getRowCount() == 0)return 0;
+		int max = table.getRowCount();
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		double total = 0;
+		for(int i =0; i<max; i++) {
+			String v = (String) tbl.getValueAt(i, 1);
+			double value = Double.parseDouble(v.replaceAll(",", "\\."));
+			total += value;
+		}
+		return total;
     }
 
 }

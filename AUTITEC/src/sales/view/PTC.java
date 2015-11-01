@@ -6,12 +6,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -19,6 +23,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,6 +34,7 @@ import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.MaskFormatter;
 
 import model.Client;
 import model.Inventory;
@@ -98,6 +104,18 @@ public class PTC extends JFrame {
 	private JTextField txtKitAmmount;
 	private JLabel lblKitAmmount;
 	private JTextField txtMaterialAmmount;
+	private JLabel lblAliquot;
+	private JTextField txtAliquot;
+	private JLabel lblValorBruto;
+	private JTextField txtAliquotPlusBruteValue;
+	private JLabel lblContribuition;
+	private JTextField txtContribuition;
+	private JLabel lblSuggestedPrice;
+	private JTextField txtSuggestedPrice;
+	private JLabel lblDiscount;
+	private JTextField txtDiscount;
+	private JLabel lblFinalPrice;
+	private JTextField txtFinalPrice;
 
 	public PTC() {
 		controller = new PTCController(this);
@@ -107,9 +125,9 @@ public class PTC extends JFrame {
 
 	private void initialize() {
 		  setTitle("Registro de proposta técnica comercial!");
-		  setBounds(100, 100, 756, 696);
-		  setMinimumSize(new Dimension(756, 696));
-		  setPreferredSize(new Dimension(756,696));
+		  setBounds(100, 100, 756, 734);
+		  setMinimumSize(new Dimension(756, 734));
+		  setPreferredSize(new Dimension(756,734));
 		  setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		  getContentPane().setLayout(new BorderLayout(0, 0));
 		  initializePrincipal();
@@ -227,13 +245,55 @@ public class PTC extends JFrame {
 	    txtMaterialAmmount.setText("1");
 	    txtMaterialAmmount.setColumns(10);
 	    
+	    lblAliquot = new JLabel("Alíquota");
+	    
+	    try {
+	        txtAliquot = new JFormattedTextField(new MaskFormatter("##.##%"));
+        } catch (ParseException e) {
+	        e.printStackTrace();
+        }
+	    txtAliquot.setColumns(10);
+	    
+	    lblValorBruto = new JLabel("Valor Bruto + Alíquota");
+	    
+	    txtAliquotPlusBruteValue = new JTextField();
+	    txtAliquotPlusBruteValue.setColumns(10);
+	    
+	    lblContribuition = new JLabel("Margem de Contribuição");
+	    
+	    try {
+	        txtContribuition = new JFormattedTextField(new MaskFormatter("##.##%"));
+        } catch (ParseException e) {
+	        e.printStackTrace();
+        }
+	    txtContribuition.setColumns(10);
+	    
+	    lblSuggestedPrice = new JLabel("Valor Sugerido");
+	    
+	    txtSuggestedPrice = new JTextField();
+	    txtSuggestedPrice.setColumns(10);
+	    
+	    lblDiscount = new JLabel("Desconto");
+	    
+	    try {
+	        txtDiscount = new JFormattedTextField(new MaskFormatter("##.##%"));
+        } catch (ParseException e) {
+	        e.printStackTrace();
+        }
+	    txtDiscount.setColumns(10);
+	    
+	    lblFinalPrice = new JLabel("Valor Final");
+	    
+	    txtFinalPrice = new JTextField();
+	    txtFinalPrice.setColumns(10);
+	    
 	    GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 	    gl_principalPanel.setHorizontalGroup(
 	    	gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(gl_principalPanel.createSequentialGroup()
 	    			.addContainerGap()
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-	    				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+	    				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
@@ -253,7 +313,7 @@ public class PTC extends JFrame {
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblTitle)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 292, Short.MAX_VALUE))
+	    							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 347, Short.MAX_VALUE))
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblProductPrice)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
@@ -262,11 +322,11 @@ public class PTC extends JFrame {
 	    							.addComponent(lblMaterialAmmount)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
 	    							.addComponent(txtProductAmmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    							.addPreferredGap(ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+	    							.addPreferredGap(ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
 	    							.addComponent(btnAddProduct))))
-	    				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
-	    				.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
-	    				.addComponent(scrollPane_3, GroupLayout.DEFAULT_SIZE, 665, Short.MAX_VALUE)
+	    				.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+	    				.addComponent(scrollPane_2, GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
+	    				.addComponent(scrollPane_3, GroupLayout.DEFAULT_SIZE, 720, Short.MAX_VALUE)
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblService)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
@@ -282,7 +342,15 @@ public class PTC extends JFrame {
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblBruteValue)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtBruteValue, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE))
+	    					.addComponent(txtBruteValue, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
+	    					.addGap(18)
+	    					.addComponent(lblAliquot)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtAliquot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addGap(18)
+	    					.addComponent(lblValorBruto)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtAliquotPlusBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblKits)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
@@ -310,7 +378,23 @@ public class PTC extends JFrame {
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addComponent(txtMaterialAmmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
-	    					.addComponent(btnAddMaterial)))
+	    					.addComponent(btnAddMaterial))
+	    				.addGroup(gl_principalPanel.createSequentialGroup()
+	    					.addComponent(lblContribuition)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtContribuition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addGap(18)
+	    					.addComponent(lblSuggestedPrice)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtSuggestedPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addGap(18)
+	    					.addComponent(lblDiscount)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtDiscount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addGap(18)
+	    					.addComponent(lblFinalPrice)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtFinalPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 	    			.addContainerGap())
 	    );
 	    gl_principalPanel.setVerticalGroup(
@@ -374,8 +458,22 @@ public class PTC extends JFrame {
 	    			.addGap(18)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblBruteValue)
-	    				.addComponent(txtBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-	    			.addContainerGap(18, Short.MAX_VALUE))
+	    				.addComponent(txtBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblAliquot)
+	    				.addComponent(txtAliquot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblValorBruto)
+	    				.addComponent(txtAliquotPlusBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    			.addGap(18)
+	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(lblContribuition)
+	    				.addComponent(txtContribuition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblSuggestedPrice)
+	    				.addComponent(txtSuggestedPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblDiscount)
+	    				.addComponent(txtDiscount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblFinalPrice)
+	    				.addComponent(txtFinalPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    			.addContainerGap(24, Short.MAX_VALUE))
 	    );
 	    gl_principalPanel.linkSize(SwingConstants.VERTICAL, new Component[] {scrollPane, scrollPane_1, scrollPane_2, scrollPane_3});
 	    
@@ -500,6 +598,7 @@ public class PTC extends JFrame {
 				else if(e.getSource().equals(btnAddProduct))insertProduct();
 				else if(e.getSource().equals(btnAddKit))insertKit();
 				else if(e.getSource().equals(btnAddService))insertService();
+				else if(e.getSource().equals(btnConfirm))register();
 			}
 		};
 		btnCancel.addActionListener(buttonListener);
@@ -535,8 +634,53 @@ public class PTC extends JFrame {
 		cboMaterial.addActionListener(cboListener);
 		cboProduct.addActionListener(cboListener);
 		cboKits.addActionListener(cboListener);
+		
+		FocusListener txtFocusLister = new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(e.getSource().equals(txtBruteValue))calculeBrutePrice();
+				else if(e.getSource().equals(txtAliquotPlusBruteValue))calculateAliquot();
+				else if(e.getSource().equals(txtFinalPrice))calculateFinalPrice();
+				else if(e.getSource().equals(txtSuggestedPrice))calculateSuggestedPrice();
+			}
+		};
+		txtBruteValue.addFocusListener(txtFocusLister);
+		txtAliquotPlusBruteValue.addFocusListener(txtFocusLister);
+		txtFinalPrice.addFocusListener(txtFocusLister);
+		txtSuggestedPrice.addFocusListener(txtFocusLister);
 	}
 	
+	private void calculateSuggestedPrice() {
+		double contribuition = Double.parseDouble(txtContribuition.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+		double bruteValuePlusAliquot = Double.parseDouble(txtAliquotPlusBruteValue.getText().replaceAll(",", "\\."));
+		double value = bruteValuePlusAliquot + (bruteValuePlusAliquot*(contribuition/100));
+		DecimalFormat df = new DecimalFormat("0.00");
+		txtSuggestedPrice.setText(df.format(value));
+	}
+	
+	private void calculateFinalPrice() {
+		double discont = Double.parseDouble(txtDiscount.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+		double suggestedPrice = Double.parseDouble(txtSuggestedPrice.getText().replaceAll(",", "\\."));
+		double value = suggestedPrice -(suggestedPrice*(discont/100));
+		DecimalFormat df = new DecimalFormat("0.00");
+		txtFinalPrice.setText(df.format(value));
+	}
+	private void calculateAliquot() {
+		double aliquot = Double.parseDouble(txtAliquot.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+		double bruteValue = Double.parseDouble(txtBruteValue.getText().replaceAll(",", "\\."));
+		double value = bruteValue + (bruteValue*(aliquot/100));
+		DecimalFormat df = new DecimalFormat("0.00");
+		txtAliquotPlusBruteValue.setText(df.format(value));
+	}
+	
+	private void calculeBrutePrice() {
+		double material = controller.calculateTablePrice(materialTable);
+		double product = controller.calculateTablePrice(productTable);
+		double kit = controller.calculateTablePrice(kitTable);
+		double total = material+product+kit;
+		DecimalFormat df = new DecimalFormat("0.00");
+		txtBruteValue.setText(String.valueOf(df.format(total)));
+	}
 	
 	private void showValueForKit() {
 		if(cboKits.getSelectedIndex() == -1)return;
@@ -592,6 +736,10 @@ public class PTC extends JFrame {
 			ClearFrame.clearTable(productTable);
 			ClearFrame.clearTable(kitTable);
 			ClearFrame.clearTable(materialTable);
+			ClearFrame.clearTable(serviceTable);
+			txtMaterialAmmount.setText("1");
+			txtProductAmmount.setText("1");
+			txtKitAmmount.setText("1");
 		}
 	}
 	
