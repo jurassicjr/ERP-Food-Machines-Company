@@ -130,4 +130,8 @@ public class Service {
 		this.observation = observation;
 	}
 	
+	@Override
+	public String toString() {
+	    return this.name;
+	}
 }

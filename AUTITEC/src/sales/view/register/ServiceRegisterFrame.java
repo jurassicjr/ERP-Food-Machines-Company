@@ -378,6 +378,8 @@ public class ServiceRegisterFrame extends JFrame{
 	}
 	
 	private void confirm() {
+		int i = ShowMessage.questionMessage(this, "Registro", "Deseja realmente registrar esse serviço ?");
+		if(i == JOptionPane.NO_OPTION)return;
 		boolean isOk = verifyFields();
 		if(isOk) {
 			Service s = new Service();
@@ -396,68 +398,72 @@ public class ServiceRegisterFrame extends JFrame{
 			s.setPrice_II_II_II(price_II_II_II);
 			s.setPrice_II_III_I(price_II_III_I);
 			s.setPrice_II_III_II(price_II_III_II);
+			s.setStayValue(stayPrice);
+			s.setPricePerKm(pricePerKm);
 			controller.register(s);
+			ShowMessage.successMessage(this, "Sucesso!", "Sucesso ao registrar serviço");
+			ClearFrame.clear(this);
 		}
 	}
 
 	private boolean verifyFields() {
 		price_I_I_I = Double.parseDouble(txtPrice_I_I_I.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_I_I_I == 0) {
+	    if(price_I_I_I == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira um valor para a Hora/Homem normal de segunda as sexta, no primeiro periodo!");
 	    	return false;
 	    }
 	    price_I_I_II = Double.parseDouble(txtPrice_I_I_II.getText().replaceAll("R|\\$", "").replaceAll(",", "\\."));
-	    if(price_I_I_II == 0) {
+	    if(price_I_I_II == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira um valor para a Hora/Home normal de segunda à sexta no segundo periodo!");
 	    	return false;
 	    }
 	    price_I_II_I = Double.parseDouble(txtPrice_I_II_I.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_I_II_I == 0) {
+	    if(price_I_II_I == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valo para a Hora/Homem normal de Sabado no primeiro periodo!");
 	    	return false;
 	    }
 	    price_I_II_II = Double.parseDouble(txtPrice_I_II_II.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_I_II_II == 0) {
+	    if(price_I_II_II == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor para a Hora/Homem normal de Sábado no segundo periodo!");
 	    	return false;
 	    }
 	    price_I_III_I = Double.parseDouble(txtPrice_I_III_I.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_I_III_I == 0) {
+	    if(price_I_III_I == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor para Homem/Hora normal de domingo no primeiro periodo!");
 	    	return false;
 	    }
-	    price_I_III_II = Double.parseDouble(txtPrice_I_III_II.getText().replaceFirst("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_I_III_II == 0) {
+	    price_I_III_II = Double.parseDouble(txtPrice_I_III_II.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
+	    if(price_I_III_II == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor para Homem/Hora normal de Domingo no segundo periodo!");
 	    	return false;
 	    }
 	    price_II_I_I = Double.parseDouble(txtPrice_II_I_I.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_II_I_I == 0) {
+	    if(price_II_I_I == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor para Homem/Hora especializado de Segunda à Sexta no primeio periodo!");
 	    	return false;
 	    }
 	    price_II_I_II = Double.parseDouble(txtPrice_II_I_II.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_II_I_II == 0) {
+	    if(price_II_I_II == 0.0) {
 	    	ShowMessage.questionMessage(this, "Erro", "Insira o valor para Homem/Hora especializado de Segunda à Sexta no segundo periodo!");
 	    	return false;
 	    }
 	    price_II_II_II = Double.parseDouble(txtPrice_II_II_II.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_II_II_II == 0) {
+	    if(price_II_II_II == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor para Homem/Hora especializado de sábado no segundo periodo!");
 	    	return false;
 	    }
 	    price_II_II_I = Double.parseDouble(txtPrice_II_II_I.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_II_II_I == 0) {
+	    if(price_II_II_I == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor para Homem/Hora especializado de sábado no primeiro periodo!");
 	    	return false;
 	    }
 	    price_II_III_I = Double.parseDouble(txtPrice_II_III_I.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_II_III_I == 0) {
+	    if(price_II_III_I == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor para Homem/Hora especializado de domingo e feriado no primeiro periodo!");
 	    	return false;
 	    }
 	    price_II_III_II = Double.parseDouble(txtPrice_II_III_II.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(price_II_III_II == 0) {
+	    if(price_II_III_II == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor para Homem/Hora especializado de domingo e feriado no segundo periodo!");
 	    	return false;
 	    }
@@ -471,14 +477,14 @@ public class ServiceRegisterFrame extends JFrame{
 	    	return false;
 	    }
 	    pricePerKm = Double.parseDouble(txtPricePerKm.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
-	    if(pricePerKm == 0) {
+	    if(pricePerKm == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor por Kilometro!");
 	    	return false;
 	    }
 	    
 	    meal = Double.parseDouble(txtMeal.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim());
 	    
-	    if(meal == 0) {
+	    if(meal == 0.0) {
 	    	ShowMessage.errorMessage(this, "Erro", "Insira o valor da refeição por técnico!");
 	    	return false;
 	    }

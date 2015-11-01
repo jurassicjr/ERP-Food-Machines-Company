@@ -246,7 +246,9 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Atualizar/Remover Registro de Cliente", false, "UPD_CLI"),
 				new CheckBoxNode("Consulta de Kits", false, "SEA_KIT"),
 				new CheckBoxNode("Registro de Propriedade do Cliente", false, "REG_CLI_PROP"),
-				new CheckBoxNode("Registro de Saída de Propriedade do Cliente", false, "EXI_CLI_PROP")
+				new CheckBoxNode("Registro de Saída de Propriedade do Cliente", false, "EXI_CLI_PROP"),
+				new CheckBoxNode("Registro de Serviço", false, "SER_REG"),
+				new CheckBoxNode("Registro de PTC", false, "PTC_REG")
 		};
 		
 		CheckBoxNode productionOptions[] = {

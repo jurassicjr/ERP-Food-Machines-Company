@@ -4,6 +4,7 @@ import login.view.LoginFrame;
 import userInterface.view.LoadingFrame;
 import util.UpdateSoftware;
 
+
 /**
  * Classe principal, responsável por inicializar a aplicação.
  */
@@ -23,6 +24,7 @@ public class Main {
 		
 		new LoginFrame().setVisible(true); 
 		loadingFrame.dispose();
+
 		
 	}
 

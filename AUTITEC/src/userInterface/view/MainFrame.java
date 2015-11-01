@@ -196,6 +196,10 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmRegisterBankAccount;
 
+	private JMenuItem mntmServiceRegister;
+
+	private JMenuItem mntmPTCRegister;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -526,6 +530,15 @@ public class MainFrame extends JFrame {
 		mntmExitOfClientProperties.setVisible(false);
 		mntmExitOfClientProperties.setName("EXI_CLI_PROP");
 		
+		mntmServiceRegister = new JMenuItem("Registro de Serviços");
+		mnSalesRegister.add(mntmServiceRegister);
+		mntmServiceRegister.setVisible(false);
+		mntmServiceRegister.setName("SER_REG");
+		
+		mntmPTCRegister = new JMenuItem();
+		mnSalesRegister.add(mntmPTCRegister);
+		mntmPTCRegister.setVisible(false);
+		mntmPTCRegister.setName("PTC_REG");
 
 		//Compras
 		
@@ -765,6 +778,8 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmSearchOfKit);
 		menuItens.add(mntmClientProperties);
 		menuItens.add(mntmExitOfClientProperties);
+		menuItens.add(mntmServiceRegister);
+		menuItens.add(mntmPTCRegister);
 		
 		menuItens.add(mntmVehicleRegister);
 		menuItens.add(mntmVehicleUpdate);
@@ -844,6 +859,8 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmSearchOfKit))controller.Sales(MainFrameController.kitSearch);
 				else if (e.getSource().equals(mntmClientProperties))controller.Sales(MainFrameController.clientPropertiesRegister);
 				else if (e.getSource().equals(mntmRegisterBankAccount))controller.registerBankAccount();
+				else if (e.getSource().equals(mntmServiceRegister))controller.registerService();
+				else if (e.getSource().equals(mntmPTCRegister))controller.registerPTC();
 				
 				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
 				else if(e.getSource().equals(mntmVehicleUpdate))controller.vehicleUpdate();
@@ -916,6 +933,8 @@ public class MainFrame extends JFrame {
 		mntmClientProperties.addActionListener(menuListeners);
 		mntmExitOfClientProperties.addActionListener(menuListeners);
 		mntmRegisterBankAccount.addActionListener(menuListeners);
+		mntmServiceRegister.addActionListener(menuListeners);
+		mntmPTCRegister.addActionListener(menuListeners);
 		
 		mntmVehicleRegister.addActionListener(menuListeners);
 		mntmVehicleUpdate.addActionListener(menuListeners);

@@ -40,7 +40,9 @@ import rh.view.report.ExternalSatisfactionResearchReport;
 import rh.view.report.InternalSatisfactionResearchReport;
 import rh.view.search.RncSearchFrame;
 import sales.controller.SalesController;
+import sales.view.PTC;
 import sales.view.register.ClientPropertiesOutputFrame;
+import sales.view.register.ServiceRegisterFrame;
 import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
 import userInterface.view.RegisterIssueFrame;
@@ -834,6 +836,32 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				RegisterBankAccountFrame frame = new RegisterBankAccountFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void registerService() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				ServiceRegisterFrame frame = new ServiceRegisterFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void registerPTC() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				PTC frame = new PTC();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

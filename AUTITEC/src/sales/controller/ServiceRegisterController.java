@@ -31,15 +31,16 @@ public class ServiceRegisterController {
 	    map.put("meal", s.getMeal());
 	    map.put("name", s.getName());
 	    map.put("observation", s.getObservation());
-	    map.put("prive_I_I_I", s.getPrice_I_I_I());
+	    map.put("price_I_I_I", s.getPrice_I_I_I());
 	    map.put("price_I_I_II", s.getPrice_I_I_II());
 	    map.put("price_I_II_I", s.getPrice_I_II_I());
 	    map.put("price_I_II_II", s.getPrice_I_II_II());
 	    map.put("price_I_III_I", s.getPrice_I_III_I());
 	    map.put("price_I_III_II", s.getPrice_I_III_II());
 	    map.put("price_II_I_I", s.getPrice_II_I_I());
-	    map.put("price_II_I_I", s.getPrice_II_I_II());
+	    map.put("price_II_I_II", s.getPrice_II_I_II());
 	    map.put("price_II_II_I", s.getPrice_II_II_I());
+	    map.put("price_II_II_II", s.getPrice_II_II_II());
 	    map.put("price_II_III_I", s.getPrice_II_III_I());
 	    map.put("price_II_III_II", s.getPrice_II_III_II());
 	    map.put("pricePerkm", s.getPricePerKm());
