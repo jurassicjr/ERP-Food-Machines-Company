@@ -248,7 +248,8 @@ public class UpdatePermissionsFrame extends JFrame {
 				new CheckBoxNode("Registro de Propriedade do Cliente", false, "REG_CLI_PROP"),
 				new CheckBoxNode("Registro de Saída de Propriedade do Cliente", false, "EXI_CLI_PROP"),
 				new CheckBoxNode("Registro de Serviço", false, "SER_REG"),
-				new CheckBoxNode("Registro de PTC", false, "PTC_REG")
+				new CheckBoxNode("Registro de PTC", false, "PTC_REG"),
+				new CheckBoxNode("Atualização de Pedido Técnico Comercial", false, "UPD_PTC")
 		};
 		
 		CheckBoxNode productionOptions[] = {

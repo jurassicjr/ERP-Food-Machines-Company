@@ -56,4 +56,18 @@ public class ProductDAO {
 		}
 		return list;
 	}
+
+	public Product getProductByID(int productID) {
+		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM compost_product WHERE id = ?", productID)) {
+			if (rs.next()) {
+				String name = rs.getString("product");
+				String description = rs.getString("description");
+				Product product = new Product(productID, name, description);
+				return product;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+    }
 }

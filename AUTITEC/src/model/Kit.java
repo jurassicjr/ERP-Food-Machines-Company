@@ -4,6 +4,8 @@ public class Kit {
 	private String name;
 	private String description;
 	private int id;
+	private double auxPrice;
+	private double auxAmmount;
 
 	public Kit(int id, String name, String description) {
 		this.id = id;
@@ -41,7 +43,8 @@ public class Kit {
 	    return this.name;
 	}
 	
-	public boolean equals(Object obj)
+	@Override
+    public boolean equals(Object obj)
 	{
 		try {
 			 if(obj instanceof Kit)
@@ -56,4 +59,16 @@ public class Kit {
 		}
 		
 	}
+	public double getAuxPrice() {
+	    return auxPrice;
+    }
+	public void setAuxPrice(double auxPrice) {
+	    this.auxPrice = auxPrice;
+    }
+	public double getAuxAmmount() {
+	    return auxAmmount;
+    }
+	public void setAuxAmmount(double auxAmmount) {
+	    this.auxAmmount = auxAmmount;
+    }
 }

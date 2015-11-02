@@ -4,9 +4,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -24,7 +22,7 @@ import model.PTC;
 import model.Product;
 import model.Service;
 import model.State;
-import sales.view.PTCRegisterFrame;
+import sales.view.PTCUpdateFrame;
 import util.ShowMessage;
 import database.DataBase;
 import database.dao.InvetoryDAO;
@@ -32,24 +30,23 @@ import database.dao.MaterialDAO;
 import database.dao.PTCDAO;
 import database.dao.ProductDAO;
 
-public class PTCController {
+public class PTCUpdateController {
 
-	private PTCRegisterFrame frame;
+	
+	private PTCUpdateFrame frame;
 	private DataBase dataBase;
 
-	public PTCController(PTCRegisterFrame frame) {
+	public PTCUpdateController(PTCUpdateFrame frame) {
 		this.frame = frame;
 		dataBase = new DataBase();
 		dataBase.connect();
 	}
-
+	
 	public void close() {
-		int i = ShowMessage.questionMessage(frame, "Fechar",
-		        "Deseja realmente fechar a PTC ?\nAs Informações não salvas serão perdidas");
-		if (i == JOptionPane.YES_OPTION) {
-			frame.dispose();
-		}
+		int i = ShowMessage.questionMessage(frame, "Fechar", "Deseja realmente fechar a atualização de ptc?");
+		if(i == JOptionPane.YES_OPTION)frame.dispose();
 	}
+	
 
 	public void fillClient(JComboBox<Client> cboClients, boolean itemSelected) {
 
@@ -309,29 +306,7 @@ public class PTCController {
 	    }
 		return list;
     }
-
-	public void register(PTC ptc) {
-	    Map<String, Object> map = new HashMap<String, Object>();
-	    
-	    map.put("aliquot", ptc.getAliquot());
-	    map.put("aliquotPlusBrute", ptc.getAliquotPlusBrute());
-	    map.put("brutePrice", ptc.getBrutePrice());
-	    map.put("client", ptc.getClient());
-	    map.put("contribuition", ptc.getContribuition());
-	    map.put("discount", ptc.getDiscount());
-	    map.put("finalPrice", ptc.getFinalPrice());
-	    map.put("kitList", ptc.getKitList());
-	    map.put("productList", ptc.getProductList());
-	    map.put("materialList", ptc.getMaterialList());
-	    map.put("serviceList", ptc.getServiceList());
-	    map.put("suggestedPrice", ptc.getSuggestedPrice());
-	    map.put("title", ptc.getTitle());
-	    map.put("cnpj", ptc.getCnpj());
-	    map.put("rastreabilityCode", ptc.getRastreabilityCode());
-	    
-	    new PTCDAO().register(map);
-    }
-
+	
 	public void fillCnpj(JComboBox<CNPJ> cnpjs) {
 		try {
 
@@ -355,4 +330,9 @@ public class PTCController {
 		}
     }
 
+	public void fillPTC(JComboBox<PTC> cboPTC) {
+		List<PTC> list = new PTCDAO().getAllPTC();
+		list.forEach(p -> cboPTC.addItem(p));
+		cboPTC.setSelectedIndex(-1);
+    }
 }

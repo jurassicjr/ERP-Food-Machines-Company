@@ -10,6 +10,7 @@ public class Material {
 	private String materialType;
 	private String model;
 	private int auxAmmount;
+	private double auxPrice;
 	
 	public int getId() {
 		return id;
@@ -100,5 +101,13 @@ public class Material {
 
 	public void setAuxAmmount(int auxAmmount) {
 	    this.auxAmmount = auxAmmount;
+    }
+
+	public double getAuxPrice() {
+	    return auxPrice;
+    }
+
+	public void setAuxPrice(double auxPrice) {
+	    this.auxPrice = auxPrice;
     }
 }

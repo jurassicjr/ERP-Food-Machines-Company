@@ -36,10 +36,12 @@ import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
+import model.CNPJ;
 import model.Client;
 import model.Inventory;
 import model.Kit;
 import model.Material;
+import model.PTC;
 import model.Product;
 import model.Service;
 import sales.controller.PTCController;
@@ -47,7 +49,7 @@ import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
 import util.ShowMessage;
 
-public class PTC extends JFrame {
+public class PTCRegisterFrame extends JFrame {
 
 	/**
 	 * 
@@ -116,8 +118,9 @@ public class PTC extends JFrame {
 	private JTextField txtDiscount;
 	private JLabel lblFinalPrice;
 	private JTextField txtFinalPrice;
+	private JComboBox<CNPJ> cboCNPJ;
 
-	public PTC() {
+	public PTCRegisterFrame() {
 		controller = new PTCController(this);
 		initialize();
 		setListeners();
@@ -139,7 +142,11 @@ public class PTC extends JFrame {
 	    
 	    lblRastreabilityCode = new JLabel("Numero de Ratreabilidade");
 	    
-	    txtRastreabilityCode = new JTextField();
+	    try {
+	        txtRastreabilityCode = new JFormattedTextField(new MaskFormatter("#####-'A'"));
+        } catch (ParseException e1) {
+	        e1.printStackTrace();
+        }
 	    txtRastreabilityCode.setColumns(10);
 	    
 	    lblClient = new JLabel("Cliente");
@@ -161,7 +168,7 @@ public class PTC extends JFrame {
 	    
 	    
 	    btnAddProduct = new JButton("Adicionar");
-	    btnAddProduct.setIcon(new ImageIcon(PTC.class.getResource("/resources/plus.png")));
+	    btnAddProduct.setIcon(new ImageIcon(PTCRegisterFrame.class.getResource("/resources/plus.png")));
 	    
 	    JScrollPane scrollPane = new JScrollPane();
 	    
@@ -172,7 +179,7 @@ public class PTC extends JFrame {
 	    new ComboBoxAutoCompletion(cboKits);
 	    
 	    btnAddKit = new JButton("Adicionar");
-	    btnAddKit.setIcon(new ImageIcon(PTC.class.getResource("/resources/plus.png")));
+	    btnAddKit.setIcon(new ImageIcon(PTCRegisterFrame.class.getResource("/resources/plus.png")));
 	    
 	    JScrollPane scrollPane_1 = new JScrollPane();
 	    
@@ -186,7 +193,7 @@ public class PTC extends JFrame {
 	    
 	    btnAddMaterial = new JButton("Adicionar");
 	    
-	    btnAddMaterial.setIcon(new ImageIcon(PTC.class.getResource("/resources/plus.png")));
+	    btnAddMaterial.setIcon(new ImageIcon(PTCRegisterFrame.class.getResource("/resources/plus.png")));
 	    
 	    lblService = new JLabel("Serviço");
 	    
@@ -195,7 +202,7 @@ public class PTC extends JFrame {
 	    new ComboBoxAutoCompletion(cboService);
 	    
 	    btnAddService = new JButton("Adicionar");
-	    btnAddService.setIcon(new ImageIcon(PTC.class.getResource("/resources/plus.png")));
+	    btnAddService.setIcon(new ImageIcon(PTCRegisterFrame.class.getResource("/resources/plus.png")));
 	    
 	    scrollPane_3 = new JScrollPane();
 	    
@@ -205,7 +212,7 @@ public class PTC extends JFrame {
 	    txtUpload.setColumns(10);
 	    
 	    btnPath = new JButton("Caminho");
-	    btnPath.setIcon(new ImageIcon(PTC.class.getResource("/resources/open.png")));
+	    btnPath.setIcon(new ImageIcon(PTCRegisterFrame.class.getResource("/resources/open.png")));
 	    
 	    lblBruteValue = new JLabel("Valor Bruto da P.T.C");
 	    
@@ -287,6 +294,12 @@ public class PTC extends JFrame {
 	    txtFinalPrice = new JTextField();
 	    txtFinalPrice.setColumns(10);
 	    
+	    JLabel lblCnpj = new JLabel("CNPJ");
+	    
+	    cboCNPJ = new JComboBox<CNPJ>();
+	    cboCNPJ = new JComboBox<CNPJ>();
+		controller.fillCnpj(cboCNPJ);
+	    
 	    GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 	    gl_principalPanel.setHorizontalGroup(
 	    	gl_principalPanel.createParallelGroup(Alignment.LEADING)
@@ -310,6 +323,10 @@ public class PTC extends JFrame {
 	    							.addComponent(cboClient, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 	    					.addGap(18)
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+	    						.addGroup(gl_principalPanel.createSequentialGroup()
+	    							.addComponent(lblCnpj)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(cboCNPJ, 0, 348, Short.MAX_VALUE))
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblTitle)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
@@ -403,7 +420,9 @@ public class PTC extends JFrame {
 	    			.addContainerGap()
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblRastreabilityCode)
-	    				.addComponent(txtRastreabilityCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    				.addComponent(txtRastreabilityCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblCnpj)
+	    				.addComponent(cboCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(18)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblClient)
@@ -473,7 +492,7 @@ public class PTC extends JFrame {
 	    				.addComponent(txtDiscount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblFinalPrice)
 	    				.addComponent(txtFinalPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-	    			.addContainerGap(24, Short.MAX_VALUE))
+	    			.addContainerGap(18, Short.MAX_VALUE))
 	    );
 	    gl_principalPanel.linkSize(SwingConstants.VERTICAL, new Component[] {scrollPane, scrollPane_1, scrollPane_2, scrollPane_3});
 	    
@@ -568,11 +587,11 @@ public class PTC extends JFrame {
 	    getContentPane().add(subPanel, BorderLayout.SOUTH);
 	    
 	    btnCancel = new JButton("Cancelar");
-	    btnCancel.setIcon(new ImageIcon(PTC.class.getResource("/resources/cancel.png")));
+	    btnCancel.setIcon(new ImageIcon(PTCRegisterFrame.class.getResource("/resources/cancel.png")));
 	    btnConfirm = new JButton("Confirmar");
-	    btnConfirm.setIcon(new ImageIcon(PTC.class.getResource("/resources/ok.png")));
+	    btnConfirm.setIcon(new ImageIcon(PTCRegisterFrame.class.getResource("/resources/ok.png")));
 	    btnClear = new JButton("Limpar");
-	    btnClear.setIcon(new ImageIcon(PTC.class.getResource("/resources/ClearFrame.png")));
+	    btnClear.setIcon(new ImageIcon(PTCRegisterFrame.class.getResource("/resources/ClearFrame.png")));
 	    
 	    subPanel.add(btnClear);
 	    subPanel.add(btnCancel);
@@ -746,9 +765,99 @@ public class PTC extends JFrame {
 	private void register() {
 		int i = ShowMessage.questionMessage(this, "Registrar", "Deseja realmente registrar essa PTC ?");
 		if(i == JOptionPane.NO_OPTION)return;
-		
-		
+		boolean isOK = verifyFields();
+		if(isOK) {
+			String title = txtTitle.getText();
+			Client client = (Client) cboClient.getSelectedItem();
+			double bruteValue = Double.parseDouble(txtBruteValue.getText().replaceAll(",", "\\."));
+			double aliquot = Double.parseDouble(txtAliquot.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+			double aliquotPlusBrute = Double.parseDouble(txtAliquotPlusBruteValue.getText().replaceAll(",", "\\."));
+			double contribuition = Double.parseDouble(txtContribuition.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+			double suggestedPrice = Double.parseDouble(txtSuggestedPrice.getText().replaceAll(",", "\\."));
+			double discount = Double.parseDouble(txtDiscount.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+			double finalPrice = Double.parseDouble(txtFinalPrice.getText().replaceAll(",", "\\."));
+			List<Material> materialList = (List<Material>) controller.fillListOfComponents(materialTable);
+			List<Product> productList = (List<Product>) controller.fillListOfComponents(productTable);
+			List<Kit> kitList = (List<Kit>) controller.fillListOfComponents(kitTable);
+			List<Service> serviceList = (List<Service>) controller.fillListOfComponents(serviceTable);
+			CNPJ cnpj = (CNPJ) cboCNPJ.getSelectedItem();
+			String rastreabilityCode = txtRastreabilityCode.getText();
+			
+			PTC ptc = new PTC(title, suggestedPrice, aliquot, bruteValue, aliquotPlusBrute, discount, finalPrice, client,contribuition);
+			ptc.setKitList(kitList);
+			ptc.setMaterialList(materialList);
+			ptc.setProductList(productList);
+			ptc.setServiceList(serviceList);
+			ptc.setCnpj(cnpj);
+			ptc.setRastreabilityCode(rastreabilityCode);
+			
+			
+			controller.register(ptc);
+			ClearFrame.clear(this);
+			ClearFrame.clearTable(kitTable);
+			ClearFrame.clearTable(materialTable);
+			ClearFrame.clearTable(productTable);
+			ClearFrame.clearTable(serviceTable);
+			
+			txtMaterialAmmount.setText("1");
+			txtProductAmmount.setText("1");
+			txtKitAmmount.setText("1");
+		}
 	}
+	
+	
+	private boolean verifyFields() {
+	    String title = txtTitle.getText();
+	    if(title.isEmpty()) {
+	    	ShowMessage.errorMessage(this, "Erro", "Insira o título da P.T.C!");
+	    	return false;
+	    }
+	    if(cboClient.getSelectedIndex() == -1) {
+	    	ShowMessage.errorMessage(this, "Erro", "Selecione para qual cliente é a P.T.C!");
+	    	return false;
+	    }
+	    double bruteValue = Double.parseDouble(txtBruteValue.getText().replaceAll(",", "."));
+	    if(bruteValue<0.1) {
+	    	ShowMessage.errorMessage(this, "Erro", "Verifique o valor bruto!");
+	    	return false;
+	    }
+	    double aliquot = Double.parseDouble(txtAliquot.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+	    if(aliquot <= 0) {
+	    	ShowMessage.errorMessage(this, "Erro", "Verifique o valor da aliquota!");
+	    	return false;
+	    }
+	    double aliquotPlusBrute = Double.parseDouble(txtAliquotPlusBruteValue.getText().replaceAll(",", "\\."));
+	    if(aliquotPlusBrute<0.1) {
+	    	ShowMessage.errorMessage(this, "Erro", "Verifique o valor da aliquota+bruto");
+	    	return false;
+	    }
+	    double contribuition = Double.parseDouble(txtContribuition.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+	    if(contribuition <=0) {
+	    	ShowMessage.errorMessage(this, "Erro", "Verique a margem de contribuição!");
+	    	return false;
+	    }
+	    double suggestedPrice = Double.parseDouble(txtSuggestedPrice.getText().replaceAll(",", "\\."));
+	    if(suggestedPrice<0.1) {
+	    	ShowMessage.errorMessage(this, "Erro", "Verique o preço sugerido!");
+	    	return false;
+	    }
+	    double discount = Double.parseDouble(txtDiscount.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+	    if(discount <= 0) {
+	    	ShowMessage.errorMessage(this, "Erro", "Verifique o desconto!");
+	    	return false;
+	    }
+	    double finalValue = Double.parseDouble(txtFinalPrice.getText().replaceAll(",", "\\."));
+	    if(finalValue <0.1) {
+	    	ShowMessage.questionMessage(this, "Erro", "Verifique o valor de Saída!");
+	    	return false;
+	    }
+	    if(cboCNPJ.getSelectedIndex() == -1) {
+	    	ShowMessage.errorMessage(this, "Erro", "Selecione por qual CNPJ está realizando está P.T.C?");
+	    	return false;
+	    }
+		return true;
+    }
+
 	
 	private void insertMaterial() {
 		if(cboMaterial.getSelectedIndex() == -1) {
@@ -764,8 +873,9 @@ public class PTC extends JFrame {
 			return;
 		}
 		
-		controller.insertMaterial((Material) cboMaterial.getSelectedItem(),Double.parseDouble(txtPriceMaterial.getText().replaceAll("R|\\$", "").replaceAll(",",	 "\\.").trim()), Integer.parseInt(txtMaterialAmmount.getText()), materialTable);
+		controller.insertMaterial((Material) cboMaterial.getSelectedItem(),Double.parseDouble(txtPriceMaterial.getText().replaceAll("R|\\$", "").replaceAll(",","\\.").trim()), Integer.parseInt(txtMaterialAmmount.getText()), materialTable);
 	}
+	
 	
 	private void insertProduct() {
 		if(cboProduct.getSelectedIndex() == -1) {
@@ -782,6 +892,8 @@ public class PTC extends JFrame {
 		}
 		controller.insertProduct((Product) cboProduct.getSelectedItem(),Double.parseDouble(txtProductPrice.getText().replaceAll("R|\\$", "").replaceAll(",",	 "\\.").trim()),Integer.parseInt(txtProductAmmount.getText()), productTable);
 	}
+	
+	
 	private void insertKit() {
 		if(cboKits.getSelectedIndex() == -1) {
 			ShowMessage.errorMessage(this, "Selecione o Kit", "Selecione o Kit para adicionar a P.T.C");				

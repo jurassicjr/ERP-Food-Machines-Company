@@ -6,6 +6,7 @@ public class Product {
 	private String name;
 	private String description;
 	private int auxAmmount;
+	private double auxPrice;
 	
 	public Product() {
     }
@@ -67,6 +68,14 @@ public class Product {
 
 	public void setAuxAmmount(int auxAmmount) {
 	    this.auxAmmount = auxAmmount;
+    }
+
+	public double getAuxPrice() {
+	    return auxPrice;
+    }
+
+	public void setAuxPrice(double auxPrice) {
+	    this.auxPrice = auxPrice;
     }
 	
 }

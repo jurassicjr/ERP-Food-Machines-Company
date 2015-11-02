@@ -76,7 +76,7 @@ public class MaterialDAO {
 				material.setId(rs.getInt("id"));
 				material.setAmmount(rs.getInt("quantidade"));
 				material.setModel(rs.getString("model"));
-				material.setMaterialType(rs.getString("materialType"));
+				material.setMaterialType(rs.getString("material_type"));
 			}
 
 			dataBase.close();

@@ -17,8 +17,10 @@ public class PTC {
 	private double contribuition;
 	private double discount;
 	private double finalPrice;
+	private CNPJ cnpj;
+	private String rastreabilityCode;
 	
-	public PTC(String title, double suggestedPrice, double aliquot, double brutePrice, double aliquotPlusBrute, double discount, double finalPrice, Client client) {
+	public PTC(String title, double suggestedPrice, double aliquot, double brutePrice, double aliquotPlusBrute, double discount, double finalPrice, Client client, double contribuition) {
 		this.title = title;
 		this.suggestedPrice = suggestedPrice;
 		this.aliquot = aliquot;
@@ -27,6 +29,7 @@ public class PTC {
 		this.discount = discount;
 		this.finalPrice = finalPrice;
 		this.client = client;
+		this.contribuition = contribuition;
 	}
 
 	public int getId() {
@@ -108,5 +111,25 @@ public class PTC {
 	public void setSuggestedPrice(double suggestedPrice) {
 		this.suggestedPrice = suggestedPrice;
 	}
+
+	public CNPJ getCnpj() {
+	    return cnpj;
+    }
+
+	public void setCnpj(CNPJ cnpj) {
+	    this.cnpj = cnpj;
+    }
+
+	public String getRastreabilityCode() {
+	    return rastreabilityCode;
+    }
+
+	public void setRastreabilityCode(String rastreabilityCode2) {
+	    this.rastreabilityCode = rastreabilityCode2;
+    }
 	
+	@Override
+	public String toString() {
+	    return this.title;
+	}
 }

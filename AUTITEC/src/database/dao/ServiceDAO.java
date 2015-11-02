@@ -1,7 +1,10 @@
 package database.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.HashMap;
 
+import model.Service;
 import database.DataBase;
 
 public class ServiceDAO {
@@ -43,5 +46,36 @@ public class ServiceDAO {
 			   price_II_III_I, price_II_III_II, pricePerKm, description, name};
 	   
 	   dataBase.executeUpdate(query, data);
+    }
+
+	public Service getServiceByID(int serviceID) {
+		
+		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM service")) {
+			if (rs.next()) {
+				Service s = new Service();
+				s.setId(rs.getInt("id"));
+				s.setMeal(rs.getDouble("meal"));
+				s.setName(rs.getString("name"));
+				s.setObservation(rs.getString("description"));
+				s.setPrice_I_I_I(rs.getDouble("price_I_I_I"));
+				s.setPrice_I_I_II(rs.getDouble("price_I_I_II"));
+				s.setPrice_I_II_I(rs.getDouble("price_I_II_I"));
+				s.setPrice_I_II_II(rs.getDouble("price_I_II_II"));
+				s.setPrice_I_III_I(rs.getDouble("price_I_III_I"));
+				s.setPrice_I_III_II(rs.getDouble("price_I_III_II"));
+				s.setPrice_II_I_I(rs.getDouble("price_II_I_I"));
+				s.setPrice_II_I_II(rs.getDouble("price_II_I_II"));
+				s.setPrice_II_II_I(rs.getDouble("price_II_II_I"));
+				s.setPrice_II_II_II(rs.getDouble("price_II_II_II"));
+				s.setPrice_II_III_I(rs.getDouble("price_II_III_I"));
+				s.setPrice_II_III_II(rs.getDouble("price_II_III_II"));
+				s.setPricePerKm(rs.getDouble("price_per_km"));
+				s.setStayValue(rs.getString("stay_price"));
+				return s;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
     }
 }

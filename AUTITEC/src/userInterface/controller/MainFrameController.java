@@ -40,7 +40,8 @@ import rh.view.report.ExternalSatisfactionResearchReport;
 import rh.view.report.InternalSatisfactionResearchReport;
 import rh.view.search.RncSearchFrame;
 import sales.controller.SalesController;
-import sales.view.PTC;
+import sales.view.PTCRegisterFrame;
+import sales.view.PTCUpdateFrame;
 import sales.view.register.ClientPropertiesOutputFrame;
 import sales.view.register.ServiceRegisterFrame;
 import userInterface.view.AboutFrame;
@@ -861,7 +862,20 @@ public class MainFrameController {
 			
 			@Override
 			public void run() {
-				PTC frame = new PTC();
+				PTCRegisterFrame frame = new PTCRegisterFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void updatePTC() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				PTCUpdateFrame frame = new PTCUpdateFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

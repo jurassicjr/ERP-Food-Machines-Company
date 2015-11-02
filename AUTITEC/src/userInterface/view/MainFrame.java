@@ -200,6 +200,8 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmPTCRegister;
 
+	private JMenuItem mntmPTCUpdate;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -539,6 +541,12 @@ public class MainFrame extends JFrame {
 		mnSalesRegister.add(mntmPTCRegister);
 		mntmPTCRegister.setVisible(false);
 		mntmPTCRegister.setName("PTC_REG");
+		
+		mntmPTCUpdate = new JMenuItem("Atualização de Proposta Técnica Comercial");
+		mnSalesUpdates.add(mntmPTCUpdate);
+		mntmPTCUpdate.setVisible(false);
+		mntmPTCUpdate.setName("UPD_PTC");
+		
 
 		//Compras
 		
@@ -780,6 +788,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmExitOfClientProperties);
 		menuItens.add(mntmServiceRegister);
 		menuItens.add(mntmPTCRegister);
+		menuItens.add(mntmPTCUpdate);
 		
 		menuItens.add(mntmVehicleRegister);
 		menuItens.add(mntmVehicleUpdate);
@@ -861,6 +870,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmRegisterBankAccount))controller.registerBankAccount();
 				else if (e.getSource().equals(mntmServiceRegister))controller.registerService();
 				else if (e.getSource().equals(mntmPTCRegister))controller.registerPTC();
+				else if (e.getSource().equals(mntmPTCUpdate))controller.updatePTC();
 				
 				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
 				else if(e.getSource().equals(mntmVehicleUpdate))controller.vehicleUpdate();
@@ -934,6 +944,7 @@ public class MainFrame extends JFrame {
 		mntmRegisterBankAccount.addActionListener(menuListeners);
 		mntmServiceRegister.addActionListener(menuListeners);
 		mntmPTCRegister.addActionListener(menuListeners);
+		mntmPTCUpdate.addActionListener(menuListeners);
 		
 		mntmVehicleRegister.addActionListener(menuListeners);
 		mntmVehicleUpdate.addActionListener(menuListeners);

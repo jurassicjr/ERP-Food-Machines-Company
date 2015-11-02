@@ -79,4 +79,37 @@ public class ClientDAO {
         }
 		return cList;
     }
+	public Client getClientByID(int id) {
+		String sql = "SELECT * FROM client WHERE id = ?";
+
+		try (ResultSet rs = dataBase.executeQuery(sql, id)) {
+			if (rs.next()) {
+
+				Client client = new Client();
+				client.setId(rs.getInt("id"));
+				client.setName(rs.getString("name"));
+				client.setCompanyNAme(rs.getString("companyname"));
+				client.setStreet(rs.getString("street"));
+				client.setBirthDate(rs.getDate("birthdate"));
+				client.setNeighborhood(rs.getString("neighborhood"));
+				client.setState(new State(rs.getInt("state"), ""));
+				client.setCity(new City(rs.getInt("city"), "", client.getState()));
+				client.setCep(rs.getString("cep"));
+				client.setPhone(rs.getString("phone"));
+				client.setEmail(rs.getString("email"));
+				client.setCompanyNAme(rs.getString("companyname"));
+				client.setCpf(rs.getString("cpf"));
+				client.setCnpj(rs.getString("cnpj"));
+				client.setStateInscrition(rs.getString("ie"));
+				client.setSex(rs.getString("sex"));
+				client.setContactName(rs.getString("companycontactname"));
+				client.setRg(rs.getString("rg"));
+				return client;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+    }
 }
