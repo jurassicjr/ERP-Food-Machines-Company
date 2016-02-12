@@ -112,8 +112,6 @@ public class MainFrame extends JFrame {
 
 	private JMenu mnUpdateBuy;
 
-	private JMenuItem mntmEpiRegister;
-
 	private JMenuItem mntmEpiUpdate;
 
 	private JMenuItem mntmInsertoOfEPI;
@@ -201,6 +199,8 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmPTCRegister;
 
 	private JMenuItem mntmPTCUpdate;
+
+	private JMenuItem mntmPTCApprovation;
 
 	
 	/**
@@ -294,11 +294,6 @@ public class MainFrame extends JFrame {
 		mnRh.add(mntmEmployeeReport);
 		mntmEmployeeReport.setVisible(false);
 		mntmEmployeeReport.setName("EMP_REP");
-
-		mntmEpiRegister = new JMenuItem("Registro de EPI's");
-		mnSubRegisterRH.add(mntmEpiRegister);
-		mntmEpiRegister.setVisible(false);
-		mntmEpiRegister.setName("EPI_REG");
 		
 		mntmEpiUpdate = new JMenuItem("Atualização/Remoção de EPI's");
 		mnSubUpdateRH.add(mntmEpiUpdate);
@@ -547,6 +542,11 @@ public class MainFrame extends JFrame {
 		mntmPTCUpdate.setVisible(false);
 		mntmPTCUpdate.setName("UPD_PTC");
 		
+		mntmPTCApprovation = new JMenuItem("Aprovação de P.T.C");
+		mnSales.add(mntmPTCApprovation);
+		mntmPTCApprovation.setVisible(false);
+		mntmPTCApprovation.setName("PTC_APP");
+		
 
 		//Compras
 		
@@ -734,7 +734,6 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmRegisterUser);
 		menuItens.add(mntmEmployeeReport);
 		menuItens.add(mntmUpdateUser);
-		menuItens.add(mntmEpiRegister);
 		menuItens.add(mntmEpiUpdate);
 		menuItens.add(mntmInsertoOfEPI);
 		menuItens.add(mntmRemoveOfEPI);
@@ -789,6 +788,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmServiceRegister);
 		menuItens.add(mntmPTCRegister);
 		menuItens.add(mntmPTCUpdate);
+		menuItens.add(mntmPTCApprovation);
 		
 		menuItens.add(mntmVehicleRegister);
 		menuItens.add(mntmVehicleUpdate);
@@ -826,7 +826,6 @@ public class MainFrame extends JFrame {
 				else if(e.getSource().equals(mntmRegisterIssue)) controller.registerIssue();
 				else if(e.getSource().equals(mntmProductionStage)) controller.stagesProduction();
 				else if(e.getSource().equals(mntmUpdateUser)) controller.updateUser();
-				else if(e.getSource().equals(mntmEpiRegister))controller.epiRegister();
 				else if(e.getSource().equals(mntmEpiUpdate))controller.epiUpdate();
 				else if(e.getSource().equals(mntmInsertoOfEPI))controller.insertOfEPI();
 				else if(e.getSource().equals(mntmRemoveOfEPI))controller.removeOfEPI();
@@ -871,6 +870,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmServiceRegister))controller.registerService();
 				else if (e.getSource().equals(mntmPTCRegister))controller.registerPTC();
 				else if (e.getSource().equals(mntmPTCUpdate))controller.updatePTC();
+				else if (e.getSource().equals(mntmPTCApprovation))controller.pTCApprovation();
 				
 				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
 				else if(e.getSource().equals(mntmVehicleUpdate))controller.vehicleUpdate();
@@ -903,7 +903,6 @@ public class MainFrame extends JFrame {
 		mntmClientRegister.addActionListener(menuListeners);
 		mntmRegisterProduct.addActionListener(menuListeners);
 		mntmProductionStage.addActionListener(menuListeners);
-		mntmEpiRegister.addActionListener(menuListeners);
 		mntmEpiUpdate.addActionListener(menuListeners);
 		mntmInsertoOfEPI.addActionListener(menuListeners);
 		mntmRemoveOfEPI.addActionListener(menuListeners);
@@ -945,6 +944,7 @@ public class MainFrame extends JFrame {
 		mntmServiceRegister.addActionListener(menuListeners);
 		mntmPTCRegister.addActionListener(menuListeners);
 		mntmPTCUpdate.addActionListener(menuListeners);
+		mntmPTCApprovation.addActionListener(menuListeners);
 		
 		mntmVehicleRegister.addActionListener(menuListeners);
 		mntmVehicleUpdate.addActionListener(menuListeners);

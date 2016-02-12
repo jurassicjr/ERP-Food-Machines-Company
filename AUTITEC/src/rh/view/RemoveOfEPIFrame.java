@@ -24,8 +24,8 @@ import javax.swing.JSpinner;
 import javax.swing.JTextArea;
 import javax.swing.LayoutStyle.ComponentPlacement;
 
-import model.EPI;
 import model.Employee;
+import model.Material;
 import model.RemoveOfEPI;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
@@ -53,7 +53,7 @@ public class RemoveOfEPIFrame extends JFrame{
 	private JLabel lblMotive;
 	private JLabel lblDate;
 
-	private JComboBox<EPI> cboEPI;
+	private JComboBox<Material> cboEPI;
 	private JComboBox<Employee> cboEmployee;
 
 	private JSpinner spinnerAmmount;
@@ -88,7 +88,7 @@ public class RemoveOfEPIFrame extends JFrame{
 		
 		lblEpi = new JLabel("EPI");
 		
-		cboEPI = new JComboBox<EPI>();
+		cboEPI = new JComboBox<Material>();
 		new ComboBoxAutoCompletion(cboEPI);
 		controller.fillEPI(cboEPI);
 		cboEPI.setSelectedIndex(-1);
@@ -239,7 +239,7 @@ public class RemoveOfEPIFrame extends JFrame{
 		if(txtMotive.getText().isEmpty()){
 			ShowMessage.errorMessage(this, "Erro", "Especifíque o motivo da retirada");
 		}
-		EPI epi = (EPI) cboEPI.getSelectedItem();
+		Material epi = (Material) cboEPI.getSelectedItem();
 		Employee e = (Employee) cboEmployee.getSelectedItem();
 		int ammount = (int) spinnerAmmount.getValue();
 		String motive = txtMotive.getText();
@@ -270,7 +270,7 @@ public class RemoveOfEPIFrame extends JFrame{
 	
 	private void showAmmount(){
 		if(cboEPI.getSelectedIndex() == -1)return;
-		EPI epi =(EPI) cboEPI.getSelectedItem();
+		Material epi =(Material) cboEPI.getSelectedItem();
 		ShowMessage.successMessage(this, "Quantidade", "quantidade atual desse epi: " + epi.getAmmount());
 	}
 }

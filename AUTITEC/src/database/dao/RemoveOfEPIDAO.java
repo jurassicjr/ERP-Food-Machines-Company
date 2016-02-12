@@ -4,7 +4,7 @@ package database.dao;
 import java.util.Date;
 import java.util.Map;
 
-import model.EPI;
+import model.Material;
 import database.DataBase;
 
 public class RemoveOfEPIDAO {
@@ -19,13 +19,13 @@ public class RemoveOfEPIDAO {
 
 	public void remove(Map<String, Object> map) {
 		String motive = (String) map.get("motive");
-		EPI epi = (EPI) map.get("epi");
+		Material epi = (Material) map.get("epi");
 		int ammount = (int) map.get("ammount");
 		Date date = (Date) map.get("date");
 		java.sql.Date entryDate = new java.sql.Date(date.getTime());
 		
 		String registerSQL = "INSERT INTO exit_of_epi(epi, ammount, date, motive) VALUES (?,?,?,?)";
-		String updateEPISQL = "UPDATE epi SET ammount = ? WHERE id = ?";
+		String updateEPISQL = "UPDATE product SET quantidade = ? WHERE id = ?";
 		
 		Object[] registerObj = new Object[]{epi.getId(), ammount, entryDate, motive};
 		Object[] updateEPIObj = new Object[]{epi.getAmmount() - ammount, epi.getId()};

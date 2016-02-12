@@ -13,6 +13,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,6 +27,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import model.Material;
+import model.MaterialModel;
+import model.MaterialType;
+import model.MeasureUnit;
 import sales.controller.SalesController;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
@@ -61,9 +65,21 @@ public class RegisterOfMaterialFrame extends JFrame {
 
 	private JLabel lblNCM;
 	private JLabel lblMaterialType;
-	private JTextField txtMaterialType;
 	private JLabel lblModel;
-	private JTextField txtModel;
+	private JComboBox<MaterialType> cboMaterialType;
+	private JButton btnAddMaterialType;
+	private JComboBox<MaterialModel> cboMaterialModel;
+	private JButton btnAddMaterialModel;
+	private JLabel lblMeasureUnit;
+
+	private JComboBox<MeasureUnit> cboMeasureUnit;
+	
+	private JLabel lblwidth;
+	private JTextField txtWidth;
+	private JLabel lblLength;
+	private JTextField txtLength;
+	private JLabel lblHeigth;
+	private JTextField txtHeigth;
 
 	public RegisterOfMaterialFrame() {
 		frame = this;
@@ -80,9 +96,9 @@ public class RegisterOfMaterialFrame extends JFrame {
 		this.setTitle("Cadastro de Produto");
 		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 450, 428);
-		setPreferredSize(new Dimension(450, 428));
-		setMinimumSize(new Dimension(450, 428));
+		setBounds(100, 100, 450, 497);
+		setPreferredSize(new Dimension(450, 497));
+		setMinimumSize(new Dimension(450, 497));
 		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
 
@@ -110,14 +126,44 @@ public class RegisterOfMaterialFrame extends JFrame {
 		txtInternalCode.setColumns(10);
 		
 		lblMaterialType = new JLabel("Tipo do material");
-		
-		txtMaterialType = new JTextField();
-		txtMaterialType.setColumns(10);
-		
+		 
 		lblModel = new JLabel("Modelo");
 		
-		txtModel = new JTextField();
-		txtModel.setColumns(10);
+		cboMaterialType = new JComboBox<MaterialType>();
+		
+		btnAddMaterialType = new JButton("Adicionar");
+		btnAddMaterialType.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/plus.png")));
+		controller.fillMaterialType(cboMaterialType);
+		
+		cboMaterialModel = new JComboBox<MaterialModel>();
+		
+		btnAddMaterialModel = new JButton("Adicionar");
+		btnAddMaterialModel.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/plus.png")));
+		controller.fillMaterialModels(cboMaterialModel);
+		
+		lblMeasureUnit = new JLabel("Unidade de Medida");
+		
+		cboMeasureUnit = new JComboBox<MeasureUnit>();
+		controller.fillMeasureUnit(cboMeasureUnit);
+		
+		lblwidth = new JLabel("Largura");
+		
+		txtWidth = new JTextField();
+		txtWidth.setColumns(10);
+		
+		lblLength = new JLabel("Comprimento");
+		lblLength.setEnabled(false);
+		
+		txtLength = new JTextField();
+		txtLength.setEnabled(false);
+		txtLength.setColumns(10);
+		
+		lblHeigth = new JLabel("Altura");
+		lblHeigth.setEnabled(false);
+		
+		txtHeigth = new JTextField();
+		txtHeigth.setEnabled(false);
+		txtHeigth.setColumns(10);
 		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
@@ -125,12 +171,12 @@ public class RegisterOfMaterialFrame extends JFrame {
 				.addGroup(gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-						.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblName)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
-						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
-						.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblNCM)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -141,12 +187,32 @@ public class RegisterOfMaterialFrame extends JFrame {
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblMaterialType)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtMaterialType, GroupLayout.DEFAULT_SIZE, 334, Short.MAX_VALUE))
+							.addComponent(cboMaterialType, 0, 219, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(btnAddMaterialType))
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblModel)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtModel, GroupLayout.DEFAULT_SIZE, 376, Short.MAX_VALUE))
-						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE))
+							.addComponent(cboMaterialModel, 0, 261, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(btnAddMaterialModel))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblMeasureUnit)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboMeasureUnit, 0, 319, Short.MAX_VALUE))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblwidth)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtWidth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblLength)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtLength, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblHeigth)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtHeigth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(
@@ -165,14 +231,28 @@ public class RegisterOfMaterialFrame extends JFrame {
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMaterialType)
-						.addComponent(txtMaterialType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(cboMaterialType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAddMaterialType))
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblModel)
-						.addComponent(txtModel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(cboMaterialModel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAddMaterialModel))
 					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMeasureUnit)
+						.addComponent(cboMeasureUnit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblwidth)
+						.addComponent(txtWidth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblLength)
+						.addComponent(txtLength, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblHeigth)
+						.addComponent(txtHeigth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.RELATED, 87, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE))
 		);
 		panel.setLayout(new BorderLayout(0, 0));
@@ -214,6 +294,7 @@ public class RegisterOfMaterialFrame extends JFrame {
 			public void windowClosing(WindowEvent e) {
 				controller.closeFrame(frame);
 			}
+			
 		});
 		ActionListener btnAction = new ActionListener() {
 
@@ -229,7 +310,8 @@ public class RegisterOfMaterialFrame extends JFrame {
 						else if(txtDescricao.getText().isEmpty()) ShowMessage.errorMessage(frame, "Erro", "Insira a descrição do material");
 						else if(txtInternalCode.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira o código interno do material");
 						else if(txtNCM.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira o  código NCM do produto");
-						else if(txtMaterialType.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira o tipo do material");
+						else if(cboMaterialType.getSelectedIndex() == -1)ShowMessage.errorMessage(frame, "Erro", "Selecione o tipo do material");
+						else if(txtWidth.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira um valor corresponde ao campo largura");
 						else {
 							material = createMaterial();
 						}
@@ -243,11 +325,48 @@ public class RegisterOfMaterialFrame extends JFrame {
 						txtName.requestFocus();
 					}
 				}
+				else if(e.getSource().equals(btnAddMaterialType))new RegisterOfMaterialTypeView(frame).setVisible(true);
+				else if(e.getSource().equals(btnAddMaterialModel))new RegisterOfMaterialModelView(frame).setVisible(true);
 			}
 		};
 		btnConfirmar.addActionListener(btnAction);
 		btnCancelar.addActionListener(btnAction);
+		btnAddMaterialType.addActionListener(btnAction);
+		btnAddMaterialModel.addActionListener(btnAction);
+		
+		
+		ActionListener cboListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(cboMeasureUnit))allowBox();
+			}
+		};
+		cboMeasureUnit.addActionListener(cboListener);
 	}
+	
+	private void allowBox() {
+		int i = cboMeasureUnit.getSelectedIndex();
+		if(i == -1)return;
+		else if(i == 1 || i == 4 || i == 7 || i == 14) {
+			txtLength.setEnabled(true);
+			txtHeigth.setEnabled(false);
+			lblHeigth.setEnabled(false);
+			lblLength.setEnabled(true);
+		}else if(i == 2 || i == 5 || i == 8 || i == 15){
+			txtLength.setEnabled(true);
+			txtHeigth.setEnabled(true);
+			lblHeigth.setEnabled(true);
+			lblLength.setEnabled(true);
+		}else {
+			txtLength.setEnabled(false);
+			txtHeigth.setEnabled(false);
+			lblHeigth.setEnabled(false);
+			lblLength.setEnabled(false);
+		}
+		
+	}
+	
 	
 	private Material createMaterial() {
 		Material material = new Material();
@@ -256,8 +375,21 @@ public class RegisterOfMaterialFrame extends JFrame {
 		material.setNCM(txtNCM.getText());
 		material.setInternalCode(txtInternalCode.getText());
 		material.setAmmount(0);
-		material.setModel(txtModel.getText());
-		material.setMaterialType(txtMaterialType.getText());
+		MaterialModel mm = (MaterialModel) cboMaterialModel.getSelectedItem();
+		material.setModel(mm.getId());
+		MaterialType mt = (MaterialType) cboMaterialType.getSelectedItem();
+		material.setMaterialType(mt.getId());
+		MeasureUnit mu = (MeasureUnit) cboMeasureUnit.getSelectedItem();
+		material.setMeasureUnit(mu.getId());
+		material.setWidth(Double.parseDouble(txtWidth.getText()));
+		if(!txtLength.getText().isEmpty())material.setLength(Double.parseDouble(txtLength.getText()));
+		if(!txtHeigth.getText().isEmpty())material.setHeigth(Double.parseDouble(txtHeigth.getText()));
 		return material;
+	}
+	public void refresh() {
+		cboMaterialType.removeAllItems();
+		controller.fillMaterialType(cboMaterialType);
+		cboMaterialModel.removeAllItems();
+		controller.fillMaterialModels(cboMaterialModel);
 	}
 }

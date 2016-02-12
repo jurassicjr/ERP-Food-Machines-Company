@@ -100,7 +100,7 @@ public class RegisterProductFrameController {
 				
 	}
 	
-	public void register(String name, String description, JTable table) {
+	public void register(String name, String description, JTable table, String path) {
 		
 		if(name == null || name.isEmpty()) {
 			String title = "Erro registrar Produto";
@@ -115,7 +115,7 @@ public class RegisterProductFrameController {
 			ShowMessage.errorMessage(frame, title, message);
 			return;
 		}	
-		
+		int id = dataBase.getAutoIncrementValue("compost_product");
 		dataBase.executeUpdate("INSERT INTO compost_product (product, description) VALUES (?, ?)", new Object[]{name, description});
 		
 		int idProduct = -1;
@@ -141,10 +141,9 @@ public class RegisterProductFrameController {
 		}
 		
 		ShowMessage.successMessage(null, "Produto adicionado", "Produto adicionado com sucesso");
-		
-		frame.dispose();
-		
+		ClearFrame.clear(frame);
+		ClearFrame.clearTable(table);
+		String query="Insert into image_product(img, product) VALUES(load_file(?), ?)";
+		dataBase.executeUpdate(query, new Object[] {path, id});
 	}
-	
-
 }

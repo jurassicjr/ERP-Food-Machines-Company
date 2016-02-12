@@ -3,11 +3,13 @@ package database.dao;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import model.CNPJ;
 import model.Client;
+import model.Employee;
 import model.Kit;
 import model.Material;
 import model.PTC;
@@ -24,7 +26,7 @@ public class PTCDAO {
 		dataBase.connect();
 	}
 
-	public void register(Map<String, Object> map) {
+	public void register(Map<String, Object> map, boolean isNew) {
 		double aliquot = (double) map.get("aliquot");
 		double aliquotPlusBrute = (double) map.get("aliquotPlusBrute");
 		double bruteValue = (double) map.get("brutePrice");
@@ -42,13 +44,20 @@ public class PTCDAO {
 		CNPJ cnpj = (CNPJ) map.get("cnpj");
 		int cnpjID = cnpj.getId();
 		String rastreabilityCode = (String) map.get("rastreabilityCode");
-
-		int ptcID = dataBase.getAutoIncrementValue("ptc");
+		Date creationDate = (Date) map.get("date");
+		java.sql.Date date = new java.sql.Date(creationDate.getTime());
+		int ptcID = dataBase.getAutoIncrementValue("ptc");	
+		int idMaster = 0;
+		if(isNew) {
+			 idMaster = ptcID;			
+		}else {
+			idMaster = (int) map.get("idMaster");
+		}
 		String query = "INSERT INTO ptc(aliquot, brute_plus_aliquot, brute_value, suggested,"
-		        + " discount, contribuition, final_value, title, client, cnpj, rastreability_code) VALUES(?,?,?,?,?,?,?,?,?,?,?)";
+		        + " discount, contribuition, final_value, title, client, cnpj, rastreability_code, creationDate, id_master) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		Object[] data = new Object[] { aliquot, aliquotPlusBrute, bruteValue, suggestedPrice, discount, contribuition,
-		        finalPrice, title, clientID, cnpjID, rastreabilityCode };
+		        finalPrice, title, clientID, cnpjID, rastreabilityCode, date, idMaster};
 		dataBase.executeUpdate(query, data);
 		if (materialList.size() > 0) {
 			registerPTCAssociationWithMaterial(materialList, ptcID);
@@ -113,7 +122,7 @@ public class PTCDAO {
 			while(rs.next()){
 				int id = rs.getInt("id");
 				String title = rs.getString("title");
-				Client client = new ClientDAO().getClientByID(rs.getInt("id"));
+				Client client = new ClientDAO().getClientByID(rs.getInt("client"));
 				double bruteValue = rs.getDouble("brute_value");
 				double brutePlusAliquot = rs.getDouble("brute_plus_aliquot");
 				double aliquot = rs.getDouble("aliquot");
@@ -127,8 +136,12 @@ public class PTCDAO {
 				List<Product> productList = getProductRelation(id);
 				List<Kit> kitList = getKitRelation(id);
 				List<Service> serviceList = getServiceRelation(id);
+				java.sql.Date creationDate = rs.getDate("creationDate");
+				Date date = new Date(creationDate.getTime());
+				int isApproved = rs.getInt("is_approved");
+				int idMaster = rs.getInt("id_master");
 				
-				PTC p = new PTC(title, suggestedPrice, aliquot, bruteValue, brutePlusAliquot, discount, finalValue, client, contribuition);
+				PTC p = new PTC(title, suggestedPrice, aliquot, bruteValue, brutePlusAliquot, discount, finalValue, client, contribuition, date);
 				p.setCnpj(cnpj);
 				p.setId(id);
 				p.setKitList(kitList);
@@ -137,6 +150,9 @@ public class PTCDAO {
 				p.setRastreabilityCode(rastreabilityCode);
 				p.setServiceList(serviceList);
 				p.setSuggestedPrice(suggestedPrice);
+				p.setIsApproved(isApproved);
+				p.setIdMaster(idMaster);
+				
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -241,5 +257,21 @@ public class PTCDAO {
 		}
 		return null;
 	}
+
+	public void approve(Map<String, Object> map) {
+	    Employee e = (Employee) map.get("approvedBy");
+	    PTC ptc = (PTC) map.get("ptc");
+	    Date approvationDate = (Date) map.get("date");
+	    java.sql.Date date = new java.sql.Date(approvationDate.getTime());
+	    String observation = (String) map.get("observation");
+	    
+	    String query = "INSERT INTO ptc_approvation(date, approved_by, ptc, observation) VALUES (?,?,?,?)";
+	    Object[] data = new Object[] {date, e.getId(), ptc.getId(), observation};
+	    dataBase.executeUpdate(query, data);
+	    String query2 = "UPDATE ptc SET is_approved = 1 WHERE id = ?";
+	    dataBase.executeUpdate(query2, ptc.getId());
+	    String query3 = "UPDATE ptc SET is_approved = 3 where id_master = ? AND id != ?";
+	    dataBase.executeUpdate(query3, new Object[] {ptc.getIdMaster(), ptc.getId()});
+    }
 
 }

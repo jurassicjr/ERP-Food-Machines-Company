@@ -10,12 +10,12 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import model.EPI;
 import model.Employee;
+import model.Material;
 import model.RemoveOfEPI;
 import util.ShowMessage;
 import database.dao.EmployeeDAO;
-import database.dao.EpiDAO;
+import database.dao.MaterialDAO;
 import database.dao.RemoveOfEPIDAO;
 
 public class RemoveOfEPIController {
@@ -31,8 +31,8 @@ public class RemoveOfEPIController {
 		if(i==JOptionPane.YES_OPTION)frame.dispose();
 	}
 	
-	public void fillEPI(JComboBox<EPI> cboEPI) {
-		ArrayList<EPI> list = new EpiDAO().fillEPIs();
+	public void fillEPI(JComboBox<Material> cboEPI) {
+		ArrayList<Material> list = new MaterialDAO().getAllEpisMaterials();
 		list.forEach(e -> cboEPI.addItem(e));
 	}
 	
@@ -44,7 +44,7 @@ public class RemoveOfEPIController {
 
 	public void removeEPI(RemoveOfEPI rEPI) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		EPI epi = rEPI.getEpi();
+		Material epi = rEPI.getEpi();
 		int ammount = rEPI.getAmmount();
 		String motive = rEPI.getMotive();
 		Date date = rEPI.getDate();

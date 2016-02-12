@@ -70,6 +70,7 @@ public class RncRegisterFrame extends JFrame {
 	private ButtonGroup rncOrigin;
 	private ButtonGroup rncAction;
 	private JScrollPane scrollPane_3;
+	private JLabel lblFonte;
 	public RncRegisterFrame()
 	{
 		
@@ -117,6 +118,10 @@ public class RncRegisterFrame extends JFrame {
 		
 		txtDescription = new JTextArea();
 		scrollPane_3.setViewportView(txtDescription);
+		
+		lblFonte = new JLabel("FONTE:");
+		lblFonte.setBounds(8, 125, 46, 14);
+		panelRncRegister.add(lblFonte);
 		setActionPlanDataState(false);
 	}
 	public void setListeners()
@@ -242,7 +247,7 @@ public class RncRegisterFrame extends JFrame {
 		txtSequenceNumber.setColumns(10);
 		
 		JLabel lblSequenceNumber = new JLabel("N. de sequência");
-		lblSequenceNumber.setBounds(8, 53, 132, 23);
+		lblSequenceNumber.setBounds(12, 53, 101, 23);
 		panelRncRegister.add(lblSequenceNumber);
 		
 		cboEmitter = new JComboBox<Employee>();
@@ -261,20 +266,20 @@ public class RncRegisterFrame extends JFrame {
 		lblDate.setBounds(456, 57, 70, 15);
 		panelRncRegister.add(lblDate);
 		
-		rdbtIntern = new JRadioButton("Interno");
-		rdbtIntern.setBounds(8, 121, 114, 23);
+		rdbtIntern = new JRadioButton("Processos");
+		rdbtIntern.setBounds(60, 121, 83, 23);
 		panelRncRegister.add(rdbtIntern);
 		
 		rdbtnExtern = new JRadioButton("Externo");
-		rdbtnExtern.setBounds(142, 121, 114, 23);
+		rdbtnExtern.setBounds(159, 121, 70, 23);
 		panelRncRegister.add(rdbtnExtern);
 		
 		rdbtnAuditing = new JRadioButton("Auditoria");
-		rdbtnAuditing.setBounds(297, 121, 114, 23);
+		rdbtnAuditing.setBounds(240, 121, 83, 23);
 		panelRncRegister.add(rdbtnAuditing);
 		
 		rdbtnOthersType = new JRadioButton("Outros");
-		rdbtnOthersType.setBounds(456, 121, 114, 23);
+		rdbtnOthersType.setBounds(324, 121, 114, 23);
 		panelRncRegister.add(rdbtnOthersType);
 		
 		JLabel lblDescription = new JLabel("Descrição");

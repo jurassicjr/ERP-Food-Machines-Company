@@ -3,6 +3,7 @@ package product.view;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -25,11 +26,13 @@ import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
@@ -77,6 +80,10 @@ public class UpdateOfProductFrame extends JFrame {
 	private JComboBox<Product> cboProduct;
 
 	private JButton btnDelete;
+	private JLabel lblImagem;
+	private JTextField txtPath;
+	private JButton btnOpen;
+	private JLabel lblPicture;
 
 	public UpdateOfProductFrame() {
 		materialList = new ArrayList<Material>();
@@ -92,7 +99,7 @@ public class UpdateOfProductFrame extends JFrame {
 	}
 	private void initialize() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 680, 485);
+		setBounds(100, 100, 744, 708);
 		setTitle("Atualizar/Deletar Produto");
 		Icon.setIcon(this);
 
@@ -154,71 +161,89 @@ public class UpdateOfProductFrame extends JFrame {
 
 		cboProduct = new JComboBox<Product>();
 		controller.fillProduct(cboProduct);
+		
+		lblImagem = new JLabel("Imagem");
+		
+		txtPath = new JTextField();
+		txtPath.setColumns(10);
+		
+		btnOpen = new JButton("Abrir");
+		btnOpen.setIcon(new ImageIcon(UpdateOfProductFrame.class.getResource("/resources/open.png")));
+		
+		lblPicture = new JLabel("");
+		
+		
+		
+		//lblPicture.setIcon(thumbnail);
+		lblPicture.setBorder(new EtchedBorder());
+		
 		GroupLayout layout = new GroupLayout(panel);
-		layout.setHorizontalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(
-		        layout.createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        layout.createParallelGroup(Alignment.LEADING)
-		                                .addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 634,
-		                                        Short.MAX_VALUE)
-		                                .addGroup(
-		                                        layout.createSequentialGroup()
-		                                                .addComponent(lblProduct)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(cboProduct, GroupLayout.PREFERRED_SIZE, 217,
-		                                                        GroupLayout.PREFERRED_SIZE))
-		                                .addGroup(
-		                                        layout.createSequentialGroup()
-		                                                .addComponent(lblMaterial)
-		                                                .addGap(18)
-		                                                .addComponent(cbMaterial, 0, 221, Short.MAX_VALUE)
-		                                                .addGap(18)
-		                                                .addComponent(lblAmount)
-		                                                .addGap(18)
-		                                                .addComponent(spinnerAmount, GroupLayout.DEFAULT_SIZE, 57,
-		                                                        Short.MAX_VALUE).addGap(18).addComponent(btnInsert)
-		                                                .addGap(107))
-		                                .addGroup(
-		                                        layout.createSequentialGroup()
-		                                                .addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 627,
-		                                                        Short.MAX_VALUE)
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(separator, GroupLayout.PREFERRED_SIZE, 1,
-		                                                        GroupLayout.PREFERRED_SIZE))).addContainerGap()));
-		layout.setVerticalGroup(layout.createParallelGroup(Alignment.LEADING).addGroup(
-		        layout.createSequentialGroup()
-		                .addContainerGap()
-		                .addGroup(
-		                        layout.createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblProduct)
-		                                .addComponent(cboProduct, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE))
-		                .addGap(18)
-		                .addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
-		                .addGap(18)
-		                .addGroup(
-		                        layout.createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblMaterial)
-		                                .addComponent(cbMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE,
-		                                        GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblAmount)
-		                                .addComponent(spinnerAmount, GroupLayout.PREFERRED_SIZE,
-		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(btnInsert))
-		                .addGroup(
-		                        layout.createParallelGroup(Alignment.TRAILING)
-		                                .addGroup(
-		                                        layout.createSequentialGroup()
-		                                                .addGap(20)
-		                                                .addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 116,
-		                                                        Short.MAX_VALUE))
-		                                .addGroup(
-		                                        layout.createSequentialGroup()
-		                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                .addComponent(separator, GroupLayout.PREFERRED_SIZE,
-		                                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-		                .addContainerGap()));
+		layout.setHorizontalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addGap(17)
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE)
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblProduct)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboProduct, GroupLayout.PREFERRED_SIZE, 217, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblMaterial)
+							.addGap(18)
+							.addComponent(cbMaterial, 0, 252, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(lblAmount)
+							.addGap(18)
+							.addComponent(spinnerAmount, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(btnInsert)
+							.addGap(100))
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblImagem)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtPath, GroupLayout.PREFERRED_SIZE, 406, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnOpen))
+						.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+							.addComponent(lblPicture, GroupLayout.DEFAULT_SIZE, 686, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+						.addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 691, Short.MAX_VALUE))
+					.addContainerGap())
+		);
+		layout.setVerticalGroup(
+			layout.createParallelGroup(Alignment.LEADING)
+				.addGroup(layout.createSequentialGroup()
+					.addGap(25)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblProduct)
+						.addComponent(cboProduct, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMaterial)
+						.addComponent(cbMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblAmount)
+						.addComponent(spinnerAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnInsert))
+					.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+					.addComponent(tableScroll, GroupLayout.PREFERRED_SIZE, 128, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblImagem)
+						.addComponent(txtPath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnOpen))
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+							.addGap(69)
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup()
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(lblPicture, GroupLayout.PREFERRED_SIZE, 236, GroupLayout.PREFERRED_SIZE)))
+					.addGap(23))
+		);
 
 		table = new JTable();
 		table.setModel(new DefaultTableModel(null, new String[] { "Material", "Quantidade", "Remover" }) {
@@ -416,7 +441,15 @@ public class UpdateOfProductFrame extends JFrame {
 		for (int i = tbl.getRowCount() - 1; i >= 0; i--) {
 			tbl.removeRow(i);
 		}
+		int labelWidth = 95;
+		 ImageIcon imagem = new ImageIcon(controller.getImage(product.getId()));
+			ImageIcon thumbnail = null;
+			if(imagem.getIconWidth() > labelWidth){       
+				thumbnail = new ImageIcon(imagem.getImage().getScaledInstance(labelWidth, -1, Image.SCALE_DEFAULT));  
+			}
+			else thumbnail = imagem;
+			lblImagem.setIcon(imagem);
 		txtDescription.setText(product.getDescription());
-		controller.fillMaterialTable(product, table);
+		controller.fillMaterialTable(product, table,lblImagem);
 	}
 }

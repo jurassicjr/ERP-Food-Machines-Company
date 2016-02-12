@@ -31,11 +31,14 @@ public class MaterialDAO {
 		String name = (String) data.get("name");
 		String intenalCode = (String) data.get("internalCode");
 		String ncm = (String) data.get("ncm");
-		String model = (String) data.get("model");
-		String materialType = (String) data.get("materialType");
-		double ammount = (double) data.get("ammount");
-		insertData = new Object[] { descrition, name, intenalCode, ncm, ammount, model, materialType };
-		String sql = "INSERT INTO Product(descricao, name, internal_code, ncm, quantidade, model, material_type) VALUES (?, ?, ?, ?, ?, ?, ?)";
+		int model = (int) data.get("model");
+		int materialType = (int) data.get("materialType");
+		int measureUnit = (int) data.get("measureUnit");
+		double x = (double) data.get("x");
+		double y = (double) data.get("y");
+		double z = (double) data.get("z");
+		insertData = new Object[] { descrition, name, intenalCode, ncm, model, materialType, measureUnit, x, y, z };
+		String sql = "INSERT INTO Product(descricao, name, internal_code, ncm, model, material_type, measure_unit, x, y, z) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		dataBase.executeUpdate(sql, insertData);
 		ShowMessage.successMessage(null, "GRAVAÇÂO", "Gravação concluida com sucesso!");
 	}
@@ -52,9 +55,8 @@ public class MaterialDAO {
 				material.setName(rs.getString("name"));
 				material.setDescrition(rs.getString("descricao"));
 				material.setId(rs.getInt("id"));
-				material.setAmmount(rs.getInt("quantidade"));
-				material.setModel(rs.getString("model"));
-				material.setMaterialType(rs.getString("material_type"));
+				material.setModel(rs.getInt("model"));
+				material.setMaterialType(rs.getInt("material_type"));
 				mList.add(material);
 			}
 
@@ -74,9 +76,8 @@ public class MaterialDAO {
 				material.setName(rs.getString("name"));
 				material.setDescrition(rs.getString("descricao"));
 				material.setId(rs.getInt("id"));
-				material.setAmmount(rs.getInt("quantidade"));
-				material.setModel(rs.getString("model"));
-				material.setMaterialType(rs.getString("material_type"));
+				material.setModel(rs.getInt("model"));
+				material.setMaterialType(rs.getInt("material_type"));
 			}
 
 			dataBase.close();
@@ -98,7 +99,6 @@ public class MaterialDAO {
 				        rs.getInt("material"))) {
 					if (rsName.next()) {
 						m.setName(rsName.getString("name"));
-						m.setAmmount(rsName.getDouble("quantidade"));
 						m.setId(rsName.getInt("id"));
 						m.setNCM(rsName.getString("ncm"));
 						m.setInternalCode(rsName.getString("internal_code"));
@@ -111,4 +111,28 @@ public class MaterialDAO {
 		}
 		return list;
 	}
+
+	public ArrayList<Material> getAllEpisMaterials() {
+		List<Material> mList = new ArrayList<Material>();
+		try {
+
+			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product where material_type = 1");
+
+			while (rs.next()) {
+
+				Material material = new Material();
+				material.setName(rs.getString("name"));
+				material.setDescrition(rs.getString("descricao"));
+				material.setId(rs.getInt("id"));
+				material.setModel(rs.getInt("model"));
+				material.setMaterialType(rs.getInt("material_type"));
+				material.setAmmount(rs.getDouble("quantidade"));
+				mList.add(material);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return (ArrayList<Material>) mList;
+    }
 }

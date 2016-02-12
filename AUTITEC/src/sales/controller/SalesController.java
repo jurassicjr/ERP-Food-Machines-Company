@@ -7,6 +7,7 @@ import java.awt.event.ItemListener;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
@@ -15,6 +16,9 @@ import javax.swing.JOptionPane;
 
 import model.City;
 import model.Material;
+import model.MaterialModel;
+import model.MaterialType;
+import model.MeasureUnit;
 import model.State;
 import model.Supplier;
 import product.view.RegisterKitFrame;
@@ -43,6 +47,9 @@ import userInterface.view.MainFrame;
 import util.ShowMessage;
 import database.DataBase;
 import database.dao.MaterialDAO;
+import database.dao.MeasureUnitDAO;
+import database.dao.RegisterOfMaterialModelDAO;
+import database.dao.RegisterOfMaterialTypeDAO;
 import database.dao.SuppliersDAO;
 
 public class SalesController {
@@ -51,6 +58,7 @@ public class SalesController {
 	private DataBase dataBase;
 	private SuppliersDAO sDao;
 	private MaterialDAO materialDAO;
+	private JFrame frame;
 
 	/**
 	 * Construtor para determinar o MainFrame.
@@ -197,6 +205,7 @@ public class SalesController {
 
 	public void closeFrame(JFrame frame) {
 
+		this.frame = frame;
 		String title = "Sair";
 		String message = "Deseja realmente sair?\nOs dados não salvos serão perdidos.";
 
@@ -304,9 +313,12 @@ public class SalesController {
 				mapa.put("descricao", material.getDescrition());
 				mapa.put("internalCode", material.getInternalCode());
 				mapa.put("ncm", material.getNCM());
-				mapa.put("ammount", material.getAmmount());
+				mapa.put("measureUnit", material.getMeasureUnit());
 				mapa.put("model", material.getModel());
-				mapa.put("materialType", material.getMaterialType());		
+				mapa.put("materialType", material.getMaterialType());
+				mapa.put("x", material.getWidth());
+				mapa.put("y", material.getLength());
+				mapa.put("z", material.getHeigth());
 				materialDAO = new MaterialDAO(mapa);
 			}
 		} catch (Exception e) {
@@ -551,5 +563,26 @@ public class SalesController {
 				frame.setLocationRelativeTo(mainFrame);
 			}
 		});
+    }
+
+	public void fillMaterialType(JComboBox<MaterialType> cboMaterialType) {
+	    List<MaterialType> list = new RegisterOfMaterialTypeDAO().getTypes();
+	    list.forEach(m -> cboMaterialType.addItem(m));
+    }
+
+	public JFrame getFrame() {
+	    return this.frame;
+    }
+
+	public void fillMaterialModels(JComboBox<MaterialModel> cboMaterialModel) {
+	    List<MaterialModel> list = new RegisterOfMaterialModelDAO().getModels();
+	    if(list.isEmpty())return;
+	    list.forEach(m -> cboMaterialModel.addItem(m));
+    }
+
+	public void fillMeasureUnit(JComboBox<MeasureUnit> cboMeasureUnit) {
+	    List<MeasureUnit> list = new MeasureUnitDAO().getUnits();
+	    if(list.isEmpty())return;
+	    list.forEach(m -> cboMeasureUnit.addItem(m));
     }
 }

@@ -4,17 +4,17 @@ import java.util.Date;
 
 public class RemoveOfEPI {
 
-	private EPI epi;
+	private Material epi;
 	private Employee e;
 	private Date date;
 	private String motive;
 	private int ammount;
 	
-	public EPI getEpi() {
+	public Material getEpi() {
 		return epi;
 	}
 	
-	public void setEpi(EPI epi) {
+	public void setEpi(Material epi) {
 		this.epi = epi;
 	}
 	

@@ -104,9 +104,11 @@ public class InventoryController extends SalesController {
 		cboSupplier.setSelectedIndex(-1);
 	}
 
-	public void fillProducts(JComboBox<Material> product) {
+	public void fillProducts(JComboBox<Material> product, boolean isEPI) {
 		product.removeAllItems();
-		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM Product")) {
+		String query = "SELECT *FROM Product";
+		if(isEPI) query = "SELECT *FROM Product where material_type = 1";
+		try (ResultSet rs = dataBase.executeQuery(query)) {
 			while (rs.next()) {
 				Material produto = new Material();
 				produto.setName(rs.getString("name"));

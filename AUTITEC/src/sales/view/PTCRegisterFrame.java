@@ -16,6 +16,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -44,6 +45,8 @@ import model.Material;
 import model.PTC;
 import model.Product;
 import model.Service;
+import net.sf.nachocalendar.CalendarFactory;
+import net.sf.nachocalendar.components.DateField;
 import sales.controller.PTCController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
@@ -119,6 +122,8 @@ public class PTCRegisterFrame extends JFrame {
 	private JLabel lblFinalPrice;
 	private JTextField txtFinalPrice;
 	private JComboBox<CNPJ> cboCNPJ;
+	private JComboBox<CNPJ> cboCNPJ_1;
+	private DateField txtDate;
 
 	public PTCRegisterFrame() {
 		controller = new PTCController(this);
@@ -266,7 +271,7 @@ public class PTCRegisterFrame extends JFrame {
 	    txtAliquotPlusBruteValue = new JTextField();
 	    txtAliquotPlusBruteValue.setColumns(10);
 	    
-	    lblContribuition = new JLabel("Margem de Contribuição");
+	    lblContribuition = new JLabel("Margem");
 	    
 	    try {
 	        txtContribuition = new JFormattedTextField(new MaskFormatter("##.##%"));
@@ -297,8 +302,12 @@ public class PTCRegisterFrame extends JFrame {
 	    JLabel lblCnpj = new JLabel("CNPJ");
 	    
 	    cboCNPJ = new JComboBox<CNPJ>();
-	    cboCNPJ = new JComboBox<CNPJ>();
-		controller.fillCnpj(cboCNPJ);
+	    cboCNPJ_1 = new JComboBox<CNPJ>();
+		controller.fillCnpj(cboCNPJ_1);
+	    
+	    JLabel lblDataDeCriao = new JLabel("Data de Criação");
+	    
+	    txtDate = CalendarFactory.createDateField();
 	    
 	    GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 	    gl_principalPanel.setHorizontalGroup(
@@ -326,7 +335,7 @@ public class PTCRegisterFrame extends JFrame {
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblCnpj)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(cboCNPJ, 0, 348, Short.MAX_VALUE))
+	    							.addComponent(cboCNPJ_1, 0, 348, Short.MAX_VALUE))
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblTitle)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
@@ -357,18 +366,6 @@ public class PTCRegisterFrame extends JFrame {
 	    					.addPreferredGap(ComponentPlacement.UNRELATED)
 	    					.addComponent(btnPath))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addComponent(lblBruteValue)
-	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtBruteValue, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(18)
-	    					.addComponent(lblAliquot)
-	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtAliquot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(18)
-	    					.addComponent(lblValorBruto)
-	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtAliquotPlusBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblKits)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addComponent(cboKits, GroupLayout.PREFERRED_SIZE, 297, GroupLayout.PREFERRED_SIZE)
@@ -397,21 +394,43 @@ public class PTCRegisterFrame extends JFrame {
 	    					.addPreferredGap(ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
 	    					.addComponent(btnAddMaterial))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addComponent(lblContribuition)
+	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+	    						.addGroup(gl_principalPanel.createSequentialGroup()
+	    							.addComponent(lblBruteValue)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(txtBruteValue, GroupLayout.PREFERRED_SIZE, 108, GroupLayout.PREFERRED_SIZE))
+	    						.addGroup(gl_principalPanel.createSequentialGroup()
+	    							.addComponent(lblSuggestedPrice)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(txtSuggestedPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    							.addPreferredGap(ComponentPlacement.UNRELATED)
+	    							.addComponent(lblDiscount)))
 	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtContribuition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(18)
-	    					.addComponent(lblSuggestedPrice)
-	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtSuggestedPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(18)
-	    					.addComponent(lblDiscount)
-	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtDiscount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(18)
-	    					.addComponent(lblFinalPrice)
-	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtFinalPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
+	    						.addGroup(gl_principalPanel.createSequentialGroup()
+	    							.addComponent(txtDiscount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    							.addPreferredGap(ComponentPlacement.UNRELATED)
+	    							.addComponent(lblFinalPrice)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(txtFinalPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    							.addGap(18)
+	    							.addComponent(lblDataDeCriao)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(txtDate))
+	    						.addGroup(gl_principalPanel.createSequentialGroup()
+	    							.addGap(8)
+	    							.addComponent(lblAliquot)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(txtAliquot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    							.addGap(18)
+	    							.addComponent(lblValorBruto)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(txtAliquotPlusBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    							.addGap(16)
+	    							.addComponent(lblContribuition)
+	    							.addPreferredGap(ComponentPlacement.RELATED)
+	    							.addComponent(txtContribuition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+	    					.addGap(5)))
 	    			.addContainerGap())
 	    );
 	    gl_principalPanel.setVerticalGroup(
@@ -422,7 +441,7 @@ public class PTCRegisterFrame extends JFrame {
 	    				.addComponent(lblRastreabilityCode)
 	    				.addComponent(txtRastreabilityCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblCnpj)
-	    				.addComponent(cboCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    				.addComponent(cboCNPJ_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(18)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblClient)
@@ -478,20 +497,22 @@ public class PTCRegisterFrame extends JFrame {
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblBruteValue)
 	    				.addComponent(txtBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(txtContribuition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblAliquot)
 	    				.addComponent(txtAliquot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblValorBruto)
-	    				.addComponent(txtAliquotPlusBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    				.addComponent(txtAliquotPlusBruteValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblContribuition))
 	    			.addGap(18)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-	    				.addComponent(lblContribuition)
-	    				.addComponent(txtContribuition, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblSuggestedPrice)
 	    				.addComponent(txtSuggestedPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblDiscount)
 	    				.addComponent(txtDiscount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblFinalPrice)
-	    				.addComponent(txtFinalPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    				.addComponent(txtFinalPrice, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addComponent(lblDataDeCriao)
+	    				.addComponent(txtDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addContainerGap(18, Short.MAX_VALUE))
 	    );
 	    gl_principalPanel.linkSize(SwingConstants.VERTICAL, new Component[] {scrollPane, scrollPane_1, scrollPane_2, scrollPane_3});
@@ -640,6 +661,7 @@ public class PTCRegisterFrame extends JFrame {
 		materialTable.addKeyListener(tableKeyListener);
 		productTable.addKeyListener(tableKeyListener);
 		kitTable.addKeyListener(tableKeyListener);
+		serviceTable.addKeyListener(tableKeyListener);
 		
 		ActionListener cboListener = new ActionListener() {
 			
@@ -780,10 +802,11 @@ public class PTCRegisterFrame extends JFrame {
 			List<Product> productList = (List<Product>) controller.fillListOfComponents(productTable);
 			List<Kit> kitList = (List<Kit>) controller.fillListOfComponents(kitTable);
 			List<Service> serviceList = (List<Service>) controller.fillListOfComponents(serviceTable);
-			CNPJ cnpj = (CNPJ) cboCNPJ.getSelectedItem();
+			CNPJ cnpj = (CNPJ) cboCNPJ_1.getSelectedItem();
 			String rastreabilityCode = txtRastreabilityCode.getText();
+			Date date = (Date) txtDate.getValue();
 			
-			PTC ptc = new PTC(title, suggestedPrice, aliquot, bruteValue, aliquotPlusBrute, discount, finalPrice, client,contribuition);
+			PTC ptc = new PTC(title, suggestedPrice, aliquot, bruteValue, aliquotPlusBrute, discount, finalPrice, client,contribuition, date);
 			ptc.setKitList(kitList);
 			ptc.setMaterialList(materialList);
 			ptc.setProductList(productList);
@@ -793,6 +816,7 @@ public class PTCRegisterFrame extends JFrame {
 			
 			
 			controller.register(ptc);
+			ShowMessage.successMessage(this, "Sucesso", "Registro de P.T.C realizado com sucesso!");
 			ClearFrame.clear(this);
 			ClearFrame.clearTable(kitTable);
 			ClearFrame.clearTable(materialTable);
@@ -851,8 +875,12 @@ public class PTCRegisterFrame extends JFrame {
 	    	ShowMessage.questionMessage(this, "Erro", "Verifique o valor de Saída!");
 	    	return false;
 	    }
-	    if(cboCNPJ.getSelectedIndex() == -1) {
+	    if(cboCNPJ_1.getSelectedIndex() == -1) {
 	    	ShowMessage.errorMessage(this, "Erro", "Selecione por qual CNPJ está realizando está P.T.C?");
+	    	return false;
+	    }
+	    if(txtDate.getValue() == null) {
+	    	ShowMessage.errorMessage(this, "Erro", "Insira a data de criação da P.T.C");
 	    	return false;
 	    }
 		return true;

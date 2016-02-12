@@ -1,0 +1,12 @@
+CREATE TABLE IF NOT EXISTS ptc_approvation(
+
+id INT(11) NOT NULL AUTO_INCREMENT,
+observation VARCHAR(255) NOT NULL,
+date DATE NOT NULL,
+ptc INT(11) NOT NULL,
+approved_by INT(11) NOT NULL,
+
+PRIMARY KEY(id),
+FOREIGN KEY(approved_by) REFERENCES employee(id),
+FOREIGN KEY(ptc) REFERENCES ptc(id)
+);

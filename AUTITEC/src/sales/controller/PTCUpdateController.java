@@ -4,7 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -32,7 +34,6 @@ import database.dao.ProductDAO;
 
 public class PTCUpdateController {
 
-	
 	private PTCUpdateFrame frame;
 	private DataBase dataBase;
 
@@ -41,12 +42,12 @@ public class PTCUpdateController {
 		dataBase = new DataBase();
 		dataBase.connect();
 	}
-	
+
 	public void close() {
 		int i = ShowMessage.questionMessage(frame, "Fechar", "Deseja realmente fechar a atualização de ptc?");
-		if(i == JOptionPane.YES_OPTION)frame.dispose();
+		if (i == JOptionPane.YES_OPTION)
+			frame.dispose();
 	}
-	
 
 	public void fillClient(JComboBox<Client> cboClients, boolean itemSelected) {
 
@@ -184,9 +185,9 @@ public class PTCUpdateController {
 		DecimalFormat df = new DecimalFormat("0.00");
 		int row = table.getRowCount() - 1;
 		table.setValueAt(material, row, 0);
-		table.setValueAt(df.format(amount*ammount), row, 1);
+		table.setValueAt(df.format(amount * ammount), row, 1);
 		table.setValueAt(ammount, row, 2);
-		material.setAuxPrice(amount*ammount);
+		material.setAuxPrice(amount * ammount);
 		material.setAuxAmmount(ammount);
 
 	}
@@ -209,9 +210,9 @@ public class PTCUpdateController {
 		int row = table.getRowCount() - 1;
 		DecimalFormat df = new DecimalFormat("0.00");
 		table.setValueAt(product, row, 0);
-		table.setValueAt(df.format(amount*ammount), row, 1);
+		table.setValueAt(df.format(amount * ammount), row, 1);
 		table.setValueAt(ammount, row, 2);
-		product.setAuxPrice(amount*ammount);
+		product.setAuxPrice(amount * ammount);
 		product.setAuxAmmount(ammount);
 	}
 
@@ -232,9 +233,9 @@ public class PTCUpdateController {
 		int row = table.getRowCount() - 1;
 		DecimalFormat df = new DecimalFormat("0.00");
 		table.setValueAt(kit, row, 0);
-		table.setValueAt(df.format(amount*ammount), row, 1);
+		table.setValueAt(df.format(amount * ammount), row, 1);
 		table.setValueAt(ammount, row, 2);
-		kit.setAuxPrice(amount*ammount);
+		kit.setAuxPrice(amount * ammount);
 		kit.setAuxAmmount(ammount);
 	}
 
@@ -244,7 +245,8 @@ public class PTCUpdateController {
 			Service m = (Service) serviceTable.getValueAt(i, 0);
 
 			if (m.equals(service)) {
-				ShowMessage.errorMessage(frame, "Serviço já presente", service.getName() + " já é um Serviço desta PTC");
+				ShowMessage
+				        .errorMessage(frame, "Serviço já presente", service.getName() + " já é um Serviço desta PTC");
 				return;
 			}
 		}
@@ -259,54 +261,55 @@ public class PTCUpdateController {
 	public Inventory getInventory(int id) {
 		Inventory i = new InvetoryDAO().getInventory(id);
 		return i;
-    }
+	}
 
 	public List<Inventory> getInventoryListForProduct(int id) {
-	    List<Material> materialList = new MaterialDAO().getMaterialAssociationWithProduct(id);
-	    List<Inventory> inventoryList = new InvetoryDAO().getInventoryList(materialList);
-	    return inventoryList;
-    }
+		List<Material> materialList = new MaterialDAO().getMaterialAssociationWithProduct(id);
+		List<Inventory> inventoryList = new InvetoryDAO().getInventoryList(materialList);
+		return inventoryList;
+	}
 
 	public double getProductListforKit(int id) {
-	    List<Product> productList = new ProductDAO().getProductAssociationWithKit(id);
-	    double prodTotal = 0;
-	    for (Product p : productList) {
-	    	int idP = p.getId();
+		List<Product> productList = new ProductDAO().getProductAssociationWithKit(id);
+		double prodTotal = 0;
+		for (Product p : productList) {
+			int idP = p.getId();
 			List<Inventory> list = getInventoryListForProduct(idP);
 			double total = 0.0;
 			for (Inventory inventory : list) {
-		        double value = inventory.getEntryValue();
-		        total += value;
-	        }
-			prodTotal += total*p.getAuxAmmount();
-        }
+				double value = inventory.getEntryValue();
+				total += value;
+			}
+			prodTotal += total * p.getAuxAmmount();
+		}
 		return prodTotal;
-    }
+	}
 
 	public double calculateTablePrice(JTable table) {
-		if(table.getRowCount() == 0)return 0;
+		if (table.getRowCount() == 0)
+			return 0;
 		int max = table.getRowCount();
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		double total = 0;
-		for(int i =0; i<max; i++) {
+		for (int i = 0; i < max; i++) {
 			String v = (String) tbl.getValueAt(i, 1);
 			double value = Double.parseDouble(v.replaceAll(",", "\\."));
 			total += value;
 		}
 		return total;
-    }
+	}
 
 	public List<?> fillListOfComponents(JTable table) {
-	    int length = table.getRowCount();
-	    List<Object> list = new ArrayList<Object>();
-	    DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-	    for(int i =0; i<length; i++) {
-	    	Object obj = tbl.getValueAt(i, 0);
-	    	list.add(obj);
-	    }
+		int length = table.getRowCount();
+		List<Object> list = new ArrayList<Object>();
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		for (int i = 0; i < length; i++) {
+			Object obj = tbl.getValueAt(i, 0);
+			list.add(obj);
+		}
 		return list;
-    }
-	
+	}
+
 	public void fillCnpj(JComboBox<CNPJ> cnpjs) {
 		try {
 
@@ -328,11 +331,51 @@ public class PTCUpdateController {
 			e.printStackTrace();
 			DataBase.showDataBaseErrorMessage();
 		}
-    }
+	}
 
 	public void fillPTC(JComboBox<PTC> cboPTC) {
 		List<PTC> list = new PTCDAO().getAllPTC();
-		list.forEach(p -> cboPTC.addItem(p));
+		boolean v = false;
+		PTC pt = null;
+		for (int i = 0; i < list.size(); i++) {
+			for (int j = i; j < list.size(); j++) {
+				if (list.get(i).getIdMaster() == list.get(j).getIdMaster()) {
+					v = true;
+					if (list.get(i).getId() <= list.get(j).getId()) {
+						pt = list.get(j);
+					}
+				}
+			}
+			if (list.get(i).getIsApproved() == 0 && !v) {
+				cboPTC.addItem(list.get(i));
+			} else if (list.get(i).getIsApproved() == 0 && v) {
+				cboPTC.addItem(pt);
+			}
+			v = false;
+		}
 		cboPTC.setSelectedIndex(-1);
-    }
+	}
+
+	public void update(PTC ptc) {
+
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("aliquot", ptc.getAliquot());
+		map.put("aliquotPlusBrute", ptc.getAliquotPlusBrute());
+		map.put("brutePrice", ptc.getBrutePrice());
+		map.put("client", ptc.getClient());
+		map.put("contribuition", ptc.getContribuition());
+		map.put("discount", ptc.getDiscount());
+		map.put("finalPrice", ptc.getFinalPrice());
+		map.put("kitList", ptc.getKitList());
+		map.put("productList", ptc.getProductList());
+		map.put("materialList", ptc.getMaterialList());
+		map.put("serviceList", ptc.getServiceList());
+		map.put("suggestedPrice", ptc.getSuggestedPrice());
+		map.put("title", ptc.getTitle());
+		map.put("cnpj", ptc.getCnpj());
+		map.put("rastreabilityCode", ptc.getRastreabilityCode());
+		map.put("date", ptc.getCreationDate());
+		map.put("idMaster", ptc.getIdMaster());
+		new PTCDAO().register(map, false);
+	}
 }

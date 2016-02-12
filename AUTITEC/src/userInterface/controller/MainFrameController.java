@@ -18,14 +18,12 @@ import maintenance.view.update.VehicleUpdateFrame;
 import production.view.StagesProductionFrame;
 import rh.view.AssessmentOfCompetenceFrame;
 import rh.view.EmployeeReportFrame;
-import rh.view.EntryOfEPIFrame;
 import rh.view.ExternalSatisfactionResearchFrame;
 import rh.view.InternalSatisfactionResearchFrame;
 import rh.view.ManualQualityFrame;
 import rh.view.MonitoringImplementationFrame;
 import rh.view.ProcedureFrame;
 import rh.view.RegisterEmployeeFrame;
-import rh.view.RegisterOfEPIFrame;
 import rh.view.RegisterOfFunctionDescriptionFrame;
 import rh.view.RegisterOfTrainingFrame;
 import rh.view.RegisterUserFrame;
@@ -33,17 +31,19 @@ import rh.view.RemoveOfEPIFrame;
 import rh.view.RncRegisterFrame;
 import rh.view.TechnicalStandardFrame;
 import rh.view.UpdateEmployeeFrame;
-import rh.view.UpdateOfEPIFrame;
 import rh.view.UpdateOfTrainingFrame;
 import rh.view.UpdatePermissionsFrame;
 import rh.view.report.ExternalSatisfactionResearchReport;
 import rh.view.report.InternalSatisfactionResearchReport;
 import rh.view.search.RncSearchFrame;
 import sales.controller.SalesController;
+import sales.view.InventoryFrame;
+import sales.view.PTCApprovationFrame;
 import sales.view.PTCRegisterFrame;
 import sales.view.PTCUpdateFrame;
 import sales.view.register.ClientPropertiesOutputFrame;
 import sales.view.register.ServiceRegisterFrame;
+import sales.view.update.MaterialUpdateFrame;
 import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
 import userInterface.view.RegisterIssueFrame;
@@ -453,25 +453,13 @@ public class MainFrameController {
 
 	}
 
-	public void epiRegister() {
-		EventQueue.invokeLater(new Runnable() {
-			
-			@Override
-			public void run() {
-				RegisterOfEPIFrame frame = new RegisterOfEPIFrame();
-				frame.pack();
-				frame.setVisible(true);
-				frame.setLocationRelativeTo(mainFrame);
-			}
-		});		
-	}
 
 	public void epiUpdate() {
 		EventQueue.invokeLater(new Runnable() {
 			
 			@Override
 			public void run() {
-				UpdateOfEPIFrame frame = new UpdateOfEPIFrame();
+				MaterialUpdateFrame frame = new MaterialUpdateFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
@@ -484,7 +472,7 @@ public class MainFrameController {
 			
 			@Override
 			public void run() {
-				EntryOfEPIFrame frame = new EntryOfEPIFrame();
+				InventoryFrame frame = new InventoryFrame(true);
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);
@@ -876,6 +864,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				PTCUpdateFrame frame = new PTCUpdateFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void pTCApprovation() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				PTCApprovationFrame frame = new PTCApprovationFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

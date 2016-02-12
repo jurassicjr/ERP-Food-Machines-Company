@@ -200,7 +200,6 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Registrar Usuário", false, "REG_USER"),
 				new CheckBoxNode("Relatório de Funcionários", false, "EMP_REP"),
 				new CheckBoxNode("Atualizar Permissões", false, "UPD_PERM"),
-				new CheckBoxNode("Registrar EPI's", false, "EPI_REG"),
 				new CheckBoxNode("Atualização/Remoção de EPI's", false, "EPI_UPD"),
 				new CheckBoxNode("Inserção de EPI's", false, "IST_EPI"),
 				new CheckBoxNode("Retirada de EPI's", false, "RMV_EPI"),
@@ -249,7 +248,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Registro de Saída de Propriedade do Cliente", false, "EXI_CLI_PROP"),
 				new CheckBoxNode("Registro de Serviço", false, "SER_REG"),
 				new CheckBoxNode("Registro de PTC", false, "PTC_REG"),
-				new CheckBoxNode("Atualização de Pedido Técnico Comercial", false, "UPD_PTC")
+				new CheckBoxNode("Atualização de Pedido Técnico Comercial", false, "UPD_PTC"),
+				new CheckBoxNode("Aprovação de P.T.C", false, "PTC_APP")
 		};
 		
 		CheckBoxNode productionOptions[] = {

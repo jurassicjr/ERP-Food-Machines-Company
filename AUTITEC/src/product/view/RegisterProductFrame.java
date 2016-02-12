@@ -22,9 +22,11 @@ import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ListSelectionModel;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
@@ -35,7 +37,9 @@ import javax.swing.table.TableColumnModel;
 
 import model.Material;
 import product.controller.RegisterProductFrameController;
+import userInterface.components.FileChooser;
 import userInterface.components.UpperTextField;
+import userInterface.components.filters.ImageFilter;
 import util.Icon;
 import util.ShowMessage;
 
@@ -56,6 +60,11 @@ public class RegisterProductFrame extends JFrame {
 	
 	private RegisterProductFrameController controller;
 	private JSeparator separator;
+	private JTextField txtPath;
+
+	private JButton btnOpenPhoto;
+
+	private FileChooser fileChooser;
 
 	public RegisterProductFrame() {
 		
@@ -63,7 +72,7 @@ public class RegisterProductFrame extends JFrame {
 		
 		initialize();
 		setListeners();
-		
+		fileChooser = new FileChooser(this);
 		controller.fillMaterials(cbMaterial);
 		
 	}
@@ -71,7 +80,7 @@ public class RegisterProductFrame extends JFrame {
 	private void initialize() {
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 680, 485);
+		setBounds(100, 100, 680, 562);
 		setTitle("Registrar Produto");
 		Icon.setIcon(this);
 		
@@ -122,6 +131,15 @@ public class RegisterProductFrame extends JFrame {
 		JScrollPane tableScroll = new JScrollPane();
 		
 		separator = new JSeparator();
+		
+		JLabel lblSendPhoto = new JLabel("Enviar Imagem");
+		
+		txtPath = new JTextField();
+		txtPath.setColumns(10);
+		
+		btnOpenPhoto = new JButton("Abrir foto");
+		
+		btnOpenPhoto.setIcon(new ImageIcon(RegisterProductFrame.class.getResource("/resources/open.png")));
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(Alignment.LEADING)
@@ -139,15 +157,21 @@ public class RegisterProductFrame extends JFrame {
 							.addComponent(cbMaterial, 0, 221, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblAmount)
-							.addGap(18)
-							.addComponent(spinnerAmount, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(btnInsert)
-							.addGap(107))
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(spinnerAmount, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnInsert)
+							.addGap(133))
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+						.addGroup(layout.createSequentialGroup()
+							.addComponent(lblSendPhoto)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtPath, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnOpenPhoto)))
 					.addContainerGap())
 		);
 		layout.setVerticalGroup(
@@ -166,15 +190,21 @@ public class RegisterProductFrame extends JFrame {
 						.addComponent(lblAmount)
 						.addComponent(spinnerAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnInsert))
-					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+					.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
 						.addGroup(layout.createSequentialGroup()
-							.addGap(20)
-							.addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED, 0, Short.MAX_VALUE)
+							.addComponent(tableScroll, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE))
 						.addGroup(layout.createSequentialGroup()
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-					.addContainerGap())
+					.addGap(18)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblSendPhoto)
+						.addComponent(txtPath, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnOpenPhoto))
+					.addGap(16))
 		);
+		layout.linkSize(SwingConstants.VERTICAL, new Component[] {scrollPane, tableScroll});
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(null, new String[] {"Produto", "Quantidade", "Remover"})
@@ -186,7 +216,8 @@ public class RegisterProductFrame extends JFrame {
 				false, false, true
 			};
 			
-			public boolean isCellEditable(int row, int column) {
+			@Override
+            public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 			
@@ -222,9 +253,9 @@ public class RegisterProductFrame extends JFrame {
 			
 				if(e.getSource().equals(btnCancel)) controller.closeFrame();
 				else if(e.getSource().equals(btnClear)) controller.clear();
-				else if(e.getSource().equals(btnRegister)) controller.register(txProduct.getText(), txDescription.getText(), table);
+				else if(e.getSource().equals(btnRegister)) controller.register(txProduct.getText(), txDescription.getText(), table, txtPath.getText());
 				else if(e.getSource().equals(btnInsert)) insertMaterial();
-				
+				else if(e.getSource().equals(btnOpenPhoto))selectOutput(fileChooser, txtPath);
 			}
 		};
 		
@@ -232,6 +263,7 @@ public class RegisterProductFrame extends JFrame {
 		btnClear.addActionListener(buttonsListeners);
 		btnCancel.addActionListener(buttonsListeners);
 		btnRegister.addActionListener(buttonsListeners);
+		btnOpenPhoto.addActionListener(buttonsListeners);
 		
 		addWindowListener(new WindowAdapter() {
 			
@@ -348,5 +380,17 @@ public class RegisterProductFrame extends JFrame {
 		}
 				
 	}
-
+	
+	public void selectOutput(FileChooser fileChooser, JTextField txReportFile) {
+		
+		fileChooser.showOpenDialog(new ImageFilter());
+		
+		if(fileChooser.hasSelectedFile()) {
+			
+			String path = fileChooser.getSelectedPathFile();
+				
+			txReportFile.setText(path);
+		}
+					
+	}
 }

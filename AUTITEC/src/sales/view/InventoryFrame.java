@@ -76,10 +76,19 @@ public class InventoryFrame extends JFrame {
 	private JTextField txtIcms;
 	private JLabel lblPIS;
 	private JTextField txtPIS;
+	private boolean isEPI = false;
 
 	public InventoryFrame() {
 		frame = this;
 		controller = new InventoryController();
+		initialize();
+		setListeners();
+	}
+	
+	public InventoryFrame(boolean isEPI) {
+		frame = this;
+		controller = new InventoryController();
+		this.isEPI = true;
 		initialize();
 		setListeners();
 	}
@@ -102,7 +111,7 @@ public class InventoryFrame extends JFrame {
 		lblMaterial = new JLabel("Material");
 
 		cboMaterial = new JComboBox<Material>();
-		controller.fillProducts(cboMaterial);
+		controller.fillProducts(cboMaterial, isEPI);
 		lblAmmount = new JLabel("Quantidade");
 
 		spinner = new JSpinner();

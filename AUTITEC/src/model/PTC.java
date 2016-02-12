@@ -1,8 +1,10 @@
 package model;
 
+import java.util.Date;
 import java.util.List;
 
 public class PTC {
+	
 	private int id;
 	private String title;
 	private List<Material> materialList;
@@ -19,8 +21,11 @@ public class PTC {
 	private double finalPrice;
 	private CNPJ cnpj;
 	private String rastreabilityCode;
+	private int isApproved;
+	private Date creationDate;
+	private int idMaster;
 	
-	public PTC(String title, double suggestedPrice, double aliquot, double brutePrice, double aliquotPlusBrute, double discount, double finalPrice, Client client, double contribuition) {
+	public PTC(String title, double suggestedPrice, double aliquot, double brutePrice, double aliquotPlusBrute, double discount, double finalPrice, Client client, double contribuition, Date creationDate) {
 		this.title = title;
 		this.suggestedPrice = suggestedPrice;
 		this.aliquot = aliquot;
@@ -30,8 +35,13 @@ public class PTC {
 		this.finalPrice = finalPrice;
 		this.client = client;
 		this.contribuition = contribuition;
+		this.creationDate = creationDate;
 	}
 
+	
+	public Date getCreationDate() {
+		return this.creationDate;
+	}
 	public int getId() {
 		return id;
 	}
@@ -130,6 +140,69 @@ public class PTC {
 	
 	@Override
 	public String toString() {
-	    return this.title;
+	    return this.title + "/" + this.rastreabilityCode;
+	}
+
+	public int getIsApproved() {
+	    return isApproved;
+    }
+
+	public void setIsApproved(int isApproved) {
+	    this.isApproved = isApproved;
+    }
+
+
+	public int getIdMaster() {
+	    return idMaster;
+    }
+
+
+	public void setIdMaster(int idMaster) {
+	    this.idMaster = idMaster;
+    }
+
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+
+	public void setAliquot(double aliquot) {
+		this.aliquot = aliquot;
+	}
+
+
+	public void setBrutePrice(double brutePrice) {
+		this.brutePrice = brutePrice;
+	}
+
+
+	public void setAliquotPlusBrute(double aliquotPlusBrute) {
+		this.aliquotPlusBrute = aliquotPlusBrute;
+	}
+
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+
+	public void setContribuition(double contribuition) {
+		this.contribuition = contribuition;
+	}
+
+
+	public void setDiscount(double discount) {
+		this.discount = discount;
+	}
+
+
+	public void setFinalPrice(double finalPrice) {
+		this.finalPrice = finalPrice;
+	}
+
+
+	public void setCreationDate(Date creationDate) {
+		this.creationDate = creationDate;
 	}
 }

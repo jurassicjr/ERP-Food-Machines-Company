@@ -14,6 +14,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.GroupLayout;
@@ -39,6 +40,8 @@ import model.Material;
 import model.PTC;
 import model.Product;
 import model.Service;
+import net.sf.nachocalendar.CalendarFactory;
+import net.sf.nachocalendar.components.DateField;
 import sales.controller.PTCUpdateController;
 import userInterface.components.ComboBoxAutoCompletion;
 import util.ClearFrame;
@@ -114,11 +117,20 @@ public class PTCUpdateFrame extends JFrame{
 	private JButton btnClear;
 	private JPanel subPanel;
 	private PTCUpdateController controller;
+	private JLabel lblCreationDate;
+	private DateField txtCreationDate;
 
     public PTCUpdateFrame() {
     	controller = new PTCUpdateController(this);
     	initialize();
     	setListener();
+    }
+    
+    public PTCUpdateFrame(PTC ptc) {
+    	controller = new PTCUpdateController(this);
+    	initialize();
+    	setListener();
+    	fillFields(ptc);
     }
 
 	private void initialize() {
@@ -278,6 +290,10 @@ public class PTCUpdateFrame extends JFrame{
 	    cboPTC = new JComboBox<PTC>();
 	    controller.fillPTC(cboPTC);
 	    
+	    lblCreationDate = new JLabel("Data");
+	    
+	    txtCreationDate = CalendarFactory.createDateField();
+	    
 	    GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 	    gl_principalPanel.setHorizontalGroup(
 	    	gl_principalPanel.createParallelGroup(Alignment.LEADING)
@@ -361,7 +377,11 @@ public class PTCUpdateFrame extends JFrame{
 	    					.addGap(18)
 	    					.addComponent(lblBrutePricePlusAliquot, GroupLayout.PREFERRED_SIZE, 106, GroupLayout.PREFERRED_SIZE)
 	    					.addGap(4)
-	    					.addComponent(txtBrutePricePlusAliquot, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
+	    					.addComponent(txtBrutePricePlusAliquot, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(lblCreationDate)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtCreationDate, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblContribuition, GroupLayout.PREFERRED_SIZE, 116, GroupLayout.PREFERRED_SIZE)
 	    					.addGap(4)
@@ -376,28 +396,28 @@ public class PTCUpdateFrame extends JFrame{
 	    					.addComponent(txtDiscount, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE)
 	    					.addGap(18)
 	    					.addComponent(lblFinalPrice, GroupLayout.PREFERRED_SIZE, 49, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(4)
-	    					.addComponent(txtFinalPrice, GroupLayout.PREFERRED_SIZE, 86, GroupLayout.PREFERRED_SIZE))
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtFinalPrice, GroupLayout.DEFAULT_SIZE, 113, Short.MAX_VALUE))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING, false)
+	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblPtc)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
 	    							.addComponent(cboPTC, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-	    						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblRastreabilityCode, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
 	    							.addGap(4)
 	    							.addComponent(txtRastreabilityCode, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)))
 	    					.addGap(18)
 	    					.addComponent(lblCNPJ, GroupLayout.PREFERRED_SIZE, 25, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(4)
-	    					.addComponent(cboCNPJ, GroupLayout.PREFERRED_SIZE, 348, GroupLayout.PREFERRED_SIZE)))
-	    			.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(cboCNPJ, 0, 348, Short.MAX_VALUE)))
+	    			.addContainerGap())
 	    );
 	    gl_principalPanel.setVerticalGroup(
 	    	gl_principalPanel.createParallelGroup(Alignment.TRAILING)
 	    		.addGroup(gl_principalPanel.createSequentialGroup()
-	    			.addContainerGap(15, Short.MAX_VALUE)
+	    			.addContainerGap(13, Short.MAX_VALUE)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblPtc)
 	    				.addComponent(cboPTC, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
@@ -406,9 +426,8 @@ public class PTCUpdateFrame extends JFrame{
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addGap(3)
 	    					.addComponent(lblRastreabilityCode))
-	    				.addComponent(txtRastreabilityCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addGap(3)
+	    				.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+	    					.addComponent(txtRastreabilityCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    					.addComponent(lblCNPJ))
 	    				.addComponent(cboCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(18)
@@ -523,7 +542,10 @@ public class PTCUpdateFrame extends JFrame{
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addGap(3)
 	    					.addComponent(lblBrutePricePlusAliquot))
-	    				.addComponent(txtBrutePricePlusAliquot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    				.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+	    					.addComponent(txtBrutePricePlusAliquot, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(lblCreationDate)
+	    					.addComponent(txtCreationDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 	    			.addGap(18)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
@@ -720,11 +742,125 @@ public class PTCUpdateFrame extends JFrame{
 		materialTable.addKeyListener(tableKeyListener);
 		productTable.addKeyListener(tableKeyListener);
 		kitTable.addKeyListener(tableKeyListener);
+		serviceTable.addKeyListener(tableKeyListener);
 	}
 	
 	private void update() {
-		
+		int i = ShowMessage.questionMessage(this, "ATUALIZAR", "Deseja realmente atualizar essa PTC ?");
+		if(i == JOptionPane.NO_OPTION)return;
+		boolean isOK = verifyFields();
+		if(isOK) {
+			String title = txtTitle.getText();
+			Client client = (Client) cboClient.getSelectedItem();
+			double bruteValue = Double.parseDouble(txtBrutePrice.getText().replaceAll(",", "\\."));
+			double aliquot = Double.parseDouble(txtAliquot.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+			double aliquotPlusBrute = Double.parseDouble(txtBrutePricePlusAliquot.getText().replaceAll(",", "\\."));
+			double contribuition = Double.parseDouble(txtContribuition.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+			double suggestedPrice = Double.parseDouble(txtSuggestedPrice.getText().replaceAll(",", "\\."));
+			double discount = Double.parseDouble(txtDiscount.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+			double finalPrice = Double.parseDouble(txtFinalPrice.getText().replaceAll(",", "\\."));
+			List<Material> materialList = (List<Material>) controller.fillListOfComponents(materialTable);
+			List<Product> productList = (List<Product>) controller.fillListOfComponents(productTable);
+			List<Kit> kitList = (List<Kit>) controller.fillListOfComponents(kitTable);
+			List<Service> serviceList = (List<Service>) controller.fillListOfComponents(serviceTable);
+			CNPJ cnpj = (CNPJ) cboCNPJ.getSelectedItem();
+			String rastreabilityCode = txtRastreabilityCode.getText();
+			Date date = (Date) txtCreationDate.getValue();
+			
+			PTC ptc = (PTC) cboPTC.getSelectedItem();
+			ptc.setAliquot(aliquot);
+			ptc.setAliquotPlusBrute(aliquotPlusBrute);
+			ptc.setBrutePrice(bruteValue);
+			ptc.setContribuition(contribuition);
+			ptc.setCreationDate(date);
+			ptc.setDiscount(discount);
+			ptc.setFinalPrice(finalPrice);
+			ptc.setSuggestedPrice(suggestedPrice);
+			ptc.setTitle(title);
+			ptc.setClient(client);
+			
+			ptc.setKitList(kitList);
+			ptc.setMaterialList(materialList);
+			ptc.setProductList(productList);
+			ptc.setServiceList(serviceList);
+			ptc.setCnpj(cnpj);
+			ptc.setRastreabilityCode(rastreabilityCode);
+			
+			
+			controller.update(ptc);
+			ShowMessage.successMessage(this, "Sucesso", "Registro de P.T.C realizado com sucesso!");
+			ClearFrame.clear(this);
+			ClearFrame.clearTable(kitTable);
+			ClearFrame.clearTable(materialTable);
+			ClearFrame.clearTable(productTable);
+			ClearFrame.clearTable(serviceTable);
+			cboPTC.removeAllItems();
+			controller.fillPTC(cboPTC);
+			txtMaterialAmmount.setText("1");
+			txtProductAmmount.setText("1");
+			txtKitAmmount.setText("1");
+		}
 	}
+		
+		private boolean verifyFields() {
+		    String title = txtTitle.getText();
+		    if(title.isEmpty()) {
+		    	ShowMessage.errorMessage(this, "Erro", "Insira o título da P.T.C!");
+		    	return false;
+		    }
+		    if(cboClient.getSelectedIndex() == -1) {
+		    	ShowMessage.errorMessage(this, "Erro", "Selecione para qual cliente é a P.T.C!");
+		    	return false;
+		    }
+		    double bruteValue = Double.parseDouble(txtBrutePrice.getText().replaceAll(",", "."));
+		    if(bruteValue<0.1) {
+		    	ShowMessage.errorMessage(this, "Erro", "Verifique o valor bruto!");
+		    	return false;
+		    }
+		    double aliquot = Double.parseDouble(txtAliquot.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+		    if(aliquot <= 0) {
+		    	ShowMessage.errorMessage(this, "Erro", "Verifique o valor da aliquota!");
+		    	return false;
+		    }
+		    double aliquotPlusBrute = Double.parseDouble(txtBrutePricePlusAliquot.getText().replaceAll(",", "\\."));
+		    if(aliquotPlusBrute<0.1) {
+		    	ShowMessage.errorMessage(this, "Erro", "Verifique o valor da aliquota+bruto");
+		    	return false;
+		    }
+		    double contribuition = Double.parseDouble(txtContribuition.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+		    if(contribuition <=0) {
+		    	ShowMessage.errorMessage(this, "Erro", "Verique a margem de contribuição!");
+		    	return false;
+		    }
+		    double suggestedPrice = Double.parseDouble(txtSuggestedPrice.getText().replaceAll(",", "\\."));
+		    if(suggestedPrice<0.1) {
+		    	ShowMessage.errorMessage(this, "Erro", "Verique o preço sugerido!");
+		    	return false;
+		    }
+		    double discount = Double.parseDouble(txtDiscount.getText().replaceAll(",", "\\.").replaceAll("%", ""));
+		    if(discount <= 0) {
+		    	ShowMessage.errorMessage(this, "Erro", "Verifique o desconto!");
+		    	return false;
+		    }
+		    double finalValue = Double.parseDouble(txtFinalPrice.getText().replaceAll(",", "\\."));
+		    if(finalValue <0.1) {
+		    	ShowMessage.questionMessage(this, "Erro", "Verifique o valor de Saída!");
+		    	return false;
+		    }
+		    if(cboCNPJ.getSelectedIndex() == -1) {
+		    	ShowMessage.errorMessage(this, "Erro", "Selecione por qual CNPJ está realizando está P.T.C?");
+		    	return false;
+		    }
+		    if(txtCreationDate.getValue() == null) {
+		    	ShowMessage.errorMessage(this, "Erro", "Insira a data da atualização da P.T.C");
+		    	return false;
+		    }
+		    if(cboPTC.getSelectedIndex() == -1) {
+		    	ShowMessage.errorMessage(this, "Erro", "Selecione a PTC que está modificando");
+		    	return false;
+		    }
+			return true;
+	    }		
 	
 	private void clearFrame() {
 		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar os campos da atualização de P.T.C");
@@ -879,6 +1015,10 @@ public class PTCUpdateFrame extends JFrame{
 	private void fillFields() {
 		if(cboPTC.getSelectedIndex() == -1)return;
 		PTC p = (PTC) cboPTC.getSelectedItem();
+		ClearFrame.clearTable(kitTable);
+		ClearFrame.clearTable(materialTable);
+		ClearFrame.clearTable(productTable);
+		ClearFrame.clearTable(serviceTable);
 		txtAliquot.setText(String.valueOf(p.getAliquot()));
 		txtBrutePrice.setText(String.valueOf(p.getBrutePrice()));
 		txtBrutePricePlusAliquot.setText(String.valueOf(p.getAliquotPlusBrute()));
@@ -902,6 +1042,61 @@ public class PTCUpdateFrame extends JFrame{
 		addRowtoKitTable(kitTable, p.getKitList());
 		addRowtoServiceTable(serviceTable, p.getServiceList());
 	}
+
+	private void fillFields(PTC p) {
+		ClearFrame.clear(this);
+		ClearFrame.clearTable(kitTable);
+		ClearFrame.clearTable(materialTable);
+		ClearFrame.clearTable(productTable);
+		ClearFrame.clearTable(serviceTable);
+		txtAliquot.setText(String.valueOf(p.getAliquot()));
+		txtBrutePrice.setText(String.valueOf(p.getBrutePrice()));
+		txtBrutePricePlusAliquot.setText(String.valueOf(p.getAliquotPlusBrute()));
+		txtContribuition.setText(String.valueOf(p.getContribuition()));
+		txtDiscount.setText(String.valueOf(p.getDiscount()));
+		txtFinalPrice.setText(String.valueOf(p.getFinalPrice()));
+		txtSuggestedPrice.setText(String.valueOf(p.getSuggestedPrice()));
+		cboCNPJ.setSelectedItem(p.getCnpj());
+		cboClient.setSelectedItem(p.getClient());
+		String code = p.getRastreabilityCode();
+		txtRastreabilityCode.setText(code);
+		txtTitle.setText(p.getTitle());
+		addRowtoMaterialTable(materialTable, p.getMaterialList());
+		addRowtoProductTable(productTable, p.getProductList());
+		addRowtoKitTable(kitTable, p.getKitList());
+		addRowtoServiceTable(serviceTable, p.getServiceList());
+		txtAliquot.setEnabled(false);
+		txtBrutePrice.setEnabled(false);
+		txtBrutePricePlusAliquot.setEnabled(false);
+		txtContribuition.setEnabled(true);
+		txtCreationDate.setEnabled(false);
+		txtDiscount.setEnabled(false);
+		txtFinalPrice.setEnabled(false);
+		txtKitAmmount.setEnabled(false);
+		txtKitPrice.setEnabled(false);
+		txtMaterialAmmount.setEnabled(false);
+		txtMaterialPrice.setEnabled(false);
+		txtPath.setEnabled(false);
+		txtProductAmmount.setEnabled(false);
+		txtProductPrice.setEnabled(false);
+		txtRastreabilityCode.setEnabled(false);
+		txtSuggestedPrice.setEnabled(false);
+		txtTitle.setEnabled(false);
+		cboClient.setEnabled(false);
+		cboCNPJ.setEnabled(false);
+		cboKit.setEnabled(false);
+		cboMaterial.setEnabled(false);
+		cboProduct.setEnabled(false);
+		cboPTC.setEnabled(false);
+		cboService.setEnabled(false);
+		btnAddKit.setEnabled(false);
+		btnAddMaterial.setEnabled(false);
+		btnAddProduct.setEnabled(false);
+		btnAddService.setEnabled(false);
+		btnClear.setEnabled(false);
+		btnConfirm.setEnabled(false);
+		btnPath.setEnabled(false);
+    }
 
 	private void addRowtoServiceTable(JTable table, List<Service> serviceList) {
 	    for (Service s : serviceList) {

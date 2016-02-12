@@ -328,8 +328,9 @@ public class PTCController {
 	    map.put("title", ptc.getTitle());
 	    map.put("cnpj", ptc.getCnpj());
 	    map.put("rastreabilityCode", ptc.getRastreabilityCode());
+	    map.put("date", ptc.getCreationDate());
 	    
-	    new PTCDAO().register(map);
+	    new PTCDAO().register(map, true);
     }
 
 	public void fillCnpj(JComboBox<CNPJ> cnpjs) {

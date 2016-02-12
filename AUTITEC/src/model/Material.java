@@ -7,10 +7,15 @@ public class Material {
 	private String NCM;
 	private String internalCode;
 	private double ammount;
-	private String materialType;
-	private String model;
+	private int materialType;
+	private int model;
 	private int auxAmmount;
 	private double auxPrice;
+	private int measureUnit;
+	private boolean isDiscriminated;
+	private double width;
+	private double length;
+	private double heigth;
 	
 	public int getId() {
 		return id;
@@ -80,18 +85,18 @@ public class Material {
 		
 	}
 
-	public void setMaterialType(String materialType) {
-		this.materialType = materialType;    
+	public void setMaterialType(int materialTypeId) {
+		this.materialType = materialTypeId;    
     }
 	
-	public String getMaterialType() {
+	public int getMaterialType() {
 		return this.materialType;
 	}
 	
-	public void setModel(String model) {
-		this.model = model;
+	public void setModel(int modelId) {
+		this.model = modelId;
 	}
-	public String getModel() {
+	public int getModel() {
 		return this.model;
 	}
 
@@ -109,5 +114,45 @@ public class Material {
 
 	public void setAuxPrice(double auxPrice) {
 	    this.auxPrice = auxPrice;
+    }
+
+	public int getMeasureUnit() {
+	    return measureUnit;
+    }
+
+	public void setMeasureUnit(int measureUnit) {
+	    this.measureUnit = measureUnit;
+    }
+
+	public boolean isDiscriminated() {
+	    return isDiscriminated;
+    }
+
+	public void setDiscriminated(boolean isDiscriminated) {
+	    this.isDiscriminated = isDiscriminated;
+    }
+
+	public double getWidth() {
+	    return width;
+    }
+
+	public void setWidth(double width) {
+	    this.width = width;
+    }
+
+	public double getLength() {
+	    return length;
+    }
+
+	public void setLength(double length) {
+	    this.length = length;
+    }
+
+	public double getHeigth() {
+	    return heigth;
+    }
+
+	public void setHeigth(double heigth) {
+	    this.heigth = heigth;
     }
 }

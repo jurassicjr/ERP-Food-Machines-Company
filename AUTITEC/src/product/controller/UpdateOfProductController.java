@@ -1,9 +1,15 @@
 package product.controller;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import javax.imageio.ImageIO;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -12,18 +18,22 @@ import model.Material;
 import model.Product;
 import sales.controller.SalesController;
 import util.ShowMessage;
+
+import com.mysql.jdbc.Blob;
+
 import database.DataBase;
 
 public class UpdateOfProductController extends SalesController {
 
 	private DataBase dataBase;
+	private Image im;
 
 	public UpdateOfProductController() {
 		dataBase = new DataBase();
 		dataBase.connect();
 	}
 
-	public void fillMaterialTable(Product product, JTable table) {
+	public void fillMaterialTable(Product product, JTable table, JLabel lblImagem) {
 		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM material_relationship WHERE product = ?",
 		        product.getId())) {
 			while (rs.next()) {
@@ -120,6 +130,39 @@ public class UpdateOfProductController extends SalesController {
 	public void deleteMaterial(Material material, Product product) {
 	    String sql ="DELETE FROM material_relationship WHERE material = ? AND product = ?";
 	    dataBase.executeUpdate(sql, new Object[] {material.getId(), product.getId()});
+	   
+    }
+
+	public Image getImage(int i) {
+		File image = null;  
+        Blob blob = null;  
+        InputStream bin = null;  
+        FileOutputStream bout = null;  
+        byte[] bbuf = new byte[1024];  
+        int bytesRead = 0;  
+          
+        String sql = "SELECT img FROM image_product WHERE product = ?";  
+          
+        try{  
+            ResultSet rset = dataBase.executeQuery(sql, i);  
+              
+            if(rset.next()) {  
+            	blob = (Blob) rset.getBlob("img");    
+            	bin = blob.getBinaryStream();    
+            	im = ImageIO.read(bin);
+            	
+              
+//            while ((bytesRead = bin.read(bbuf)) != -1) {    
+//                 bout.write(bbuf, 0, bytesRead);    
+//            }
+            //bout.close();
+           }
+        }catch(Exception e){  
+            e.printStackTrace();  
+        }  
+          
+      //  image = new File("teste.jpg");  
+        return im;
     }
 
 }

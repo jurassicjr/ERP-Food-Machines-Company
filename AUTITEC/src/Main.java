@@ -24,8 +24,7 @@ public class Main {
 		
 		new LoginFrame().setVisible(true); 
 		loadingFrame.dispose();
-
-		
+	
 	}
 
 }
