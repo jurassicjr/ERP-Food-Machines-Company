@@ -6,10 +6,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -19,10 +25,14 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.DefaultTableModel;
 
+import financial.controller.RegisterBillFrameController;
 import model.BillGroup;
 import model.BillName;
 import model.BillSubGroup;
@@ -30,11 +40,12 @@ import net.sf.nachocalendar.components.DateField;
 import userInterface.components.RealNumberField;
 import userInterface.components.UpperTextField;
 import util.Icon;
-import financial.controller.RegisterBillFrameController;
 
 public class RegisterBillFrame extends JFrame {
 
 	private static final long serialVersionUID = -4336339858592180045L;
+	
+	private JTabbedPane tabPanel;
 	
 	private JPanel contentPane;
 		
@@ -51,11 +62,13 @@ public class RegisterBillFrame extends JFrame {
 	private JComboBox<BillGroup> cbGroup;
 	private JComboBox<BillSubGroup> cbSubGroup;
 	private JComboBox<BillName> cbBill;
+	private JComboBox<Integer> cbInstallments;
+	private JComboBox<Integer> cbDeadlines;
+	
+	private JTable tableInstallments;
 	
 	private RegisterBillFrameController controller;
-	
-	
-		
+			
 	public RegisterBillFrame() {
 		
 		controller = new RegisterBillFrameController(this);
@@ -70,16 +83,19 @@ public class RegisterBillFrame extends JFrame {
 	 */
 	private void initialize() {
 		
-		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 506, 513);
+		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
+		setBounds(100, 100, 506, 459);
 		setMinimumSize(new Dimension(506, 400));
 		setTitle("Registrar Conta a Pagar");
 		Icon.setIcon(this);
 		
+		tabPanel = new JTabbedPane();
+		setContentPane(tabPanel);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
-		setContentPane(contentPane);
+		tabPanel.add("Registro de Conta", contentPane);
 		
 		JPanel panel = new JPanel();
 		contentPane.add(panel, BorderLayout.CENTER);
@@ -109,10 +125,14 @@ public class RegisterBillFrame extends JFrame {
 		txCreditor = new UpperTextField();
 		txCreditor.setColumns(10);
 		
+		JLabel lblInstallments = new JLabel("Parcelas");
+		cbInstallments = new JComboBox<Integer>();
+		for(int i = 0; i < 10; i++) cbInstallments.addItem(i + 1);
+		
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setHorizontalGroup(
-			layout.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+			layout.createParallelGroup(Alignment.TRAILING)
+				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
 						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
@@ -139,7 +159,11 @@ public class RegisterBillFrame extends JFrame {
 						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
 							.addComponent(lblCredor)
 							.addGap(18)
-							.addComponent(txCreditor, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE)))
+							.addComponent(txCreditor, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+							.addComponent(lblInstallments, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(cbInstallments, 0, 392, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		layout.setVerticalGroup(
@@ -168,7 +192,11 @@ public class RegisterBillFrame extends JFrame {
 						.addComponent(lblCredor)
 						.addComponent(txCreditor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblInstallments)
+						.addComponent(cbInstallments, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
@@ -199,6 +227,38 @@ public class RegisterBillFrame extends JFrame {
 		
 		controller.setBills(cbGroup);
 		
+		JScrollPane panelInstallments = new JScrollPane();
+		getContentPane().add(panelInstallments, BorderLayout.CENTER);
+		
+		tableInstallments = new JTable();
+		tableInstallments.setRowHeight(25);
+		tableInstallments.setModel(new DefaultTableModel(
+			new Object[][] { },
+			new String[] {"Parcela", "Vencimento", "Prazo" }
+		) {
+			
+			private static final long serialVersionUID = 7739898997748290935L;
+			
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return (column == tableInstallments.getColumnCount() -1);
+			}
+			
+		});
+		panelInstallments.setViewportView(tableInstallments);
+		
+		tabPanel.addTab("Parcelas", panelInstallments);
+		tabPanel.setEnabledAt(1, false);
+		
+		cbDeadlines = new JComboBox<>();
+		
+		Integer installmentsOptions[] = {10, 15, 20 , 30, 45, 60, 90};
+		
+		for(int option : installmentsOptions) 
+			cbDeadlines.addItem(option);
+		
+		tableInstallments.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbDeadlines));
+		
 	}
 
 	private void setListeners() {
@@ -211,7 +271,6 @@ public class RegisterBillFrame extends JFrame {
 				if(e.getSource().equals(btnCancel)) controller.closeFrame();
 				else if(e.getSource().equals(btnClear)) controller.clear();
 				else if(e.getSource().equals(btnRegister)) register();
-				
 				
 			}
 		};
@@ -241,7 +300,9 @@ public class RegisterBillFrame extends JFrame {
 					if(cbSubGroup.getSelectedIndex() != -1) {
 						controller.setBillnames((BillSubGroup) cbSubGroup.getSelectedItem(), cbBill);
 					}
-						
+				}
+				else if(e.getSource().equals(cbInstallments)) {
+					enableInstallments();
 				}
 				
 			}
@@ -249,6 +310,20 @@ public class RegisterBillFrame extends JFrame {
 		
 		cbGroup.addActionListener(cbListener);
 		cbSubGroup.addActionListener(cbListener);
+		cbInstallments.addActionListener(cbListener);
+		
+		cbDeadlines.addItemListener(new ItemListener() {
+			
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					updateDeadline((int) e.getItem());
+				}
+				
+			}
+			
+		});
 		
 	}
 	
@@ -269,4 +344,73 @@ public class RegisterBillFrame extends JFrame {
 		controller.register(value, date, observation, creditor, billName, subGroup, group, hasName);
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
+	
+	private void enableInstallments() {
+		
+		int installments = (int) cbInstallments.getSelectedItem();
+		
+		boolean enableTab = (installments != 1);
+		
+		tabPanel.setEnabledAt(1, enableTab);
+		txPayDate.setEnabled(!enableTab);
+		
+		if(enableTab) {
+			
+			DefaultTableModel model = (DefaultTableModel) tableInstallments.getModel();
+			
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			
+			for(int i = 0; i < installments; ++i) {
+				
+				date = calculateDeadline(date, 10);
+				
+				model.addRow(new Object[]{"Parcela " + (i + 1), formatter.format(date), 10});
+			}
+				
+		}
+	
+	}
+	
+	private Date calculateDeadline(Date date, int period) {
+		
+		Calendar calendar = Calendar.getInstance();
+		
+		calendar.setTime(date);
+		
+		if(period == 30 || period == 60 || period == 90)
+			calendar.add(Calendar.MONTH, period / 30);
+		else calendar.add(Calendar.DAY_OF_YEAR, period);
+		
+		return calendar.getTime();
+	}
+	
+	private void updateDeadline(int period) {
+		
+		int row = tableInstallments.getSelectedRow();
+		
+		while(row < tableInstallments.getRowCount()) {
+		
+			Date date = new Date();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+			
+			if(row != 0) {
+				
+				String prevDate = (String) tableInstallments.getValueAt(row - 1, 1);
+				
+				try { date = formatter.parse(prevDate); }
+				catch (ParseException e) { e.printStackTrace(); }
+					
+			}
+			
+			Date deadline = calculateDeadline(date, period);
+			tableInstallments.setValueAt(formatter.format(deadline), row, 1);
+			
+			++row;
+			if(row < tableInstallments.getRowCount())
+				period = (int) tableInstallments.getValueAt(row, 2);
+		}
+		
+	}
+	
 }

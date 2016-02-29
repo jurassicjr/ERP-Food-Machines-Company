@@ -8,21 +8,24 @@ import java.util.Date;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
+import database.DataBase;
+import database.dao.BillDAO;
+import financial.view.RegisterBillFrame;
 import model.Bill;
 import model.BillGroup;
 import model.BillName;
 import model.BillSubGroup;
 import util.ClearFrame;
 import util.ShowMessage;
-import database.DataBase;
-import database.dao.BillDAO;
-import financial.view.RegisterBillFrame;
 
 public class RegisterBillFrameController {
 	
 	private DataBase dataBase;
 	private RegisterBillFrame frame;
 	
+	/**
+	 * @wbp.parser.entryPoint
+	 */
 	public RegisterBillFrameController(RegisterBillFrame frame) {
 		
 		dataBase = new DataBase();
@@ -123,8 +126,10 @@ public class RegisterBillFrameController {
 	
 	public void setSubGroups(BillGroup group, JComboBox<BillSubGroup> subgroups) {
 		
+		if(group == null) return;
+		
 		subgroups.removeAllItems();
-				
+		
 		for(BillSubGroup subGroup : group.getSubGroups()) {
 			subgroups.addItem(subGroup);
 		}
