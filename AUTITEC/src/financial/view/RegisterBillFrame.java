@@ -14,12 +14,14 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -28,14 +30,20 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
+import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.CellEditorListener;
+import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
 
+import database.dao.CnpjDAO;
 import financial.controller.RegisterBillFrameController;
 import model.BillGroup;
 import model.BillName;
 import model.BillSubGroup;
+import model.CNPJ;
 import net.sf.nachocalendar.components.DateField;
 import userInterface.components.RealNumberField;
 import userInterface.components.UpperTextField;
@@ -56,6 +64,7 @@ public class RegisterBillFrame extends JFrame {
 	private RealNumberField txValue;
 	private DateField txPayDate;
 	private UpperTextField txCreditor;
+	private RealNumberField txtEntryValue;
 	
 	private JTextArea txObservation;
 	
@@ -64,6 +73,9 @@ public class RegisterBillFrame extends JFrame {
 	private JComboBox<BillName> cbBill;
 	private JComboBox<Integer> cbInstallments;
 	private JComboBox<Integer> cbDeadlines;
+	private JComboBox<CNPJ> cbCnpj;
+	
+	private JCheckBox chckbxEntry;
 	
 	private JTable tableInstallments;
 	
@@ -75,6 +87,7 @@ public class RegisterBillFrame extends JFrame {
 		
 		initialize();
 		setListeners();
+		fillCnpjs();
 				
 	}
 
@@ -84,7 +97,7 @@ public class RegisterBillFrame extends JFrame {
 	private void initialize() {
 		
 		//setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 506, 459);
+		setBounds(100, 100, 506, 504);
 		setMinimumSize(new Dimension(506, 400));
 		setTitle("Registrar Conta a Pagar");
 		Icon.setIcon(this);
@@ -129,25 +142,35 @@ public class RegisterBillFrame extends JFrame {
 		cbInstallments = new JComboBox<Integer>();
 		for(int i = 0; i < 10; i++) cbInstallments.addItem(i + 1);
 		
+		JLabel lblCnpj = new JLabel("CNPJ");		
+		cbCnpj = new JComboBox<CNPJ>();
+		
+		chckbxEntry = new JCheckBox("Entrada");
+		chckbxEntry.setEnabled(false);
+		
+		JLabel lblEntryValue = new JLabel("Valor de Entrada");
+		txtEntryValue = new RealNumberField();
+		txtEntryValue.setEnabled(false);
+		
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(Alignment.TRAILING)
 				.addGroup(layout.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(layout.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 460, Short.MAX_VALUE)
+						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 455, Short.MAX_VALUE)
 						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
 							.addComponent(lblGroup)
 							.addGap(18)
-							.addComponent(cbGroup, 0, 413, Short.MAX_VALUE))
+							.addComponent(cbGroup, 0, 408, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
 							.addComponent(lblSubGroup)
 							.addGap(18)
-							.addComponent(cbSubGroup, 0, 396, Short.MAX_VALUE))
+							.addComponent(cbSubGroup, 0, 391, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
 							.addComponent(lblBill)
 							.addGap(18)
-							.addComponent(cbBill, 0, 413, Short.MAX_VALUE))
+							.addComponent(cbBill, 0, 408, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
 							.addComponent(lblValue)
 							.addGap(18)
@@ -155,15 +178,25 @@ public class RegisterBillFrame extends JFrame {
 							.addGap(18)
 							.addComponent(lblDataDeVencimento)
 							.addGap(18)
-							.addComponent(txPayDate, GroupLayout.DEFAULT_SIZE, 156, Short.MAX_VALUE))
+							.addComponent(txPayDate, GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
 							.addComponent(lblCredor)
 							.addGap(18)
-							.addComponent(txCreditor, GroupLayout.DEFAULT_SIZE, 409, Short.MAX_VALUE))
+							.addComponent(txCreditor, GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
 						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
-							.addComponent(lblInstallments, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+							.addComponent(lblCnpj)
 							.addGap(18)
-							.addComponent(cbInstallments, 0, 392, Short.MAX_VALUE)))
+							.addComponent(cbCnpj, 0, 412, Short.MAX_VALUE))
+						.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+							.addComponent(chckbxEntry, GroupLayout.PREFERRED_SIZE, 78, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblEntryValue)
+							.addGap(18)
+							.addComponent(txtEntryValue, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(lblInstallments, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cbInstallments, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		layout.setVerticalGroup(
@@ -193,10 +226,17 @@ public class RegisterBillFrame extends JFrame {
 						.addComponent(txCreditor, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblCnpj)
+						.addComponent(cbCnpj, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(chckbxEntry)
+						.addComponent(lblEntryValue)
+						.addComponent(txtEntryValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblInstallments)
 						.addComponent(cbInstallments, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 118, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 94, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
@@ -258,7 +298,6 @@ public class RegisterBillFrame extends JFrame {
 			cbDeadlines.addItem(option);
 		
 		tableInstallments.getColumnModel().getColumn(2).setCellEditor(new DefaultCellEditor(cbDeadlines));
-		
 	}
 
 	private void setListeners() {
@@ -269,7 +308,10 @@ public class RegisterBillFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				
 				if(e.getSource().equals(btnCancel)) controller.closeFrame();
-				else if(e.getSource().equals(btnClear)) controller.clear();
+				else if(e.getSource().equals(btnClear)) {
+					controller.clear();
+					cbInstallments.setSelectedIndex(0);
+				}
 				else if(e.getSource().equals(btnRegister)) register();
 				
 			}
@@ -304,6 +346,12 @@ public class RegisterBillFrame extends JFrame {
 				else if(e.getSource().equals(cbInstallments)) {
 					enableInstallments();
 				}
+//				else if(e.getSource().equals(cbDeadlines)) {
+//					int period = (int) cbDeadlines.getSelectedItem();
+//					//updateDeadline(period);
+//					//System.out.println(cbDeadlines.getSelectedItem());
+//					//e.getSource();
+//				}
 				
 			}
 		};
@@ -312,16 +360,47 @@ public class RegisterBillFrame extends JFrame {
 		cbSubGroup.addActionListener(cbListener);
 		cbInstallments.addActionListener(cbListener);
 		
-		cbDeadlines.addItemListener(new ItemListener() {
+		cbDeadlines.addActionListener(cbListener);
+		
+//		cbDeadlines.addItemListener(new ItemListener() {
+//			
+//			@Override
+//			public void itemStateChanged(ItemEvent e) {
+//				
+//				if(e.getStateChange() == ItemEvent.SELECTED) {
+//					//System.out.println(e.getItem());
+//					//updateDeadline((int) e.getItem());
+//				}
+//				
+//			}
+//			
+//		});
+		
+		chckbxEntry.addActionListener(new ActionListener() {
 			
 			@Override
-			public void itemStateChanged(ItemEvent e) {
+			public void actionPerformed(ActionEvent e) {
+				txtEntryValue.setEnabled(chckbxEntry.isSelected());
+			}
+			
+		});
+		
+		tableInstallments.getColumnModel().getColumn(2).getCellEditor().addCellEditorListener(new CellEditorListener() {
+			
+			private int count = 0;
+			
+			@Override
+			public void editingStopped(ChangeEvent e) {
 				
-				if(e.getStateChange() == ItemEvent.SELECTED) {
-					updateDeadline((int) e.getItem());
+				if(count++ % 2 == 1) {	
+					int period = (int) ((TableCellEditor) e.getSource()).getCellEditorValue();
+					updateDeadline(period);
 				}
 				
 			}
+			
+			@Override
+			public void editingCanceled(ChangeEvent e) {}
 			
 		});
 		
@@ -347,12 +426,15 @@ public class RegisterBillFrame extends JFrame {
 	
 	private void enableInstallments() {
 		
+		if(cbInstallments.getSelectedItem() == null) return;
+		
 		int installments = (int) cbInstallments.getSelectedItem();
 		
 		boolean enableTab = (installments != 1);
 		
 		tabPanel.setEnabledAt(1, enableTab);
 		txPayDate.setEnabled(!enableTab);
+		chckbxEntry.setEnabled(enableTab);
 		
 		if(enableTab) {
 			
@@ -361,11 +443,14 @@ public class RegisterBillFrame extends JFrame {
 			Date date = new Date();
 			SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 			
+			while (tableInstallments.getRowCount() > 0)
+				model.removeRow(0);
+			
 			for(int i = 0; i < installments; ++i) {
 				
-				date = calculateDeadline(date, 10);
+				date = calculateDeadline(date, 30);
 				
-				model.addRow(new Object[]{"Parcela " + (i + 1), formatter.format(date), 10});
+				model.addRow(new Object[]{"Parcela " + (i + 1), formatter.format(date), 30});
 			}
 				
 		}
@@ -413,4 +498,13 @@ public class RegisterBillFrame extends JFrame {
 		
 	}
 	
+	private void fillCnpjs() {
+		
+		List<CNPJ> cnpjs = new CnpjDAO().getAll();
+		
+		for(CNPJ cnpj : cnpjs) 
+			cbCnpj.addItem(cnpj);
+		
+		cbCnpj.setSelectedIndex(-1);
+	}
 }

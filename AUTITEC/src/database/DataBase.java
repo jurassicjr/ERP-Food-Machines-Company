@@ -10,8 +10,6 @@ import java.sql.Types;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
-
 import util.Properties;
 import util.ShowMessage;
 
@@ -67,13 +65,15 @@ public class DataBase {
 			
 			if(connection == null) {
 				showDataBaseErrorMessage();
+				System.exit(1);
 				return;
 			}
 			
-		} catch (ClassNotFoundException | SQLException e) {
-			
-			showDataBaseErrorMessage();			
+		} catch (ClassNotFoundException | SQLException e) {			
 			e.printStackTrace();
+			showDataBaseErrorMessage();			
+			System.exit(1);
+			
 		}
 		
 	}
