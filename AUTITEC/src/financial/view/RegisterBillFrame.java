@@ -6,10 +6,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -274,7 +274,7 @@ public class RegisterBillFrame extends JFrame {
 		tableInstallments.setRowHeight(25);
 		tableInstallments.setModel(new DefaultTableModel(
 			new Object[][] { },
-			new String[] {"Parcela", "Vencimento", "Prazo" }
+			new String[] {"Parcela", "Valor", "Vencimento", "Prazo" }
 		) {
 			
 			private static final long serialVersionUID = 7739898997748290935L;
@@ -312,7 +312,7 @@ public class RegisterBillFrame extends JFrame {
 					controller.clear();
 					cbInstallments.setSelectedIndex(0);
 				}
-				else if(e.getSource().equals(btnRegister)) register();
+				else if(e.getSource().equals(btnRegister)) updateInstallmentValue();//register();
 				
 			}
 		};
@@ -346,35 +346,12 @@ public class RegisterBillFrame extends JFrame {
 				else if(e.getSource().equals(cbInstallments)) {
 					enableInstallments();
 				}
-//				else if(e.getSource().equals(cbDeadlines)) {
-//					int period = (int) cbDeadlines.getSelectedItem();
-//					//updateDeadline(period);
-//					//System.out.println(cbDeadlines.getSelectedItem());
-//					//e.getSource();
-//				}
-				
 			}
 		};
 		
 		cbGroup.addActionListener(cbListener);
 		cbSubGroup.addActionListener(cbListener);
 		cbInstallments.addActionListener(cbListener);
-		
-		cbDeadlines.addActionListener(cbListener);
-		
-//		cbDeadlines.addItemListener(new ItemListener() {
-//			
-//			@Override
-//			public void itemStateChanged(ItemEvent e) {
-//				
-//				if(e.getStateChange() == ItemEvent.SELECTED) {
-//					//System.out.println(e.getItem());
-//					//updateDeadline((int) e.getItem());
-//				}
-//				
-//			}
-//			
-//		});
 		
 		chckbxEntry.addActionListener(new ActionListener() {
 			
@@ -450,7 +427,7 @@ public class RegisterBillFrame extends JFrame {
 				
 				date = calculateDeadline(date, 30);
 				
-				model.addRow(new Object[]{"Parcela " + (i + 1), formatter.format(date), 30});
+				model.addRow(new Object[]{"Parcela " + (i + 1), "R$ INDEFINIDO", formatter.format(date), 30});
 			}
 				
 		}
@@ -507,4 +484,36 @@ public class RegisterBillFrame extends JFrame {
 		
 		cbCnpj.setSelectedIndex(-1);
 	}
+	
+	private void updateInstallmentValue() {
+		
+		int nInstallments = (int) cbInstallments.getSelectedItem();
+		double totalValue = txValue.getValue();
+		double entryValue = txtEntryValue.getValue();
+		double installmentValue = calculateInstallmentValue();
+		
+		int row = 0;
+		while(row < tableInstallments.getRowCount() - 1) {
+			tableInstallments.setValueAt(NumberFormat.getCurrencyInstance().format(installmentValue), row++, 1);
+		}
+		
+		double delta = totalValue - entryValue - (nInstallments * installmentValue);
+		
+		tableInstallments.setValueAt(NumberFormat.getCurrencyInstance().format(installmentValue + delta), row, 1);
+		
+	}
+	
+	private double calculateInstallmentValue() {
+		
+		double value = txValue.getValue();
+		int nInstallments = (int) cbInstallments.getSelectedItem();
+		
+		if(chckbxEntry.isSelected() && txtEntryValue.getValue() > 0 && txValue.getValue() > 0) {
+			value -= txtEntryValue.getValue();
+		}
+		
+		return ((int) (value / nInstallments * 100)) / 100.0;
+				
+	}
+	
 }
