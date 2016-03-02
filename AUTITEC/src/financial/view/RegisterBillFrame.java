@@ -8,7 +8,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -272,6 +271,7 @@ public class RegisterBillFrame extends JFrame {
 		
 		tableInstallments = new JTable();
 		tableInstallments.setRowHeight(25);
+		tableInstallments.getTableHeader().setReorderingAllowed(false);
 		tableInstallments.setModel(new DefaultTableModel(
 			new Object[][] { },
 			new String[] {"Parcela", "Valor", "Vencimento", "Prazo" }
@@ -497,7 +497,9 @@ public class RegisterBillFrame extends JFrame {
 			tableInstallments.setValueAt(NumberFormat.getCurrencyInstance().format(installmentValue), row++, 1);
 		}
 		
-		double delta = totalValue - entryValue - (nInstallments * installmentValue);
+		double delta = totalValue - (nInstallments * installmentValue);
+		if(chckbxEntry.isSelected())
+			delta -= entryValue;
 		
 		tableInstallments.setValueAt(NumberFormat.getCurrencyInstance().format(installmentValue + delta), row, 1);
 		
