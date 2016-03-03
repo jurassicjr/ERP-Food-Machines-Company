@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
@@ -63,7 +66,7 @@ public class RegisterBillFrame extends JFrame {
 	private RealNumberField txValue;
 	private DateField txPayDate;
 	private UpperTextField txCreditor;
-	private RealNumberField txtEntryValue;
+	private RealNumberField txEntryValue;
 	
 	private JTextArea txObservation;
 	
@@ -148,8 +151,8 @@ public class RegisterBillFrame extends JFrame {
 		chckbxEntry.setEnabled(false);
 		
 		JLabel lblEntryValue = new JLabel("Valor de Entrada");
-		txtEntryValue = new RealNumberField();
-		txtEntryValue.setEnabled(false);
+		txEntryValue = new RealNumberField();
+		txEntryValue.setEnabled(false);
 		
 		GroupLayout layout = new GroupLayout(panel);
 		layout.setHorizontalGroup(
@@ -191,7 +194,7 @@ public class RegisterBillFrame extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(lblEntryValue)
 							.addGap(18)
-							.addComponent(txtEntryValue, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
+							.addComponent(txEntryValue, GroupLayout.PREFERRED_SIZE, 82, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(lblInstallments, GroupLayout.PREFERRED_SIZE, 50, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -231,7 +234,7 @@ public class RegisterBillFrame extends JFrame {
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(chckbxEntry)
 						.addComponent(lblEntryValue)
-						.addComponent(txtEntryValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(txEntryValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblInstallments)
 						.addComponent(cbInstallments, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
@@ -312,7 +315,7 @@ public class RegisterBillFrame extends JFrame {
 					controller.clear();
 					cbInstallments.setSelectedIndex(0);
 				}
-				else if(e.getSource().equals(btnRegister)) updateInstallmentValue();//register();
+				else if(e.getSource().equals(btnRegister)) register();
 				
 			}
 		};
@@ -357,7 +360,7 @@ public class RegisterBillFrame extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				txtEntryValue.setEnabled(chckbxEntry.isSelected());
+				txEntryValue.setEnabled(chckbxEntry.isSelected());
 			}
 			
 		});
@@ -381,23 +384,49 @@ public class RegisterBillFrame extends JFrame {
 			
 		});
 		
+		KeyListener installmentsListener = new KeyAdapter() {
+			
+			@Override
+			public void keyReleased(KeyEvent e) { updateInstallmentValue(); }
+			
+		};
+		
+		txValue.addKeyListener(installmentsListener);
+		txEntryValue.addKeyListener(installmentsListener);
+	
+		chckbxEntry.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) { updateInstallmentValue(); }
+			
+		});
+		
 	}
 	
 	private void register() {
 		
+		BillGroup  group = (BillGroup) cbGroup.getSelectedItem();
+		BillSubGroup subGroup = (BillSubGroup) cbSubGroup.getSelectedItem();
+		boolean hasName = cbBill.isEnabled();
+		
 		double value = txValue.getValue();
 		Date date = (Date) txPayDate.getValue();
-		String observation = txObservation.getText();
 		String creditor = txCreditor.getText();
-		BillName billName = null;
-		boolean hasName = cbBill.isEnabled();
-		BillSubGroup subGroup = (BillSubGroup) cbSubGroup.getSelectedItem();
-		BillGroup  group = (BillGroup) cbGroup.getSelectedItem();
 		
+		CNPJ cnpj = (CNPJ) cbCnpj.getSelectedItem();
+		
+		boolean hasEntry = chckbxEntry.isSelected();
+		double entryValue = txEntryValue.getValue();
+		
+		int nInstallments = (int) cbInstallments.getSelectedItem();
+		
+		String observation = txObservation.getText();
+		
+		BillName billName = null;
 		if(hasName) billName = (BillName) cbBill.getSelectedItem();
 			
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		controller.register(value, date, observation, creditor, billName, subGroup, group, hasName);
+		controller.register(value, date, observation, creditor, billName, subGroup, group, hasName, cnpj, hasEntry, entryValue, nInstallments);
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
@@ -431,6 +460,8 @@ public class RegisterBillFrame extends JFrame {
 			}
 				
 		}
+		
+		updateInstallmentValue();
 	
 	}
 	
@@ -488,8 +519,19 @@ public class RegisterBillFrame extends JFrame {
 	private void updateInstallmentValue() {
 		
 		int nInstallments = (int) cbInstallments.getSelectedItem();
+		if(nInstallments == 1) return;
+		
+		boolean validate = true;
+		
+		if(chckbxEntry.isSelected()) {
+			if(txEntryValue.getValue() <= 0.0) validate = false;
+		}
+		else if(txValue.getValue() <= 0.0) validate = false;
+		
+		if(!validate) return;
+		
 		double totalValue = txValue.getValue();
-		double entryValue = txtEntryValue.getValue();
+		double entryValue = txEntryValue.getValue();
 		double installmentValue = calculateInstallmentValue();
 		
 		int row = 0;
@@ -510,8 +552,8 @@ public class RegisterBillFrame extends JFrame {
 		double value = txValue.getValue();
 		int nInstallments = (int) cbInstallments.getSelectedItem();
 		
-		if(chckbxEntry.isSelected() && txtEntryValue.getValue() > 0 && txValue.getValue() > 0) {
-			value -= txtEntryValue.getValue();
+		if(chckbxEntry.isSelected() && txEntryValue.getValue() > 0 && txValue.getValue() > 0) {
+			value -= txEntryValue.getValue();
 		}
 		
 		return ((int) (value / nInstallments * 100)) / 100.0;

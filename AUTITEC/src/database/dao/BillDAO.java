@@ -3,6 +3,7 @@ package database.dao;
 import java.sql.Date;
 
 import model.Bill;
+import model.CNPJ;
 import database.DataBase;
 
 public class BillDAO {
@@ -20,16 +21,21 @@ public class BillDAO {
 	
 	private void persist(Bill bill) {
 		
-		double value = bill.getValue();
-		Date expirationDate = new Date(bill.getExpiration().getTime());
-		Date payDate = (bill.getPayedDate() == null) ? null : new Date(bill.getPayedDate().getTime());
-		String observation = bill.getObservation();
-		String creditor = bill.getCreditor();
+		Integer billSubGroup = bill.getSubGroup().getId();
 		Integer billName = (bill.getBillName() == null) ? null : bill.getBillName().getId();
-		int billSubGroup = bill.getSubGroup().getId();
+		Double value = bill.getValue();
+		Date expirationDate = new Date(bill.getExpiration().getTime());
+		String creditor = bill.getCreditor();
+		Double entryValue = (bill.getEntryValue() > 0.0) ? bill.getEntryValue() : 0.0;
+		String observation = bill.getObservation();
+		Integer nInstallments = bill.getnInstallments();
+		Integer user = bill.getUser().getId();
+		Integer cnpj = bill.getCnpj().getId();
+		
 				
-		String sql = "INSERT INTO bill (value, expiration, pay_date, observation, creditor, bill_name, bill_subgroup) VALUES (?, ?, ?, ?, ?, ?, ?);";
-		Object data[] = new Object[]{value, expirationDate, payDate, observation, creditor, billName, billSubGroup};
+		String sql = "INSERT INTO bill (bill_subgroup, bill_name, value, expiration, creditor, entry_value, observation, n_installments, user, cnpj) "
+				+ "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+		Object data[] = new Object[]{billSubGroup, billName, value, expirationDate, creditor, entryValue, observation, nInstallments, user, cnpj};
 				
 		dataBase.executeUpdate(sql, data);
 								

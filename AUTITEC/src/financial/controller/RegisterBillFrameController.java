@@ -15,6 +15,9 @@ import model.Bill;
 import model.BillGroup;
 import model.BillName;
 import model.BillSubGroup;
+import model.CNPJ;
+import model.Session;
+import model.User;
 import util.ClearFrame;
 import util.ShowMessage;
 
@@ -23,9 +26,6 @@ public class RegisterBillFrameController {
 	private DataBase dataBase;
 	private RegisterBillFrame frame;
 	
-	/**
-	 * @wbp.parser.entryPoint
-	 */
 	public RegisterBillFrameController(RegisterBillFrame frame) {
 		
 		dataBase = new DataBase();
@@ -60,31 +60,74 @@ public class RegisterBillFrameController {
 		
 	}
 
-	public void register(double value, Date date, String observation, String creditor, BillName billName, BillSubGroup subGroup, BillGroup billGroup, boolean hasName) {
+	public void register(double value, Date date, String observation, String creditor, 
+			BillName billName, BillSubGroup subGroup, BillGroup billGroup, boolean hasName,
+			CNPJ cnpj, boolean hasEntry, double entryValue, int nInstallments) {
 		
-		if(!validateData(value, date, creditor, billName, subGroup, billGroup, hasName)) return;
+		if(!validateData(value, date, observation, creditor, billName, subGroup, billGroup, hasName, cnpj, hasEntry, entryValue, nInstallments)) return;
 		
-		Bill bill = new Bill(value, date, observation, creditor, billName, subGroup);
+		int respose = ShowMessage.questionMessage(frame, "Confirmar dados", "Deseja registrar esta conta a pagar?");
+		
+		if(respose != JOptionPane.YES_OPTION) return;
+		
+		User user = Session.getInstance().getUser();
+		
+//		Employee e = new Employee();
+//		e.setId(22);
+//		User user = new User(e, null);
+//		
+		Bill bill = new Bill(subGroup, billName, value, date, creditor, entryValue, observation, nInstallments, user, cnpj);
 		new BillDAO(bill);
 		
-		ShowMessage.successMessage(null, "Conta Registrada", "A Conta a Pagar foi Registrada com sucesso");
+		//ShowMessage.successMessage(null, "Conta Registrada", "A Conta a Pagar foi Registrada com sucesso");
 		
-		frame.dispose();
+		//frame.dispose();
 		
 	}
 	
-	private boolean validateData(double value, Date date, String creditor, BillName billName, BillSubGroup subGroup, BillGroup billGroup, boolean hasName) {
+	private boolean validateData(double value, Date date, String observation, String creditor, 
+			BillName billName, BillSubGroup subGroup, BillGroup billGroup, boolean hasName,
+			CNPJ cnpj, boolean hasEntry, double entryValue, int nInstallments) {
 		
-		boolean validate = false;
+		boolean validate = true;
 		String label = "";
 		
-		if(billGroup == null) label = "Grupo da Conta";
-		else if(subGroup == null) label = "SubGrupo da Conta";
-		else if(hasName && billName == null) label = "Conta";
-		else if(value <= 0.0) label = "Valor da Conta";
-		else if(date == null) label = "Data de Vencimento";
-		else if(creditor == null || creditor.isEmpty()) label = "Credor";
-		else validate = true;
+		if(billGroup == null) {
+			label = "Grupo da Conta";
+			validate = false;
+		}
+		else if(subGroup == null) {
+			label = "SubGrupo da Conta";
+			validate = false;
+		}
+		else if(hasName && billName == null) {
+			label = "Conta";
+			validate = false;
+		}
+		else if(value <= 0.0) {
+			label = "Valor da Conta";
+			validate = false;
+		}
+		else if(creditor == null || creditor.isEmpty()) {
+			label = "Credor";
+			validate = false;
+		}
+		else if(cnpj == null) {
+			label = "CNPJ";
+			validate = false;
+		}
+		else if(nInstallments == 1) {
+			if(date == null) label = "Data de Vencimento";
+			else validate = true;
+		}
+		else if(validate) {
+			
+			if(hasEntry && entryValue <= 0.0) {
+				label = "Valor de Entrada";
+				validate = false;
+			}
+			
+		}
 				
 		if(!validate) {
 			
