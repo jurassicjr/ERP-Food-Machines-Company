@@ -4,31 +4,30 @@ import java.util.Date;
 
 public class Installment {
 	
-	private Date date;
+	private Bill bill;
+	
 	private double value;
-	private boolean paid;
+	private Date date;
+	private Date paidDate;
 	
-	public Installment(Date date, double value) {
-		this.date = date;
+	public Installment(Bill bill, double value, Date date, Date paidDate) {
+		this.bill = bill;
 		this.value = value;
-		paid = false;
+		this.date = date;
+		this.paidDate = paidDate;
 	}
 	
-	public Installment(Date date, boolean paid) {
+	public Installment(double value, Date date) {
+		this.value = value;
 		this.date = date;
-		this.paid = paid;
 	}
 
-	public Date getDate() {
-		return date;
+	public Bill getBill() {
+		return bill;
 	}
-
-	public boolean isPaid() {
-		return paid;
-	}
-
-	public void setPaid(boolean paid) {
-		this.paid = paid;
+	
+	public void setBill(Bill bill) {
+		this.bill = bill;
 	}
 	
 	public double getValue() {
@@ -38,5 +37,21 @@ public class Installment {
 	public void setValue(double value) {
 		this.value = value;
 	}
-
+	
+	public Date getDate() {
+		return date;
+	}
+	
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
+	public Date getPaidDate() {
+		return paidDate;
+	}
+	
+	public void setPaidDate(Date paidDate) {
+		this.paidDate = paidDate;
+	}
+	
 }

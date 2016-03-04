@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -46,6 +47,7 @@ import model.BillGroup;
 import model.BillName;
 import model.BillSubGroup;
 import model.CNPJ;
+import model.Installment;
 import net.sf.nachocalendar.components.DateField;
 import userInterface.components.RealNumberField;
 import userInterface.components.UpperTextField;
@@ -424,9 +426,12 @@ public class RegisterBillFrame extends JFrame {
 		
 		BillName billName = null;
 		if(hasName) billName = (BillName) cbBill.getSelectedItem();
+		
+		getIstallments();
 			
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
-		controller.register(value, date, observation, creditor, billName, subGroup, group, hasName, cnpj, hasEntry, entryValue, nInstallments);
+		controller.register(value, date, observation, creditor, billName, subGroup, 
+				group, hasName, cnpj, hasEntry, entryValue, nInstallments, getIstallments());
 		getContentPane().setCursor(Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR));
 	}
 	
@@ -560,4 +565,25 @@ public class RegisterBillFrame extends JFrame {
 				
 	}
 	
+	private List<Installment> getIstallments() {
+		
+		List<Installment> installments = new ArrayList<>();
+		
+		for(int row = 0; row < tableInstallments.getRowCount(); ++row) {
+			
+			try {
+				
+				double value = NumberFormat.getCurrencyInstance().parse((String) tableInstallments.getValueAt(row, 1)).doubleValue();
+				Date date = new SimpleDateFormat("dd/MM/yyyy").parse((String) tableInstallments.getValueAt(row, 2));
+				
+				installments.add(new Installment(value, date));
+				
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+			
+		}
+		
+		return installments;
+	}
 }

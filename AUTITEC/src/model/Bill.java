@@ -4,6 +4,8 @@ import java.util.Date;
 
 public class Bill {
 	
+	public static int TO_PAY = 0;
+	
 	private Integer id;
 	
 	private BillSubGroup subGroup;
@@ -16,9 +18,10 @@ public class Bill {
 	private int nInstallments;
 	private User user;
 	private CNPJ cnpj;
+	private int type;
 
 	public Bill(BillSubGroup subGroup, BillName billName, double value, Date expiration, String creditor, 
-			double entryValue, String observation, int nInstallments, User user, CNPJ cnpj) {
+			double entryValue, String observation, int nInstallments, User user, CNPJ cnpj, int type) {
 		this.subGroup = subGroup;
 		this.billName = billName;
 		this.value = value;
@@ -29,8 +32,17 @@ public class Bill {
 		this.nInstallments = nInstallments;
 		this.user = user;
 		this.cnpj = cnpj;
+		this.type = type;
 	}
 	
+	public int getType() {
+		return type;
+	}
+
+	public void setType(int type) {
+		this.type = type;
+	}
+
 	public CNPJ getCnpj() {
 		return cnpj;
 	}

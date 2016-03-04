@@ -4,19 +4,22 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import database.DataBase;
 import database.dao.BillDAO;
+import database.dao.InstallmentDAO;
 import financial.view.RegisterBillFrame;
 import model.Bill;
 import model.BillGroup;
 import model.BillName;
 import model.BillSubGroup;
 import model.CNPJ;
-import model.Session;
+import model.Employee;
+import model.Installment;
 import model.User;
 import util.ClearFrame;
 import util.ShowMessage;
@@ -62,7 +65,7 @@ public class RegisterBillFrameController {
 
 	public void register(double value, Date date, String observation, String creditor, 
 			BillName billName, BillSubGroup subGroup, BillGroup billGroup, boolean hasName,
-			CNPJ cnpj, boolean hasEntry, double entryValue, int nInstallments) {
+			CNPJ cnpj, boolean hasEntry, double entryValue, int nInstallments, List<Installment> installments) {
 		
 		if(!validateData(value, date, observation, creditor, billName, subGroup, billGroup, hasName, cnpj, hasEntry, entryValue, nInstallments)) return;
 		
@@ -70,18 +73,22 @@ public class RegisterBillFrameController {
 		
 		if(respose != JOptionPane.YES_OPTION) return;
 		
-		User user = Session.getInstance().getUser();
+		Employee e = new Employee();
+		User user = new User(e, null);
+		user.setId(123);
 		
-//		Employee e = new Employee();
-//		e.setId(22);
-//		User user = new User(e, null);
-//		
-		Bill bill = new Bill(subGroup, billName, value, date, creditor, entryValue, observation, nInstallments, user, cnpj);
-		new BillDAO(bill);
+		Bill bill = new Bill(subGroup, billName, value, date, creditor, entryValue, observation, nInstallments, user, cnpj, Bill.TO_PAY);
+		boolean resultBill = new BillDAO().persist(bill);
 		
-		//ShowMessage.successMessage(null, "Conta Registrada", "A Conta a Pagar foi Registrada com sucesso");
+		boolean resultInstallments = true;
 		
-		//frame.dispose();
+		if(nInstallments > 1)
+			resultInstallments = new InstallmentDAO().persist(installments, bill);
+		
+		if(resultBill && resultInstallments) 
+			ShowMessage.successMessage(frame, "Conta Registrada", "A Conta a Pagar foi Registrada com sucesso");
+		
+		frame.dispose();
 		
 	}
 	
