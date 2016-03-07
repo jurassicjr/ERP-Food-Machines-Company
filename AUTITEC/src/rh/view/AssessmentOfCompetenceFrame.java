@@ -93,7 +93,7 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 	private JLabel lblRequiredExperience;
 
 	private JTextField txtRequiredScholarit;
-	private JTextField txtRequiredExperience;
+	private JTextField txtRequiredExperience; 
 	
 	private List<String> functionList = new ArrayList<String>();
 	private ButtonGroup btnGroupIsEnable;
@@ -437,7 +437,7 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 		habilitiesPanel.removeAll();
 		habilitiesPanel.repaint();
 		qualificationPanel.removeAll();
-		qualificationPanel.removeAll();
+		qualificationPanel.repaint();
 	}
 	
 	private boolean verifySelections() {
@@ -467,7 +467,7 @@ public class AssessmentOfCompetenceFrame extends JFrame {
 		fillPanel(habilitiesPanel, funDes);
 		fillPanel(qualificationPanel, funDes);
 		txtHireDate.setValue(e.getJob().getAdmissionDate());
-		if(funDes.getPeriod() == null)txtRequiredExperience.setText("Não é nescessário experiência");
+		if(funDes.getPeriod() == null)txtRequiredExperience.setText("Não é nescessário Experiência");
 		else txtRequiredExperience.setText(funDes.getPeriod());
 		List<Training> tList = controller.getTraining(e.getId());
 		fillTable(trainingTable, tList);

@@ -29,6 +29,14 @@ public class MaterialUpdateController extends SalesController{
 				produto.setDescrition(rs.getString("descricao"));
 				produto.setId(rs.getInt("id"));
 				produto.setAmmount(rs.getInt("quantidade"));
+				produto.setHeigth(rs.getDouble("z"));
+				produto.setInternalCode(rs.getString("internal_code"));
+				produto.setLength(rs.getDouble("y"));
+				produto.setMaterialType(rs.getInt("material_type"));
+				produto.setMeasureUnit(rs.getInt("measure_unit"));
+				produto.setModel(rs.getInt("model"));
+				produto.setNCM(rs.getString("ncm"));
+				produto.setWidth(rs.getDouble("x"));
 				product.addItem(produto);
 			}
 			product.setSelectedIndex(-1);

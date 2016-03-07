@@ -57,6 +57,14 @@ public class MaterialDAO {
 				material.setId(rs.getInt("id"));
 				material.setModel(rs.getInt("model"));
 				material.setMaterialType(rs.getInt("material_type"));
+				material.setHeigth(rs.getDouble("z"));
+				material.setInternalCode(rs.getString("internal_code"));
+				material.setLength(rs.getDouble("y"));
+				material.setMaterialType(rs.getInt("material_type"));
+				material.setMeasureUnit(rs.getInt("measure_unit"));
+				material.setModel(rs.getInt("model"));
+				material.setNCM(rs.getString("ncm"));
+				material.setWidth(rs.getDouble("x"));
 				mList.add(material);
 			}
 

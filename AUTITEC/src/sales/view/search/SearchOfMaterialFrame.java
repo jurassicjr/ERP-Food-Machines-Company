@@ -1,6 +1,8 @@
 package sales.view.search;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -15,6 +17,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,7 +31,11 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 
 import model.Material;
+import model.MaterialModel;
+import model.MaterialType;
+import model.MeasureUnit;
 import model.Session;
+import sales.controller.SalesController;
 import sales.controller.SearchOfMaterialController;
 import sales.view.update.MaterialUpdateFrame;
 import util.ShowMessage;
@@ -52,8 +59,18 @@ public class SearchOfMaterialFrame extends JFrame {
 	private JScrollPane scrollPaneTable;
 	private JFrame frame = this;
 	
+	private JButton btnClear;
+
+	private JComboBox<MaterialModel> cboModel;
+	private JLabel lblMeasureUnit;
+	private JComboBox<MeasureUnit> cboMeasureUnit;
+	private JLabel lblMaterialType;
+	private JComboBox<MaterialType> cboMaterialType;
+	private SalesController salesController;
+	
 	public SearchOfMaterialFrame() {
 		controller = new SearchOfMaterialController();
+		salesController = new SalesController();
 		initialize();
 		setListeners();
 	}
@@ -62,7 +79,9 @@ public class SearchOfMaterialFrame extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Consulta de Material");
 		util.Icon.setIcon(this);
-		setBounds(0, 0, 478, 407);
+		setBounds(0, 0, 478, 573);
+		setPreferredSize(new Dimension(478,573));
+		setMinimumSize(new Dimension(478, 573));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 		controller.queryAll(table);
@@ -109,16 +128,31 @@ public class SearchOfMaterialFrame extends JFrame {
 		
 		
 		btnSearch = new JButton("Buscar");
+		btnSearch.setIcon(new ImageIcon(SearchOfMaterialFrame.class.getResource("/resources/view.png")));
 		btnSearch.setSelectedIcon(new ImageIcon(SearchOfMaterialFrame.class.getResource("/resources/ok.png")));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		
+		JLabel lblModel = new JLabel("Categoria");
+		
+		cboModel = new JComboBox<MaterialModel>();
+		salesController.fillMaterialModels(cboModel);
+		
+		lblMeasureUnit = new JLabel("Unidade de Medida");
+		
+		cboMeasureUnit = new JComboBox<MeasureUnit>();
+		salesController.fillMeasureUnit(cboMeasureUnit);
+		lblMaterialType = new JLabel("Tipo");
+		
+		cboMaterialType = new JComboBox<MaterialType>();
+		salesController.fillMaterialType(cboMaterialType);
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(gl_principalPanel.createSequentialGroup()
+				.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblName)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -132,7 +166,19 @@ public class SearchOfMaterialFrame extends JFrame {
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(spinnerMinimum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
-							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE)))
+							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblModel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboModel, 0, 391, Short.MAX_VALUE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblMeasureUnit)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboMeasureUnit, 0, 347, Short.MAX_VALUE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblMaterialType)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboMaterialType, 0, 418, Short.MAX_VALUE)))
 					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(
@@ -149,8 +195,20 @@ public class SearchOfMaterialFrame extends JFrame {
 						.addComponent(lblQuantidadeMinima)
 						.addComponent(spinnerMinimum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnSearch))
-					.addGap(10)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 275, Short.MAX_VALUE)
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblModel)
+						.addComponent(cboModel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMeasureUnit)
+						.addComponent(cboMeasureUnit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMaterialType)
+						.addComponent(cboMaterialType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
@@ -172,7 +230,20 @@ public class SearchOfMaterialFrame extends JFrame {
 		});
 		scrollPane.setViewportView(table);
 		principalPanel.setLayout(gl_principalPanel);
+		
+		initializeSub();
 	}
+
+	private void initializeSub() {
+	    JPanel subPanel = new JPanel();
+	    getContentPane().add(subPanel, BorderLayout.SOUTH);
+	    btnClear = new JButton("Limpar");
+	    btnClear.setIcon(new ImageIcon(SearchOfMaterialFrame.class.getResource("/resources/ClearFrame.png")));
+	    
+	    subPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	    subPanel.add(btnClear);
+	    
+    }
 
 	private void setListeners() {
 		addWindowListener(new WindowAdapter() {
@@ -188,10 +259,11 @@ public class SearchOfMaterialFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource().equals(btnSearch))verify();
+				else if(e.getSource().equals(btnClear))clear();
 			}
 		};
 		btnSearch.addActionListener(buttonListener);
-		
+		btnClear.addActionListener(buttonListener);
 		KeyListener txtKeyListerner = new KeyListener() {
 			
 			@Override
@@ -228,25 +300,25 @@ public class SearchOfMaterialFrame extends JFrame {
 		
 		@Override
 		public void mouseReleased(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 		
 		@Override
 		public void mousePressed(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 		
 		@Override
 		public void mouseExited(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 		
 		@Override
 		public void mouseEntered(MouseEvent e) {
-			// TODO Auto-generated method stub
+			
 			
 		}
 		
@@ -276,12 +348,24 @@ public class SearchOfMaterialFrame extends JFrame {
 				
 	};
 	
+	private void clear() {
+		txtName.setText("");
+		spinner.setValue(0);
+		spinnerMinimum.setValue(0);
+		cboMaterialType.setSelectedIndex(-1);
+		cboMeasureUnit.setSelectedIndex(-1);
+		cboModel.setSelectedIndex(-1);
+	}
+	
 	
 	private void verify() {
 		int max = (int) spinner.getValue();
 		int min = (int) spinnerMinimum.getValue();
 		String name = txtName.getText();
-		controller.search(table, max, min, name);		
+		int materialModel = cboModel.getSelectedIndex() + 1;
+		int measureUnit = cboMeasureUnit.getSelectedIndex() +1;
+		int materialType = cboMaterialType.getSelectedIndex() + 1;
+		controller.search(table, max, min, name, materialModel, materialType, measureUnit);		
 	}
 	WindowListener windowListener = new WindowListener() {
 		
@@ -327,5 +411,5 @@ public class SearchOfMaterialFrame extends JFrame {
 			
 		}
 	};
-
+	
 }

@@ -20,22 +20,19 @@ public class SearchOfMaterialController extends SalesController{
 	   dataBase.connect();
     }
 
-	public void search(JTable table, Integer max, Integer min, String name) {
+	public void search(JTable table, Integer max, Integer min, String name, int materialModel, int materialType, int measureUnit) {
 	   int parameterCount = 0;
 	   
 	   List<Object> obj = new ArrayList<Object>() ;
 	   String sql = "SELECT * FROM Product WHERE ";
 	   
-	   if(name!=null && !name.isEmpty())
-	   {
-		  
+	   if(name!=null && !name.isEmpty()){
 		  sql+= " name LIKE ? "; 
 		  name = name +"%";
 		  obj.add(name);
 		  parameterCount++;
-		
-	   }
-	   if(max >=1)
+		}
+	   if(max >=1 && name!=null && name.isEmpty())
 	   {
 		   if(parameterCount > 0)
 				 sql+=" AND "; 
@@ -54,6 +51,24 @@ public class SearchOfMaterialController extends SalesController{
 		   parameterCount++;
 		   
 		   
+	   }
+	   if(measureUnit != 0) {
+		   if(parameterCount > 0) sql +=" AND ";
+		   sql += " measure_unit = ? ";
+		   obj.add(measureUnit);
+		   parameterCount++;
+	   }
+	   if(materialModel != 0) {
+		   if(parameterCount > 0) sql +=" AND ";
+		   sql += " model = ? ";
+		   obj.add(materialModel);
+		   parameterCount++;
+	   }
+	   if(materialType != 0) {
+		   if(parameterCount > 0) sql +=" AND ";
+		   sql += " material_type = ? ";
+		   obj.add(materialType);
+		   parameterCount++;
 	   }
 	   if(parameterCount == 0)
 		   sql = sql.replace("WHERE","");
@@ -131,6 +146,12 @@ public class SearchOfMaterialController extends SalesController{
 				material.setAmmount(rs.getInt("quantidade"));
 				material.setInternalCode(rs.getString("internal_code"));
 				material.setNCM(rs.getString("ncm"));
+				material.setMaterialType(rs.getInt("material_type"));
+				material.setHeigth(rs.getDouble("z"));
+				material.setLength(rs.getDouble("y"));
+				material.setMeasureUnit(rs.getInt("measure_unit"));
+				material.setModel(rs.getInt("model"));
+				material.setWidth(rs.getDouble("x"));
 			}
 			return material;
 		} catch (SQLException e) {

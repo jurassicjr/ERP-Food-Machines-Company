@@ -39,6 +39,21 @@ public class ClearFrame {
 		
 	}
 	
+
+	@SuppressWarnings("rawtypes")
+	public static void clearWithoutTable(Container c) {
+		
+		List<Component> components = getAllComponents(c);
+		for (Component e : components) {
+			if(e instanceof JSpinner) ((JSpinner) e).setValue(0);
+			else if(e instanceof JTextField)((JTextField) e).setText(null);
+	        else if(e instanceof JComboBox) ((JComboBox) e).setSelectedIndex(-1);
+	        else if(e instanceof JFormattedTextField) ((JFormattedTextField) e).setText(null);
+	        else if(e instanceof DateField) ((DateField) e).setValue(null);
+	        else if(e instanceof JTextArea) ((JTextArea) e).setText(null);	       
+        }
+	}
+	
 	private static List<Component> getAllComponents(final Container c) {
 		
 	    Component[] comps = c.getComponents();

@@ -25,13 +25,16 @@ import javax.swing.JSeparator;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import model.Material;
+import model.MaterialModel;
+import model.MaterialType;
+import model.MeasureUnit;
 import sales.controller.MaterialUpdateController;
-import userInterface.components.ComboBoxAutoCompletion;
+import sales.controller.SalesController;
+import sales.view.register.RegisterOfMaterialFrame;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.Icon;
@@ -45,37 +48,59 @@ public class MaterialUpdateFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = 2859084917577254070L;
 
-	private JFrame frame = this;
-
-	Icon icon;
+	private JPanel principalPanel;
+	private JPanel bottonPanel;
 
 	private UpperTextField txtName;
 
-	private JLabel lblProdutomaterial;
-	private JLabel lblNome;
-
-	private JComboBox<Material> cboProduto;
-
-	private MaterialUpdateController controller;
-
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
-	private JButton btnApagar;
 
-	private DataBase dataBase;
+	private SalesController controller;
+	private MaterialUpdateFrame frame = this;
 
 	private JTextArea txtDescricao;
-
-
-	private JPanel panelDescricao;
-	private JSeparator separator;
 	private JTextField txtNCM;
 	private JTextField txtInternalCode;
+
+	private JLabel lblName;
+
+	private JPanel panel;
+
+	private JLabel lblInternalCode;
+
+	private JLabel lblNCM;
+	private JLabel lblMaterialType;
+	private JLabel lblModel;
+	private JComboBox<MaterialType> cboMaterialType;
+	private JButton btnAddMaterialType;
+	private JComboBox<MaterialModel> cboMaterialModel;
+	private JButton btnAddMaterialModel;
+	private JLabel lblMeasureUnit;
+
+	private JComboBox<MeasureUnit> cboMeasureUnit;
+	
+	private JLabel lblwidth;
+	private JTextField txtWidth;
+	private JLabel lblLength;
+	private JTextField txtLength;
+	private JLabel lblHeigth;
+	private JTextField txtHeigth;
+
+	private DataBase dataBase;
+	private JLabel lblMaterial;
+	private JComboBox<Material> cboProduto;
+
+	private JButton btnLimpar;
+
+	private MaterialUpdateController materialUpdateController;
+
 
 	public MaterialUpdateFrame() {
 		dataBase = new DataBase();
 		dataBase.connect();
 		controller = new MaterialUpdateController();
+		materialUpdateController = new MaterialUpdateController();
 		initialize();
 		setListener();
 	}
@@ -84,49 +109,88 @@ public class MaterialUpdateFrame extends JFrame {
 	 * Inicializa os elemento gráficos da aplicação
 	 */
 
+
 	private void initialize() {
 		this.setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		// Adiciona o titulo
 		this.setTitle("Atualização de Materiais");
-		setBounds(100, 100, 480, 331);
+		setBounds(100, 100, 480, 539);
 		setMinimumSize(new Dimension(480, 300));
 		// Logo
 		Icon.setIcon(frame);
 		// Determina o Layout
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		// Criar o panel e adiciona ao frame
-		JPanel principalPanel = new JPanel();
+		principalPanel = new JPanel();
 		getContentPane().add(principalPanel, BorderLayout.CENTER);
 
-		lblProdutomaterial = new JLabel("Produto/Material");
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 
-		cboProduto = new JComboBox<Material>();
-		controller.fillMaterials(cboProduto);
-		ComboBoxAutoCompletion cboAutoCompletation = new ComboBoxAutoCompletion(cboProduto);
-		cboProduto.setSelectedIndex(-1);
-
-		lblNome = new JLabel("Nome");
+		lblName = new JLabel("Nome");
 
 		txtName = new UpperTextField();
 		txtName.setColumns(10);
 
-		panelDescricao = new JPanel();
-		panelDescricao.setBorder(new TitledBorder(UIManager.getBorder("TitledBorder.border"), "Descri\u00E7\u00E3o",
-		        TitledBorder.LEADING, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		
-		separator = new JSeparator();
-		
-		JLabel lblNCM = new JLabel("Código NCM");
-		
+		panel = new JPanel();
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0)), "Descri\u00E7\u00E3o",
+		        TitledBorder.LEADING, TitledBorder.TOP, null, null));
+
+		JSeparator separator = new JSeparator();
+
+		lblNCM = new JLabel("Código NCM");
+
 		txtNCM = new JTextField();
 		txtNCM.setColumns(10);
-		
-		JLabel lblInternalCode = new JLabel("Código Interno");
-		
+
+		lblInternalCode = new JLabel("Código interno");
+
 		txtInternalCode = new JTextField();
 		txtInternalCode.setColumns(10);
-
-		// Determina o layout do panel
+		
+		lblMaterialType = new JLabel("Tipo do material");
+		 
+		lblModel = new JLabel("Modelo");
+		
+		cboMaterialType = new JComboBox<MaterialType>();
+		
+		btnAddMaterialType = new JButton("Adicionar");
+		btnAddMaterialType.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/plus.png")));
+		controller.fillMaterialType(cboMaterialType);
+		
+		cboMaterialModel = new JComboBox<MaterialModel>();
+		
+		btnAddMaterialModel = new JButton("Adicionar");
+		btnAddMaterialModel.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/plus.png")));
+		controller.fillMaterialModels(cboMaterialModel);
+		
+		lblMeasureUnit = new JLabel("Unidade de Medida");
+		
+		cboMeasureUnit = new JComboBox<MeasureUnit>();
+		controller.fillMeasureUnit(cboMeasureUnit);
+		
+		lblwidth = new JLabel("Largura");
+		
+		txtWidth = new JTextField();
+		txtWidth.setColumns(10);
+		
+		lblLength = new JLabel("Comprimento");
+		lblLength.setEnabled(false);
+		
+		txtLength = new JTextField();
+		txtLength.setEnabled(false);
+		txtLength.setColumns(10);
+		
+		lblHeigth = new JLabel("Altura");
+		lblHeigth.setEnabled(false);
+		
+		txtHeigth = new JTextField();
+		txtHeigth.setEnabled(false);
+		txtHeigth.setColumns(10);
+		
+		lblMaterial = new JLabel("Material");
+		
+		cboProduto = new JComboBox<Material>();
+		materialUpdateController.fillMaterials(cboProduto);
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
@@ -134,15 +198,14 @@ public class MaterialUpdateFrame extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblProdutomaterial)
+							.addComponent(lblMaterial)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 173, GroupLayout.PREFERRED_SIZE))
+							.addComponent(cboProduto, 0, 402, Short.MAX_VALUE))
 						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblNome)
+							.addComponent(lblName)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 413, Short.MAX_VALUE))
 						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
-						.addComponent(panelDescricao, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblNCM)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -150,19 +213,48 @@ public class MaterialUpdateFrame extends JFrame {
 							.addGap(18)
 							.addComponent(lblInternalCode)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtInternalCode, GroupLayout.DEFAULT_SIZE, 202, Short.MAX_VALUE)))
+							.addComponent(txtInternalCode, GroupLayout.DEFAULT_SIZE, 204, Short.MAX_VALUE))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblMaterialType)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboMaterialType, 0, 249, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(btnAddMaterialType))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblModel)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboMaterialModel, 0, 291, Short.MAX_VALUE)
+							.addGap(18)
+							.addComponent(btnAddMaterialModel))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblMeasureUnit)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(cboMeasureUnit, 0, 349, Short.MAX_VALUE))
+						.addComponent(panel, GroupLayout.DEFAULT_SIZE, 444, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addComponent(lblwidth)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtWidth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblLength)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtLength, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(lblHeigth)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txtHeigth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(
-			gl_principalPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(gl_principalPanel.createSequentialGroup()
+			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblProdutomaterial)
+						.addComponent(lblMaterial)
 						.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblNome)
+						.addComponent(lblName)
 						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
@@ -170,39 +262,64 @@ public class MaterialUpdateFrame extends JFrame {
 						.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblInternalCode)
 						.addComponent(txtInternalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-					.addPreferredGap(ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
-					.addComponent(panelDescricao, GroupLayout.PREFERRED_SIZE, 124, GroupLayout.PREFERRED_SIZE)
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMaterialType)
+						.addComponent(cboMaterialType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAddMaterialType))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblModel)
+						.addComponent(cboMaterialModel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAddMaterialModel))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblMeasureUnit)
+						.addComponent(cboMeasureUnit, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addGap(18)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblwidth)
+						.addComponent(txtWidth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblLength)
+						.addComponent(txtLength, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblHeigth)
+						.addComponent(txtHeigth, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addPreferredGap(ComponentPlacement.RELATED)
-					.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addComponent(panel, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 7, GroupLayout.PREFERRED_SIZE)
+					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 		);
-		panelDescricao.setLayout(new BorderLayout(0, 0));
+		panel.setLayout(new BorderLayout(0, 0));
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-		panelDescricao.add(scrollPane, BorderLayout.CENTER);
+		panel.add(scrollPane, BorderLayout.CENTER);
 
 		txtDescricao = new JTextArea();
 		scrollPane.setViewportView(txtDescricao);
 		principalPanel.setLayout(gl_principalPanel);
-
-		initializeSub();
+		initializeBotton();
 	}
 
-	private void initializeSub() {
-		JPanel bottonPanel = new JPanel();
-		getContentPane().add(bottonPanel, BorderLayout.SOUTH);
-		bottonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+	/**
+	 * Inicializa o Jpanel inferior com os componentes de confirmar e sair.
+	 */
 
-		btnApagar = new JButton("Apagar");
-		btnApagar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/clear.png")));
-		bottonPanel.add(btnApagar);
+	private void initializeBotton() {
+		bottonPanel = new JPanel();
+		this.getContentPane().add(bottonPanel, BorderLayout.SOUTH);
+		bottonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
+		
+		btnLimpar = new JButton("Limpar");
+		btnLimpar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/ClearFrame.png")));
+		bottonPanel.add(btnLimpar);
 
 		btnCancelar = new JButton("Cancelar");
-		btnCancelar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/cancel.png")));
+		btnCancelar.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/cancel.png")));
 		bottonPanel.add(btnCancelar);
 
 		btnConfirmar = new JButton("Confirmar");
-		btnConfirmar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/ok.png")));
+		btnConfirmar.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/ok.png")));
 		bottonPanel.add(btnConfirmar);
 	}
 
@@ -243,9 +360,17 @@ public class MaterialUpdateFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "Atualização", "Deseja realmente atualizar o produto \""
 					        + txtName.getText() + "\"");
 					if (i == JOptionPane.YES_OPTION) {
-						String sql = "UPDATE Product SET name = ?, descricao = ?, internal_code = ?, ncm = ? WHERE id = ?";
+						int x, y, z;
+						if(txtWidth.getText().isEmpty())x = 0;
+						else x = Integer.parseInt(txtWidth.getText());
+						if(txtLength.getText().isEmpty())y = 0;
+						else y = Integer.parseInt(txtLength.getText());
+						if(txtHeigth.getText().isEmpty())z = 0;
+						else z = Integer.parseInt(txtHeigth.getText());
+						String sql = "UPDATE Product SET name = ?, descricao = ?, internal_code = ?, ncm = ?, model = ?, measure_unit = ?, material_type = ?, x = ?, y = ?, z = ? WHERE id = ?";
 						Material produto = (Material) cboProduto.getSelectedItem();
-						insertData = new Object[] { txtName.getText(), txtDescricao.getText(), txtInternalCode.getText(), txtNCM.getText() ,produto.getId() };
+						insertData = new Object[] { txtName.getText(), txtDescricao.getText(), txtInternalCode.getText(), txtNCM.getText() ,produto.getId(), cboMaterialModel.getSelectedIndex() +1,
+						cboMeasureUnit.getSelectedIndex() + 1, cboMaterialType.getSelectedIndex() + 1, x, y, z};
 						dataBase.executeUpdate(sql, insertData);
 						String title = "Atualização/Remoção";
 						String message = "Ação concluida com sucesso!";
@@ -255,7 +380,7 @@ public class MaterialUpdateFrame extends JFrame {
 					} else {
 						txtName.requestFocus();
 					}
-				} else if (e.getSource().equals(btnApagar)) {
+				} else if (e.getSource().equals(btnLimpar)) {
 					int i = ShowMessage.questionMessage(frame, "APAGAR", "Deseja realmente apagar o material \""
 					        + txtName.getText() + " \"");
 					if (i == JOptionPane.YES_OPTION) {
@@ -271,7 +396,9 @@ public class MaterialUpdateFrame extends JFrame {
 						ClearFrame.clear(frame);
 						cboProduto.removeItem(produto);
 						ShowMessage.successMessage(frame, "Remoção", "Produto deletado com sucesso!");
-					} else {
+					} else if(e.getSource().equals(cboMeasureUnit)){
+						allowBox();
+					}else {
 						txtName.requestFocus();
 					}
 				}
@@ -281,28 +408,59 @@ public class MaterialUpdateFrame extends JFrame {
 		cboProduto.addActionListener(cboListener);
 		btnCancelar.addActionListener(buttonListerners);
 		btnConfirmar.addActionListener(buttonListerners);
-		btnApagar.addActionListener(buttonListerners);
+		btnLimpar.addActionListener(buttonListerners);
 	}
-    public void setSelectedMaterial(Material material)
-    {
-    	cboProduto.setSelectedItem(material);
-    	fill();
-    	
+    public void setSelectedMaterial(Material material){
+    		cboProduto.setSelectedIndex(material.getId() - 1);
+    	 	fill(material);
     }
-    public void fill()
-    {
-    	Material material = (Material) cboProduto.getSelectedItem();
+    public void fill(Material material){
     	txtName.setText(material.getName());
     	txtDescricao.setText(material.getDescrition());
     	txtInternalCode.setText(material.getInternalCode());
+    	txtHeigth.setText(String.valueOf(material.getHeigth()));
+    	txtLength.setText(String.valueOf(material.getLength()));
+    	txtWidth.setText(String.valueOf(material.getWidth()));
+    	cboMaterialModel.setSelectedIndex(material.getModel() - 1);
+    	cboMaterialType.setSelectedIndex(material.getMaterialType() - 1);
+    	cboMeasureUnit.setSelectedIndex(material.getMeasureUnit() - 1);
     	txtNCM.setText(material.getNCM());
     	txtName.grabFocus();
     }
+    
 	private void fillFields(ResultSet rs) throws SQLException {
 		rs.next();
 		txtName.setText(rs.getString("name"));
 		txtDescricao.setText(rs.getString("descricao"));
 		txtInternalCode.setText(rs.getString("internal_code"));
 		txtNCM.setText(rs.getString("ncm"));
+		txtHeigth.setText(String.valueOf(rs.getInt("z")));
+		txtLength.setText(String.valueOf(rs.getInt("y")));
+		txtWidth.setText(String.valueOf(rs.getInt("x")));
+		cboMaterialModel.setSelectedIndex(rs.getInt("model") -1);
+		cboMaterialType.setSelectedIndex(rs.getInt("material_type") -1);
+		cboMeasureUnit.setSelectedIndex(rs.getInt("measure_unit") -1);
+	}
+	
+	private void allowBox() {
+		int i = cboMeasureUnit.getSelectedIndex();
+		if(i == -1)return;
+		else if(i == 1 || i == 4 || i == 7 || i == 14) {
+			txtLength.setEnabled(true);
+			txtHeigth.setEnabled(false);
+			lblHeigth.setEnabled(false);
+			lblLength.setEnabled(true);
+		}else if(i == 2 || i == 5 || i == 8 || i == 15){
+			txtLength.setEnabled(true);
+			txtHeigth.setEnabled(true);
+			lblHeigth.setEnabled(true);
+			lblLength.setEnabled(true);
+		}else {
+			txtLength.setEnabled(false);
+			txtHeigth.setEnabled(false);
+			lblHeigth.setEnabled(false);
+			lblLength.setEnabled(false);
+		}
+		
 	}
 }

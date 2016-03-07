@@ -93,7 +93,7 @@ public class RegisterOfMaterialFrame extends JFrame {
 	 */
 
 	private void initializePrincipal() {
-		this.setTitle("Cadastro de Produto");
+		this.setTitle("Cadastro de Material");
 		Icon.setIcon(this);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setBounds(100, 100, 450, 497);
