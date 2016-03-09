@@ -78,12 +78,14 @@ public class RegisterBillFrameController {
 		user.setId(123);
 		
 		Bill bill = new Bill(subGroup, billName, value, date, creditor, entryValue, observation, nInstallments, user, cnpj, Bill.TO_PAY);
+		bill.setId(dataBase.getAutoIncrementValue("bill"));
 		boolean resultBill = new BillDAO().persist(bill);
 		
 		boolean resultInstallments = true;
 		
-		if(nInstallments > 1)
+		if(nInstallments > 1) {
 			resultInstallments = new InstallmentDAO().persist(installments, bill);
+		}
 		
 		if(resultBill && resultInstallments) 
 			ShowMessage.successMessage(frame, "Conta Registrada", "A Conta a Pagar foi Registrada com sucesso");

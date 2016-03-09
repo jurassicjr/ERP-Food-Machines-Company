@@ -1,5 +1,6 @@
 package database.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import database.DataBase;
@@ -26,9 +27,15 @@ public class InstallmentDAO {
 			String sql = "INSERT INTO installment (bill, date, value) "
 					+ "VALUES (?, ?, ?);";
 			
-			Object data[] = new Object[]{(Integer) installment.getBill().getId(), installment.getDate(), (Double) installment.getValue()};
+			Integer billId = bill.getId();
+			Date date = new Date(installment.getDate().getTime());
+			Double value = installment.getValue();
+			
+			Object data[] = new Object[]{billId, date, value};
 			
 			valid &= dataBase.executeUpdate(sql, data);
+			
+			if(!valid) break;
 			
 		}
 		

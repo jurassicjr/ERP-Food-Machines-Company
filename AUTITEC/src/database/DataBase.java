@@ -188,7 +188,7 @@ public class DataBase {
 	 * @param query A query da consulta sql 
 	 * @param data Os dados de parametros da consulta
 	 */
-	public void executeUpdate(String query, Object data[]) {
+	public boolean executeUpdate(String query, Object data[]) {
 		
 		try {
 			
@@ -207,11 +207,13 @@ public class DataBase {
 			
 			statement.executeUpdate();
 			
+			return true;
+			
 	
 		} catch (SQLException e) {
 			showDataBaseErrorMessage();
 			e.printStackTrace();
-			System.out.println(e.getMessage());
+			return false;
 		}
 				
 	}
