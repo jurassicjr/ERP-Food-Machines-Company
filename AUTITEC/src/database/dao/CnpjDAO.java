@@ -38,5 +38,34 @@ public class CnpjDAO {
 		
 		return cnpjs;
 	}
+	
+	public CNPJ getByID(int id) {
+		
+		CNPJ cnpj = null;
+		
+		DataBase dataBase = new DataBase();
+		dataBase.connect();
+		
+		try {
+			
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM cnpj WHERE id = " + id);
+			
+			if(resultSet.next()) {
+				
+				String cnpjNumber = resultSet.getString("cnpj");
+				String corporateName = resultSet.getString("corporate_name");
+				
+				cnpj = new CNPJ(id, cnpjNumber, corporateName);
+				
+			}
+			
+		} catch (SQLException e) {
+			DataBase.showDataBaseErrorMessage();	
+			e.printStackTrace();
+		}
+		
+		return cnpj;
+		
+	}
 
 }

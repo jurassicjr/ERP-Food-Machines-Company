@@ -21,6 +21,10 @@ public class User {
 		this.employee = employee;
 		this.permissions = permissions;
 	}
+	
+	public User(int id) {
+		this.id = id;
+	}
 
 	public Employee getEmployee() {
 		return employee;
@@ -32,6 +36,10 @@ public class User {
 		
 	public ArrayList<String> getPermissions() {
 		return permissions;
+	}
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 	
 	public int getId() {

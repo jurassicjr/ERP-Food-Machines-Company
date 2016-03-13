@@ -1,18 +1,23 @@
 package financial.controller;
 
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Date;
+import java.text.NumberFormat;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
-import model.Bill;
-import model.Installment;
-import util.ShowMessage;
 import database.DataBase;
+import database.dao.CnpjDAO;
 import financial.view.ListBillsFrame;
 import financial.view.PayBillFrame;
+import model.Bill;
+import model.BillGroup;
+import model.BillName;
+import model.BillSubGroup;
+import model.CNPJ;
+import model.User;
 
 public class ListBillsFrameController {
 	
@@ -29,25 +34,44 @@ public class ListBillsFrameController {
 	
 	public boolean setBills(JTable bills) {
 		
-//		try {
-//			
-//			String sql = "SELECT installment.*, bill.bill as 'bill_name', bill.creditor, bill.observation "
-//					+ "FROM bill, installment "
-//					+ "WHERE installment.bill = bill.id AND installment.date = (SELECT MIN(date) FROM installment) AND bill.payed = 0;";
-//			
-//			ResultSet resultSet = dataBase.executeQuery(sql);
-//			
-//			int row = 0;
-//			
-//			while(resultSet.next()) {
-//								
-//				addTableRow(bills);		
-//				
-//				String bill = resultSet.getString("bill_name");
+			try {
+			
+			String sql = "SELECT * FROM bill WHERE bill.paid = 0;";
+			
+			ResultSet resultSet = dataBase.executeQuery(sql);
+			
+			int row = 0;
+			
+			while(resultSet.next()) {
+				
+				BillGroup billGroup = getBillGroup(resultSet.getInt("bill_subgroup"));
+				BillSubGroup billSubGroup = billGroup.getSubGroups().get(0);
+				BillName billName = getBillName(resultSet.getInt("bill_name"));
+				
+				double value = resultSet.getDouble("value");
+				Date expiration = resultSet.getDate("expiration");
+				String creditor = resultSet.getString("creditor");
+				double entryValue = resultSet.getDouble("entry_value");
+				String observation = resultSet.getString("observation");
+				int nInstallments = resultSet.getInt("n_installments");
+				User user = new User(resultSet.getInt("user"));
+				CNPJ cnpj = new CnpjDAO().getByID(resultSet.getInt("cnpj"));
+				int type = resultSet.getInt("type");
+				boolean paid = resultSet.getBoolean("paid");
+				
+				Bill bill = new Bill(billGroup, billSubGroup, billName, value, expiration, creditor, 
+						entryValue, observation, nInstallments, user, cnpj, type, paid);
+				
+				addTableRow(bills, bill);
+				
+				
+				///String bill = resultSet.getString("bill_name");
 //				String creditor = resultSet.getString("creditor");
 //				String observation = resultSet.getString("observation");
 //				int billId = resultSet.getInt("bill");
 //				Bill b = new Bill(bill, creditor, observation, billId);
+				
+				//System.out.println(bill);
 //				
 //				Date date = resultSet.getDate("date");
 //				double value = resultSet.getDouble("value");
@@ -78,23 +102,84 @@ public class ListBillsFrameController {
 //				ShowMessage.successMessage(frame, title, message);
 //				
 //				return false;
-//				
-//			}
-//			
-//			
-//		} catch(SQLException e) {
-//			e.printStackTrace();
-//			DataBase.showDataBaseErrorMessage();
-//		}
+				
+			}
+			
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			DataBase.showDataBaseErrorMessage();
+		}
 		
 		return true;
 		
 	}
 	
-	private void addTableRow(JTable table) {
+	private void addTableRow(JTable table, Bill bill) {
+		
+		int row = table.getRowCount();
+		
 		((DefaultTableModel) table.getModel()).addRow(new Object[]{null, null, null, null});
+		
+		table.setValueAt(bill.toString(), row, 0);
+		table.setValueAt(bill.getCreditor(), row, 1);
+		table.setValueAt(bill.getCnpj().getFormattedCnpj(), row, 2);
+		table.setValueAt(NumberFormat.getCurrencyInstance().format(bill.getValue()), row, 4);
+		
+		String installments = "";
+		
+		if(bill.getEntryValue() > -1)
+			installments = "1 + ";
+		
+		installments = installments + bill.getnInstallments();
+		
+		table.setValueAt(installments, row, 3);
+	}
+	
+	private BillGroup getBillGroup(int subGroupId) throws SQLException {
+		
+		String sql = "SELECT subgroup.cod AS 'subgroup_cod', subgroup.id AS 'subgroup_id', subgroup.subgroup, b_group.cod AS 'group_cod', b_group.group_name, b_group.id AS 'group_id' " +
+				"FROM bill_subgroup subgroup " +
+				"JOIN bill_group b_group " +
+				"ON subgroup.group_id = b_group.id " +
+				"WHERE subgroup.id = " + subGroupId;
+		
+		ResultSet resultSet = dataBase.executeQuery(sql);
+		resultSet.next();
+		
+		String subGroupCode = resultSet.getString("subgroup_cod");
+		String subGroupName = resultSet.getString("subgroup");
+		
+		String groupCode = resultSet.getString("group_cod");
+		String groupName = resultSet.getString("group_name");
+		int groupId = resultSet.getInt("group_id");
+		
+		BillSubGroup billSubGroup = new BillSubGroup(subGroupId, subGroupCode, subGroupName);
+		
+		BillGroup billGroup = new BillGroup(groupId, groupCode, groupName);
+		billGroup.getSubGroups().add(billSubGroup);
+		
+		return billGroup;
+	}
+	
+	public BillName getBillName(int billNameId) throws SQLException {
+		
+		BillName billName = null;
+		 
+		if(billNameId != 0) {
+			
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM bill_name WHERE id = " + billNameId);
+			resultSet.next();
+			
+			billName = new BillName(billNameId, resultSet.getString("cod"), resultSet.getString("bill_name"));
+			
+		}
+		
+		return billName;
+		
 	}
 
+	
 	public void payBill(Bill bill, double value) {
 		
 		frame.setVisible(false);

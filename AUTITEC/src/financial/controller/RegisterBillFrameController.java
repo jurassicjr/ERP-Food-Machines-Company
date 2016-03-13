@@ -77,7 +77,7 @@ public class RegisterBillFrameController {
 		User user = new User(e, null);
 		user.setId(123);
 		
-		Bill bill = new Bill(subGroup, billName, value, date, creditor, entryValue, observation, nInstallments, user, cnpj, Bill.TO_PAY);
+		Bill bill = new Bill(subGroup, billName, value, date, creditor, entryValue, observation, nInstallments, user, cnpj, Bill.TO_PAY, false);
 		bill.setId(dataBase.getAutoIncrementValue("bill"));
 		boolean resultBill = new BillDAO().persist(bill);
 		

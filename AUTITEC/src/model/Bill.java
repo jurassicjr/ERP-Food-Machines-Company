@@ -8,6 +8,7 @@ public class Bill {
 	
 	private Integer id;
 	
+	private BillGroup group;
 	private BillSubGroup subGroup;
 	private BillName billName;
 	private double value;
@@ -19,9 +20,10 @@ public class Bill {
 	private User user;
 	private CNPJ cnpj;
 	private int type;
+	private boolean paid;
 
 	public Bill(BillSubGroup subGroup, BillName billName, double value, Date expiration, String creditor, 
-			double entryValue, String observation, int nInstallments, User user, CNPJ cnpj, int type) {
+			double entryValue, String observation, int nInstallments, User user, CNPJ cnpj, int type, boolean paid) {
 		this.subGroup = subGroup;
 		this.billName = billName;
 		this.value = value;
@@ -33,6 +35,24 @@ public class Bill {
 		this.user = user;
 		this.cnpj = cnpj;
 		this.type = type;
+		this.paid = paid;
+	}
+	
+	public Bill(BillGroup group, BillSubGroup subGroup, BillName billName, double value, Date expiration, String creditor, 
+			double entryValue, String observation, int nInstallments, User user, CNPJ cnpj, int type, boolean paid) {
+		this.group = group;
+		this.subGroup = subGroup;
+		this.billName = billName;
+		this.value = value;
+		this.expiration = expiration;
+		this.creditor = creditor;
+		this.entryValue = entryValue;
+		this.observation = observation;
+		this.nInstallments = nInstallments;
+		this.user = user;
+		this.cnpj = cnpj;
+		this.type = type;
+		this.paid = paid;
 	}
 	
 	public int getType() {
@@ -129,6 +149,42 @@ public class Bill {
 
 	public void setObservation(String observation) {
 		this.observation = observation;
+	}
+
+	public boolean isPaid() {
+		return paid;
+	}
+
+	public void setPaid(boolean paid) {
+		this.paid = paid;
+	}
+	
+	public BillGroup getGroup() {
+		return group;
+	}
+
+	public void setGroup(BillGroup group) {
+		this.group = group;
+	}
+
+	@Override
+	public String toString() {
+		
+		StringBuilder builder = new StringBuilder();
+		
+		if(group != null && billName == null)
+			builder.append(group.getName() + " - ");
+
+		if(subGroup != null)
+			builder.append(subGroup.getName() + " - ");
+		
+		if(billName != null)
+			builder.append(billName.getName());
+		
+		return builder.toString().trim().endsWith("-")
+				? builder.substring(0, builder.length() - 2)
+				: builder.toString();
+		
 	}
 	
 }

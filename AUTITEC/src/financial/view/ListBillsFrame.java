@@ -28,7 +28,7 @@ import util.Icon;
 import financial.controller.ListBillsFrameController;
 
 public class ListBillsFrame extends JFrame {
-//
+
 	private static final long serialVersionUID = -2945947774382521011L;
 	
 	private JTable billsTable;
@@ -68,8 +68,8 @@ public class ListBillsFrame extends JFrame {
 		
 		String tableHeader[];
 		
-		if(allowsPay) tableHeader = new String[] {"Conta a Pagar", "Credor", "Valor", "Parcelas", "Pagar"};
-		else tableHeader = new String[] {"Conta a Pagar", "Credor", "Valor", "Parcelas"};
+		if(allowsPay) tableHeader = new String[] {"Conta a Pagar", "Credor", "CNPJ", "Parcelas", "Valor Total", "Pagar"};
+		else tableHeader = new String[] {"Conta a Pagar", "Credor", "CNPJ", "Parcelas", "Valor Total"};
 		
 		billsTable = new JTable();
 		billsTable.setModel(new DefaultTableModel(new Object[][] {}, tableHeader)
@@ -78,7 +78,7 @@ public class ListBillsFrame extends JFrame {
 			private static final long serialVersionUID = -2428534803601038088L;
 			
 			boolean[] columnEditables = new boolean[] {
-					false, false, false, false, true
+					false, false, false, false, false, true
 			};
 			
 			@Override
@@ -92,11 +92,12 @@ public class ListBillsFrame extends JFrame {
 		billsTable.getColumnModel().getColumn(1).setPreferredWidth(150);
 		billsTable.getColumnModel().getColumn(2).setPreferredWidth(30);
 		billsTable.getColumnModel().getColumn(3).setPreferredWidth(30);
-		if(allowsPay) billsTable.getColumnModel().getColumn(4).setPreferredWidth(30);
+		billsTable.getColumnModel().getColumn(4).setPreferredWidth(30);
+		if(allowsPay) billsTable.getColumnModel().getColumn(5).setPreferredWidth(30);
 		
 		billsTable.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		billsTable.getTableHeader().setReorderingAllowed(false);
-		billsTable.getTableHeader().setResizingAllowed(false);
+		//billsTable.getTableHeader().setResizingAllowed(false);
 		billsTable.setRowHeight(25);
 		
 		scrollPane.setViewportView(billsTable);

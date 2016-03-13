@@ -4,9 +4,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import database.DataBase;
 import model.Employee;
 import rh.view.RegisterUserFrame.CheckBoxNode;
-import database.DataBase;
 
 public class UserDAO {
 	
@@ -40,7 +40,7 @@ public class UserDAO {
 			
 		}
 	}
-
+	
 	public boolean verify(Employee e, String pass) {
 	    String query = "SELECT *FROM user WHERE employee = ? AND password = ?";
 	    try(ResultSet rs = dataBase.executeQuery(query, new Object[] {e.getId(), pass})){
