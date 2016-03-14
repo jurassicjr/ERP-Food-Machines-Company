@@ -1,6 +1,8 @@
 package database.dao;
 
 import java.sql.Date;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import database.DataBase;
 import model.Bill;
@@ -36,6 +38,31 @@ public class BillDAO {
 				
 		return dataBase.executeUpdate(sql, data);
 								
+	}
+	
+	public Date getNextPaymentDate(Bill bill) {
+		
+		Date date = null;
+		Integer id = new Integer(bill.getId());
+		
+		String sql = "SELECT case " +
+				"WHEN n_installments = 1 THEN expiration " +
+				"ELSE (SELECT MIN(date) FROM installment WHERE bill = ? AND paid_date IS NULL) " +
+				"END " +
+				"FROM bill " +
+				"WHERE id = ?";
+		
+		ResultSet resultSet = dataBase.executeQuery(sql, new Object[]{id, id});
+		
+		try {
+			if(resultSet.next()) { date = resultSet.getDate(1); }
+		} catch (SQLException e) {
+			DataBase.showDataBaseErrorMessage();
+			e.printStackTrace();
+		}
+			
+		return date;
+		
 	}
 	
 }

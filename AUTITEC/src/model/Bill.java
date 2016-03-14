@@ -38,8 +38,9 @@ public class Bill {
 		this.paid = paid;
 	}
 	
-	public Bill(BillGroup group, BillSubGroup subGroup, BillName billName, double value, Date expiration, String creditor, 
+	public Bill(int id, BillGroup group, BillSubGroup subGroup, BillName billName, double value, Date expiration, String creditor, 
 			double entryValue, String observation, int nInstallments, User user, CNPJ cnpj, int type, boolean paid) {
+		this.id = id;
 		this.group = group;
 		this.subGroup = subGroup;
 		this.billName = billName;

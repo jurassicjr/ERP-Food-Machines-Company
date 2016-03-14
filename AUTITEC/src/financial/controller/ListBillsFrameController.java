@@ -4,11 +4,13 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import database.DataBase;
+import database.dao.BillDAO;
 import database.dao.CnpjDAO;
 import financial.view.ListBillsFrame;
 import financial.view.PayBillFrame;
@@ -40,14 +42,13 @@ public class ListBillsFrameController {
 			
 			ResultSet resultSet = dataBase.executeQuery(sql);
 			
-			int row = 0;
-			
 			while(resultSet.next()) {
 				
 				BillGroup billGroup = getBillGroup(resultSet.getInt("bill_subgroup"));
 				BillSubGroup billSubGroup = billGroup.getSubGroups().get(0);
 				BillName billName = getBillName(resultSet.getInt("bill_name"));
 				
+				Integer id = resultSet.getInt("id");
 				double value = resultSet.getDouble("value");
 				Date expiration = resultSet.getDate("expiration");
 				String creditor = resultSet.getString("creditor");
@@ -59,49 +60,10 @@ public class ListBillsFrameController {
 				int type = resultSet.getInt("type");
 				boolean paid = resultSet.getBoolean("paid");
 				
-				Bill bill = new Bill(billGroup, billSubGroup, billName, value, expiration, creditor, 
+				Bill bill = new Bill(id, billGroup, billSubGroup, billName, value, expiration, creditor, 
 						entryValue, observation, nInstallments, user, cnpj, type, paid);
 				
-				addTableRow(bills, bill);
-				
-				
-				///String bill = resultSet.getString("bill_name");
-//				String creditor = resultSet.getString("creditor");
-//				String observation = resultSet.getString("observation");
-//				int billId = resultSet.getInt("bill");
-//				Bill b = new Bill(bill, creditor, observation, billId);
-				
-				//System.out.println(bill);
-//				
-//				Date date = resultSet.getDate("date");
-//				double value = resultSet.getDouble("value");
-//				Installment i = new Installment(date, value);
-//				
-//				sql = "SELECT (SELECT COUNT(*) FROM installment WHERE paid = 1 AND bill = ?) as 'paid_bill', "
-//						+ "(SELECT COUNT(*) FROM installment WHERE bill = ?) as 'total_bill'";
-//				
-//				ResultSet rs = dataBase.executeQuery(sql, new Object[]{billId, billId});
-//				rs.next();
-//				
-//				int paidBill = rs.getInt("paid_bill");
-//				int totalBill = rs.getInt("total_bill");
-//				
-//				bills.setValueAt(b, row, 0);
-//				bills.setValueAt(b.getCreditor(), row, 1);
-//				bills.setValueAt("R$ " + String.format("%.2f", i.getValue()), row, 2);
-//				bills.setValueAt((paidBill + 1) + "/" + totalBill , row, 3);
-//
-//				++row;				
-//			}
-//			
-//			if(row == 0) {
-//				
-//				String title = "Não existem contas a pagar";
-//				String message = "Não existe nenhuma conta a pagar";
-//				
-//				ShowMessage.successMessage(frame, title, message);
-//				
-//				return false;
+				addBillToTable(bills, bill);
 				
 			}
 			
@@ -115,7 +77,7 @@ public class ListBillsFrameController {
 		
 	}
 	
-	private void addTableRow(JTable table, Bill bill) {
+	private void addBillToTable(JTable table, Bill bill) {
 		
 		int row = table.getRowCount();
 		
@@ -124,16 +86,22 @@ public class ListBillsFrameController {
 		table.setValueAt(bill.toString(), row, 0);
 		table.setValueAt(bill.getCreditor(), row, 1);
 		table.setValueAt(bill.getCnpj().getFormattedCnpj(), row, 2);
-		table.setValueAt(NumberFormat.getCurrencyInstance().format(bill.getValue()), row, 4);
 		
 		String installments = "";
 		
-		if(bill.getEntryValue() > -1)
+		if(Double.compare(bill.getEntryValue(), 0.0) != 0)
 			installments = "1 + ";
 		
 		installments = installments + bill.getnInstallments();
 		
 		table.setValueAt(installments, row, 3);
+		
+		Date nextPayment = new BillDAO().getNextPaymentDate(bill);
+		
+		table.setValueAt(new SimpleDateFormat("dd/MM/yyyy").format(nextPayment), row, 4);
+		
+		table.setValueAt(NumberFormat.getCurrencyInstance().format(bill.getValue()), row, 5);
+		
 	}
 	
 	private BillGroup getBillGroup(int subGroupId) throws SQLException {
