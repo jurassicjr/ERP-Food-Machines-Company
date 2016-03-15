@@ -166,6 +166,7 @@ public class RegisterIssueFrame extends JFrame {
 	
 	private void resetFrame() {
 		controller.clear();
+		txEmployee.setText(Session.getInstance().getUser().getEmployee().getName());
 		txDate.setText(new SimpleDateFormat("dd/MM/yyyy").format(new Date()));
 	}
 	

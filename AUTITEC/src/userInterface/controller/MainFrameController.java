@@ -1,10 +1,21 @@
 package userInterface.controller;
 
+import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
+import javax.swing.Box;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
+import database.dao.BillDAO;
+import financial.view.GenerateReportFrame;
+import financial.view.ListBillsFrame;
+import financial.view.RegisterBankAccountFrame;
+import financial.view.RegisterBillFrame;
+import financial.view.RegisterDebtsToReceiveFrame;
 import maintenance.view.register.RouteRegisterFrame;
 import maintenance.view.register.ToolBoxRegisterFrame;
 import maintenance.view.register.ToolBoxUpdateFrame;
@@ -15,6 +26,8 @@ import maintenance.view.search.VehicleSearchFrame;
 import maintenance.view.update.ToolUpdateFrame;
 import maintenance.view.update.VehicleReturnUpdateFrame;
 import maintenance.view.update.VehicleUpdateFrame;
+import model.Bill;
+import model.FinancialNotification;
 import production.view.StagesProductionFrame;
 import rh.view.AssessmentOfCompetenceFrame;
 import rh.view.EmployeeReportFrame;
@@ -44,15 +57,12 @@ import sales.view.PTCUpdateFrame;
 import sales.view.register.ClientPropertiesOutputFrame;
 import sales.view.register.ServiceRegisterFrame;
 import sales.view.update.MaterialUpdateFrame;
+import userInterface.components.NotificationButton;
 import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
 import userInterface.view.RegisterIssueFrame;
+import util.DateUtil;
 import util.ShowMessage;
-import financial.view.GenerateReportFrame;
-import financial.view.ListBillsFrame;
-import financial.view.RegisterBankAccountFrame;
-import financial.view.RegisterBillFrame;
-import financial.view.RegisterDebtsToReceiveFrame;
 
 /**
  * Classe controladora do frame principal do sistema
@@ -171,57 +181,29 @@ public class MainFrameController {
 
 	public void setFinancialNotifications(JPanel notificationPanel) {
 		
-//		DataBase database = new DataBase();
-//		database.connect();
-//		
-//		ArrayList<FinancialNotification> notifications = new ArrayList<FinancialNotification>();
-//		
-//		try {
-//			
-//			//todas as contas não pagas ou para vencerem num intervalo de 30 dias
-////			String sql = "SELECT installment.*, bill.bill as 'bill_name' "
-////					+ "FROM installment, bill "
-////					+ "WHERE ((date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 31 DAY)) OR date < NOW()) AND paid = 0 AND installment.bill = bill.id "
-////					+ "ORDER BY(installment.date);";
-//			
-//			String sql = "SELECT installment.date, installment.value, bill.* "
-//					+ "FROM installment, bill "
-//					+ "WHERE ((date BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL 31 DAY)) OR date < NOW()) "
-//					+ "AND paid = 0 AND installment.bill = bill.id ORDER BY(installment.date);"; 
-//			
-//			ResultSet resultSet = database.executeQuery(sql);
-//			
-//			while(resultSet.next()) {
-//				
-//				String bill = resultSet.getString("bill");
-//				String creditor = resultSet.getString("creditor");
-//				String observation = resultSet.getString("observation");
-//				int billId = resultSet.getInt("id");
-//				
-//				Date date = resultSet.getDate("date");
-//				double value = resultSet.getDouble("value");
-//				
-//				Bill b = new Bill(bill, creditor, observation, billId);
-//								
-//				notifications.add(new FinancialNotification(b, date, value));
-//				
-//			}			
-//			
-//			resultSet.close();
-//			
-//		} catch(SQLException e) {
-//			e.printStackTrace();
-//			DataBase.showDataBaseErrorMessage();
-//		}
-//		
-//		database.close();
-//		
-//		for(FinancialNotification notification : notifications) {
-//			
-//			NotificationButton button = new NotificationButton(notification.toString(), notification.isUrgent());
-//			notificationPanel.add(button);
-//			notificationPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-//			
+		BillDAO dao = new BillDAO();
+		
+		List<Bill> bills = dao.getAllUnpaid();
+		ArrayList<FinancialNotification> notifications = new ArrayList<FinancialNotification>();
+		
+		Date now = DateUtil.truncate(new Date());
+		
+		for(Bill bill : bills) {
+			
+			Date dueDate = DateUtil.truncate(dao.getNextPaymentDate(bill));
+			
+			if(dueDate.before(now) || dueDate.equals(now) || DateUtil.diffBetweenDate(now, dueDate) <= 30) {
+				notifications.add(new FinancialNotification(bill, dueDate, 10.0));
+			}
+			
+		}
+		
+		for(FinancialNotification notification : notifications) {
+			
+			NotificationButton button = new NotificationButton(notification.toString(), notification.isUrgent());
+			notificationPanel.add(button);
+			notificationPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+			
 //			button.addActionListener(new ActionListener() {
 //				
 //				@Override
@@ -233,8 +215,8 @@ public class MainFrameController {
 //										
 //				}
 //			});
-//						
-//		}
+						
+		}
 				
 	}
 	
@@ -272,17 +254,17 @@ public class MainFrameController {
 	
 	public void listBills() {
 				
-//		EventQueue.invokeLater(new Runnable() {
-//			
-//			@Override
-//			public void run() {
-//				
-//				ListBillsFrame frame = new ListBillsFrame(false);
-//				frame.setVisible(true);
-//				frame.setLocationRelativeTo(mainFrame);
-//				
-//			}
-//		});
+		EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				
+				ListBillsFrame frame = new ListBillsFrame(false);
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+				
+			}
+		});
 		
 	}
 	

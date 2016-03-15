@@ -3,9 +3,16 @@ package database.dao;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import database.DataBase;
 import model.Bill;
+import model.BillGroup;
+import model.BillName;
+import model.BillSubGroup;
+import model.CNPJ;
+import model.User;
 
 public class BillDAO {
 	
@@ -62,6 +69,93 @@ public class BillDAO {
 		}
 			
 		return date;
+		
+	}
+	
+	public List<Bill> getAllUnpaid() {
+		
+		List<Bill> bills = new ArrayList<>();
+		
+		try {
+			
+			String sql = "SELECT * FROM bill WHERE bill.paid = 0;";
+			
+			ResultSet resultSet = dataBase.executeQuery(sql);
+			
+			while(resultSet.next()) {
+				
+				BillGroup billGroup = getBillGroup(resultSet.getInt("bill_subgroup"));
+				BillSubGroup billSubGroup = billGroup.getSubGroups().get(0);
+				BillName billName = getBillName(resultSet.getInt("bill_name"));
+				
+				Integer id = resultSet.getInt("id");
+				double value = resultSet.getDouble("value");
+				Date expiration = resultSet.getDate("expiration");
+				String creditor = resultSet.getString("creditor");
+				double entryValue = resultSet.getDouble("entry_value");
+				String observation = resultSet.getString("observation");
+				int nInstallments = resultSet.getInt("n_installments");
+				User user = new User(resultSet.getInt("user"));
+				CNPJ cnpj = new CnpjDAO().getByID(resultSet.getInt("cnpj"));
+				int type = resultSet.getInt("type");
+				boolean paid = resultSet.getBoolean("paid");
+				
+				Bill bill = new Bill(id, billGroup, billSubGroup, billName, value, expiration, creditor, 
+						entryValue, observation, nInstallments, user, cnpj, type, paid);
+				
+				bills.add(bill);
+				
+			}
+			
+		} catch(SQLException e) {
+			e.printStackTrace();
+			DataBase.showDataBaseErrorMessage();
+		}
+		
+		return bills;
+		
+	}
+	
+	private BillGroup getBillGroup(int subGroupId) throws SQLException {
+		
+		String sql = "SELECT subgroup.cod AS 'subgroup_cod', subgroup.id AS 'subgroup_id', subgroup.subgroup, b_group.cod AS 'group_cod', b_group.group_name, b_group.id AS 'group_id' " +
+				"FROM bill_subgroup subgroup " +
+				"JOIN bill_group b_group " +
+				"ON subgroup.group_id = b_group.id " +
+				"WHERE subgroup.id = " + subGroupId;
+		
+		ResultSet resultSet = dataBase.executeQuery(sql);
+		resultSet.next();
+		
+		String subGroupCode = resultSet.getString("subgroup_cod");
+		String subGroupName = resultSet.getString("subgroup");
+		
+		String groupCode = resultSet.getString("group_cod");
+		String groupName = resultSet.getString("group_name");
+		int groupId = resultSet.getInt("group_id");
+		
+		BillSubGroup billSubGroup = new BillSubGroup(subGroupId, subGroupCode, subGroupName);
+		
+		BillGroup billGroup = new BillGroup(groupId, groupCode, groupName);
+		billGroup.getSubGroups().add(billSubGroup);
+		
+		return billGroup;
+	}
+	
+	public BillName getBillName(int billNameId) throws SQLException {
+		
+		BillName billName = null;
+		 
+		if(billNameId != 0) {
+			
+			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM bill_name WHERE id = " + billNameId);
+			resultSet.next();
+			
+			billName = new BillName(billNameId, resultSet.getString("cod"), resultSet.getString("bill_name"));
+			
+		}
+		
+		return billName;
 		
 	}
 	
