@@ -63,16 +63,16 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private JScrollPane scrollPaneProductTable;
 
-	private JLabel lblClassificaoFiscal;
-	private JLabel lblCertificado;
-	private JLabel lblDataDeExpirao;
+	private JLabel lblFiscalClassification;
+	private JLabel lblCertify;
+	private JLabel lblExpirationDate;
 	private JLabel lblCertificadoDoMaterial;
 	private JLabel lblJustificado;
-	private JLabel lblRua;
+	private JLabel lblStreet;
 
 	private UpperTextField textField_8;
 	private UpperTextField txtCompanyName;
-	private UpperTextField txtBairro;
+	private UpperTextField txtNeighborhood;
 	private UpperTextField txtEmail;
 	private UpperTextField txtStreet;
 
@@ -82,20 +82,20 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JTextField txtCEP;
 
 	private JButton btnCancelar;
-	private JButton btnRegistrar;
+	private JButton btnRegister;
 	private JButton btnAnexarCertificado;
-	private JButton btnAdicionar;
+	private JButton btnAdd;
 
-	private DateField txtdataExpiracao;
+	private DateField txtExpirationDate;
 
-	private JRadioButton rdbtnSim;
+	private JRadioButton rdbtnYes;
 	private JRadioButton rdbtnNo;
 	private SalesController controller;
 
 	private JComboBox<City> cboCity;
 	private JComboBox<State> cboState;
 	private JComboBox<String> cboCertification;
-	private JComboBox<Material> cboProduto;
+	private JComboBox<Material> cboMaterial;
 	private JComboBox<String> cboFiscalCertification;
 
 	private JTextArea txtJustifacao;
@@ -105,6 +105,17 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JTable table;
 
 	private MaterialUpdateController controllerProduct;
+
+	private JLabel lblProduct;
+	private JLabel lblState;
+	private JLabel lblEmail;
+	private JLabel lblNeighborhood;
+	private JLabel lblCity;
+	private JLabel lblCep;
+	private JLabel lblCelphone;
+	private JLabel lblStateInscrition;
+	private JLabel lblCnpj;
+	private JLabel lblCompanyName;
 
 	public RegisterSuppliersFrame() {
 		controller = new SalesController();
@@ -130,7 +141,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		tabbedPane.addTab("Contato", panel);
 		tabbedPane.addTab("Certificações", panelCe);
 		controller.fillStateAndCity(cboState, cboCity);
-		controllerProduct.fillMaterials(cboProduto);
+		controllerProduct.fillMaterials(cboMaterial);
 	}
 
 	private void initializeSub() {
@@ -146,36 +157,38 @@ public class RegisterSuppliersFrame extends JFrame {
 
 	private void initializePanel() {
 
-		lblClassificaoFiscal = new JLabel("Classificação Fiscal");
+		lblFiscalClassification = new JLabel("Classificação Fiscal");
 
-		lblCertificado = new JLabel("Certificado");
+		lblCertify = new JLabel("Certificado");
 
-		btnRegistrar = new JButton("Registrar");
-		btnRegistrar.setIcon(new ImageIcon(RegisterSuppliersFrame.class.getResource("/resources/ok.png")));
-		panelRodape.add(btnRegistrar);
+		btnRegister = new JButton("Registrar");
+		btnRegister.setIcon(new ImageIcon(RegisterSuppliersFrame.class.getResource("/resources/ok.png")));
+		panelRodape.add(btnRegister);
 		panelCe = new JPanel();
 
 		cboFiscalCertification = new JComboBox<String>();
 		cboFiscalCertification.setModel(new DefaultComboBoxModel<String>(new String[] { "Lucro Presumido",
 		        "Lucro Real", "Simples Social" }));
 		cboFiscalCertification.setSelectedIndex(-1);
+		
 		cboCertification = new JComboBox<String>();
-		cboCertification.setModel(new DefaultComboBoxModel<String>(new String[] { "ISO 9001:2008" }));
+		cboCertification.setModel(new DefaultComboBoxModel<String>(new String[] { "ISO 9001:2008", "Não possui certificado" }));
 		cboCertification.setSelectedIndex(-1);
-		lblDataDeExpirao = new JLabel("Data de expiração");
+		
+		lblExpirationDate = new JLabel("Data de expiração");
 
-		txtdataExpiracao = CalendarFactory.createDateField();
-		txtdataExpiracao.setValue(null);
+		txtExpirationDate = CalendarFactory.createDateField();
+		txtExpirationDate.setValue(null);
 
 		lblCertificadoDoMaterial = new JLabel("Certificado do material");
 
-		rdbtnSim = new JRadioButton("Sim");
+		rdbtnYes = new JRadioButton("Sim");
 
 		rdbtnNo = new JRadioButton("Não");
 
 		ButtonGroup bg = new ButtonGroup();
 		bg.add(rdbtnNo);
-		bg.add(rdbtnSim);
+		bg.add(rdbtnYes);
 
 		btnAnexarCertificado = new JButton("Anexar Certificado");
 
@@ -207,7 +220,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		                                                                                        gl_panelCe
 		                                                                                                .createSequentialGroup()
 		                                                                                                .addComponent(
-		                                                                                                        lblClassificaoFiscal)
+		                                                                                                        lblFiscalClassification)
 		                                                                                                .addPreferredGap(
 		                                                                                                        ComponentPlacement.RELATED)
 		                                                                                                .addComponent(
@@ -219,7 +232,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		                                                                                        gl_panelCe
 		                                                                                                .createSequentialGroup()
 		                                                                                                .addComponent(
-		                                                                                                        lblCertificado)
+		                                                                                                        lblCertify)
 		                                                                                                .addPreferredGap(
 		                                                                                                        ComponentPlacement.RELATED)
 		                                                                                                .addComponent(
@@ -228,16 +241,16 @@ public class RegisterSuppliersFrame extends JFrame {
 		                                                                                                        GroupLayout.DEFAULT_SIZE,
 		                                                                                                        Short.MAX_VALUE)))
 		                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                                                                .addComponent(lblDataDeExpirao)
+		                                                                .addComponent(lblExpirationDate)
 		                                                                .addPreferredGap(ComponentPlacement.RELATED)
-		                                                                .addComponent(txtdataExpiracao,
+		                                                                .addComponent(txtExpirationDate,
 		                                                                        GroupLayout.DEFAULT_SIZE, 91,
 		                                                                        Short.MAX_VALUE))
 		                                                .addGroup(
 		                                                        gl_panelCe.createSequentialGroup()
 		                                                                .addComponent(lblCertificadoDoMaterial)
 		                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
-		                                                                .addComponent(rdbtnSim)
+		                                                                .addComponent(rdbtnYes)
 		                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
 		                                                                .addComponent(rdbtnNo)
 		                                                                .addPreferredGap(ComponentPlacement.UNRELATED)
@@ -250,23 +263,23 @@ public class RegisterSuppliersFrame extends JFrame {
 		                .addGroup(
 		                        gl_panelCe
 		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblClassificaoFiscal)
+		                                .addComponent(lblFiscalClassification)
 		                                .addComponent(cboFiscalCertification, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		                .addPreferredGap(ComponentPlacement.UNRELATED)
 		                .addGroup(
 		                        gl_panelCe
 		                                .createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblCertificado)
+		                                .addComponent(lblCertify)
 		                                .addComponent(cboCertification, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		                                .addComponent(lblDataDeExpirao)
-		                                .addComponent(txtdataExpiracao, GroupLayout.PREFERRED_SIZE,
+		                                .addComponent(lblExpirationDate)
+		                                .addComponent(txtExpirationDate, GroupLayout.PREFERRED_SIZE,
 		                                        GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 		                .addGap(18)
 		                .addGroup(
 		                        gl_panelCe.createParallelGroup(Alignment.BASELINE)
-		                                .addComponent(lblCertificadoDoMaterial).addComponent(rdbtnSim)
+		                                .addComponent(lblCertificadoDoMaterial).addComponent(rdbtnYes)
 		                                .addComponent(rdbtnNo).addComponent(btnAnexarCertificado))
 		                .addPreferredGap(ComponentPlacement.UNRELATED).addComponent(lblJustificado)
 		                .addPreferredGap(ComponentPlacement.RELATED)
@@ -284,12 +297,12 @@ public class RegisterSuppliersFrame extends JFrame {
 	private void initializeContact() {
 		panel = new JPanel();
 
-		JLabel lblRazoSocial = new JLabel("Razão Social");
+		lblCompanyName = new JLabel("Razão Social");
 
 		setTxtCompanyName(new UpperTextField());
 		getTxtCompanyName().setColumns(10);
 
-		JLabel lblCnpj = new JLabel("CNPJ");
+		lblCnpj = new JLabel("CNPJ");
 		try {
 			txtCNPJ = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
 		} catch (ParseException e) {
@@ -297,12 +310,12 @@ public class RegisterSuppliersFrame extends JFrame {
 		}
 		txtCNPJ.setColumns(10);
 
-		JLabel lblInscest = new JLabel("Insc.Est");
+		lblStateInscrition = new JLabel("Insc.Est");
 		
-			txtStateRegister = new JTextField();
+		txtStateRegister = new JTextField();
 		txtStateRegister.setColumns(10);
 
-		JLabel lblTelefone = new JLabel("Telefone");
+		lblCelphone = new JLabel("Telefone");
 
 		try {
 			txtPhone = new JFormattedTextField(new MaskFormatter("(##)####-####"));
@@ -312,7 +325,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		}
 		txtPhone.setColumns(10);
 
-		JLabel lblCep = new JLabel("CEP");
+		lblCep = new JLabel("CEP");
 		try {
 			txtCEP = new JFormattedTextField(new MaskFormatter("##.###-###"));
 		} catch (ParseException e) {
@@ -320,37 +333,37 @@ public class RegisterSuppliersFrame extends JFrame {
 		}
 		txtCEP.setColumns(10);
 
-		JLabel lblCidade = new JLabel("Cidade");
+		lblCity = new JLabel("Cidade");
 
-		JLabel lblBairro = new JLabel("Bairro");
+		lblNeighborhood = new JLabel("Bairro");
 
-		txtBairro = new UpperTextField();
-		txtBairro.setColumns(10);
+		txtNeighborhood = new UpperTextField();
+		txtNeighborhood.setColumns(10);
 
 
-		JLabel lblEmail = new JLabel("E-mail");
+		lblEmail = new JLabel("E-mail");
 		txtEmail = new UpperTextField();
 		txtEmail.setColumns(10);
 
 		textField_8 = new UpperTextField();
 		textField_8.setColumns(10);
 
-		JLabel lblEstado = new JLabel("Estado");
+		lblState = new JLabel("Estado");
 
 		cboState = new JComboBox<State>();
 
 		cboCity = new JComboBox<City>();
 
-		lblRua = new JLabel("Rua");
+		lblStreet = new JLabel("Rua");
 
 		txtStreet = new UpperTextField();
 		txtStreet.setColumns(10);
 
-		JLabel lblProdutos = new JLabel("Produtos");
+		lblProduct = new JLabel("Produtos");
 
-		cboProduto = new JComboBox<Material>();
+		cboMaterial = new JComboBox<Material>();
 
-		btnAdicionar = new JButton("Adicionar");
+		btnAdd = new JButton("Adicionar");
 
 		scrollPaneProductTable = new JScrollPane();
 
@@ -361,15 +374,15 @@ public class RegisterSuppliersFrame extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblProdutos)
+							.addComponent(lblProduct)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
+							.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnAdicionar))
+							.addComponent(btnAdd))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblRazoSocial)
+									.addComponent(lblCompanyName)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(txtCompanyName, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
 								.addGroup(gl_panel.createSequentialGroup()
@@ -377,42 +390,46 @@ public class RegisterSuppliersFrame extends JFrame {
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(txtCNPJ, GroupLayout.PREFERRED_SIZE, 210, GroupLayout.PREFERRED_SIZE)
 									.addGap(18)
-									.addComponent(lblInscest)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtStateRegister, GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)))
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addComponent(lblCep)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblStateInscrition)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtStateRegister, GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)))))
 							.addGap(103))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(scrollPaneProductTable, GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblEstado)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(cboState, GroupLayout.PREFERRED_SIZE, 96, GroupLayout.PREFERRED_SIZE)
-									.addGap(18)
-									.addComponent(lblCidade)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(cboCity, 0, 287, Short.MAX_VALUE))
-								.addGroup(gl_panel.createSequentialGroup()
-									.addComponent(lblTelefone)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtPhone, 140, 140, 140)
-									.addGap(18)
-									.addComponent(lblCep)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtCEP, GroupLayout.DEFAULT_SIZE, 248, Short.MAX_VALUE))
 								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 									.addGroup(gl_panel.createSequentialGroup()
-										.addComponent(lblRua)
+										.addComponent(lblStreet)
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addComponent(txtStreet, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
 									.addGroup(gl_panel.createSequentialGroup()
-										.addComponent(lblBairro)
+										.addComponent(lblNeighborhood)
 										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(txtBairro, GroupLayout.PREFERRED_SIZE, 197, GroupLayout.PREFERRED_SIZE)
-										.addGap(18)
+										.addComponent(txtNeighborhood, GroupLayout.PREFERRED_SIZE, 205, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
 										.addComponent(lblEmail)
 										.addPreferredGap(ComponentPlacement.RELATED)
-										.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE))))
+										.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)))
+								.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblCelphone)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(txtPhone, GroupLayout.DEFAULT_SIZE, 193, Short.MAX_VALUE)
+											.addGap(47))
+										.addGroup(gl_panel.createSequentialGroup()
+											.addComponent(lblState)
+											.addPreferredGap(ComponentPlacement.RELATED)
+											.addComponent(cboState, 0, 202, Short.MAX_VALUE)
+											.addPreferredGap(ComponentPlacement.UNRELATED)
+											.addComponent(lblCity)
+											.addGap(4)))
+									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+										.addComponent(cboCity, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+										.addComponent(txtCEP, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))))
 							.addGap(103))))
 		);
 		gl_panel.setVerticalGroup(
@@ -420,41 +437,41 @@ public class RegisterSuppliersFrame extends JFrame {
 				.addGroup(gl_panel.createSequentialGroup()
 					.addGap(25)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblRazoSocial)
+						.addComponent(lblCompanyName)
 						.addComponent(txtCompanyName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblCnpj)
 						.addComponent(txtCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblInscest)
+						.addComponent(lblStateInscrition)
 						.addComponent(txtStateRegister, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblTelefone)
+						.addComponent(lblCelphone)
 						.addComponent(txtPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCep)
-						.addComponent(txtCEP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtCEP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCep))
 					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblEstado)
+						.addComponent(lblState)
 						.addComponent(cboState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblCidade)
-						.addComponent(cboCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(cboCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCity))
 					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblBairro)
-						.addComponent(txtBairro, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblNeighborhood)
+						.addComponent(txtNeighborhood, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblEmail)
 						.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblRua)
+						.addComponent(lblStreet)
 						.addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblProdutos)
-						.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnAdicionar))
+						.addComponent(lblProduct)
+						.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAdd))
 					.addGap(18)
 					.addComponent(scrollPaneProductTable, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
 					.addGap(25))
@@ -496,7 +513,7 @@ public class RegisterSuppliersFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource().equals(btnCancelar))
 					controller.closeFrame(frame);
-				else if (e.getSource().equals(btnRegistrar)) {
+				else if (e.getSource().equals(btnRegister)) {
 					int i = ShowMessage.questionMessage(frame, "CADASTRO",
 					        "Deseja realmente cadastar esse fornecedor ?");
 					if (i == JOptionPane.YES_OPTION) {
@@ -508,21 +525,21 @@ public class RegisterSuppliersFrame extends JFrame {
 					} else {
 						txtCompanyName.requestFocus();
 					}
-				} else if (e.getSource().equals(btnAdicionar)) {
+				} else if (e.getSource().equals(btnAdd)) {
 					DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-					Material produto = (Material) cboProduto.getSelectedItem();
+					Material produto = (Material) cboMaterial.getSelectedItem();
 					tbl.addRow(new Object[] { produto, produto.getDescrition() });
 				}
 			}
 		};
-		btnAdicionar.addActionListener(buttonListener);
+		btnAdd.addActionListener(buttonListener);
 		btnCancelar.addActionListener(buttonListener);
-		btnRegistrar.addActionListener(buttonListener);
+		btnRegister.addActionListener(buttonListener);
 	}
 
 	private Supplier makeSupplier() {
 		data = new Date();
-		data = (Date) txtdataExpiracao.getValue();
+		data = (Date) txtExpirationDate.getValue();
 		String cnpj = txtCNPJ.getText().replaceAll("\\.|-|/", "").replaceAll(" ", "");
 		String stateRegister = txtStateRegister.getText().replaceAll("\\.", "").replaceAll(" ", "");
 		String CEP = txtCEP.getText().replaceAll("\\.", "").replaceAll("-", "").replaceAll(" ", "");
@@ -553,7 +570,7 @@ public class RegisterSuppliersFrame extends JFrame {
 				ShowMessage.errorMessage(this, "Erro", "Insira a justificativa");
 				return null;
 			}
-		} else if (txtdataExpiracao.getValue().equals(null)) {
+		} else if (txtExpirationDate.getValue().equals(null)) {
 			ShowMessage.errorMessage(this, "Erro", "Insira a data de expiração do Certificado");
 			return null;
 		}
@@ -568,9 +585,9 @@ public class RegisterSuppliersFrame extends JFrame {
 		} else {
 			supplier.setCertificated(false);
 		}
-		supplier.setNeighborhood(txtBairro.getText());
+		supplier.setNeighborhood(txtNeighborhood.getText());
 		supplier.setFiscalClassification(cboFiscalCertification.getSelectedItem().toString());
-		if (rdbtnSim.isSelected()) {
+		if (rdbtnYes.isSelected()) {
 			supplier.setMaterialCertication(true);
 		} else {
 			supplier.setMaterialCertication(false);

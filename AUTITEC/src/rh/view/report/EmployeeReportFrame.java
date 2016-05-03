@@ -1,4 +1,4 @@
-package rh.view;
+package rh.view.report;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;

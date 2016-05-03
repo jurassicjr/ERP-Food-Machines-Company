@@ -24,6 +24,7 @@ public class PTC {
 	private int isApproved;
 	private Date creationDate;
 	private int idMaster;
+	private int isCompleted;
 	
 	public PTC(String title, double suggestedPrice, double aliquot, double brutePrice, double aliquotPlusBrute, double discount, double finalPrice, Client client, double contribuition, Date creationDate) {
 		this.title = title;
@@ -140,7 +141,7 @@ public class PTC {
 	
 	@Override
 	public String toString() {
-	    return this.title + "/" + this.rastreabilityCode;
+	    return this.rastreabilityCode + "/" + this.title;
 	}
 
 	public int getIsApproved() {
@@ -205,4 +206,16 @@ public class PTC {
 	public void setCreationDate(Date creationDate) {
 		this.creationDate = creationDate;
 	}
+
+
+	public void IsCompleted(int isCompleted) {
+		this.isCompleted = isCompleted;
+	    
+    }
+
+
+	public int getIsCompleted() {
+	    
+	    return this.isCompleted;
+    }
 }

@@ -32,11 +32,11 @@ public class Supplier {
 		registerDate = new GregorianCalendar();
 		registerDate.setTime(new Date());
 	}
-	
+
 	public Supplier() {
 		registerDate = new GregorianCalendar();
 		registerDate.setTime(new Date());
-    }
+	}
 
 	public void setCity(City city) {
 		this.city = city;
@@ -194,14 +194,31 @@ public class Supplier {
 	public void setCep(String cep) {
 		this.cep = cep;
 	}
+
 	@Override
 	public String toString() {
-	    return this.corporateName;
+		return this.corporateName;
 	}
+
 	public String getFormattedPhone() {
 		return "(" + phone.substring(0, 2) + ") " + phone.substring(2, 6) + "-" + phone.substring(6, 10);
 	}
+
 	public String getFormattedCNPJ() {
-		return CNPJ.substring(0, 2) + "." + CNPJ.substring(2, 5) + "." + CNPJ.substring(5, 8) + "/" + CNPJ.substring(8, 12) + "-" + CNPJ.substring(12, 14);
+		return CNPJ.substring(0, 2) + "." + CNPJ.substring(2, 5) + "." + CNPJ.substring(5, 8) + "/"
+		        + CNPJ.substring(8, 12) + "-" + CNPJ.substring(12, 14);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		try {
+			if (obj instanceof Supplier) {
+				Supplier supTemp = (Supplier) obj;
+				return supTemp.id == this.id;
+			} else
+				return false;
+		} catch (Exception e) {
+			return false;
+		}
 	}
 }

@@ -1,14 +1,11 @@
 package rh.controller;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import javax.swing.JOptionPane;
 
+import model.CBO;
 import rh.view.RegisterCBOFrame;
 import util.ClearFrame;
 import util.ShowMessage;
-import model.CBO;
 import database.DataBase;
 import database.dao.CboDAO;
 
@@ -59,15 +56,14 @@ public class RegisterCBOFrameController {
 		
 		if(!validateData(title, code)) return;
 		
-		try {
 			
 			int intCode = Integer.parseInt(code);
-			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM cbo WHERE code = ?", intCode);
+//			ResultSet resultSet = dataBase.executeQuery("SELECT * FROM cbo WHERE code = ?", intCode);
 			
-			if(resultSet.next()) {
-				ShowMessage.errorMessage(frame, "Erro ao Registrar CBO", "Já existe CBO registrado com este código");
-				return;
-			}
+//			if(resultSet.next()) {
+//				ShowMessage.errorMessage(frame, "Erro ao Registrar CBO", "Já existe CBO registrado com este código");
+//				return;
+//			}
 			
 			int idCbo = dataBase.getAutoIncrementValue("cbo");
 			
@@ -76,11 +72,6 @@ public class RegisterCBOFrameController {
 			
 			ShowMessage.successMessage(frame, "CBO Registrado", "O CBO foi Registrado com sucesso");
 			frame.dispose();
-			
-		} catch (SQLException e) {
-			e.printStackTrace();
-			DataBase.showDataBaseErrorMessage();
-		}
 		
 	}
 	

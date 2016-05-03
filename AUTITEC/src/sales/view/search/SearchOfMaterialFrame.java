@@ -22,6 +22,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -47,26 +48,34 @@ public class SearchOfMaterialFrame extends JFrame {
 	 */
 	private static final long serialVersionUID = -701640555656047134L;
 	private JPanel principalPanel;
-	private JTextField txtName;
-	private JTable table;
-	private JLabel lblMaximusAmmount;
+
 	private JSpinner spinner;
-	private JLabel lblQuantidadeMinima;
 	private JSpinner spinnerMinimum;
-	private JButton btnSearch;
+	
+	private JTable table;
+
+	private JTextField txtName;
+	
+	private JLabel lblMaterialType;
+	private JLabel lblMaximusAmmount;
+	private JLabel lblQuantidadeMinima;
+	private JLabel lblMeasureUnit;
 	private JLabel lblName;
+
+	private JButton btnSearch;
+
 	private SearchOfMaterialController controller;
+	private SalesController salesController;
+
 	private JScrollPane scrollPaneTable;
+	
 	private JFrame frame = this;
 	
 	private JButton btnClear;
 
 	private JComboBox<MaterialModel> cboModel;
-	private JLabel lblMeasureUnit;
 	private JComboBox<MeasureUnit> cboMeasureUnit;
-	private JLabel lblMaterialType;
 	private JComboBox<MaterialType> cboMaterialType;
-	private SalesController salesController;
 	
 	public SearchOfMaterialFrame() {
 		controller = new SearchOfMaterialController();
@@ -79,9 +88,9 @@ public class SearchOfMaterialFrame extends JFrame {
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		setTitle("Consulta de Material");
 		util.Icon.setIcon(this);
-		setBounds(0, 0, 478, 573);
-		setPreferredSize(new Dimension(478,573));
-		setMinimumSize(new Dimension(478, 573));
+		setBounds(0, 0, 478, 587);
+		setPreferredSize(new Dimension(478,587));
+		setMinimumSize(new Dimension(478, 587));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		initializePrincipal();
 		controller.queryAll(table);
@@ -133,7 +142,7 @@ public class SearchOfMaterialFrame extends JFrame {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		
-		JLabel lblModel = new JLabel("Categoria");
+		lblModel = new JLabel("Categoria");
 		
 		cboModel = new JComboBox<MaterialModel>();
 		salesController.fillMaterialModels(cboModel);
@@ -146,18 +155,21 @@ public class SearchOfMaterialFrame extends JFrame {
 		
 		cboMaterialType = new JComboBox<MaterialType>();
 		salesController.fillMaterialType(cboMaterialType);
+		
+		separator = new JSeparator();
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
-			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-				.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+			gl_principalPanel.createParallelGroup(Alignment.LEADING)
+				.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-						.addGroup(gl_principalPanel.createSequentialGroup()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+						.addComponent(separator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblName)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblMaximusAmmount)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -167,15 +179,15 @@ public class SearchOfMaterialFrame extends JFrame {
 							.addComponent(spinnerMinimum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblModel)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboModel, 0, 391, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblMeasureUnit)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboMeasureUnit, 0, 347, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
+						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 							.addComponent(lblMaterialType)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboMaterialType, 0, 418, Short.MAX_VALUE)))
@@ -208,7 +220,9 @@ public class SearchOfMaterialFrame extends JFrame {
 						.addComponent(lblMaterialType)
 						.addComponent(cboMaterialType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 291, GroupLayout.PREFERRED_SIZE)
+					.addPreferredGap(ComponentPlacement.UNRELATED)
+					.addComponent(separator, GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
@@ -239,9 +253,11 @@ public class SearchOfMaterialFrame extends JFrame {
 	    getContentPane().add(subPanel, BorderLayout.SOUTH);
 	    btnClear = new JButton("Limpar");
 	    btnClear.setIcon(new ImageIcon(SearchOfMaterialFrame.class.getResource("/resources/ClearFrame.png")));
-	    
+	    btnExit = new JButton("Sair");
+	    btnExit.setIcon(new ImageIcon(SearchOfMaterialFrame.class.getResource("/resources/ok.png")));
 	    subPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 	    subPanel.add(btnClear);
+	    subPanel.add(btnExit);
 	    
     }
 
@@ -411,5 +427,8 @@ public class SearchOfMaterialFrame extends JFrame {
 			
 		}
 	};
+	private JLabel lblModel;
+	private JButton btnExit;
+	private JSeparator separator;
 	
 }

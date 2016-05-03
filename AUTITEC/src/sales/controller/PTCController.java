@@ -24,7 +24,7 @@ import model.PTC;
 import model.Product;
 import model.Service;
 import model.State;
-import sales.view.PTCRegisterFrame;
+import sales.view.register.PTCRegisterFrame;
 import util.ShowMessage;
 import database.DataBase;
 import database.dao.InvetoryDAO;

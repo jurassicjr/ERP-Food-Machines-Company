@@ -261,7 +261,8 @@ public class RegisterUserFrame extends JFrame {
 				new CheckBoxNode("Atualizar/Remover Fornecedor", false, "UPD_SUP"),
 				new CheckBoxNode("Homologar Fornecedor", false, "HOM_SUP"),
 				new CheckBoxNode("Requisição de Compra", false, "SALE_REQ"),
-				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM")
+				new CheckBoxNode("Pedido de Compra", false, "SALE_DEM"),
+				new CheckBoxNode("Acompanhamento de Requisição de Compra", false, "SAL_REQ_SEA")
 		};
 		
 		CheckBoxNode maintenanceOptions[] = {

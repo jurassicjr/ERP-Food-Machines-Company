@@ -1,6 +1,5 @@
 package sales.controller;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
@@ -28,8 +27,8 @@ import product.view.UpdateOfProductFrame;
 import product.view.search.SearchOfKitFrame;
 import sales.view.ApprovalOfSuppliersFrame;
 import sales.view.InventoryFrame;
-import sales.view.SalesOrderFrame;
-import sales.view.SalesRequisitionFrame;
+import sales.view.PurchaseOrderFrame;
+import sales.view.PurchaseRequisitionFrame;
 import sales.view.register.ClientPropertiesRegisterFrame;
 import sales.view.register.ClientRegisterFrame;
 import sales.view.register.RegisterOfMaterialFrame;
@@ -106,9 +105,9 @@ public class SalesController {
 
 			@Override
 			public void run() {
-				SalesRequisitionFrame frameReq = new SalesRequisitionFrame();
-				frameReq.setMinimumSize(new Dimension(750, 370));
+				PurchaseRequisitionFrame frameReq = new PurchaseRequisitionFrame();
 				frameReq.setVisible(true);
+				frameReq.pack();
 				frameReq.setLocationRelativeTo(mainFrame);
 
 			}
@@ -159,7 +158,7 @@ public class SalesController {
 
 			@Override
 			public void run() {
-				SalesOrderFrame frame = new SalesOrderFrame();
+				PurchaseOrderFrame frame = new PurchaseOrderFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

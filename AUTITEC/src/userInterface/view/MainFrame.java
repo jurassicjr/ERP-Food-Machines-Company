@@ -202,6 +202,16 @@ public class MainFrame extends JFrame {
 
 	private JMenuItem mntmPTCApprovation;
 
+	private JMenu mnBuySearch;
+
+	private JMenuItem mntmSalesRequisitionSearch;
+
+	private JMenu mnRhDocuments;
+
+	private JMenu mnRhEpi;
+
+	private JMenu mnRhResearch;
+
 	
 	/**
 	 * Cria a janela principal da aplicação
@@ -216,7 +226,7 @@ public class MainFrame extends JFrame {
 		setListeners();
 		createMenu();
 		
-		controller.setFinancialNotifications(notificationPanel);
+		//controller.setFinancialNotifications(notificationPanel);
 		
 		MenuBarFactory.build(menuItens);
 		
@@ -260,23 +270,35 @@ public class MainFrame extends JFrame {
 		mnRh.add(mnRHReport);
 		mnRHReport.setVisible(false);
 
+		mnRhDocuments = new JMenu("Importar Documentos");
+		mnRh.add(mnRhDocuments);
+		mnRhDocuments.setVisible(false);
+		
+		mnRhEpi = new JMenu("Epis");
+		mnRh.add(mnRhEpi);
+		mnRhEpi.setVisible(false);
+		
+		mnRhResearch = new JMenu("Pesquisas");
+		mnRh.add(mnRhResearch);
+		mnRhResearch.setVisible(false);
+		
 		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
 		mnSubRegisterRH.add(mntmRegisterEmployee);
 		mntmRegisterEmployee.setVisible(false);
 		mntmRegisterEmployee.setName("REG_EMP");
 		
 		mntmTechnicalStandard = new JMenuItem("Normas Técnicas");
-		mnRh.add(mntmTechnicalStandard);
+		mnRhDocuments.add(mntmTechnicalStandard);
 		mntmTechnicalStandard.setVisible(false);
 		mntmTechnicalStandard.setName("TEC_STD");
 		
 		mntmProcedures = new JMenuItem("Procedimentos");
-		mnRh.add(mntmProcedures);
+		mnRhDocuments.add(mntmProcedures);
 		mntmProcedures.setVisible(false);
 		mntmProcedures.setName("PROC");
 		
 		mntmManualQuality = new JMenuItem("Manual de Qualidade");
-		mnRh.add(mntmManualQuality);
+		mnRhDocuments.add(mntmManualQuality);
 		mntmManualQuality.setVisible(false);
 		mntmManualQuality.setName("MAN_QUAL");
 
@@ -291,7 +313,7 @@ public class MainFrame extends JFrame {
 		mntmUpdateUser.setName("UPD_PERM");
 		
 		mntmEmployeeReport = new JMenuItem("Relatório de Funcionários");
-		mnRh.add(mntmEmployeeReport);
+		mnRHReport.add(mntmEmployeeReport);
 		mntmEmployeeReport.setVisible(false);
 		mntmEmployeeReport.setName("EMP_REP");
 		
@@ -301,12 +323,12 @@ public class MainFrame extends JFrame {
 		mntmEpiUpdate.setName("EPI_UPD");
 		
 		mntmInsertoOfEPI = new JMenuItem("Inserção de EPI's");
-		mnRh.add(mntmInsertoOfEPI);
+		mnRhEpi.add(mntmInsertoOfEPI);
 		mntmInsertoOfEPI.setVisible(false);
 		mntmInsertoOfEPI.setName("IST_EPI");
 		
 		mntmRemoveOfEPI = new JMenuItem("Retirada de EPI's");
-		mnRh.add(mntmRemoveOfEPI);
+		mnRhEpi.add(mntmRemoveOfEPI);
 		mntmRemoveOfEPI.setVisible(false);
 		mntmRemoveOfEPI.setName("RMV_EPI");
 		
@@ -326,12 +348,12 @@ public class MainFrame extends JFrame {
 		mntmUpdateOfEmployee.setName("UPD_EMP");
 		
 		mntmInternalSatisfactionResearch = new JMenuItem("Pesquisa de Satisfação Interna");
-		mnRh.add(mntmInternalSatisfactionResearch);
+		mnRhResearch.add(mntmInternalSatisfactionResearch);
 		mntmInternalSatisfactionResearch.setVisible(false);
 		mntmInternalSatisfactionResearch.setName("INT_RES");
 		
 		mntmExternalSatisfactionResearch = new JMenuItem("Pesquisa de Satisfação Externa");
-		mnRh.add(mntmExternalSatisfactionResearch);
+		mnRhResearch.add(mntmExternalSatisfactionResearch);
 		mntmExternalSatisfactionResearch.setVisible(false);
 		mntmExternalSatisfactionResearch.setName("EXT_RES");
 		
@@ -352,7 +374,7 @@ public class MainFrame extends JFrame {
 		mntmRNCRegister.setName("REG_RNC");
 		
 		mntmMonitoringImplementation = new JMenuItem("Acompanhamento de Não Conformidade");
-		mnRh.add(mntmMonitoringImplementation);
+		mnSubSearchRh.add(mntmMonitoringImplementation);
 		mntmMonitoringImplementation.setVisible(false);
 		mntmMonitoringImplementation.setName("MON_IMP");
 		
@@ -439,10 +461,14 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnSalesUpdates);
 		mnSalesUpdates.setVisible(false);
 
+		mnSalesSearch = new JMenu("Consultas");
+		mnSales.add(mnSalesSearch);
+		mnSales.setVisible(false);
+
 		mnReports = new JMenu("Relátorios");
 		mnSales.add(mnReports);
 		mnReports.setVisible(false);
-
+		
 		mnInventory = new JMenu("Estoque");
 		mnSales.add(mnInventory);
 		mnInventory.setVisible(false);
@@ -482,10 +508,6 @@ public class MainFrame extends JFrame {
 		mntmClientReport.setVisible(false);
 		mntmClientReport.setName("CLI_REP");
 		
-		mnSalesSearch = new JMenu("Consultas");
-		mnSales.add(mnSalesSearch);
-		mnSales.setVisible(false);
-		
 		mntmMaterialSearch = new JMenuItem("Consulta de Materiais");
 		mnSalesSearch.add(mntmMaterialSearch);
 		mntmMaterialSearch.setName("SEA_MAT");
@@ -500,7 +522,6 @@ public class MainFrame extends JFrame {
 		mnSalesSearch.add(mntmClientSearch);
 		mntmClientSearch.setName("SEA_CLI");
 		mntmClientSearch.setVisible(false);
-		
 		
 		mntmUpdateOfKit = new JMenuItem("Atualizar/Remover Registro de Kit");
 		mnSalesUpdates.add(mntmUpdateOfKit);
@@ -555,17 +576,23 @@ public class MainFrame extends JFrame {
 		menuBar.add(mnBuy);
 		mnBuy.setVisible(false);
 		
+		
 		mnRegisterBuy = new JMenu("Registros");
 		mnBuy.add(mnRegisterBuy);
 		mnRegisterBuy.setVisible(false);
 		
+		mnUpdateBuy = new JMenu("Autalizar/Remover Registros");
+		mnBuy.add(mnUpdateBuy);
+		mnUpdateBuy.setVisible(false);
+
+		mnBuySearch = new JMenu("Buscas");
+		mnBuy.add(mnBuySearch);
+		mnBuySearch.setVisible(false);
+
 		mnBuyReports = new JMenu("Relatórios");
 		mnBuy.add(mnBuyReports);
 		mnBuy.setVisible(false);
 		
-		mnUpdateBuy = new JMenu("Autalizar/Remover Registros");
-		mnBuy.add(mnUpdateBuy);
-		mnUpdateBuy.setVisible(false);
 
 		mntmResgisterOfSuppliers = new JMenuItem("Registrar Fornecedores");
 		mnRegisterBuy.add(mntmResgisterOfSuppliers);
@@ -577,8 +604,8 @@ public class MainFrame extends JFrame {
 		mntmApprovalOfSuppliers.setVisible(false);
 		mntmApprovalOfSuppliers.setName("HOM_SUP");
 		
-		mntmSalesRequisition = new JMenuItem("Requisição de Compra");
-		mnBuy.add(mntmSalesRequisition);
+		mntmSalesRequisition = new JMenuItem("Registrar Requisição de Compra");
+		mnRegisterBuy.add(mntmSalesRequisition);
 		mntmSalesRequisition.setVisible(false);
 		mntmSalesRequisition.setName("SALE_REQ");
 		
@@ -607,6 +634,10 @@ public class MainFrame extends JFrame {
 		mntmAddMaterialToInvetory.setVisible(false);
 		mntmAddMaterialToInvetory.setName("INS_STOCK");
 		
+		mntmSalesRequisitionSearch = new JMenuItem("Acompanhamento de Requisição de Compra");
+		mnBuySearch.add(mntmSalesRequisitionSearch);
+		mntmSalesRequisitionSearch.setVisible(false);
+		mntmSalesRequisitionSearch.setName("SAL_REQ_SEA");
 
 		//Produção
 		
@@ -774,6 +805,7 @@ public class MainFrame extends JFrame {
 		menuItens.add(mntmAddMaterialToInvetory);
 		menuItens.add(mntmApprovalOfSuppliers);
 		menuItens.add(mntmSalesRequisition);
+		menuItens.add(mntmSalesRequisitionSearch);
 		menuItens.add(mntmSalesOrder);
 		menuItens.add(mntmClientReport);
 		menuItens.add(mntmMaterialSearch);
@@ -871,6 +903,7 @@ public class MainFrame extends JFrame {
 				else if (e.getSource().equals(mntmPTCRegister))controller.registerPTC();
 				else if (e.getSource().equals(mntmPTCUpdate))controller.updatePTC();
 				else if (e.getSource().equals(mntmPTCApprovation))controller.pTCApprovation();
+				else if (e.getSource().equals(mntmSalesRequisitionSearch))controller.salesRequisitionSearch();
 				
 				else if(e.getSource().equals(mntmVehicleRegister))controller.vehicleRegister();
 				else if(e.getSource().equals(mntmVehicleUpdate))controller.vehicleUpdate();
@@ -919,6 +952,7 @@ public class MainFrame extends JFrame {
 		mntmProcedures.addActionListener(menuListeners);
 		mntmManualQuality.addActionListener(menuListeners);
 		
+		mntmSalesRequisitionSearch.addActionListener(menuListeners);
 		mntmResgisterOfSuppliers.addActionListener(menuListeners);
 		mntmApprovalOfSuppliers.addActionListener(menuListeners);
 		mntmSalesRequisition.addActionListener(menuListeners);	

@@ -308,10 +308,10 @@ public class PTCApprovationFrame extends JFrame{
 
 	private boolean assign() {
 		Employee e = (Employee) cboApprovedBy.getSelectedItem();
-		String pass = JOptionPane.showInputDialog(this, "Insira a senha de quem altorizou a aprocação!");
+		String pass = JOptionPane.showInputDialog(this, "Insira a senha de quem autorizou a aprovação!");
 		pass = MD5.getMD5Code(pass);
 		System.out.println(pass);
-		if(controller.verifyUser(e, pass)) {
+		if(controller.verifyUser(e, pass)) {	
 			ShowMessage.successMessage(this, "Sucesso", "Assinatura digital concluida com sucesso!");
 			return true;
 		}

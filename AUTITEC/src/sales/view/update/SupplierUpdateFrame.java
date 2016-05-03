@@ -239,6 +239,7 @@ public class SupplierUpdateFrame extends JFrame {
 		JScrollPane scrollPane_1 = new JScrollPane();
 
 		btnAdicionar = new JButton("Adicionar");
+		btnAdicionar.setIcon(new ImageIcon(SupplierUpdateFrame.class.getResource("/resources/plus.png")));
 		btnAdicionar.setEnabled(false);
 
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);

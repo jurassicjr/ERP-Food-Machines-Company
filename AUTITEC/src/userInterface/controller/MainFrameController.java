@@ -1,21 +1,9 @@
 package userInterface.controller;
 
-import java.awt.Dimension;
 import java.awt.EventQueue;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
-import javax.swing.Box;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
-import database.dao.BillDAO;
-import financial.view.GenerateReportFrame;
-import financial.view.ListBillsFrame;
-import financial.view.RegisterBankAccountFrame;
-import financial.view.RegisterBillFrame;
-import financial.view.RegisterDebtsToReceiveFrame;
 import maintenance.view.register.RouteRegisterFrame;
 import maintenance.view.register.ToolBoxRegisterFrame;
 import maintenance.view.register.ToolBoxUpdateFrame;
@@ -26,11 +14,8 @@ import maintenance.view.search.VehicleSearchFrame;
 import maintenance.view.update.ToolUpdateFrame;
 import maintenance.view.update.VehicleReturnUpdateFrame;
 import maintenance.view.update.VehicleUpdateFrame;
-import model.Bill;
-import model.FinancialNotification;
 import production.view.StagesProductionFrame;
 import rh.view.AssessmentOfCompetenceFrame;
-import rh.view.EmployeeReportFrame;
 import rh.view.ExternalSatisfactionResearchFrame;
 import rh.view.InternalSatisfactionResearchFrame;
 import rh.view.ManualQualityFrame;
@@ -46,23 +31,28 @@ import rh.view.TechnicalStandardFrame;
 import rh.view.UpdateEmployeeFrame;
 import rh.view.UpdateOfTrainingFrame;
 import rh.view.UpdatePermissionsFrame;
+import rh.view.report.EmployeeReportFrame;
 import rh.view.report.ExternalSatisfactionResearchReport;
 import rh.view.report.InternalSatisfactionResearchReport;
 import rh.view.search.RncSearchFrame;
 import sales.controller.SalesController;
 import sales.view.InventoryFrame;
 import sales.view.PTCApprovationFrame;
-import sales.view.PTCRegisterFrame;
 import sales.view.PTCUpdateFrame;
 import sales.view.register.ClientPropertiesOutputFrame;
+import sales.view.register.PTCRegisterFrame;
 import sales.view.register.ServiceRegisterFrame;
+import sales.view.search.PurchaseRequisitionSearchFrame;
 import sales.view.update.MaterialUpdateFrame;
-import userInterface.components.NotificationButton;
 import userInterface.view.AboutFrame;
 import userInterface.view.MainFrame;
 import userInterface.view.RegisterIssueFrame;
-import util.DateUtil;
 import util.ShowMessage;
+import financial.view.GenerateReportFrame;
+import financial.view.ListBillsFrame;
+import financial.view.RegisterBankAccountFrame;
+import financial.view.RegisterBillFrame;
+import financial.view.RegisterDebtsToReceiveFrame;
 
 /**
  * Classe controladora do frame principal do sistema
@@ -179,46 +169,46 @@ public class MainFrameController {
 		
 	}
 
-	public void setFinancialNotifications(JPanel notificationPanel) {
-		
-		BillDAO dao = new BillDAO();
-		
-		List<Bill> bills = dao.getAllUnpaid();
-		ArrayList<FinancialNotification> notifications = new ArrayList<FinancialNotification>();
-		
-		Date now = DateUtil.truncate(new Date());
-		
-		for(Bill bill : bills) {
-			
-			Date dueDate = DateUtil.truncate(dao.getNextPaymentDate(bill));
-			
-			if(dueDate.before(now) || dueDate.equals(now) || DateUtil.diffBetweenDate(now, dueDate) <= 30) {
-				notifications.add(new FinancialNotification(bill, dueDate, 10.0));
-			}
-			
-		}
-		
-		for(FinancialNotification notification : notifications) {
-			
-			NotificationButton button = new NotificationButton(notification.toString(), notification.isUrgent());
-			notificationPanel.add(button);
-			notificationPanel.add(Box.createRigidArea(new Dimension(0, 10)));
-			
-//			button.addActionListener(new ActionListener() {
+//	public void setFinancialNotifications(JPanel notificationPanel) {
+//		
+//		BillDAO dao = new BillDAO();
+//		
+//		List<Bill> bills = dao.getAllUnpaid();
+//		ArrayList<FinancialNotification> notifications = new ArrayList<FinancialNotification>();
+//		
+//		Date now = DateUtil.truncate(new Date());
+//		
+//		for(Bill bill : bills) {
+//			
+//			Date dueDate = DateUtil.truncate(dao.getNextPaymentDate(bill));
+//			
+//			if(dueDate.before(now) || dueDate.equals(now) || DateUtil.diffBetweenDate(now, dueDate) <= 30) {
+//				notifications.add(new FinancialNotification(bill, dueDate, 10.0));
+//			}
+//			
+//		}
+//		
+//		for(FinancialNotification notification : notifications) {
+//			
+//			NotificationButton button = new NotificationButton(notification.toString(), notification.isUrgent());
+//			notificationPanel.add(button);
+//			notificationPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+//			
+////			button.addActionListener(new ActionListener() {
+////				
+////				@Override
+////				public void actionPerformed(ActionEvent e) {
+////										
+////					PayBillFrame payBillFrame = new PayBillFrame(notification.getBill(), notification.getValue());
+////					payBillFrame.setVisible(true);
+////					payBillFrame.setLocationRelativeTo(mainFrame);
+////										
+////				}
+////			});
+//						
+//		}
 //				
-//				@Override
-//				public void actionPerformed(ActionEvent e) {
-//										
-//					PayBillFrame payBillFrame = new PayBillFrame(notification.getBill(), notification.getValue());
-//					payBillFrame.setVisible(true);
-//					payBillFrame.setLocationRelativeTo(mainFrame);
-//										
-//				}
-//			});
-						
-		}
-				
-	}
+//	}
 	
 	public void registerDebts() {
 		
@@ -859,6 +849,19 @@ public class MainFrameController {
 			@Override
 			public void run() {
 				PTCApprovationFrame frame = new PTCApprovationFrame();
+				frame.pack();
+				frame.setVisible(true);
+				frame.setLocationRelativeTo(mainFrame);
+			}
+		});
+    }
+
+	public void salesRequisitionSearch() {
+	    EventQueue.invokeLater(new Runnable() {
+			
+			@Override
+			public void run() {
+				PurchaseRequisitionSearchFrame frame = new PurchaseRequisitionSearchFrame();
 				frame.pack();
 				frame.setVisible(true);
 				frame.setLocationRelativeTo(mainFrame);

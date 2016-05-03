@@ -1,4 +1,4 @@
-package sales.view;
+package sales.view.register;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -84,6 +84,15 @@ public class PTCRegisterFrame extends JFrame {
 	private JLabel lblKitPrice;
 	private JLabel lblMaterialPrice;
 	private JLabel lblKits;
+	private JLabel lblMaterialAmmount;
+	private JLabel lblProductAmmount;
+	private JLabel lblKitAmmount;
+	private JLabel lblAliquot;
+	private JLabel lblContribuition;
+	private JLabel lblValorBruto;
+	private JLabel lblFinalPrice;
+	private JLabel lblSuggestedPrice;
+	private JLabel lblDiscount;
 	private JLabel lblMaterial;
 	
 	private JComboBox<Material> cboMaterial;
@@ -103,26 +112,18 @@ public class PTCRegisterFrame extends JFrame {
 	
 	private JScrollPane scrollPane_3;
 	private PTCController controller;
-	private JLabel lblMaterialAmmount;
 	private JTextField txtProductAmmount;
-	private JLabel lblProductAmmount;
 	private JTextField txtKitAmmount;
-	private JLabel lblKitAmmount;
 	private JTextField txtMaterialAmmount;
-	private JLabel lblAliquot;
 	private JTextField txtAliquot;
-	private JLabel lblValorBruto;
 	private JTextField txtAliquotPlusBruteValue;
-	private JLabel lblContribuition;
 	private JTextField txtContribuition;
-	private JLabel lblSuggestedPrice;
 	private JTextField txtSuggestedPrice;
-	private JLabel lblDiscount;
 	private JTextField txtDiscount;
-	private JLabel lblFinalPrice;
 	private JTextField txtFinalPrice;
+
 	private JComboBox<CNPJ> cboCNPJ;
-	private JComboBox<CNPJ> cboCNPJ_1;
+
 	private DateField txtDate;
 
 	public PTCRegisterFrame() {
@@ -302,8 +303,7 @@ public class PTCRegisterFrame extends JFrame {
 	    JLabel lblCnpj = new JLabel("CNPJ");
 	    
 	    cboCNPJ = new JComboBox<CNPJ>();
-	    cboCNPJ_1 = new JComboBox<CNPJ>();
-		controller.fillCnpj(cboCNPJ_1);
+		controller.fillCnpj(cboCNPJ);
 	    
 	    JLabel lblDataDeCriao = new JLabel("Data de Criação");
 	    
@@ -335,7 +335,7 @@ public class PTCRegisterFrame extends JFrame {
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblCnpj)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(cboCNPJ_1, 0, 348, Short.MAX_VALUE))
+	    							.addComponent(cboCNPJ, 0, 348, Short.MAX_VALUE))
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblTitle)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
@@ -441,7 +441,7 @@ public class PTCRegisterFrame extends JFrame {
 	    				.addComponent(lblRastreabilityCode)
 	    				.addComponent(txtRastreabilityCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblCnpj)
-	    				.addComponent(cboCNPJ_1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    				.addComponent(cboCNPJ, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(18)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 	    				.addComponent(lblClient)
@@ -802,7 +802,7 @@ public class PTCRegisterFrame extends JFrame {
 			List<Product> productList = (List<Product>) controller.fillListOfComponents(productTable);
 			List<Kit> kitList = (List<Kit>) controller.fillListOfComponents(kitTable);
 			List<Service> serviceList = (List<Service>) controller.fillListOfComponents(serviceTable);
-			CNPJ cnpj = (CNPJ) cboCNPJ_1.getSelectedItem();
+			CNPJ cnpj = (CNPJ) cboCNPJ.getSelectedItem();
 			String rastreabilityCode = txtRastreabilityCode.getText();
 			Date date = (Date) txtDate.getValue();
 			
@@ -875,7 +875,7 @@ public class PTCRegisterFrame extends JFrame {
 	    	ShowMessage.questionMessage(this, "Erro", "Verifique o valor de Saída!");
 	    	return false;
 	    }
-	    if(cboCNPJ_1.getSelectedIndex() == -1) {
+	    if(cboCNPJ.getSelectedIndex() == -1) {
 	    	ShowMessage.errorMessage(this, "Erro", "Selecione por qual CNPJ está realizando está P.T.C?");
 	    	return false;
 	    }

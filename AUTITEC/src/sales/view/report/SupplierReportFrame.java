@@ -200,7 +200,6 @@ public class SupplierReportFrame extends JFrame {
 					try {
 						generateReport();
 					} catch (JRException | IOException e1) {
-
 						e1.printStackTrace();
 					}
 			}

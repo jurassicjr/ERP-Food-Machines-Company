@@ -140,6 +140,7 @@ public class PTCDAO {
 				Date date = new Date(creationDate.getTime());
 				int isApproved = rs.getInt("is_approved");
 				int idMaster = rs.getInt("id_master");
+				int isCompleted = rs.getInt("is_completed");
 				
 				PTC p = new PTC(title, suggestedPrice, aliquot, bruteValue, brutePlusAliquot, discount, finalValue, client, contribuition, date);
 				p.setCnpj(cnpj);
@@ -152,7 +153,7 @@ public class PTCDAO {
 				p.setSuggestedPrice(suggestedPrice);
 				p.setIsApproved(isApproved);
 				p.setIdMaster(idMaster);
-				
+				p.IsCompleted(isCompleted);
 				list.add(p);
 			}
 		} catch (SQLException e) {
@@ -272,6 +273,52 @@ public class PTCDAO {
 	    dataBase.executeUpdate(query2, ptc.getId());
 	    String query3 = "UPDATE ptc SET is_approved = 3 where id_master = ? AND id != ?";
 	    dataBase.executeUpdate(query3, new Object[] {ptc.getIdMaster(), ptc.getId()});
+    }
+
+	public PTC getPTCById(int ptcId) {
+		String ptcQuery = "SELECT *FROM PTC where id = ?";
+		try (ResultSet rs = dataBase.executeQuery(ptcQuery, ptcId)) {
+			if(rs.next()){
+				int id = rs.getInt("id");
+				String title = rs.getString("title");
+				Client client = new ClientDAO().getClientByID(rs.getInt("client"));
+				double bruteValue = rs.getDouble("brute_value");
+				double brutePlusAliquot = rs.getDouble("brute_plus_aliquot");
+				double aliquot = rs.getDouble("aliquot");
+				double contribuition = rs.getDouble("contribuition");
+				double suggestedPrice = rs.getDouble("suggested");
+				double discount = rs.getDouble("discount");
+				double finalValue = rs.getDouble("final_value");
+				CNPJ cnpj = getCnpjByID(rs.getInt("cnpj"));
+				String rastreabilityCode = rs.getString("rastreability_code");
+				List<Material> materialList = getMaterialRelation(id);
+				List<Product> productList = getProductRelation(id);
+				List<Kit> kitList = getKitRelation(id);
+				List<Service> serviceList = getServiceRelation(id);
+				java.sql.Date creationDate = rs.getDate("creationDate");
+				Date date = new Date(creationDate.getTime());
+				int isApproved = rs.getInt("is_approved");
+				int idMaster = rs.getInt("id_master");
+				int isCompleted = rs.getInt("is_completed");
+				
+				PTC p = new PTC(title, suggestedPrice, aliquot, bruteValue, brutePlusAliquot, discount, finalValue, client, contribuition, date);
+				p.setCnpj(cnpj);
+				p.setId(id);
+				p.setKitList(kitList);
+				p.setMaterialList(materialList);
+				p.setProductList(productList);
+				p.setRastreabilityCode(rastreabilityCode);
+				p.setServiceList(serviceList);
+				p.setSuggestedPrice(suggestedPrice);
+				p.setIsApproved(isApproved);
+				p.setIdMaster(idMaster);
+				p.IsCompleted(isCompleted);
+				return p;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
     }
 
 }

@@ -27,7 +27,7 @@ import model.GuaranteeFund;
 import model.Job;
 import model.SocialIntegration;
 import model.State;
-import rh.view.EmployeeReportFrame;
+import rh.view.report.EmployeeReportFrame;
 import userInterface.components.FileChooser;
 import userInterface.components.filters.PDFFilter;
 import util.HandlesFile;

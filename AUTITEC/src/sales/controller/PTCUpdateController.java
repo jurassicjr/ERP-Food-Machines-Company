@@ -42,7 +42,9 @@ public class PTCUpdateController {
 		dataBase = new DataBase();
 		dataBase.connect();
 	}
-
+	public PTCUpdateController() {
+		
+	}
 	public void close() {
 		int i = ShowMessage.questionMessage(frame, "Fechar", "Deseja realmente fechar a atualização de ptc?");
 		if (i == JOptionPane.YES_OPTION)
@@ -347,9 +349,13 @@ public class PTCUpdateController {
 				}
 			}
 			if (list.get(i).getIsApproved() == 0 && !v) {
-				cboPTC.addItem(list.get(i));
+				if(list.get(i).getIsCompleted() == 0) {
+					cboPTC.addItem(list.get(i));					
+				}
 			} else if (list.get(i).getIsApproved() == 0 && v) {
-				cboPTC.addItem(pt);
+				if(list.get(i).getIsCompleted() == 0) {					
+					cboPTC.addItem(pt);
+				}
 			}
 			v = false;
 		}
