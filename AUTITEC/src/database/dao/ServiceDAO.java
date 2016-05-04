@@ -78,4 +78,13 @@ public class ServiceDAO {
 		}
 		return null;
     }
+
+	public void registerOutSourcedService(HashMap<String, Object> map) {
+	    String name = (String) map.get("name");
+	    String observation = (String) map.get("observation");
+	    String sql = "insert into outsourced_services(name, observation) values (?,?)";
+	    Object[] data = new Object[] {name, observation};
+	    dataBase.executeUpdate(sql, data);
+	    dataBase.close();
+    }
 }

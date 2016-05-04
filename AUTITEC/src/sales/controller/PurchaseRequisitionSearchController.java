@@ -13,15 +13,18 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.Employee;
+import model.Material;
 import model.PTC;
 import model.PurchaseRequisition;
+import model.PurchaseRequisitionAssociation;
 import sales.view.search.PurchaseRequisitionSearchFrame;
 import util.ClearFrame;
 import util.ShowMessage;
 import database.DataBase;
 import database.dao.EmployeeDAO;
+import database.dao.MaterialDAO;
 import database.dao.PTCDAO;
-import database.dao.SalesRequisitionDAO;
+import database.dao.PurchaseRequisitionDAO;
 
 public class PurchaseRequisitionSearchController {
 
@@ -42,7 +45,7 @@ public class PurchaseRequisitionSearchController {
 	}
 
 	public void fillTable(JTable table) {
-		List<PurchaseRequisition> list = new SalesRequisitionDAO().getAllRequisition();
+		List<PurchaseRequisition> list = new PurchaseRequisitionDAO().getAllRequisition();
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		for (PurchaseRequisition sr : list) {
 			int status = sr.getStatus();
@@ -148,6 +151,9 @@ public class PurchaseRequisitionSearchController {
 				   new EmployeeDAO();
 				   Employee e = EmployeeDAO.getEmployeeById(EmployeeId);
 				   String priority = rs.getString("priority");
+				   int id = rs.getInt("id");
+				   String justification = rs.getString("justification");
+				   
 				   switch(statusNumber) {
 					case 1:{
 						statusString = "Pendente";
@@ -166,11 +172,31 @@ public class PurchaseRequisitionSearchController {
 						break;
 					}
 				}
+				   List<PurchaseRequisitionAssociation> sraList = new ArrayList<PurchaseRequisitionAssociation>();
+		    		String associationSql = "select * from sales_requisition_association where sales_requisition = ?";
+		    		try(ResultSet rsa = dataBase.executeQuery(associationSql, id)){
+		    			while(rsa.next()) {
+		    				int materialId = rsa.getInt("material");
+		    				Material m = new MaterialDAO().getMaterialById(materialId);
+		    				double ammount = rsa.getDouble("ammount");
+		    				boolean bought = rsa.getBoolean("is_bought");
+		    				String section = rsa.getString("section");
+		    				int associationId = rsa.getInt("id");
+		    				PurchaseRequisitionAssociation sra = new PurchaseRequisitionAssociation(m, ammount, section);
+		    				sra.setBought(bought);
+		    				sra.setId(associationId);
+		    				sraList.add(sra);
+		    			}
+		    		}
 				   String dat = new SimpleDateFormat("dd/MM/yyyy").format(date);
-				   PurchaseRequisition pr = new PurchaseRequisition(e, requisitionNumber, date, priority, ptc);
+				   PurchaseRequisition pr = new PurchaseRequisition(e, n, date, priority, ptc);
+				   pr.setId(id);
+				   pr.setAssociationList(sraList);
+				   pr.setJustification(justification);
+				   pr.setStatus(status);
+				   
 				   tbl.addRow(new Object[]{pr, pt.getRastreabilityCode(), dat, statusString});
 			   }
-			   
 		   } catch (SQLException e) {
 		    e.printStackTrace();
 	    }

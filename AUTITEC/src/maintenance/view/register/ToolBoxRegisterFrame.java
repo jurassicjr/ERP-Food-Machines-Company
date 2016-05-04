@@ -1,9 +1,10 @@
 package maintenance.view.register;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -16,15 +17,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-
-import com.itextpdf.text.pdf.parser.Vector;
+import javax.swing.border.TitledBorder;
 
 import maintenance.controller.ToolBoxRegisterFrameController;
 import model.Employee;
 import model.Tool;
 import model.ToolBox;
 import userInterface.components.FrameController;
-import util.ClearFrame;
 import util.Icon;
 import util.ShowMessage;
 
@@ -68,52 +67,56 @@ public class ToolBoxRegisterFrame extends JFrame {
 	}
 	public void initializePrincipal()
 	{
-		getContentPane().setLayout(null);
-		
+		getContentPane().setLayout(new BorderLayout());
+		JPanel principalPanel = new JPanel();
+		principalPanel.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		principalPanel.setLayout(null);
+		getContentPane().add(principalPanel, BorderLayout.CENTER);
 		JLabel lblNewLabel = new JLabel("Descrição");
 		lblNewLabel.setBounds(12, 12, 70, 15);
-		getContentPane().add(lblNewLabel);
+		principalPanel.add(lblNewLabel);
 		
 		txtDescription = new JTextField();
-		txtDescription.setBounds(12, 32, 257, 19);
-		getContentPane().add(txtDescription);
+		txtDescription.setBounds(12, 29, 257, 24);
+		principalPanel.add(txtDescription);
 		txtDescription.setColumns(10);
 		
 		cboResponsible = new JComboBox();
 		cboResponsible.setBounds(298, 29, 253, 24);
-		getContentPane().add(cboResponsible);
+		principalPanel.add(cboResponsible);
 		
 		JLabel lblNewLabel_1 = new JLabel("Responsável");
 		lblNewLabel_1.setBounds(298, 12, 120, 15);
-		getContentPane().add(lblNewLabel_1);
+		principalPanel.add(lblNewLabel_1);
 		
 		JLabel lblNewLabel_2 = new JLabel("Ferramentas disponíveis");
 		lblNewLabel_2.setBounds(12, 63, 213, 15);
-		getContentPane().add(lblNewLabel_2);
+		principalPanel.add(lblNewLabel_2);
 		
 		cboTools = new JComboBox();
 		cboTools.setBounds(12, 82, 427, 24);
-		getContentPane().add(cboTools);
+		principalPanel.add(cboTools);
 		
 		btnAddTool = new JButton("Adicionar");
+		btnAddTool.setIcon(new ImageIcon(ToolBoxRegisterFrame.class.getResource("/resources/plus.png")));
 		btnAddTool.setBounds(451, 82, 100, 25);
-		getContentPane().add(btnAddTool);
+		principalPanel.add(btnAddTool);
 		
 		btnRemoveTool = new JButton("Remover");
+		btnRemoveTool.setIcon(new ImageIcon(ToolBoxRegisterFrame.class.getResource("/resources/clear.png")));
 		btnRemoveTool.setBounds(12, 201, 147, 25);
-		getContentPane().add(btnRemoveTool);
+		principalPanel.add(btnRemoveTool);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setBounds(12, 122, 539, 70);
-		getContentPane().add(scrollPane);
+		principalPanel.add(scrollPane);
 		
 		toolList = new JList<Tool>();
 		scrollPane.setViewportView(toolList);
-		
 		JPanel panel = new JPanel();
-		panel.setBounds(12, 222, 549, 53);
-		getContentPane().add(panel);
-		panel.setLayout(null);
+		getContentPane().add(panel, BorderLayout.SOUTH);
+		
+		panel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		
 		btnConfirm = new JButton("Confirmar");
 		btnConfirm.setBounds(396, 28, 141, 25);

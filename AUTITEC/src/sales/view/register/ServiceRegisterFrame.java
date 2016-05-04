@@ -13,6 +13,7 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -25,6 +26,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import model.OutSourcedServices;
 import model.Service;
 import sales.controller.ServiceRegisterController;
 import userInterface.components.JNumberFormatField;
@@ -93,6 +95,8 @@ public class ServiceRegisterFrame extends JFrame{
 	private String stayPrice;
 	private double pricePerKm;
 	private double meal;
+
+	private JCheckBox chkBoxThird;
 
     public ServiceRegisterFrame() {
     	controller = new ServiceRegisterController(this);
@@ -192,16 +196,17 @@ public class ServiceRegisterFrame extends JFrame{
 	    
 	    txtStayPrice = new JTextField();
 	    txtStayPrice.setColumns(10);
+	    
+	    chkBoxThird = new JCheckBox("Serviço de Terceiro");
+	    
 	    GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 	    gl_principalPanel.setHorizontalGroup(
 	    	gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(gl_principalPanel.createSequentialGroup()
-	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-	    				.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
-	    					.addContainerGap()
-	    					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE))
+	    			.addContainerGap()
+	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+	    				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addContainerGap()
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    						.addComponent(lblMeal)
 	    						.addComponent(lblStayPrice)
@@ -209,10 +214,12 @@ public class ServiceRegisterFrame extends JFrame{
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    						.addComponent(txtMeal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    						.addComponent(txtPricePerKm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    						.addGroup(gl_principalPanel.createSequentialGroup()
+	    							.addComponent(txtPricePerKm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    							.addPreferredGap(ComponentPlacement.RELATED, 190, Short.MAX_VALUE)
+	    							.addComponent(chkBoxThird))
 	    						.addComponent(txtStayPrice, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addContainerGap()
 	    					.addComponent(lblServiceName)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
@@ -254,7 +261,7 @@ public class ServiceRegisterFrame extends JFrame{
 	    								.addComponent(txtPrice_II_III_I, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    								.addComponent(txtPrice_II_II_I, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    								.addComponent(txtPrice_II_I_I, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
-	    						.addComponent(txtServiceName, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))))
+	    						.addComponent(txtServiceName, GroupLayout.DEFAULT_SIZE, 390, Short.MAX_VALUE))))
 	    			.addContainerGap())
 	    );
 	    gl_principalPanel.setVerticalGroup(
@@ -316,7 +323,9 @@ public class ServiceRegisterFrame extends JFrame{
 	    				.addComponent(txtMeal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-	    				.addComponent(txtPricePerKm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    				.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+	    					.addComponent(txtPricePerKm, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    					.addComponent(chkBoxThird))
 	    				.addComponent(lblPricePerKm))
 	    			.addGap(18)
 	    			.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 94, GroupLayout.PREFERRED_SIZE)
@@ -370,6 +379,55 @@ public class ServiceRegisterFrame extends JFrame{
 		btnClear.addActionListener(buttonListener);
 		btnConfirm.addActionListener(buttonListener);
 		btnCancel.addActionListener(buttonListener);
+		
+		ActionListener checkBoxListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if(e.getSource().equals(chkBoxThird))disableFields();
+			}
+		};
+		chkBoxThird.addActionListener(checkBoxListener);
+	}
+	
+	private void disableFields() {
+		boolean enabled;
+		if(chkBoxThird.isSelected()) {
+			enabled = false;
+			txtMeal.setEnabled(enabled);
+			txtPrice_I_I_I.setEnabled(enabled);
+			txtPrice_I_I_II.setEnabled(enabled);
+			txtPrice_I_II_I.setEnabled(enabled);
+			txtPrice_I_II_II.setEnabled(enabled);
+			txtPrice_I_III_I.setEnabled(enabled);
+			txtPrice_I_III_II.setEnabled(enabled);
+			txtPrice_II_I_I.setEnabled(enabled);
+			txtPrice_II_I_II.setEnabled(enabled);
+			txtPrice_II_II_I.setEnabled(enabled);
+			txtPrice_II_II_II.setEnabled(enabled);
+			txtPrice_II_III_I.setEnabled(enabled);
+			txtPrice_II_III_II.setEnabled(enabled);
+			txtPricePerKm.setEnabled(enabled);
+			txtStayPrice.setEnabled(enabled);
+		}else {
+			enabled = true;
+			txtMeal.setEnabled(enabled);
+			txtPrice_I_I_I.setEnabled(enabled);
+			txtPrice_I_I_II.setEnabled(enabled);
+			txtPrice_I_II_I.setEnabled(enabled);
+			txtPrice_I_II_II.setEnabled(enabled);
+			txtPrice_I_III_I.setEnabled(enabled);
+			txtPrice_I_III_II.setEnabled(enabled);
+			txtPrice_II_I_I.setEnabled(enabled);
+			txtPrice_II_I_II.setEnabled(enabled);
+			txtPrice_II_II_I.setEnabled(enabled);
+			txtPrice_II_II_II.setEnabled(enabled);
+			txtPrice_II_III_I.setEnabled(enabled);
+			txtPrice_II_III_II.setEnabled(enabled);
+			txtPricePerKm.setEnabled(enabled);
+			txtStayPrice.setEnabled(enabled);
+
+		}
 	}
 	
 	private void clearFrame() {
@@ -380,6 +438,22 @@ public class ServiceRegisterFrame extends JFrame{
 	private void confirm() {
 		int i = ShowMessage.questionMessage(this, "Registro", "Deseja realmente registrar esse serviço ?");
 		if(i == JOptionPane.NO_OPTION)return;
+		if(chkBoxThird.isSelected()) {
+			if(txtServiceName.getText().trim().isEmpty()) {
+				ShowMessage.errorMessage(this, "Erro", "Insira o nome do serviço!");
+				return;
+			}if(txtDescription.getText().trim().isEmpty()) {
+				ShowMessage.errorMessage(this, "Erro", "Insira uma descrição ao serviço");
+				return;
+			}
+			String name = txtServiceName.getText();
+			String description = txtDescription.getText();
+			OutSourcedServices oss = new OutSourcedServices(name, description);
+			controller.registerOutSourcedService(oss);
+			ShowMessage.successMessage(this, "Registro", "Registro de servio de terceiros realizado com sucesso!");
+			ClearFrame.clear(this);
+			return;
+		}
 		boolean isOk = verifyFields();
 		if(isOk) {
 			Service s = new Service();

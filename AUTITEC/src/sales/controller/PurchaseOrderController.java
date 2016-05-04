@@ -18,7 +18,7 @@ import sales.view.PurchaseOrderFrame;
 import util.ShowMessage;
 import database.DataBase;
 import database.dao.MaterialDAO;
-import database.dao.SalesRequisitionDAO;
+import database.dao.PurchaseRequisitionDAO;
 
 public class PurchaseOrderController {
 
@@ -40,7 +40,7 @@ public class PurchaseOrderController {
 	}
 	
 	public void fillSalesRequisitionCbo(JComboBox<PurchaseRequisition> cbo) {
-		List<PurchaseRequisition> list = new SalesRequisitionDAO().getAllOpenRequisition();
+		List<PurchaseRequisition> list = new PurchaseRequisitionDAO().getAllOpenRequisition();
 		list.forEach(s -> cbo.addItem(s));
 	}
 	

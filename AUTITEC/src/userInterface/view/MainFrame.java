@@ -1,6 +1,8 @@
 package userInterface.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,11 +15,15 @@ import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import userInterface.controller.MainFrameController;
@@ -211,6 +217,7 @@ public class MainFrame extends JFrame {
 	private JMenu mnRhEpi;
 
 	private JMenu mnRhResearch;
+	private JLabel logo;
 
 	
 	/**
@@ -259,6 +266,37 @@ public class MainFrame extends JFrame {
 		mnSubRegisterRH = new JMenu("Registros");
 		mnRh.add(mnSubRegisterRH);
 		
+		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
+		mnSubRegisterRH.add(mntmRegisterEmployee);
+		mntmRegisterEmployee.setVisible(false);
+		mntmRegisterEmployee.setName("REG_EMP");
+		
+				mntmRegisterUser = new JMenuItem("Registrar Usuário");
+				mnSubRegisterRH.add(mntmRegisterUser);
+				mntmRegisterUser.setVisible(false);
+				mntmRegisterUser.setName("REG_USER");
+				
+				mntmRegisterOfTraning = new JMenuItem("Registro de Treinamento");
+				mnSubRegisterRH.add(mntmRegisterOfTraning);
+				mntmRegisterOfTraning.setVisible(false);
+				mntmRegisterOfTraning.setName("REG_TRA");
+				
+				mntmRegisterOfFunctionDescription = new JMenuItem("Registro de Descrição de Cargo");
+				mnSubRegisterRH.add(mntmRegisterOfFunctionDescription);
+				mntmRegisterOfFunctionDescription.setVisible(false);
+				mntmRegisterOfFunctionDescription.setName("REG_FUD");
+				
+				
+				mntmAssessmentOfCompetence = new JMenuItem("Registra Avaliação de Competência");
+				mnSubRegisterRH.add(mntmAssessmentOfCompetence);
+				mntmAssessmentOfCompetence.setVisible(false);
+				mntmAssessmentOfCompetence.setName("REG_ASS");
+				
+				mntmRNCRegister = new JMenuItem("Registro de Não Conformidade");
+				mnSubRegisterRH.add(mntmRNCRegister);
+				mntmRNCRegister.setVisible(false);
+				mntmRNCRegister.setName("REG_RNC");
+		
 		mnSubUpdateRH = new JMenu("Atualizações e Remoções");
 		mnRh.add(mnSubUpdateRH);
 		
@@ -282,11 +320,6 @@ public class MainFrame extends JFrame {
 		mnRh.add(mnRhResearch);
 		mnRhResearch.setVisible(false);
 		
-		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
-		mnSubRegisterRH.add(mntmRegisterEmployee);
-		mntmRegisterEmployee.setVisible(false);
-		mntmRegisterEmployee.setName("REG_EMP");
-		
 		mntmTechnicalStandard = new JMenuItem("Normas Técnicas");
 		mnRhDocuments.add(mntmTechnicalStandard);
 		mntmTechnicalStandard.setVisible(false);
@@ -301,11 +334,6 @@ public class MainFrame extends JFrame {
 		mnRhDocuments.add(mntmManualQuality);
 		mntmManualQuality.setVisible(false);
 		mntmManualQuality.setName("MAN_QUAL");
-
-		mntmRegisterUser = new JMenuItem("Registrar Usuário");
-		mnSubRegisterRH.add(mntmRegisterUser);
-		mntmRegisterUser.setVisible(false);
-		mntmRegisterUser.setName("REG_USER");
 		
 		mntmUpdateUser = new JMenuItem("Atualizar Permissões");
 		mnSubUpdateRH.add(mntmUpdateUser);
@@ -332,11 +360,6 @@ public class MainFrame extends JFrame {
 		mntmRemoveOfEPI.setVisible(false);
 		mntmRemoveOfEPI.setName("RMV_EPI");
 		
-		mntmRegisterOfTraning = new JMenuItem("Registro de Treinamento");
-		mnSubRegisterRH.add(mntmRegisterOfTraning);
-		mntmRegisterOfTraning.setVisible(false);
-		mntmRegisterOfTraning.setName("REG_TRA");
-		
 		mntmUpdateOfTraining = new JMenuItem("Atualização/Remoção de Treinamento");
 		mnSubUpdateRH.add(mntmUpdateOfTraining);
 		mntmUpdateOfTraining.setVisible(false);
@@ -356,22 +379,6 @@ public class MainFrame extends JFrame {
 		mnRhResearch.add(mntmExternalSatisfactionResearch);
 		mntmExternalSatisfactionResearch.setVisible(false);
 		mntmExternalSatisfactionResearch.setName("EXT_RES");
-		
-		mntmRegisterOfFunctionDescription = new JMenuItem("Registro de Descrição de Cargo");
-		mnSubRegisterRH.add(mntmRegisterOfFunctionDescription);
-		mntmRegisterOfFunctionDescription.setVisible(false);
-		mntmRegisterOfFunctionDescription.setName("REG_FUD");
-		
-		
-		mntmAssessmentOfCompetence = new JMenuItem("Registra Avaliação de Competência");
-		mnSubRegisterRH.add(mntmAssessmentOfCompetence);
-		mntmAssessmentOfCompetence.setVisible(false);
-		mntmAssessmentOfCompetence.setName("REG_ASS");
-		
-		mntmRNCRegister = new JMenuItem("Registro de Não Conformidade");
-		mnSubRegisterRH.add(mntmRNCRegister);
-		mntmRNCRegister.setVisible(false);
-		mntmRNCRegister.setName("REG_RNC");
 		
 		mntmMonitoringImplementation = new JMenuItem("Acompanhamento de Não Conformidade");
 		mnSubSearchRh.add(mntmMonitoringImplementation);
@@ -473,22 +480,22 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnInventory);
 		mnInventory.setVisible(false);
 		
-		mntmClientRegister = new JMenuItem("Registrar Cliente");
+		mntmClientRegister = new JMenuItem("Registro de Cliente");
 		mnSalesRegister.add(mntmClientRegister);
 		mntmClientRegister.setVisible(false);
 		mntmClientRegister.setName("REG_CLI");
 		
-		mntmRegisterOfMaterial = new JMenuItem("Registrar Material");
+		mntmRegisterOfMaterial = new JMenuItem("Registro de Material");
 		mnSalesRegister.add(mntmRegisterOfMaterial);
 		mntmRegisterOfMaterial.setVisible(false);
 		mntmRegisterOfMaterial.setName("REG_MAT");		
 		
-		mntmRegisterProduct = new JMenuItem("Registrar Produto");
+		mntmRegisterProduct = new JMenuItem("Registro de Produto");
 		mnSalesRegister.add(mntmRegisterProduct);
 		mntmRegisterProduct.setVisible(false);
 		mntmRegisterProduct.setName("REG_PROD");		
 		
-		mntmKitRegister = new JMenuItem("Registrar KIT");
+		mntmKitRegister = new JMenuItem("Registro de KIT");
 		mnSalesRegister.add(mntmKitRegister);
 		mntmKitRegister.setVisible(false);
 		mntmKitRegister.setName("REG_KIT");
@@ -738,22 +745,31 @@ public class MainFrame extends JFrame {
 		scrollPane.setBorder(new TitledBorder("Notificações"));
 	
 		notificationPanel = new JPanel();
+		notificationPanel.setBorder(new LineBorder(new Color(0, 0, 0)));
 		notificationPanel.setLayout(new BoxLayout(notificationPanel, BoxLayout.Y_AXIS));
 
 		scrollPane.setViewportView(notificationPanel);
 		
+		logo = new JLabel("");
+		setLogo(logo);
 		GroupLayout layout = new GroupLayout(getContentPane());
 		layout.setHorizontalGroup(
 			layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 278, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(556, Short.MAX_VALUE))
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(logo, GroupLayout.DEFAULT_SIZE, 542, Short.MAX_VALUE)
+					.addContainerGap())
 		);
 		layout.setVerticalGroup(
 			layout.createParallelGroup(Alignment.LEADING)
 				.addGroup(layout.createSequentialGroup()
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 684, GroupLayout.PREFERRED_SIZE)
-					.addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+					.addGroup(layout.createParallelGroup(Alignment.LEADING)
+						.addGroup(layout.createSequentialGroup()
+							.addGap(11)
+							.addComponent(logo, GroupLayout.DEFAULT_SIZE, 405, Short.MAX_VALUE))
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 416, Short.MAX_VALUE))
+					.addContainerGap())
 		);
 		getContentPane().setLayout(layout);
 	}
@@ -1007,4 +1023,19 @@ public class MainFrame extends JFrame {
 		});
 	}
 
+	private void setLogo(JLabel logo) {
+		
+		ImageIcon image = new ImageIcon(getClass().getResource("/resources/logo_splash.png"));
+		ImageIcon thumbnail = null;
+		
+		if(image.getIconWidth() > logo.getWidth()){       
+			thumbnail = new ImageIcon(image.getImage().getScaledInstance(750, -1, Image.SCALE_DEFAULT));
+		}
+		else thumbnail = image;
+			
+		logo.setHorizontalAlignment(SwingConstants.CENTER);
+		logo.setVerticalAlignment(SwingConstants.CENTER);
+		logo.setIcon(thumbnail);
+				
+	}
 }

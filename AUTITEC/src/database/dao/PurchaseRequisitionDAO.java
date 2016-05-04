@@ -14,11 +14,11 @@ import model.PurchaseRequisition;
 import model.PurchaseRequisitionAssociation;
 import database.DataBase;
 
-public class SalesRequisitionDAO {
+public class PurchaseRequisitionDAO {
 
 	private DataBase dataBase;
 
-	public SalesRequisitionDAO() {
+	public PurchaseRequisitionDAO() {
 		dataBase = new DataBase();
 		dataBase.connect();
 	}

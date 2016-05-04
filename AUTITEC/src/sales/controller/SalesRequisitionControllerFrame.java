@@ -19,7 +19,7 @@ import util.ShowMessage;
 import database.DataBase;
 import database.dao.EmployeeDAO;
 import database.dao.PTCDAO;
-import database.dao.SalesRequisitionDAO;
+import database.dao.PurchaseRequisitionDAO;
 
 public class SalesRequisitionControllerFrame {
 	
@@ -136,7 +136,7 @@ public class SalesRequisitionControllerFrame {
 	    map.put("date", sr.getDate());
 	    map.put("associationList", sr.getAssociationList());
 	    map.put("justification", sr.getJustification());
-	    SalesRequisitionDAO sDAO = new SalesRequisitionDAO();
+	    PurchaseRequisitionDAO sDAO = new PurchaseRequisitionDAO();
 	    sDAO.register(map);
     }
 }

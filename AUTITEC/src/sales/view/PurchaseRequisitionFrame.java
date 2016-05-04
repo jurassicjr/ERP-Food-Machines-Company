@@ -352,7 +352,7 @@ public class PurchaseRequisitionFrame extends JFrame {
 						ammount = Double.parseDouble(txtAmmount.getText());						
 					}
 					if(cboMaterial.getSelectedIndex() == -1) {
-						ShowMessage.errorMessage(frame, "Erro", "Selecione um produto para adicionara!");
+						ShowMessage.errorMessage(frame, "Erro", "Selecione um produto para adicionar!");
 						return;
 					}else {
 						material = (Material) cboMaterial.getSelectedItem();						

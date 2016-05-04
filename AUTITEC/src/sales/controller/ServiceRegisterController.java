@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import javax.swing.JOptionPane;
 
+import model.OutSourcedServices;
 import model.Service;
 import sales.view.register.ServiceRegisterFrame;
 import util.ShowMessage;
@@ -47,5 +48,12 @@ public class ServiceRegisterController {
 	    map.put("stayValue", s.getStayValue());
 	    
 	    new ServiceDAO().register(map);
+    }
+
+	public void registerOutSourcedService(OutSourcedServices oss) {
+		 HashMap<String, Object> map = new HashMap<String, Object>();
+		 map.put("name", oss.getName());
+		 map.put("observation", oss.getObservation());
+		 new ServiceDAO().registerOutSourcedService(map);
     }
 }
