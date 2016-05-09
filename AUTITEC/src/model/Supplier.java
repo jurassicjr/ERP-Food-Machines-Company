@@ -25,6 +25,11 @@ public class Supplier {
 	private String justificative;
 	private String cep;
 	private String phone;
+	private List<OutSourcedServices> serviceList;
+
+	public List<OutSourcedServices> getServiceList() {
+		return serviceList;
+	}
 
 	public Supplier(String razaoSocial, String CNPJ) {
 		this.corporateName = razaoSocial;
@@ -221,4 +226,8 @@ public class Supplier {
 			return false;
 		}
 	}
+
+	public void setService(List<OutSourcedServices> serviceList) {
+		this.serviceList = serviceList;
+    }
 }

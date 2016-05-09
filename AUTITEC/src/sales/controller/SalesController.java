@@ -18,6 +18,7 @@ import model.Material;
 import model.MaterialModel;
 import model.MaterialType;
 import model.MeasureUnit;
+import model.OutSourcedServices;
 import model.State;
 import model.Supplier;
 import product.view.RegisterKitFrame;
@@ -49,6 +50,7 @@ import database.dao.MaterialDAO;
 import database.dao.MeasureUnitDAO;
 import database.dao.RegisterOfMaterialModelDAO;
 import database.dao.RegisterOfMaterialTypeDAO;
+import database.dao.ServiceDAO;
 import database.dao.SuppliersDAO;
 
 public class SalesController {
@@ -353,6 +355,7 @@ public class SalesController {
 				mapa.put("expirationDate", supplier.getExpireCertificateDate());
 				sDao = new SuppliersDAO(mapa);
 				sDao.makeProductAssociation(supplier.getMaterial(), supplier);
+				sDao.makeSupplierServiceAssociation(supplier.getServiceList(), supplier);
 			}
 		} catch (Exception e) {
 			System.out.println("No Supplier");
@@ -583,5 +586,13 @@ public class SalesController {
 	    List<MeasureUnit> list = new MeasureUnitDAO().getUnits();
 	    if(list.isEmpty())return;
 	    list.forEach(m -> cboMeasureUnit.addItem(m));
+    }
+
+	public void fillService(JComboBox<OutSourcedServices> cboOutSourcedService) {
+	    cboOutSourcedService.removeAllItems();
+	    List<OutSourcedServices> serviceList = new ServiceDAO().getAllOutSourcedService();
+	    if(!serviceList.isEmpty()) {
+	    	serviceList.forEach(s -> cboOutSourcedService.addItem(s));
+	    }
     }
 }

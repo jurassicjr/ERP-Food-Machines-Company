@@ -177,17 +177,17 @@ public class ManualQualityFrameController {
 	 */
 	private void showFile(int row, int column, JTable table) {
 				
-		File f = new File("tmp/");
+		File f = new File("C:/SOFTWARE_EUREKA/RH/Manual_de_Qualidade/");
 		if(!f.isDirectory()) f.mkdirs();
 		
 		TechnicalStandard ts = (TechnicalStandard) table.getValueAt(row, 0);
 		String fileName = ts.getLastUpdate().getFileName();
 					
-		File document = new File("tmp/" + fileName);
+		File document = new File("C:/SOFTWARE_EUREKA/RH/Manual_de_Qualidade/" + fileName);
 		
 		if(!document.exists()) {
 			FTP ftp = new FTP();
-			boolean b = ftp.download(document, fileName, "/Manual_de_Qualidade/");
+			boolean b = ftp.download(document, fileName, "/RH/Manual_de_Qualidade/");
 			System.out.println("aqui " + b);
 		}
 				
@@ -219,7 +219,7 @@ public class ManualQualityFrameController {
 		String fileName = manualQuality.getLastUpdate().getFileName();
 		
 		FTP ftp = new FTP();
-		ftp.deleteFile(fileName, "/autitec/docs/");
+		ftp.deleteFile(fileName, "/RH/Manual_de_Qualidade/");
 		
 		((DefaultTableModel) table.getModel()).removeRow(row);
 		

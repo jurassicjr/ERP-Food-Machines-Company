@@ -2,9 +2,13 @@ package database.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
+import model.OutSourcedServices;
 import model.Service;
+import model.Supplier;
 import database.DataBase;
 
 public class ServiceDAO {
@@ -86,5 +90,41 @@ public class ServiceDAO {
 	    Object[] data = new Object[] {name, observation};
 	    dataBase.executeUpdate(sql, data);
 	    dataBase.close();
+    }
+
+	public List<OutSourcedServices> getAllOutSourcedService() {
+	    String sql = "select * from outsourced_services";
+	    List<OutSourcedServices> list = new ArrayList<OutSourcedServices>();
+	    try(ResultSet rs = dataBase.executeQuery(sql)){
+	    	while(rs.next()) {
+	    		String name = rs.getString("name");
+	    		int id = rs.getInt("id");
+	    		String observation = rs.getString("observation");
+	    		OutSourcedServices oss = new OutSourcedServices(name, observation);
+	    		oss.setId(id);
+	    		list.add(oss);
+	    	}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		return list;
+    }
+
+	public List<String> getShippingCompany() {
+	    String sql = "select * from supplier_service_association where service = "
+	    		+ "(select rs.id from outsourced_services as rs where rs.name = ?)";
+	    List<String> shippingCompanyList = new ArrayList<String>();
+	    String name = "Transportadora";
+	    try(ResultSet rs = dataBase.executeQuery(sql, name)){
+	    	while(rs.next()) {
+	    		int supplierId = rs.getInt("supplier");
+	    		Supplier supplier = new SuppliersDAO().getSupplierbyId(supplierId);
+	    		String supplierName = supplier.getCompanyName();
+	    		shippingCompanyList.add(supplierName);
+	    	}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		return shippingCompanyList;
     }
 }

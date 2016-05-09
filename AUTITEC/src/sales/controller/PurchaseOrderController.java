@@ -3,13 +3,16 @@ package sales.controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 
 import model.City;
 import model.Material;
+import model.PurchaseOrder;
 import model.PurchaseRequisition;
 import model.PurchaseRequisitionAssociation;
 import model.State;
@@ -18,7 +21,9 @@ import sales.view.PurchaseOrderFrame;
 import util.ShowMessage;
 import database.DataBase;
 import database.dao.MaterialDAO;
+import database.dao.PurchaseOrderDAO;
 import database.dao.PurchaseRequisitionDAO;
+import database.dao.ServiceDAO;
 
 public class PurchaseOrderController {
 
@@ -141,4 +146,28 @@ public class PurchaseOrderController {
         }
 	    cboMaterial.setSelectedIndex(-1);
     }
+
+	public void fillShippingCompany(JComboBox<String> cboShippingCompany) {
+	    List<String> shippingCompanyList = new ServiceDAO().getShippingCompany();
+	    if(shippingCompanyList.isEmpty())return;
+	    shippingCompanyList.forEach(s -> cboShippingCompany.addItem(s));
+	    cboShippingCompany.setSelectedIndex(-1);
+    }
+
+	public void register(PurchaseOrder po, int status) {
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("contactPhone", po.getContactPhone());
+	    map.put("deliveryDate", po.getDeliveryDate());
+	    map.put("freight", po.getFreight());
+	    map.put("observation", po.getObservation());
+	    map.put("orderDate", po.getOrderDate());
+	    map.put("paymentMethod", po.getPaymentMethod());
+	    map.put("purchaseOrderAssociationList", po.getPurchaseOrderAssociationList());
+	    map.put("purchaseRequisition", po.getPurchaseRequisition());
+	    map.put("salesMan", po.getSalesMan());
+	    map.put("shippingCompany", po.getShippingCompany());
+	    map.put("supplier", po.getSupplier());
+	    map.put("totalValue", po.getTotalValue());
+	    new PurchaseOrderDAO().register(map, status);
+	}
 }

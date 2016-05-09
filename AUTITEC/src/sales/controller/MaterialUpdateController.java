@@ -20,8 +20,8 @@ public class MaterialUpdateController extends SalesController{
 	 * Popula o JComboBox<Produto> com produtos do banco.
 	 */
 	
-	public void fillMaterials(JComboBox<Material> product) {
-		product.removeAllItems();
+	public void fillMaterials(JComboBox<Material> cboMaterial) {
+		cboMaterial.removeAllItems();
 		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM Product")){
 			while (rs.next()) {
 				Material produto = new Material();
@@ -37,9 +37,9 @@ public class MaterialUpdateController extends SalesController{
 				produto.setModel(rs.getInt("model"));
 				produto.setNCM(rs.getString("ncm"));
 				produto.setWidth(rs.getDouble("x"));
-				product.addItem(produto);
+				cboMaterial.addItem(produto);
 			}
-			product.setSelectedIndex(-1);
+			cboMaterial.setSelectedIndex(-1);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

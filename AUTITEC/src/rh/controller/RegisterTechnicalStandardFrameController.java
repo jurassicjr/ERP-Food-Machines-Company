@@ -55,7 +55,7 @@ public class RegisterTechnicalStandardFrameController {
 		String fileName = file.getName().substring(0, 3).toUpperCase() + date.toString() + "." + tokens[tokens.length - 1] ;
 		
 		FTP ftp = new FTP();
-		ftp.upload(file, fileName, "/Normas_Tecnicas/");
+		ftp.upload(file, fileName, "RH/Normas_Tecnicas/");
 		
 		ShowMessage.successMessage(frame.getFrame(), "Norma Técnica Registrada", "A Norma Técnica " + technicalStandard + "\nfoi registrada com sucesso");
 		

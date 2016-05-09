@@ -190,7 +190,7 @@ public class TechnicalStandardFrameController {
 		
 		if(!document.exists()) {
 			FTP ftp = new FTP();
-			boolean b = ftp.download(document, fileName, "/Normas_Tecnicas/");
+			boolean b = ftp.download(document, fileName, "RH/Normas_Tecnicas/");
 			System.out.println("aqui " + b);
 		}
 				

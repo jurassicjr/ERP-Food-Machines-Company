@@ -9,6 +9,7 @@ import java.util.Map;
 
 import model.City;
 import model.Material;
+import model.OutSourcedServices;
 import model.State;
 import model.Supplier;
 import database.DataBase;
@@ -221,4 +222,26 @@ public class SuppliersDAO {
 		}
 		return null;
 	}
+
+	public void makeSupplierServiceAssociation(List<OutSourcedServices> serviceList, Supplier supplier) {
+		int supplierID = 0;
+		if (!serviceList.isEmpty()) {
+			ResultSet rs = dataBase.executeQuery("SELECT *FROM suppliers WHERE corporate_name = ?",
+			        supplier.getCompanyName());
+			try {
+				if (rs.next()) {
+					supplierID = rs.getInt("id");
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			if (supplierID != 0) {
+				for (OutSourcedServices oss : serviceList) {
+					String sql = "INSERT INTO supplier_service_association(supplier, service) VALUES(?, ?)";
+					Object[] data = new Object[] {supplierID, oss.getId()};
+					dataBase.executeUpdate(sql, data);
+				}
+			}
+		}
+    }
 }

@@ -12,6 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -40,6 +41,8 @@ import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
 
 import model.Material;
+import model.PurchaseOrder;
+import model.PurchaseOrderAssociation;
 import model.PurchaseRequisition;
 import model.PurchaseRequisitionAssociation;
 import model.Supplier;
@@ -180,6 +183,8 @@ public class PurchaseOrderFrame extends JFrame {
 		lblShippingCompany = new JLabel("Transportadora");
 		cboShippingCompany = new JComboBox<String>();
 		cboShippingCompany.addItem("Carro Próprio");
+		cboShippingCompany.addItem("Por Conta do Fornecedor!");
+		controller.fillShippingCompany(cboShippingCompany);
 
 		lblIpi = new JLabel("I.P.I");
 		txtIpi = new JNumberFormatField(new DecimalFormat("0.00"));
@@ -439,9 +444,65 @@ public class PurchaseOrderFrame extends JFrame {
 		if(i == JOptionPane.NO_OPTION)return;
 		boolean isOk = verify();
 		if(!isOk)return;
-		
+		String paymentMethod = (String) cboPaymentMethod.getSelectedItem();
+		PurchaseRequisition purchaseRequisition = (PurchaseRequisition) cboPurchaseRequisition.getSelectedItem();
+		String shippingCompany = (String) cboShippingCompany.getSelectedItem();
+		Supplier supplier = (Supplier) cboSupplier.getSelectedItem();
+		Date deliveryDate =  (Date) txtDeliveryDate.getValue();
+		String contactPhone = txtPhone.getText();
+		double freight = Double.parseDouble(txtFreight.getText().replaceAll("R|\\$", "").replaceAll(",", ".").trim());
+		String observation =txtObservation.getText();
+		String salesMan = txtSalesMan.getText();
+		List<PurchaseOrderAssociation> purchaseOrderAssociationList = createPurchaseOrderAssociationList();
+		double totalValue = sumAllValues(purchaseOrderAssociationList);
+		PurchaseOrder po = new PurchaseOrder(paymentMethod, purchaseRequisition, shippingCompany, supplier, new Date(System.currentTimeMillis()), deliveryDate,
+				contactPhone, freight, salesMan, totalValue, purchaseOrderAssociationList);
+		po.setObservation(observation);
+		boolean complete = verifyRequisition(purchaseOrderAssociationList);
+		int status = 0;
+		if(!complete) {
+			int a =ShowMessage.questionMessage(this, "Fechamento", "Deseja encerrar a requisição de compras ?");
+			if(a == JOptionPane.YES_OPTION)status = 1;
+			else status = 2;
+		}
+		controller.register(po, status);
+		ClearFrame.clear(this);
+		ClearFrame.clearTable(table);
+		ShowMessage.successMessage(this, "sucesso", "Ordem de compra efetuada com sucesso!");
 	}
 	
+	private boolean verifyRequisition(List<PurchaseOrderAssociation> purchaseOrderAssociationList) {
+	    PurchaseRequisition pr = (PurchaseRequisition) cboPurchaseRequisition.getSelectedItem();
+	    List<PurchaseRequisitionAssociation> list = pr.getAssociationList();
+	    List<Material> matList = new ArrayList<Material>();
+	    for (PurchaseOrderAssociation poa : purchaseOrderAssociationList) {
+	    		matList.add(poa.getMaterial());
+        }
+	    for (PurchaseRequisitionAssociation pra : list) {
+            if(!matList.contains(pra.getMaterial())) {
+            	return false;
+            }
+        }
+	    return true;
+    }
+	
+	private double sumAllValues(List<PurchaseOrderAssociation> purchaseOrderAssociationList) {
+	    double total = 0;
+		for (PurchaseOrderAssociation poa : purchaseOrderAssociationList) {
+	        total += poa.getCompostPrice();
+        }
+		return total;
+    }
+
+	private List<PurchaseOrderAssociation> createPurchaseOrderAssociationList() {
+	    List<PurchaseOrderAssociation> list = new ArrayList<PurchaseOrderAssociation>();
+		for(int i = 0; i<table.getRowCount(); i++) {
+	    	PurchaseOrderAssociation poa = (PurchaseOrderAssociation) table.getValueAt(i, 0);
+	    	list.add(poa);
+	    }
+		return list;
+    }
+
 	private boolean verify() {
 	    if(cboPurchaseRequisition.getSelectedIndex() == -1) {
 	    	ShowMessage.errorMessage(this, "Erro", "Selecione uma requisição de compra!");
@@ -530,8 +591,7 @@ public class PurchaseOrderFrame extends JFrame {
 		double ammount = Double.parseDouble(spnAmmount.getValue().toString());
 		double unitValue = Double.parseDouble(txtUnitValue.getText().replaceAll("R|\\$", "").replaceAll(",", ".").trim());
 		double ipi = Double.parseDouble(txtIpi.getText().replaceAll("R|\\$", "").replaceAll(",", ".").trim());
-		double total = (unitValue * (ipi/100)) + unitValue;
-		Object[] rowData = new Object[] {m, ammount, unitValue,ipi, total};
+		double total = ((unitValue * (ipi/100)) + unitValue) * ammount;
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		PurchaseRequisition pr = (PurchaseRequisition) cboPurchaseRequisition.getSelectedItem();
 		List<PurchaseRequisitionAssociation> associationList = pr.getAssociationList();
@@ -541,13 +601,15 @@ public class PurchaseOrderFrame extends JFrame {
 	        		ShowMessage.errorMessage(this, "Erro", "Está comprando material a mais do que o solicitado!");
 	        		return;
 	        	}else if(pra.getAmmount() - ammount != 0) {
-	        		int i = ShowMessage.questionMessage(this, "Quantidade", "Foi solicitado um maior quantidade, deseja realmente compra só isso ?");
-	        		if(i == JOptionPane.NO_OPTION)return;
+	        		ShowMessage.errorMessage(this, "Quantidade", "Foi solicitado um maior quantidade desse produto");
+	        		spnAmmount.setValue(pra.getAmmount());
 	        	}else if(pra.getAmmount() - ammount == 0) {
 	        		cboMaterial.removeItem(m);
 	        	}
 	        }
         }
+		PurchaseOrderAssociation poa = new PurchaseOrderAssociation(m, unitValue, ipi, total, ammount);
+		Object[] rowData = new Object[] {poa, ammount, unitValue,ipi, total};
 		tbl.addRow(rowData);
 	}
 }

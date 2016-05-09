@@ -12,6 +12,7 @@ import javax.swing.table.DefaultTableModel;
 
 import model.City;
 import model.Material;
+import model.OutSourcedServices;
 import model.State;
 import model.Supplier;
 import database.DataBase;
@@ -26,7 +27,7 @@ public class SupplierUpdateController extends SalesController {
 		dataBase.connect();
 	}
 
-	public void updateSupplier(Supplier supplier, List<Material> list) {
+	public void updateSupplier(Supplier supplier, List<Material> list, List<OutSourcedServices> serviceList) {
 		Map<String, Object> mapa = new HashMap<String, Object>();
 		mapa.put("companyName", supplier.getCompanyName());
 		mapa.put("CNPJ", supplier.getCNPJ());
@@ -47,6 +48,7 @@ public class SupplierUpdateController extends SalesController {
 		sDAo = new SuppliersDAO();
 		sDAo.updatePersist(mapa);
 		sDAo.makeProductAssociation(list, supplier);
+		sDAo.makeSupplierServiceAssociation(serviceList, supplier);
 		
 	}
 
@@ -125,7 +127,7 @@ public class SupplierUpdateController extends SalesController {
     		tbl.removeRow(i);
     	}
 		int id = supplier.getId();
-		ResultSet rs = dataBase.executeQuery("SELECT *FROM supplier_product_association where supplier = ?", id);
+		ResultSet rs = dataBase.executeQuery("SELECT *FROM supplier_product_association where supplier = ? order by product", id);
 		try {
 			while (rs.next()) {
 				int productId = rs.getInt("product");
@@ -145,4 +147,34 @@ public class SupplierUpdateController extends SalesController {
 			e.printStackTrace();
 		}
 	}
+
+	public void fillServiceTable(JTable table, Supplier supplier) {
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		int id = supplier.getId();
+		ResultSet rs = dataBase.executeQuery("SELECT *FROM supplier_service_association where supplier = ?", id);
+		try {
+			while (rs.next()) {
+				int serviceId = rs.getInt("service");
+				ResultSet rs2 = dataBase.executeQuery("SELECT *FROM outsourced_services WHERE id = ?", serviceId);
+				while (rs2.next()) {
+					String name = rs2.getString("name");
+					String observation = rs2.getString("observation");
+					int outSourcedServiceId = rs2.getInt("id");
+					OutSourcedServices oss = new OutSourcedServices(name, observation);
+					oss.setId(outSourcedServiceId);
+					Object[] obj = new Object[] {oss, oss.getObservation()};
+					tbl.addRow(obj);
+				}
+			}
+			rs.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+    }
+
+	public void deleteSupplierServiceAssociation(int i, int a) {
+		String query = "DELETE FROM supplier_service_association where supplier = ? AND service = ?";
+		Object[] obj = new Object[] {i, a};
+		dataBase.executeUpdate(query, obj);
+    }
 }

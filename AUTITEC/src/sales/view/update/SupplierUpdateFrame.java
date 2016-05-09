@@ -1,6 +1,7 @@
 package sales.view.update;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -33,11 +34,13 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
 
 import model.City;
 import model.Material;
+import model.OutSourcedServices;
 import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
@@ -68,7 +71,7 @@ public class SupplierUpdateFrame extends JFrame {
 	private JScrollPane scrollPane;
 	private JPanel subPanel;
 
-	private JComboBox<Material> cboProduto;
+	private JComboBox<Material> cboMaterial;
 	private JComboBox<Supplier> cboSupplier;
 	private JComboBox<State> cboState;
 	private JComboBox<City> cboCity;
@@ -112,7 +115,7 @@ public class SupplierUpdateFrame extends JFrame {
 	private JButton btnConfirmar;
 	private JButton btnCancelar;
 	private JButton btnApagar;
-	private JButton btnAdicionar;
+	private JButton btnAddMaterial;
 
 	private int cityId = -1;
 
@@ -120,6 +123,13 @@ public class SupplierUpdateFrame extends JFrame {
 	private JTable table;
 
 	private List<Material> productList;
+	private List<OutSourcedServices> serviceList;
+	
+	private JLabel lblOutSourcedServices;
+	private JComboBox<OutSourcedServices> cboOutSourcedServices;
+	private JButton btnAddOutSourcedService;
+
+	private JLabel lblMaterial;
 
 	/**
 	 * Construtor inicialize a GUI o showMessage e o controller.
@@ -141,7 +151,7 @@ public class SupplierUpdateFrame extends JFrame {
 		setTitle("Atualização/Remoção de fornecedores");
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		setBounds(100, 100, 650, 510);
+		setBounds(100, 100, 650, 558);
 		setPreferredSize(new Dimension(650,510));
 		Icon.setIcon(frame);
 		initializePrincipal();
@@ -172,7 +182,6 @@ public class SupplierUpdateFrame extends JFrame {
 		try {
 			txtCNPJ = new JFormattedTextField(new MaskFormatter("##.###.###/####-##"));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -181,7 +190,6 @@ public class SupplierUpdateFrame extends JFrame {
 		try {
 			txtStateInscrition = new JFormattedTextField(new MaskFormatter("###.###.###"));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		txtStateInscrition.setColumns(10);
@@ -206,7 +214,6 @@ public class SupplierUpdateFrame extends JFrame {
 		try {
 			txtCEP = new JFormattedTextField(new MaskFormatter("##.###-###"));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		txtCEP.setColumns(10);
@@ -226,84 +233,100 @@ public class SupplierUpdateFrame extends JFrame {
 		try {
 			txtPhone = new JFormattedTextField(new MaskFormatter("(##)####-####"));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		txtPhone.setColumns(10);
 		
-		JLabel lblProdutos = new JLabel("Produtos");
+		lblMaterial = new JLabel("Materiais");
 
-		cboProduto = new JComboBox<Material>();
-		productController.fillMaterials(cboProduto);
-		cboProduto.setSelectedIndex(-1);
+		cboMaterial = new JComboBox<Material>();
+		productController.fillMaterials(cboMaterial);
+		cboMaterial.setSelectedIndex(-1);
 		JScrollPane scrollPane_1 = new JScrollPane();
 
-		btnAdicionar = new JButton("Adicionar");
-		btnAdicionar.setIcon(new ImageIcon(SupplierUpdateFrame.class.getResource("/resources/plus.png")));
-		btnAdicionar.setEnabled(false);
+		btnAddMaterial = new JButton("Adicionar");
+		btnAddMaterial.setIcon(new ImageIcon(SupplierUpdateFrame.class.getResource("/resources/plus.png")));
+		btnAddMaterial.setEnabled(false);
+		
+		lblOutSourcedServices = new JLabel("Serviços");
+		
+		cboOutSourcedServices = new JComboBox<OutSourcedServices>();
+		controller.fillService(cboOutSourcedServices);
+		cboOutSourcedServices.setSelectedIndex(-1);
+		
+		btnAddOutSourcedService = new JButton("Adicionar");
+		btnAddOutSourcedService.setEnabled(false);
+		btnAddOutSourcedService.setIcon(new ImageIcon(SupplierUpdateFrame.class.getResource("/resources/plus.png")));
 
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.LEADING)
 				.addGroup(gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 609, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_principalPanel.createSequentialGroup()
+								.addComponent(lblSelectSupplier)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(cboSupplier, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
+							.addGroup(gl_principalPanel.createSequentialGroup()
+								.addComponent(lblMaterial)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(btnAddMaterial))
+							.addGroup(gl_principalPanel.createSequentialGroup()
+								.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+									.addGroup(gl_principalPanel.createSequentialGroup()
+										.addComponent(lblCompanyName)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(txtCompanyName, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE))
+									.addGroup(gl_principalPanel.createSequentialGroup()
+										.addComponent(lblNeighborhood)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(txtNeighborhood, GroupLayout.PREFERRED_SIZE, 344, GroupLayout.PREFERRED_SIZE)))
+								.addGap(18)
+								.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
+									.addGroup(gl_principalPanel.createSequentialGroup()
+										.addComponent(lblPhone)
+										.addGap(6)
+										.addComponent(txtPhone))
+									.addGroup(gl_principalPanel.createSequentialGroup()
+										.addComponent(lblCnpj)
+										.addPreferredGap(ComponentPlacement.UNRELATED)
+										.addComponent(txtCNPJ, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))))
+							.addGroup(gl_principalPanel.createSequentialGroup()
+								.addComponent(lblCep)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(txtCEP, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(lblStreet)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(txtStreet, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGroup(gl_principalPanel.createSequentialGroup()
+								.addComponent(lblState)
+								.addPreferredGap(ComponentPlacement.UNRELATED)
+								.addComponent(cboState, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(lblCity)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(cboCity, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+							.addGroup(gl_principalPanel.createSequentialGroup()
+								.addComponent(lblInscEst)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(txtStateInscrition, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
+								.addGap(18)
+								.addComponent(lblEmail)
+								.addPreferredGap(ComponentPlacement.RELATED)
+								.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 248, GroupLayout.PREFERRED_SIZE)))
 						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblSelectSupplier)
+							.addComponent(lblOutSourcedServices)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboSupplier, GroupLayout.PREFERRED_SIZE, 191, GroupLayout.PREFERRED_SIZE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblProdutos)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, 223, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnAdicionar))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblCompanyName)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtCompanyName, GroupLayout.PREFERRED_SIZE, 316, GroupLayout.PREFERRED_SIZE))
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblNeighborhood)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtNeighborhood, GroupLayout.PREFERRED_SIZE, 344, GroupLayout.PREFERRED_SIZE)))
-							.addGap(18)
-							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING, false)
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblPhone)
-									.addGap(6)
-									.addComponent(txtPhone))
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(lblCnpj)
-									.addPreferredGap(ComponentPlacement.UNRELATED)
-									.addComponent(txtCNPJ, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblCep)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtCEP, GroupLayout.PREFERRED_SIZE, 164, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblStreet)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtStreet, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblState)
+							.addComponent(cboOutSourcedServices, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(cboState, GroupLayout.PREFERRED_SIZE, 211, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblCity)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboCity, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblInscEst)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtStateInscrition, GroupLayout.PREFERRED_SIZE, 266, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblEmail)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 248, GroupLayout.PREFERRED_SIZE))
-						.addComponent(scrollPane_1))
-					.addGap(146))
+							.addComponent(btnAddOutSourcedService)))
+					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.LEADING)
@@ -344,13 +367,20 @@ public class SupplierUpdateFrame extends JFrame {
 						.addComponent(txtPhone, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblProdutos)
-						.addComponent(cboProduto, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnAdicionar))
+						.addComponent(lblMaterial)
+						.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAddMaterial))
 					.addGap(18)
-					.addComponent(scrollPane_1, GroupLayout.PREFERRED_SIZE, 109, GroupLayout.PREFERRED_SIZE)
-					.addGap(43))
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblOutSourcedServices)
+						.addComponent(cboOutSourcedServices, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAddOutSourcedService))
+					.addGap(18)
+					.addComponent(scrollPane_1, GroupLayout.DEFAULT_SIZE, 120, Short.MAX_VALUE)
+					.addContainerGap())
 		);
+		gl_principalPanel.linkSize(SwingConstants.VERTICAL, new Component[] {cboMaterial, cboOutSourcedServices});
+		gl_principalPanel.linkSize(SwingConstants.HORIZONTAL, new Component[] {cboMaterial, cboOutSourcedServices});
 
 		table = new JTable();
 		String[] header = new String[] { "Produto", "Descrição" };
@@ -554,9 +584,10 @@ public class SupplierUpdateFrame extends JFrame {
 					        "Deseja realmente atualizar as informações desse fornecedor ?");
 
 					if (i == JOptionPane.YES_OPTION) {
-						controller.updateSupplier(newSupplier(), productList);
+						controller.updateSupplier(newSupplier(), productList, serviceList);
 						controller.fillSuppliers(cboSupplier);
-						btnAdicionar.setEnabled(false);
+						btnAddMaterial.setEnabled(false);
+						btnAddOutSourcedService.setEnabled(false);
 						ShowMessage.successMessage(frame, "Atualização", "Fornecedor atualizado com sucesso!");
 						ClearFrame.clear(frame);
 					} else {
@@ -572,20 +603,31 @@ public class SupplierUpdateFrame extends JFrame {
 							controller.fillSuppliers(cboSupplier);
 							ShowMessage.successMessage(frame, "Remoção", "O fornecedor foi deletado com sucesso!");
 							ClearFrame.clear(frame);
-							btnAdicionar.setEnabled(false);
+							btnAddMaterial.setEnabled(false);
 						} catch (Exception e1) {
 							e1.printStackTrace();
 						}
 					} else {
 						txtCompanyName.requestFocus();
 					}
-				} else if (e.getSource().equals(btnAdicionar)) {
-					if (cboProduto.getSelectedIndex() != -1) {
-						Material product = (Material) cboProduto.getSelectedItem();
+				} else if (e.getSource().equals(btnAddMaterial)) {
+					if (cboMaterial.getSelectedIndex() != -1) {
+						Material product = (Material) cboMaterial.getSelectedItem();
 						DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 						if(!hasItem(tbl, product)) {
 						productList.add(product);
 						tbl.addRow(new Object[] { product, product.getDescrition() });
+						}else {
+							ShowMessage.errorMessage(frame, "Inserção de material", "Esse material já está na lista");
+						}
+					}
+				}else if(e.getSource().equals(btnAddOutSourcedService)) {
+					if (cboOutSourcedServices.getSelectedIndex() != -1) {
+						OutSourcedServices oss = (OutSourcedServices) cboOutSourcedServices.getSelectedItem();
+						DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+						if(!hasItem(tbl, oss)) {
+						serviceList.add(oss);
+						tbl.addRow(new Object[] { oss, oss.getObservation() });
 						}else {
 							ShowMessage.errorMessage(frame, "Inserção de material", "Esse material já está na lista");
 						}
@@ -600,7 +642,8 @@ public class SupplierUpdateFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				if (e.getSource().equals(cboSupplier)) {
 					fillField();
-					btnAdicionar.setEnabled(true);
+					btnAddMaterial.setEnabled(true);
+					btnAddOutSourcedService.setEnabled(true);
 				}
 			}
 		};
@@ -609,7 +652,7 @@ public class SupplierUpdateFrame extends JFrame {
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (e.getKeyCode() == KeyEvent.VK_DELETE) {
-					if (table.getRowCount() != 0) {
+					if (table.getRowCount() != 0 && table.getValueAt(table.getSelectedRow(), 0) instanceof Material) {
 						int i = table.getSelectedRow();
 						DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 						Material product = (Material) tbl.getValueAt(i, 0);
@@ -620,15 +663,27 @@ public class SupplierUpdateFrame extends JFrame {
 							productList.remove(product);
 						}
 						tbl.removeRow(i);
+					}else if(table.getRowCount() != 0 && table.getValueAt(table.getSelectedRow(), 0) instanceof OutSourcedServices) {
+						int i = table.getSelectedRow();
+						DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+						OutSourcedServices oss = (OutSourcedServices) tbl.getValueAt(i, 0);
+						Supplier supplier = (Supplier) cboSupplier.getSelectedItem();
+						if (!serviceList.contains(oss) && !supplier.equals(null)) {
+							controller.deleteSupplierServiceAssociation(supplier.getId(), oss.getId());
+						}else {
+							serviceList.remove(oss);
+						}
+						tbl.removeRow(i);
 					}
 				}
 			}
 		});
-		btnAdicionar.addActionListener(buttonListener);
+		btnAddMaterial.addActionListener(buttonListener);
 		btnApagar.addActionListener(buttonListener);
 		btnConfirmar.addActionListener(buttonListener);
 		btnCancelar.addActionListener(buttonListener);
 		cboSupplier.addActionListener(cboListener);
+		btnAddOutSourcedService.addActionListener(buttonListener);
 	}
 
 	/**
@@ -640,6 +695,8 @@ public class SupplierUpdateFrame extends JFrame {
 		if (cboSupplier.getSelectedIndex() != -1) {
 			productList = new ArrayList<Material>();
 			productList.clear();
+			serviceList = new ArrayList<OutSourcedServices>();
+			serviceList.clear();
 			Supplier supplier = (Supplier) cboSupplier.getSelectedItem();
 			txtCompanyName.setText(supplier.getCompanyName());
 			txtCEP.setText(supplier.getCep());
@@ -682,6 +739,7 @@ public class SupplierUpdateFrame extends JFrame {
 				cboFiscalClassification.setSelectedItem(-1);
 			}
 			controller.fillProductTable(table, supplier);
+			controller.fillServiceTable(table, supplier);
 		}
 	}
 
@@ -735,9 +793,23 @@ public class SupplierUpdateFrame extends JFrame {
 	}
 	private boolean hasItem(DefaultTableModel tbl, Material obj) {
 		for(int i = tbl.getRowCount() - 1; i>=0; i--) {
-			Material product = (Material) tbl.getValueAt(i, 0);
-			if(product.getId() == obj.getId()) {
-				return true;
+			if(tbl.getValueAt(i, 0) instanceof Material) {				
+				Material product = (Material) tbl.getValueAt(i, 0);
+				if(product.getId() == obj.getId()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	private boolean hasItem(DefaultTableModel tbl, OutSourcedServices obj) {
+		for(int i = tbl.getRowCount() - 1; i>=0; i--) {
+			if(tbl.getValueAt(i, 0) instanceof OutSourcedServices) {
+				OutSourcedServices oss = (OutSourcedServices) tbl.getValueAt(i, 0);
+				if(oss.getId() == obj.getId()) {
+					return true;
+				}				
 			}
 		}
 		return false;

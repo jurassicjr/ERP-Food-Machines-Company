@@ -271,31 +271,31 @@ public class MainFrame extends JFrame {
 		mntmRegisterEmployee.setVisible(false);
 		mntmRegisterEmployee.setName("REG_EMP");
 		
-				mntmRegisterUser = new JMenuItem("Registrar Usuário");
-				mnSubRegisterRH.add(mntmRegisterUser);
-				mntmRegisterUser.setVisible(false);
-				mntmRegisterUser.setName("REG_USER");
+		mntmRegisterUser = new JMenuItem("Registrar Usuário");
+		mnSubRegisterRH.add(mntmRegisterUser);
+		mntmRegisterUser.setVisible(false);
+		mntmRegisterUser.setName("REG_USER");
 				
-				mntmRegisterOfTraning = new JMenuItem("Registro de Treinamento");
-				mnSubRegisterRH.add(mntmRegisterOfTraning);
-				mntmRegisterOfTraning.setVisible(false);
-				mntmRegisterOfTraning.setName("REG_TRA");
+		mntmRegisterOfTraning = new JMenuItem("Registro de Treinamento");
+		mnSubRegisterRH.add(mntmRegisterOfTraning);
+		mntmRegisterOfTraning.setVisible(false);
+		mntmRegisterOfTraning.setName("REG_TRA");
 				
-				mntmRegisterOfFunctionDescription = new JMenuItem("Registro de Descrição de Cargo");
-				mnSubRegisterRH.add(mntmRegisterOfFunctionDescription);
-				mntmRegisterOfFunctionDescription.setVisible(false);
-				mntmRegisterOfFunctionDescription.setName("REG_FUD");
+		mntmRegisterOfFunctionDescription = new JMenuItem("Registro de Descrição de Cargo");
+		mnSubRegisterRH.add(mntmRegisterOfFunctionDescription);
+		mntmRegisterOfFunctionDescription.setVisible(false);
+		mntmRegisterOfFunctionDescription.setName("REG_FUD");
 				
 				
-				mntmAssessmentOfCompetence = new JMenuItem("Registra Avaliação de Competência");
-				mnSubRegisterRH.add(mntmAssessmentOfCompetence);
-				mntmAssessmentOfCompetence.setVisible(false);
-				mntmAssessmentOfCompetence.setName("REG_ASS");
+		mntmAssessmentOfCompetence = new JMenuItem("Registra Avaliação de Competência");
+		mnSubRegisterRH.add(mntmAssessmentOfCompetence);
+		mntmAssessmentOfCompetence.setVisible(false);
+		mntmAssessmentOfCompetence.setName("REG_ASS");
 				
-				mntmRNCRegister = new JMenuItem("Registro de Não Conformidade");
-				mnSubRegisterRH.add(mntmRNCRegister);
-				mntmRNCRegister.setVisible(false);
-				mntmRNCRegister.setName("REG_RNC");
+		mntmRNCRegister = new JMenuItem("Registro de Não Conformidade");
+		mnSubRegisterRH.add(mntmRNCRegister);
+		mntmRNCRegister.setVisible(false);
+		mntmRNCRegister.setName("REG_RNC");
 		
 		mnSubUpdateRH = new JMenu("Atualizações e Remoções");
 		mnRh.add(mnSubUpdateRH);

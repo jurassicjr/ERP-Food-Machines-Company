@@ -4,11 +4,11 @@ public class OutSourcedServices {
 	
 	private int id;
 	private String name;
-	private String description;
+	private String observation;
 	
-	public OutSourcedServices(String name, String description) {
+	public OutSourcedServices(String name, String observation) {
 		this.name = name;
-		this.description = description;
+		this.observation = observation;
 	}
 
 	public int getId() {
@@ -20,7 +20,14 @@ public class OutSourcedServices {
 	}
 
 	public String getObservation() {
-		return description;
+		return observation;
+	}
+	public void setId(int id) {
+		this.id =  id;
 	}
 	
+	@Override
+	public String toString() {
+		return this.name;
+	}
 }

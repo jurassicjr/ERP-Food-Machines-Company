@@ -124,7 +124,7 @@ public class RegisterManualQualityFrameController {
 		String fileName = file.getName().substring(0, 3).toUpperCase() + date.toString() + "." + tokens[tokens.length - 1] ;
 		
 		FTP ftp = new FTP();
-		boolean upload = ftp.upload(file, fileName, "docs");
+		boolean upload = ftp.upload(file, fileName, "Manual_de_Qualidade");
 		
 		if(!upload) return false;
 		

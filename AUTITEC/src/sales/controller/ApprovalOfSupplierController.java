@@ -106,7 +106,7 @@ public class ApprovalOfSupplierController extends SalesController {
 				c.setNeighborhood(rs.getString("neighborhood"));
 				c.setPhone(rs.getString("phone"));
 				try (ResultSet rsState = dataBase.executeQuery("SELECT *FROM state WHERE id = ?", rs.getInt("state"))) {
-					if (rs.next()) {
+					if (rsState.next()) {
 						String stateName = rsState.getString("name");
 						int stateId = rsState.getInt("id");
 						State state = new State(stateId, stateName);

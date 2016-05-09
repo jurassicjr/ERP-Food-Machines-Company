@@ -37,6 +37,7 @@ import javax.swing.text.MaskFormatter;
 
 import model.City;
 import model.Material;
+import model.OutSourcedServices;
 import model.State;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
@@ -67,6 +68,17 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JLabel lblCertify;
 	private JLabel lblExpirationDate;
 	private JLabel lblCertificadoDoMaterial;
+	private JLabel lblProduct;
+	private JLabel lblState;
+	private JLabel lblEmail;
+	private JLabel lblNeighborhood;
+	private JLabel lblCity;
+	private JLabel lblCep;
+	private JLabel lblCelphone;
+	private JLabel lblServices;
+	private JLabel lblStateInscrition;
+	private JLabel lblCnpj;
+	private JLabel lblCompanyName;
 	private JLabel lblJustificado;
 	private JLabel lblStreet;
 
@@ -84,7 +96,8 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JButton btnCancelar;
 	private JButton btnRegister;
 	private JButton btnAnexarCertificado;
-	private JButton btnAdd;
+	private JButton btnAddMaterial;
+	private JButton btnAddService;
 
 	private DateField txtExpirationDate;
 
@@ -97,6 +110,7 @@ public class RegisterSuppliersFrame extends JFrame {
 	private JComboBox<String> cboCertification;
 	private JComboBox<Material> cboMaterial;
 	private JComboBox<String> cboFiscalCertification;
+	private JComboBox<OutSourcedServices> cboOutSourcedService;
 
 	private JTextArea txtJustifacao;
 
@@ -106,16 +120,6 @@ public class RegisterSuppliersFrame extends JFrame {
 
 	private MaterialUpdateController controllerProduct;
 
-	private JLabel lblProduct;
-	private JLabel lblState;
-	private JLabel lblEmail;
-	private JLabel lblNeighborhood;
-	private JLabel lblCity;
-	private JLabel lblCep;
-	private JLabel lblCelphone;
-	private JLabel lblStateInscrition;
-	private JLabel lblCnpj;
-	private JLabel lblCompanyName;
 
 	public RegisterSuppliersFrame() {
 		controller = new SalesController();
@@ -125,10 +129,10 @@ public class RegisterSuppliersFrame extends JFrame {
 	}
 
 	private void initialize() {
-		setBounds(100, 100, 510, 538);
+		setBounds(100, 100, 510, 566);
 		setLocationRelativeTo(null);
-		setMinimumSize(new Dimension(510, 538));
-		setPreferredSize(new Dimension(510,538));
+		setMinimumSize(new Dimension(510, 566));
+		setPreferredSize(new Dimension(510,566));
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		this.setTitle("Registro de Fornecedores");
 		Icon.setIcon(this);
@@ -363,9 +367,19 @@ public class RegisterSuppliersFrame extends JFrame {
 
 		cboMaterial = new JComboBox<Material>();
 
-		btnAdd = new JButton("Adicionar");
+		btnAddMaterial = new JButton("Adicionar");
+		btnAddMaterial.setIcon(new ImageIcon(RegisterSuppliersFrame.class.getResource("/resources/plus.png")));
 
 		scrollPaneProductTable = new JScrollPane();
+		
+		lblServices = new JLabel("Servicos");
+		
+		cboOutSourcedService = new JComboBox<OutSourcedServices>();
+		controller.fillService(cboOutSourcedService);
+		cboOutSourcedService.setSelectedIndex(-1);
+		
+		btnAddService = new JButton("Adicionar");
+		btnAddService.setIcon(new ImageIcon(RegisterSuppliersFrame.class.getResource("/resources/plus.png")));
 
 		GroupLayout gl_panel = new GroupLayout(panel);
 		gl_panel.setHorizontalGroup(
@@ -373,12 +387,6 @@ public class RegisterSuppliersFrame extends JFrame {
 				.addGroup(gl_panel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-						.addGroup(gl_panel.createSequentialGroup()
-							.addComponent(lblProduct)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnAdd))
 						.addGroup(gl_panel.createSequentialGroup()
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addGroup(gl_panel.createSequentialGroup()
@@ -398,8 +406,7 @@ public class RegisterSuppliersFrame extends JFrame {
 											.addComponent(txtStateRegister, GroupLayout.DEFAULT_SIZE, 175, Short.MAX_VALUE)))))
 							.addGap(103))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
-								.addComponent(scrollPaneProductTable, GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING)
 								.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 									.addGroup(gl_panel.createSequentialGroup()
 										.addComponent(lblStreet)
@@ -413,7 +420,7 @@ public class RegisterSuppliersFrame extends JFrame {
 										.addComponent(lblEmail)
 										.addPreferredGap(ComponentPlacement.RELATED)
 										.addComponent(txtEmail, GroupLayout.PREFERRED_SIZE, 196, GroupLayout.PREFERRED_SIZE)))
-								.addGroup(Alignment.TRAILING, gl_panel.createSequentialGroup()
+								.addGroup(gl_panel.createSequentialGroup()
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 										.addGroup(gl_panel.createSequentialGroup()
 											.addComponent(lblCelphone)
@@ -430,7 +437,25 @@ public class RegisterSuppliersFrame extends JFrame {
 									.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
 										.addComponent(cboCity, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 										.addComponent(txtCEP, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))))
-							.addGap(103))))
+							.addGap(103))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addComponent(scrollPaneProductTable, GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
+							.addGap(103))
+						.addGroup(gl_panel.createSequentialGroup()
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(lblServices)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cboOutSourcedService, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+								.addGroup(gl_panel.createSequentialGroup()
+									.addComponent(lblProduct)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
+								.addComponent(btnAddMaterial)
+								.addComponent(btnAddService))
+							.addGap(127))))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -471,10 +496,15 @@ public class RegisterSuppliersFrame extends JFrame {
 					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblProduct)
 						.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnAdd))
+						.addComponent(btnAddMaterial))
 					.addGap(18)
+					.addGroup(gl_panel.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblServices)
+						.addComponent(cboOutSourcedService, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnAddService))
+					.addGap(26)
 					.addComponent(scrollPaneProductTable, GroupLayout.PREFERRED_SIZE, 117, GroupLayout.PREFERRED_SIZE)
-					.addGap(25))
+					.addContainerGap())
 		);
 
 		table = new JTable();
@@ -519,22 +549,53 @@ public class RegisterSuppliersFrame extends JFrame {
 					if (i == JOptionPane.YES_OPTION) {
 						try {
 							controller.doSupplierRegister(makeSupplier());
+							ShowMessage.successMessage(frame, "Sucesso", "Fornecedor registrado com sucesso!");
 						} catch (SQLException e1) {
 							e1.printStackTrace();
 						}
 					} else {
 						txtCompanyName.requestFocus();
 					}
-				} else if (e.getSource().equals(btnAdd)) {
+				} else if (e.getSource().equals(btnAddMaterial)) {
+					if(cboMaterial.getSelectedIndex() == -1)return;
+					Material material = (Material) cboMaterial.getSelectedItem();
+					for(int i = 0; i < table.getRowCount(); ++i) {
+						if(table.getValueAt(i, 0) instanceof Material) {							
+							Material m = (Material) table.getValueAt(i, 0);
+							
+							if(m.equals(material)) {
+								ShowMessage.errorMessage(frame, "Material já presente", material.getName() + " já é um material deste fornecedor");
+								return;
+							}
+						}
+					}
 					DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 					Material produto = (Material) cboMaterial.getSelectedItem();
 					tbl.addRow(new Object[] { produto, produto.getDescrition() });
+				}else if(e.getSource().equals(btnAddService)) {
+					if(cboOutSourcedService.getSelectedIndex() == -1)return;
+					OutSourcedServices oss = (OutSourcedServices) cboOutSourcedService.getSelectedItem();
+					for(int i = 0; i < table.getRowCount(); ++i) {
+						if(table.getValueAt(i, 0) instanceof OutSourcedServices) {							
+							OutSourcedServices m = (OutSourcedServices) table.getValueAt(i, 0);
+							
+							if(m.equals(oss)) {
+								ShowMessage.errorMessage(frame, "Serviço já presente", oss.getName() + " já é um serviço deste fornecedor");
+								return;
+							}
+						}
+					}
+					DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+					tbl.addRow(new Object[] { oss, oss.getObservation()});
 				}
 			}
 		};
-		btnAdd.addActionListener(buttonListener);
+		btnAddMaterial.addActionListener(buttonListener);
 		btnCancelar.addActionListener(buttonListener);
 		btnRegister.addActionListener(buttonListener);
+		btnAddService.addActionListener(buttonListener);
+		
+
 	}
 
 	private Supplier makeSupplier() {
@@ -600,10 +661,20 @@ public class RegisterSuppliersFrame extends JFrame {
 		
 		List<Material> material = new ArrayList<Material>();
 			for(int i = 0; i < table.getRowCount(); i++) {
-				Material product = (Material) table.getValueAt(i, 0);
-				material.add(product);
+				if(table.getValueAt(i, 0) instanceof Material) {
+					Material product = (Material) table.getValueAt(i, 0);
+					material.add(product);
+				}
 			}
 		supplier.setMaterial(material);
+		List<OutSourcedServices> serviceList = new ArrayList<OutSourcedServices>();
+		for(int i = 0; i < table.getRowCount(); i++) {
+			if(table.getValueAt(i, 0) instanceof OutSourcedServices) {
+				OutSourcedServices oss = (OutSourcedServices) table.getValueAt(i, 0);
+				serviceList.add(oss);
+			}
+		}
+		supplier.setService(serviceList);
 		ClearFrame.clear(frame);
 		return supplier;
 		
