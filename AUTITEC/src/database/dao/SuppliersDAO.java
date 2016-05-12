@@ -191,6 +191,7 @@ public class SuppliersDAO {
 				supplier.setPhone(rs.getString("phone"));
 				supplier.setStateRegistration(rs.getString("state_registration"));
 				supplier.setStreet(rs.getString("street"));
+				supplier.setCorporateName("corporate_name");
 				try {
 					ResultSet rsState = dataBase.executeQuery("SELECT *FROM state WHERE id = ?", rs.getInt("state"));
 					while (rsState.next()) {

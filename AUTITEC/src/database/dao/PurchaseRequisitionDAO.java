@@ -143,6 +143,53 @@ public class PurchaseRequisitionDAO {
 	        }
 			return null;	
 	}
+
+	public PurchaseRequisition getRequisitionById(int purchaseRequisitionId) {
+		 String query = "select * from sales_requisition where id = ?";
+		    
+		    try(ResultSet rs = dataBase.executeQuery(query, purchaseRequisitionId)){
+		    	if(rs.next()) {	    		
+		    		int requisitionId = rs.getInt("id");
+		    		int requisitorId = rs.getInt("requisitor");
+		    		Employee requisitor = new EmployeeDAO().getEmployeeById(requisitorId);
+		    		String priority = rs.getString("priority");
+		    		String requisitionNumber = rs.getString("requisition_number");
+		    		int ptcId = rs.getInt("ptc");
+		    		PTC ptc = new PTCDAO().getPTCById(ptcId);
+		    		java.sql.Date d = rs.getDate("date");
+		    		Date date = new Date(d.getTime());
+		    		int status = rs.getInt("status");
+		    		String justification = rs.getString("justification");
+		    		List<PurchaseRequisitionAssociation> sraList = new ArrayList<PurchaseRequisitionAssociation>();
+		    		String associationSql = "select * from sales_requisition_association where sales_requisition = ?";
+		    		try(ResultSet rsa = dataBase.executeQuery(associationSql, requisitionId)){
+		    			while(rsa.next()) {
+		    				int materialId = rsa.getInt("material");
+		    				Material m = new MaterialDAO().getMaterialById(materialId);
+		    				double ammount = rsa.getDouble("ammount");
+		    				boolean bought = rsa.getBoolean("is_bought");
+		    				String section = rsa.getString("section");
+		    				int associationId = rsa.getInt("id");
+		    				PurchaseRequisitionAssociation sra = new PurchaseRequisitionAssociation(m, ammount, section);
+		    				sra.setBought(bought);
+		    				sra.setId(associationId);
+		    				sraList.add(sra);
+		    			}
+		    		}
+		    		
+		    		
+		    		PurchaseRequisition sr = new PurchaseRequisition(requisitor, requisitionNumber, date, priority, ptc);
+		    		sr.setAssociationList(sraList);
+		    		sr.setId(requisitionId);
+		    		sr.setStatus(status);
+		    		sr.setJustification(justification);
+		    		return sr;
+		    	}
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+	        }
+			return null;
+    }
 	
 	
 }

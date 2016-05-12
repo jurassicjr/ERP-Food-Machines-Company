@@ -14,6 +14,7 @@ import model.City;
 import model.Material;
 import model.Nfe;
 import model.NfeMaterialRelation;
+import model.PurchaseOrder;
 import model.State;
 import model.Supplier;
 import sales.view.register.RegisterNFeEntryOnSystemView;
@@ -23,6 +24,7 @@ import database.dao.CFOPDAO;
 import database.dao.CstDAO;
 import database.dao.MaterialDAO;
 import database.dao.NfeDAO;
+import database.dao.PurchaseOrderDAO;
 
 public class RegisterNFeEntryOnSystemController {
 
@@ -139,6 +141,14 @@ public class RegisterNFeEntryOnSystemController {
 	    map.put("nfe", nfe);
 	    map.put("nfeRelationList", nfeRelationList);
 	    boolean isRegistered = new NfeDAO().register(map);
+    }
+
+	public PurchaseOrder[] getAllPurchaseOrder() {
+	    List<PurchaseOrder> poList = new PurchaseOrderDAO().getCompletePurchaseOrder();
+	    PurchaseOrder[] po = new PurchaseOrder[poList.size()];
+	    po = poList.toArray(po);
+	    
+		return po;
     }
 	
 	

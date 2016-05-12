@@ -36,6 +36,7 @@ public class Nfe {
 	private double totalCofinsTax;
 	private double totalNfeValue;	
 	private double totalCalBase;
+	private PurchaseOrder purchaseOrder;
 	
 	
 	
@@ -190,6 +191,15 @@ public class Nfe {
 	@Override
 	public String toString() {
     	return this.danfe;
+	}
+
+	public void setPurchaseOrder(PurchaseOrder purchaseOrder) {
+		this.purchaseOrder = purchaseOrder;
+	    
+    }
+
+	public PurchaseOrder getPurchaseOrder() {
+		return this.purchaseOrder;
 	}
 
 }

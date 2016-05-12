@@ -47,6 +47,7 @@ import model.CFOPExit;
 import model.Material;
 import model.Nfe;
 import model.NfeMaterialRelation;
+import model.PurchaseOrder;
 import model.Supplier;
 import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
@@ -186,10 +187,11 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	private void initialize() {
 		setTitle("REGISTRO DE NOTA FISCAL DE ENTRADA");
 		Icon.setIcon(this);
-		setBounds(100, 100, 757, 565);
+		setBounds(100, 100, 757, 579);
 		setPreferredSize(new Dimension(757, 565));
 		setMinimumSize(new Dimension(757, 565));
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		initializeTabbed();
     }
 
@@ -266,7 +268,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    
 	    lblCst = new JLabel("CST");
 	    
-	    lblIcms = new JLabel("Icms");
+	    lblIcms = new JLabel("ICMS");
 	    
 	    try {
 	        txtCstIcms = new JFormattedTextField(new MaskFormatter("###"));
@@ -291,7 +293,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    
 	    lblTax = new JLabel("R$ Imposto");
 	    
-	    lblIpi = new JLabel("IpI");
+	    lblIpi = new JLabel("IPI");
 	    
 	    try {
 	        txtCstIpi = new JFormattedTextField(new MaskFormatter("###"));
@@ -451,7 +453,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    					.addGap(12)
 	    					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 563, GroupLayout.PREFERRED_SIZE)
 	    					.addPreferredGap(ComponentPlacement.UNRELATED)
-	    					.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 147, Short.MAX_VALUE))
+	    					.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE))
 	    				.addGroup(gl_productPanel.createSequentialGroup()
 	    					.addGap(105)
 	    					.addGroup(gl_productPanel.createParallelGroup(Alignment.LEADING)
@@ -619,9 +621,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    				.addComponent(lblFinalSalesValue)
 	    				.addComponent(txtFinalSalesValue, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(18)
-	    			.addGroup(gl_productPanel.createParallelGroup(Alignment.LEADING)
-	    				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
-	    				.addComponent(btnAdd, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE))
+	    			.addGroup(gl_productPanel.createParallelGroup(Alignment.TRAILING)
+	    				.addComponent(btnAdd, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE)
+	    				.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 75, Short.MAX_VALUE))
 	    			.addContainerGap())
 	    );
 	    
@@ -791,15 +793,14 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    					.addContainerGap())
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-	    						.addGroup(gl_principalPanel.createSequentialGroup()
+	    						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblFreightModality)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
 	    							.addComponent(cboFreightModality, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
 	    							.addGap(18)
 	    							.addComponent(lblFreightCnpj)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(txtFreightCnpj, GroupLayout.DEFAULT_SIZE, 228, Short.MAX_VALUE)
-	    							.addGap(3))
+	    							.addComponent(txtFreightCnpj, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblStreet)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
@@ -999,7 +1000,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		subPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(subPanel, BorderLayout.SOUTH);
 		
-		btnConfirm = new JButton("Confirmar");
+		btnConfirm = 	new JButton("Confirmar");
 		btnConfirm.setIcon(new ImageIcon(RegisterNFeEntryOnSystemView.class.getResource("/resources/ok.png")));
 		btnCancel = new JButton("Cancelar");
 		btnCancel.setIcon(new ImageIcon(RegisterNFeEntryOnSystemView.class.getResource("/resources/cancel.png")));
@@ -1127,11 +1128,19 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	}
 	
 	private void confirm() {
+		PurchaseOrder[] po = controller.getAllPurchaseOrder();
+		PurchaseOrder res = (PurchaseOrder) JOptionPane.showInputDialog(null, "Escolha um item" , "Selecao de itens" ,
+						JOptionPane.PLAIN_MESSAGE , null ,po,"");
+		if(res == null) {
+			ShowMessage.errorMessage(this, "Erro", "Você precisa selecionar uma ordem de compra");
+			return;
+		}
 		int i = ShowMessage.questionMessage(this, "Registrar", "Deseja realmente registar essa nota fiscal?");
 		if(i == JOptionPane.NO_OPTION)return;
 		boolean isOk = verifyDataNfe();
 		if(!isOk)return;
 		nfeRelationList.forEach(s -> System.out.println(s));
+		nfe.setPurchaseOrder(res);
 		controller.registerNFe(nfeRelationList, nfe);
 		ShowMessage.successMessage(this, "Sucesso", "Registro de NF concluido com sucesso!");		
 	}

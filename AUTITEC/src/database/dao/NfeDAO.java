@@ -13,6 +13,7 @@ import model.Employee;
 import model.Material;
 import model.Nfe;
 import model.NfeMaterialRelation;
+import model.PurchaseOrder;
 import model.Session;
 import model.State;
 import model.Supplier;
@@ -62,6 +63,8 @@ public class NfeDAO {
 		double totalPisTax = 0;
 		Employee em = Session.getInstance().getUser().getEmployee();
 		int employeeID = em.getId();
+		PurchaseOrder purchaseOrder = nfe.getPurchaseOrder();
+		int purchaseOrderId = purchaseOrder.getId();
 		
 		for (NfeMaterialRelation nfeMaterialRelation : nfemr) {
 			totalCalBase += nfeMaterialRelation.getCalBase();
@@ -72,10 +75,10 @@ public class NfeDAO {
         }
 		double totalNfeValue = totalCalBase + totalIpiTax;
 		Object[] data = new Object[] {danfe, exitHour, model, eDate, exDate, danfeSerial, fiscalNumber, cfop.getId(), supplierID,  freight, freightCNPJ, companyName, 
-				street, state, city, antt_code, totalPisTax, totalIpiTax, totalIcmsTax, totalCofinsTax, totalNfeValue, totalCalBase, employeeID};
+				street, state, city, antt_code, totalPisTax, totalIpiTax, totalIcmsTax, totalCofinsTax, totalNfeValue, totalCalBase, employeeID, purchaseOrderId};
 		String query = "insert into nfe(danfe, exit_hour,model, emission_date, exit_date, danfe_serial, fiscal_number, cfop, supplier, freight_type, freight_cnpj, company_name"
-				+ ", street, state, city, antt_code, total_pis_tax, total_ipi_tax, total_icms_tax, total_cofins_tax, total_nfe_value, total_cal_base, employee)"
-				+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				+ ", street, state, city, antt_code, total_pis_tax, total_ipi_tax, total_icms_tax, total_cofins_tax, total_nfe_value, total_cal_base, employee, purchase_order)"
+				+ " VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
 		int nfeID = dataBase.getAutoIncrementValue("nfe");
 		
@@ -192,7 +195,10 @@ public class NfeDAO {
 				int supplierID = rs.getInt("supplier");
 				Supplier supplier = new SuppliersDAO().getSupplierbyId(supplierID);
 				int freight = rs.getInt("freight_type");
+				int purchaseOrderId = rs.getInt("purchase_order");
+				PurchaseOrder po = new PurchaseOrderDAO().getCompletePurchaseById(purchaseOrderId);
 				Nfe nfe = new Nfe(danfe, exitHour, model, emissionDate, exitDate, danfeSerial, fiscalNumber, cfop, supplier, freight);
+				nfe.setPurchaseOrder(po);
 				int id = rs.getInt("id");
 				nfe.setId(id);
 				nfeList.add(nfe);
@@ -201,5 +207,36 @@ public class NfeDAO {
 	        e.printStackTrace();
         }
 	    return nfeList;
+    }
+
+	public List<Nfe> getAllActiveFiscalNote() {
+	    String sql = "select * from nfe where purchase_order in (select rs.id from purchase_order as rs where isConcluded = ?)";
+	    List<Nfe> list = new ArrayList<Nfe>();
+	    try(ResultSet rs = dataBase.executeQuery(sql, false)){
+	    	while(rs.next()) {
+	    		String danfe = rs.getString("danfe");
+				String exitHour = rs.getString("exit_hour");
+				String model = rs.getString("model");
+				java.sql.Date eDate = rs.getDate("emission_date");
+				Date emissionDate = new Date(eDate.getTime());
+				java.sql.Date exDate = rs.getDate("exit_date");
+				Date exitDate =  new Date(exDate.getTime());
+				String danfeSerial = rs.getString("danfe_serial");
+				String fiscalNumber = rs.getString("fiscal_number");
+				int cfopID = rs.getInt("cfop");
+				CFOPExit cfop = new CFOPDAO().getCFOPExitById(cfopID);
+				int supplierID = rs.getInt("supplier");
+				Supplier supplier = new SuppliersDAO().getSupplierbyId(supplierID);
+				int freight = rs.getInt("freight_type");
+				Nfe nfe = new Nfe(danfe, exitHour, model, emissionDate, exitDate, danfeSerial, fiscalNumber, cfop, supplier, freight);
+				int id = rs.getInt("id");
+				nfe.setId(id);
+				list.add(nfe);
+	    	}
+	    	return list;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		return null;
     }	
 }

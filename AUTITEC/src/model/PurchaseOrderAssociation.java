@@ -8,13 +8,28 @@ public class PurchaseOrderAssociation {
 	private double ipi;
 	private double compostPrice;
 	private double ammount;
+	private boolean hasArrived;
 	
-	public PurchaseOrderAssociation(Material material, double unitPrice, double ipi, double compostPrice, double ammount) {
+	public PurchaseOrderAssociation(Material material, double unitPrice, double ipi, double compostPrice, double ammount, boolean hasArrived) {
 		this.material = material;
 		this.unitPrice = unitPrice;
 		this.ipi = ipi;
 		this.compostPrice = compostPrice;
 		this.ammount = ammount;
+		this.hasArrived = hasArrived;
+	}
+
+	public PurchaseOrderAssociation(Material material, double unitPrice, double ipi, double compostPrice,
+            double ammount) {
+				this.material = material;
+				this.unitPrice = unitPrice;
+				this.ipi = ipi;
+				this.compostPrice = compostPrice;
+				this.ammount = ammount;
+    }
+
+	public boolean isHasArrived() {
+		return hasArrived;
 	}
 
 	public int getId() {

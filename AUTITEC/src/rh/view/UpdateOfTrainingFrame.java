@@ -70,11 +70,13 @@ public class UpdateOfTrainingFrame extends JFrame{
 	private JComboBox<String> cboPeriod;
 	private JComboBox<Employee> cboEmployee;
 
-	private JButton btnAdd;
 	private JPanel bottonPanel;
+
+	private JButton btnAdd;
 	private JButton btnConfirm;
 	private JButton btnCancel;
 	private JButton btnClear;
+	
 	private UpdateOfTrainingController controller;
 
 	public UpdateOfTrainingFrame() {
@@ -373,7 +375,7 @@ public class UpdateOfTrainingFrame extends JFrame{
 	
 	private void fillEmployeeTable(Training t){
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-		table.getModel().setValueAt("ok", 1, 1);
+		//table.getModel().setValueAt("ok", 1, 1);
 		List<Employee> employeeList = t.getEmployeeList();
 		if(employeeList == null)return;
 		employeeList.forEach(e -> tbl.addRow(new Object[]{e, e.getJob().getCbo().getTitle()}));

@@ -86,7 +86,8 @@ public class RegisterOfCheckList extends JFrame {
 		lblMaxDate = new JLabel("Data Máxima da Entrega");
 
 		txtMaxDate = CalendarFactory.createDateField();
-
+		txtMaxDate.setValue(null);
+		
 		lblEntryDate = new JLabel("Data da Entrega");
 
 		txtEntryDate = CalendarFactory.createDateField();
@@ -245,14 +246,14 @@ public class RegisterOfCheckList extends JFrame {
 	}
 
 	private void fillPanel() {
-		if (cboFiscalNote.getSelectedIndex() == -1)
-			return;
+		if (cboFiscalNote.getSelectedIndex() == -1)	return;
 		optionsPanel.removeAll();
 		optionsPanel.repaint();
 		Nfe nfe = (Nfe) cboFiscalNote.getSelectedItem();
+		txtMaxDate.setValue(nfe.getPurchaseOrder().getDeliveryDate());
 		List<NfeMaterialRelation> list = controller.fillPanel(nfe);
 		for (NfeMaterialRelation nfeMaterialRelation : list) {
-			optionsPanel.add(new JLabel(nfeMaterialRelation.getAmmount() + nfeMaterialRelation.toString()));
+			optionsPanel.add(new JLabel(nfeMaterialRelation.getAmmount() + " " + nfeMaterialRelation.toString()));
 			JRadioButton rdbtnYes = new JRadioButton("Conferido");
 			rdbtnYes.setActionCommand("Yes");
 			rdbtnYes.setName(nfeMaterialRelation.getMaterial().toString());

@@ -1,10 +1,14 @@
 package database.dao;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
 import model.Material;
+import model.PurchaseOrder;
 import model.PurchaseOrderAssociation;
 import model.PurchaseRequisition;
 import model.Supplier;
@@ -90,6 +94,89 @@ public class PurchaseOrderDAO {
 	private void upgradePurchaseRequisition(int materialId) {
 	    String updatePurchaseRequisitionAssociationSql = "update sales_requisition_association set is_bought = 1 where material = ? AND sales_requisition = ?";
 	    dataBase.executeUpdate(updatePurchaseRequisitionAssociationSql, materialId);
+    }
+
+	public List<PurchaseOrder> getCompletePurchaseOrder() {
+	    List<PurchaseOrder> list = new ArrayList<PurchaseOrder>();
+		String sql = "SELECT * FROM purchase_order where isConcluded = ?";
+	    boolean answer = false;
+	    try(ResultSet rs = dataBase.executeQuery(sql, answer)){
+	    	while(rs.next()) {
+	    		String paymentMethod = rs.getString("payment_method");
+	    		int purchaseRequisitionId = rs.getInt("purchase_requisition");
+	    		PurchaseRequisition purchaseRequisition = new PurchaseRequisitionDAO().getRequisitionById(purchaseRequisitionId);
+	    		String shippingCompany = rs.getString("shipping_company");
+	    		int supplierId = rs.getInt("supplier");
+	    		Supplier supplier = new SuppliersDAO().getSupplierbyId(supplierId);
+	    		Date orderDate = rs.getDate("order_date");
+	    		Date deliveryDate = rs.getDate("delivery_date");
+	    		String contactPhone = rs.getString("contact_phone");
+	    		double freight = rs.getDouble("freight");
+	    		String salesMan = rs.getString("sales_man");
+	    		double totalValue = rs.getDouble("total_value");
+	    		int id = rs.getInt("id");
+	    		List<PurchaseOrderAssociation> purchaseOrderAssociationList = getAssociatedList(id);
+	    		PurchaseOrder po = new PurchaseOrder(paymentMethod, purchaseRequisition, shippingCompany, supplier, orderDate, deliveryDate, contactPhone, freight, salesMan, totalValue, purchaseOrderAssociationList, answer);
+	    		po.setId(id);
+	    		list.add(po);
+	    	}
+	    	return list;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+	    return null;
+    }
+
+	private List<PurchaseOrderAssociation> getAssociatedList(int id) {
+		List<PurchaseOrderAssociation> list = new ArrayList<PurchaseOrderAssociation>();
+		String sql = "select * from purchase_order_association where purchase_order = ?";
+	    try(ResultSet rs = dataBase.executeQuery(sql, id)){
+	    	while(rs.next()) {
+	    		int poaId = rs.getInt("id");
+	    		double unitPrice = rs.getDouble("unit_price");
+	    		double ipi = rs.getDouble("ipi");
+	    		double compostPrice = rs.getDouble("compost_price");
+	    		double ammount = rs.getDouble("ammount");
+	    		int materialId = rs.getInt("material");
+	    		Material material = new MaterialDAO().getMaterialById(materialId);
+	    		PurchaseOrderAssociation poa = new PurchaseOrderAssociation(material, unitPrice, ipi, compostPrice, ammount);
+	    		poa.setId(poaId);
+	    		list.add(poa);
+	    	}
+	    	return list;
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		return null;
+    }
+
+	public PurchaseOrder getCompletePurchaseById(int purchaseOrderId) {
+			String sql = "SELECT * FROM purchase_order where id = ?";
+		    try(ResultSet rs = dataBase.executeQuery(sql, purchaseOrderId)){
+		    	if(rs.next()) {
+		    		String paymentMethod = rs.getString("payment_method");
+		    		int purchaseRequisitionId = rs.getInt("purchase_requisition");
+		    		PurchaseRequisition purchaseRequisition = new PurchaseRequisitionDAO().getRequisitionById(purchaseRequisitionId);
+		    		String shippingCompany = rs.getString("shipping_company");
+		    		int supplierId = rs.getInt("supplier");
+		    		Supplier supplier = new SuppliersDAO().getSupplierbyId(supplierId);
+		    		Date orderDate = rs.getDate("order_date");
+		    		Date deliveryDate = rs.getDate("delivery_date");
+		    		String contactPhone = rs.getString("contact_phone");
+		    		double freight = rs.getDouble("freight");
+		    		String salesMan = rs.getString("sales_man");
+		    		double totalValue = rs.getDouble("total_value");
+		    		int id = rs.getInt("id");
+		    		List<PurchaseOrderAssociation> purchaseOrderAssociationList = getAssociatedList(id);
+		    		boolean answer = rs.getBoolean("isConcluded");
+		    		PurchaseOrder po = new PurchaseOrder(paymentMethod, purchaseRequisition, shippingCompany, supplier, orderDate, deliveryDate, contactPhone, freight, salesMan, totalValue, purchaseOrderAssociationList, answer);
+		    		po.setId(id);
+		    		return po;
+		    	}
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+	        }
+		    return null;
     }
 	
 	

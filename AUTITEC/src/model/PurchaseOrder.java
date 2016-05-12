@@ -18,10 +18,11 @@ public class PurchaseOrder {
 	private String salesMan;
 	private double totalValue;
 	private List<PurchaseOrderAssociation> purchaseOrderAssociationList;
+	private boolean isConcluded;
 	
 
 	public PurchaseOrder(String paymentMethod, PurchaseRequisition purchaseRequisition,String shippingCompany, Supplier supplier
-			, Date orderDate, Date deliveryDate, String contactPhone, double freight, String salesMan, double totalValue, List<PurchaseOrderAssociation> purchaseOrderAssociationList) {
+			, Date orderDate, Date deliveryDate, String contactPhone, double freight, String salesMan, double totalValue, List<PurchaseOrderAssociation> purchaseOrderAssociationList, boolean isConcluded) {
 				this.paymentMethod = paymentMethod;
 				this.purchaseRequisition = purchaseRequisition;
 				this.shippingCompany = shippingCompany;
@@ -33,6 +34,28 @@ public class PurchaseOrder {
 				this.salesMan = salesMan;
 				this.totalValue = totalValue;
 				this.purchaseOrderAssociationList = purchaseOrderAssociationList;
+				this.isConcluded = isConcluded;
+	}
+
+	public PurchaseOrder(String paymentMethod, PurchaseRequisition purchaseRequisition, String shippingCompany,
+            Supplier supplier, Date orderDate, Date deliveryDate, String contactPhone, double freight,
+            String salesMan, double totalValue, List<PurchaseOrderAssociation> purchaseOrderAssociationList) {
+				this.paymentMethod = paymentMethod;
+				this.purchaseRequisition = purchaseRequisition;
+				this.shippingCompany = shippingCompany;
+				this.supplier = supplier;
+				this.orderDate = orderDate;
+				this.deliveryDate = deliveryDate;
+				this.contactPhone = contactPhone;
+				this.freight = freight;
+				this.salesMan = salesMan;
+				this.totalValue = totalValue;
+				this.purchaseOrderAssociationList = purchaseOrderAssociationList;
+		
+	}
+
+	public boolean isConcluded() {
+		return isConcluded;
 	}
 
 	public List<PurchaseOrderAssociation> getPurchaseOrderAssociationList() {
@@ -93,6 +116,11 @@ public class PurchaseOrder {
 
 	public double getTotalValue() {
 		return totalValue;
+	}
+	
+	@Override
+	public String toString() {
+		return this.supplier.getCompanyName() + "/" + this.purchaseRequisition.getPtc().getRastreabilityCode();
 	}
 	
 }

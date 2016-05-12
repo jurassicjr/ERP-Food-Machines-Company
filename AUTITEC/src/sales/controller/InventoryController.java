@@ -3,6 +3,7 @@ package sales.controller;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
@@ -11,10 +12,12 @@ import model.CNPJ;
 import model.City;
 import model.Inventory;
 import model.Material;
+import model.Nfe;
 import model.State;
 import model.Supplier;
 import database.DataBase;
 import database.dao.InvetoryDAO;
+import database.dao.NfeDAO;
 
 public class InventoryController extends SalesController {
 
@@ -138,4 +141,11 @@ public class InventoryController extends SalesController {
 		InvetoryDAO iDAO = new InvetoryDAO();
 		iDAO.persist(map);
 	}
+
+	public void fillFiscalNote(JComboBox<Nfe> cboFiscalNote) {
+	    cboFiscalNote.removeAllItems();
+	    List<Nfe> list = new NfeDAO().getAllActiveFiscalNote();
+	    list.forEach(s -> cboFiscalNote.addItem(s));
+	    cboFiscalNote.setSelectedIndex(-1);
+    }
 }

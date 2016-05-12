@@ -476,10 +476,6 @@ public class MainFrame extends JFrame {
 		mnSales.add(mnReports);
 		mnReports.setVisible(false);
 		
-		mnInventory = new JMenu("Estoque");
-		mnSales.add(mnInventory);
-		mnInventory.setVisible(false);
-		
 		mntmClientRegister = new JMenuItem("Registro de Cliente");
 		mnSalesRegister.add(mntmClientRegister);
 		mntmClientRegister.setVisible(false);
@@ -583,7 +579,6 @@ public class MainFrame extends JFrame {
 		menuBar.add(mnBuy);
 		mnBuy.setVisible(false);
 		
-		
 		mnRegisterBuy = new JMenu("Registros");
 		mnBuy.add(mnRegisterBuy);
 		mnRegisterBuy.setVisible(false);
@@ -599,6 +594,10 @@ public class MainFrame extends JFrame {
 		mnBuyReports = new JMenu("Relatórios");
 		mnBuy.add(mnBuyReports);
 		mnBuy.setVisible(false);
+		
+		mnInventory = new JMenu("Estoque");
+		mnBuy.add(mnInventory);
+		mnInventory.setVisible(false);
 		
 
 		mntmResgisterOfSuppliers = new JMenuItem("Registrar Fornecedores");
@@ -726,7 +725,6 @@ public class MainFrame extends JFrame {
 		mnMaintenanceRegister.add(mntmVehicleDebtRegisterFrame);
 		mntmVehicleDebtRegisterFrame.setVisible(false);
 		mntmVehicleDebtRegisterFrame.setName("DEB_VEH");
-		
 		
 		
 		//Sobre
