@@ -46,38 +46,48 @@ public class RegisterOfTrainingFrame extends JFrame{
 	 * 
 	 */
 	private static final long serialVersionUID = -7087487712693577771L;
+	
 	private JPanel principalPanel;
+	private JPanel bottonPanel;
+	
 	private JTextField txtTitle;
-	private JLabel lblObjective;
 	private JTextField txtDuration;
 	private JTextField txtPlace;
+	private JTextField txtOther;
 	private JTextField txtTrainingMotive;
+
 	private JTable table;
-	private DateField txtDate;
-	private JComboBox<String> cboEventType;
+	
+	private JLabel lblObjective;
 	private JLabel lblEventType;
-	private ButtonGroup bg;
-	private JRadioButton rdbtnAplication;
-	private JRadioButton rdbtnInfomative;
-	private JLabel lblTitle;
 	private JLabel lblPeriod;
-	private JComboBox<String> cboPeriod;
 	private JLabel lblDuration;
 	private JLabel lblPlace;
 	private JLabel lblTrainingMotive;
 	private JLabel lblEmployee;
-	private JButton btnAdd;
 	private JLabel lblDate;
+	private JLabel lblTitle;
+
+	private DateField txtDate;
+	
+	private JRadioButton rdbtnAplication;
+	private JRadioButton rdbtnInfomative;
+
+	private JComboBox<String> cboEventType;
+	private JComboBox<String> cboPeriod;
+	private JComboBox<Employee> cboEmployee;
+
+	private ButtonGroup bg;
 	private JScrollPane scrollPane;
-	private JPanel bottonPanel;
+
+	private JButton btnAdd;
 	private JButton btnConfirm;
 	private JButton btnCancel;
 	private JButton btnClear;
+	
 	private RegisterOfTrainingController controller;
-	private JComboBox<Employee> cboEmployee;
-	private JTextField txtOther;
+	
 	private JRadioButton rdbtnOther;
-
 	
 	public RegisterOfTrainingFrame() {
 		controller = new RegisterOfTrainingController(this);
@@ -129,7 +139,6 @@ public class RegisterOfTrainingFrame extends JFrame{
 		new ComboBoxAutoCompletion(cboEventType);
 		cboEventType.setSelectedIndex(-1);
 		
-		
 		lblPeriod = new JLabel("Periodo");
 		
 		cboPeriod = new JComboBox<String>();
@@ -149,7 +158,7 @@ public class RegisterOfTrainingFrame extends JFrame{
 		txtPlace = new JTextField();
 		txtPlace.setColumns(10);
 		
-		lblTrainingMotive = new JLabel("Motivo do treinamento");
+		lblTrainingMotive = new JLabel("Motivo");
 		
 		txtTrainingMotive = new JTextField();
 		txtTrainingMotive.setColumns(10);
@@ -177,16 +186,16 @@ public class RegisterOfTrainingFrame extends JFrame{
 		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
-			gl_principalPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(scrollPane, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblTitle)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblObjective)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(rdbtnInfomative)
@@ -196,36 +205,36 @@ public class RegisterOfTrainingFrame extends JFrame{
 							.addComponent(rdbtnOther)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtOther, GroupLayout.DEFAULT_SIZE, 166, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblEventType)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboEventType, 0, 346, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblPeriod)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboPeriod, 0, 382, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblDuration)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtDuration, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addPreferredGap(ComponentPlacement.UNRELATED)
+							.addComponent(txtDuration, GroupLayout.PREFERRED_SIZE, 80, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
 							.addComponent(lblDate)
 							.addGap(4)
 							.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, 255, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
-							.addComponent(lblPlace)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtPlace, GroupLayout.DEFAULT_SIZE, 394, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
-							.addComponent(lblTrainingMotive)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtTrainingMotive, GroupLayout.DEFAULT_SIZE, 310, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblEmployee)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.UNRELATED)
-							.addComponent(btnAdd)))
+							.addComponent(btnAdd))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblPlace)
+								.addComponent(lblTrainingMotive))
+							.addGap(18)
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+								.addComponent(txtPlace, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+								.addComponent(txtTrainingMotive, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))))
 					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(

@@ -60,10 +60,20 @@ public class TrainingDAO {
 			
 		});
 		
+		String query = "INSERT INTO training_status(training, training_status, con_can_date) VALUES (?,?,?)";
+		Object[] data = new Object[]{trainingID, 0, null};
+		dataBase.executeUpdate(query, data);
+		
 	}
+	
+	
 
+	/**
+	 * Consulta o banco de dados e retorna todos os treinamentos registrados que ainda não tenham sido concluidos ou cancelados.
+	 * @return List<training> lista com os treinamentos adquiridos da busca no banco de dados.
+	 */
 	public List<Training> getTraining() {
-		String sql = "SELECT * FROM training";
+		String sql = "SELECT * FROM training where id in ";
 		List<Training> list = new ArrayList<Training>();
 		try(ResultSet rs = dataBase.executeQuery(sql)){
 			while(rs.next()){
@@ -71,7 +81,7 @@ public class TrainingDAO {
 			
 			int id = rs.getInt("id");
 			Date date = rs.getDate("date");
-			String duration = rs.getString("Duration");
+			String duration = rs.getString("duration");
 			List<Employee> employeeList = getEmployeeFromTraining(id);
 			String eventType = rs.getString("event_type");
 			String motive = rs.getString("motive");
@@ -88,6 +98,7 @@ public class TrainingDAO {
 			t.setDate(date);
 			t.setDuration(duration);
 			t.setEmployeeList(employeeList);
+			t.setId(id);
 			list.add(t);
 			}
 			return list;
@@ -163,5 +174,37 @@ public class TrainingDAO {
 		}
 		return null;
 	}
+
+	/**
+	 * Remove o registro de treinamentos no banco de dados.
+	 * @param training treinamento à ser deletado.
+	 */
+	public void delete(Training training) {
+		int id = training.getId();
+	    String query = "delete from training where id = ?";
+	    String statusQuery = "delele from training_status where training = ";
+	    String employeeAssociationQuery = "delete from training_employee_relation where training = ?";
+	    dataBase.executeUpdate(employeeAssociationQuery, id);
+	    dataBase.executeUpdate(statusQuery, id);
+	    dataBase.executeUpdate(query, id);
+	}
+
+	/**
+	 * Método responsável por cancelar o treinamento desejado.
+	 * 0 - Ativo.
+	 * 1 - Concluido.
+	 * -1 - Cancelado
+	 * @param map com o traimento a ser cancelado e o motivo de seu cancelamento.
+	 */
+	public void cancel(Map<String, Object> map) {
+	    String query = "UPDATE training_status SET training_status = ? AND con_can_date = ? AND motive = ? where training = ?";
+	    String motive = (String) map.get("motive");
+	    Training training = (Training) map.get("training");
+	    int id = training.getId();
+	    Date cancelDate = new Date(System.currentTimeMillis());
+	    int trainingStatus = -1;
+	    Object[] data = new Object[] {motive, cancelDate, trainingStatus, id};
+	    dataBase.executeUpdate(query, data);
+    }
 	
 }

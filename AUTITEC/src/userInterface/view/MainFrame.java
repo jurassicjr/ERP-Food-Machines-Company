@@ -209,11 +209,11 @@ public class MainFrame extends JFrame {
 	private JMenuItem mntmPTCApprovation;
 
 	private JMenu mnBuySearch;
-
+	
 	private JMenuItem mntmSalesRequisitionSearch;
-
+	
 	private JMenu mnRhDocuments;
-
+	
 	private JMenu mnRhEpi;
 
 	private JMenu mnRhResearch;
@@ -266,12 +266,12 @@ public class MainFrame extends JFrame {
 		mnSubRegisterRH = new JMenu("Registros");
 		mnRh.add(mnSubRegisterRH);
 		
-		mntmRegisterEmployee = new JMenuItem("Registrar Funcionário");
+		mntmRegisterEmployee = new JMenuItem("Registro de Funcionário");
 		mnSubRegisterRH.add(mntmRegisterEmployee);
 		mntmRegisterEmployee.setVisible(false);
 		mntmRegisterEmployee.setName("REG_EMP");
 		
-		mntmRegisterUser = new JMenuItem("Registrar Usuário");
+		mntmRegisterUser = new JMenuItem("Registro de Usuário");
 		mnSubRegisterRH.add(mntmRegisterUser);
 		mntmRegisterUser.setVisible(false);
 		mntmRegisterUser.setName("REG_USER");
@@ -287,7 +287,7 @@ public class MainFrame extends JFrame {
 		mntmRegisterOfFunctionDescription.setName("REG_FUD");
 				
 				
-		mntmAssessmentOfCompetence = new JMenuItem("Registra Avaliação de Competência");
+		mntmAssessmentOfCompetence = new JMenuItem("Registro de Avaliação de Competência");
 		mnSubRegisterRH.add(mntmAssessmentOfCompetence);
 		mntmAssessmentOfCompetence.setVisible(false);
 		mntmAssessmentOfCompetence.setName("REG_ASS");
@@ -600,7 +600,7 @@ public class MainFrame extends JFrame {
 		mnInventory.setVisible(false);
 		
 
-		mntmResgisterOfSuppliers = new JMenuItem("Registrar Fornecedores");
+		mntmResgisterOfSuppliers = new JMenuItem("Registro de Fornecedores");
 		mnRegisterBuy.add(mntmResgisterOfSuppliers);
 		mntmResgisterOfSuppliers.setVisible(false);
 		mntmResgisterOfSuppliers.setName("REG_SUP");

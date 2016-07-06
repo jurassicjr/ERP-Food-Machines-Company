@@ -5,10 +5,16 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.ImageIcon;
@@ -78,6 +84,7 @@ public class UpdateOfTrainingFrame extends JFrame{
 	private JButton btnClear;
 	
 	private UpdateOfTrainingController controller;
+	private JButton btnDelete;
 
 	public UpdateOfTrainingFrame() {
 		
@@ -118,6 +125,10 @@ public class UpdateOfTrainingFrame extends JFrame{
 		rdbtnAplicative = new JRadioButton("Aplicação");
 		
 		rdbtnInformative = new JRadioButton("Informação");
+		
+		ButtonGroup btnGroup = new ButtonGroup();
+		btnGroup.add(rdbtnAplicative);
+		btnGroup.add(rdbtnInformative);
 		
 		lblEventType = new JLabel("Tipo do Evento");
 		
@@ -173,15 +184,15 @@ public class UpdateOfTrainingFrame extends JFrame{
 				.addGroup(gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 432, Short.MAX_VALUE)
+						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE)
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblTraining)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboTraining, 0, 330, Short.MAX_VALUE))
+							.addComponent(cboTraining, 0, 358, Short.MAX_VALUE))
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblTitle)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 380, Short.MAX_VALUE))
+							.addComponent(txtTitle, GroupLayout.DEFAULT_SIZE, 392, Short.MAX_VALUE))
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblObjetive)
 							.addGap(18)
@@ -189,36 +200,32 @@ public class UpdateOfTrainingFrame extends JFrame{
 							.addGap(18)
 							.addComponent(rdbtnInformative))
 						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblEventType)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboEventType, 0, 316, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-								.addComponent(lblPeriod)
-								.addComponent(lblDuration))
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-								.addGroup(gl_principalPanel.createSequentialGroup()
-									.addComponent(txtDuration, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(lblDate)
-									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, 189, Short.MAX_VALUE))
-								.addComponent(cboPeriod, 0, 361, Short.MAX_VALUE)))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblPlace)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtPlace, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
-							.addComponent(lblMotive)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtMotive, GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE))
-						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblEmployee)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboEmployee, 0, 219, Short.MAX_VALUE)
+							.addComponent(cboEmployee, 0, 248, Short.MAX_VALUE)
 							.addGap(18)
-							.addComponent(btnAdd)))
+							.addComponent(btnAdd))
+						.addGroup(gl_principalPanel.createSequentialGroup()
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblEventType)
+								.addComponent(lblPeriod)
+								.addComponent(lblDuration)
+								.addComponent(lblPlace)
+								.addComponent(lblMotive))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+									.addComponent(txtMotive, GroupLayout.DEFAULT_SIZE, 372, Short.MAX_VALUE)
+									.addComponent(txtPlace, GroupLayout.DEFAULT_SIZE, 346, Short.MAX_VALUE))
+								.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+									.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+										.addComponent(txtDuration, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(lblDate)
+										.addPreferredGap(ComponentPlacement.RELATED)
+										.addComponent(txtDate, GroupLayout.DEFAULT_SIZE, 229, Short.MAX_VALUE))
+									.addComponent(cboPeriod, Alignment.TRAILING, 0, 346, Short.MAX_VALUE)
+									.addComponent(cboEventType, 0, 346, Short.MAX_VALUE)))))
 					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(
@@ -265,13 +272,27 @@ public class UpdateOfTrainingFrame extends JFrame{
 						.addComponent(cboEmployee, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(btnAdd))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE)
 					.addContainerGap())
 		);
 		
 		table = new JTable();
 		String[] header = new String[] {"FUNCIONÁRIO", "CARGO"};
-		table.setModel(new DefaultTableModel(null, header));
+		table.setModel(new DefaultTableModel(null, header) {
+
+			/**
+			 * 
+			 */
+            private static final long serialVersionUID = 1473752805893999196L;
+            
+            boolean[] columnEditables = new boolean[] { false, false };
+
+			@Override
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		
+		});
 		scrollPane.setViewportView(table);
 		principalPanel.setLayout(gl_principalPanel);
 		initializeBotton();
@@ -287,6 +308,10 @@ public class UpdateOfTrainingFrame extends JFrame{
 		
 		btnCancel = new JButton("Cancelar");
 		btnCancel.setIcon(new ImageIcon(UpdateOfTrainingFrame.class.getResource("/resources/1419366170_17-16.png")));
+		
+		btnDelete = new JButton("excluir");
+		btnDelete.setIcon(new ImageIcon(UpdateOfTrainingFrame.class.getResource("/resources/cancel.png")));
+		bottonPanel.add(btnDelete);
 		
 		btnClear = new JButton("Limpar");
 		btnClear.setIcon(new ImageIcon(UpdateOfTrainingFrame.class.getResource("/resources/ClearFrame.png")));
@@ -312,13 +337,14 @@ public class UpdateOfTrainingFrame extends JFrame{
 				else if(e.getSource().equals(btnCancel))controller.close();
 				else if(e.getSource().equals(btnClear))clear();
 				else if(e.getSource().equals(btnConfirm))confirm();
+				else if(e.getSource().equals(btnDelete))delete();
 			}
 		};
 		btnAdd.addActionListener(buttonListener);
 		btnCancel.addActionListener(buttonListener);
 		btnClear.addActionListener(buttonListener);
 		btnConfirm.addActionListener(buttonListener);
-		
+		btnDelete.addActionListener(buttonListener);
 		
 		ActionListener cboListener = new ActionListener() {
 			
@@ -329,8 +355,45 @@ public class UpdateOfTrainingFrame extends JFrame{
 		};
 		
 		cboTraining.addActionListener(cboListener);
+		
+		KeyListener tableKeyListener = new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getSource().equals(table)) {
+					if(e.getKeyCode() == KeyEvent.VK_DELETE)removeRow();
+				}
+			}
+		};
+		table.addKeyListener(tableKeyListener);
 	}
 	
+	
+	public void delete() {
+		int i = ShowMessage.questionMessage(this, "Excluir", "Deseja realmente excluir esse treinamento?");
+		if(i == JOptionPane.NO_OPTION)return;
+		if(cboTraining.getSelectedIndex() == -1)return;
+		int a = ShowMessage.questionMessage(this, "Motivo", "Responda sim caso o motivo da exclusão tenha sido erro ao criar, e não caso foi cancelado!");
+		if(a == JOptionPane.YES_OPTION)controller.delete((Training) cboTraining.getSelectedItem());
+		else {
+			String delMotive = JOptionPane.showInputDialog(this, "Motivo", "Qual o motivo do cancelamento ?");
+			Training training = (Training) cboTraining.getSelectedItem();
+			controller.cancel(training, delMotive);
+		}
+		
+	}
+	/*
+	 * Deleta uma linha desejada da tabela de funcionários participantes do treinamento.
+	 */
+	public void removeRow() {
+		if(table.getSelectedRow() == -1)return;
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		int i = table.getSelectedRow();
+		tbl.removeRow(i);
+	}
+	
+	/*
+	 * Adiciona um funcionário á tabelas de funcionários que irão participar do treinamento.
+	 */
 	private void addEmployee(){
 		if(cboEmployee.getSelectedIndex() == -1){
 			ShowMessage.errorMessage(this, "Erro", "Selecione um empregados para adicionar");
@@ -342,16 +405,99 @@ public class UpdateOfTrainingFrame extends JFrame{
 		tbl.addRow(new Object[]{e, employeeFunction});
 	}
 	
+	/*
+	 * Função responsável por retirar as informações nos campos presentes no formulário.
+	 */
 	private void clear(){
 		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar os campos");
 		if(i == JOptionPane.YES_OPTION)ClearFrame.clear(this);
 	}
 	
 	private void confirm(){
+		int i = ShowMessage.questionMessage(this, "Atualização", "Deseja realmente atualizar esse treinamento ?");
+		if(i == JOptionPane.NO_OPTION)return;
+		boolean isOk = verifyFields();
+		if(!isOk)return;
+		Training training = (Training) cboTraining.getSelectedItem();
+		training.setDate((Date) txtDate.getValue());
+		training.setDuration(txtDuration.getText());
+		String aplication;
 		
+		if(rdbtnAplicative.isSelected())aplication = "Aplicação";
+		else aplication = "Informativo";
+		
+		training.setEventType((String) cboEventType.getSelectedItem());
+		training.setMotive(txtMotive.getText());
+		training.setObjective(aplication);
+		training.setPeriod((String) cboPeriod.getSelectedItem());
+		training.setPlace(txtPlace.getText());
+		training.setTitle(txtTitle.getText());
+		List<Employee> employeeList = new ArrayList<Employee>();
+		int rowCount = table.getRowCount();
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		for(int counter = 0; counter < rowCount; counter++) {
+			Employee e = (Employee) tbl.getValueAt(counter, 0);
+			employeeList.add(e);
+		}
+		training.setEmployeeList(employeeList);
+		controller.update(training);
+		ShowMessage.successMessage(this, "Atualização", "Treinamento atualizado com sucesso!");
+		ClearFrame.clear(this);
+		ClearFrame.clearTable(table);
+		controller.fillEmployees(cboEmployee);
 	}
 	
+	/*
+	 * Verifica se os campos nescessários para atualizar os treinamentos estão devidamente preenchidos.
+	 */
+	private boolean verifyFields() {
+	    String title = "Erro de atualização";
+	    if(cboTraining.getSelectedIndex() == -1) {
+	    	ShowMessage.errorMessage(this, title, "Selecione o Treinamento que deseja atualizar!");
+	    	return false;
+	    }
+
+	    if(cboEventType.getSelectedIndex() == -1) {
+	    	ShowMessage.errorMessage(this, title, "Selecione o tipo do evento");
+	    	return false;
+	    }
+		
+	    if(cboPeriod.getSelectedIndex() == -1) {
+			ShowMessage.errorMessage(this, title, "Selecione o periodo de realização do treinamento");
+			return false;
+		}
+	    Date date = (Date) txtDate.getValue();
+	    if(txtDate.getValue() ==  null || date.compareTo(new Date(System.currentTimeMillis())) < 0) {
+	    	ShowMessage.errorMessage(this, title, "A data do treinamento dever ser maior que a data atual !");
+	    	return false;
+	    }
+	    if(txtDuration.getText().isEmpty()) {
+	    	ShowMessage.errorMessage(this, title, "Insira a duração do treinamento");
+	    	return false;
+	    }
+	    if(txtMotive.getText().isEmpty()) {
+	    	ShowMessage.errorMessage(this, title, "Insira o motivo de realização desse treinamento!");
+	    	return false;
+	    }
+	    if(txtPlace.getText().isEmpty()) {
+	    	ShowMessage.errorMessage(this, title, "Insira o local que será realizado esse treinamento!");
+	    	return false;
+	    }
+	    if(txtTitle.getText().isEmpty()) {
+	    	ShowMessage.errorMessage(this, title, "Insira o título desse treinamento!");
+	    	return false;
+	    }if(!rdbtnAplicative.isSelected() && !rdbtnInformative.isSelected()){
+	    	ShowMessage.errorMessage(this, title, "Selecione se o treinamento é aplicativo ou informativo !");
+	    	return false;
+	    }
+		return true;
+    }
+
+	/*
+	 * Popula os campos presentes no formulários com as informações referentes ao treinamento selecionado.
+	 */
 	private void fillFields(){
+		ClearFrame.clearTable(table);
 		if(cboTraining.getSelectedIndex() == -1)return;
 		Training t = (Training) cboTraining.getSelectedItem();
 		txtTitle.setText(t.getTitle());
@@ -373,9 +519,11 @@ public class UpdateOfTrainingFrame extends JFrame{
 		fillEmployeeTable(t);
 	}
 	
+	/*
+	 * Popula a lista de funcionários que irão participar do treinamento.
+	 */
 	private void fillEmployeeTable(Training t){
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-		//table.getModel().setValueAt("ok", 1, 1);
 		List<Employee> employeeList = t.getEmployeeList();
 		if(employeeList == null)return;
 		employeeList.forEach(e -> tbl.addRow(new Object[]{e, e.getJob().getCbo().getTitle()}));
