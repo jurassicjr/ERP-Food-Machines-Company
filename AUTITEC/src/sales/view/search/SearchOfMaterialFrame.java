@@ -39,6 +39,7 @@ import model.Session;
 import sales.controller.SalesController;
 import sales.controller.SearchOfMaterialController;
 import sales.view.update.MaterialUpdateFrame;
+import userInterface.components.ComboBoxAutoCompletion;
 import util.ShowMessage;
 
 public class SearchOfMaterialFrame extends JFrame {
@@ -146,30 +147,36 @@ public class SearchOfMaterialFrame extends JFrame {
 		
 		cboModel = new JComboBox<MaterialModel>();
 		salesController.fillMaterialModels(cboModel);
+		new ComboBoxAutoCompletion(cboModel);
+		cboModel.setSelectedIndex(-1);
 		
 		lblMeasureUnit = new JLabel("Unidade de Medida");
-		
+
 		cboMeasureUnit = new JComboBox<MeasureUnit>();
 		salesController.fillMeasureUnit(cboMeasureUnit);
+		new ComboBoxAutoCompletion(cboMeasureUnit);
+		cboMeasureUnit.setSelectedIndex(-1);
+		
 		lblMaterialType = new JLabel("Tipo");
 		
 		cboMaterialType = new JComboBox<MaterialType>();
 		salesController.fillMaterialType(cboMaterialType);
+		new ComboBoxAutoCompletion(cboMaterialType);
+		cboMaterialType.setSelectedIndex(-1);
 		
 		separator = new JSeparator();
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
-			gl_principalPanel.createParallelGroup(Alignment.LEADING)
-				.addGroup(Alignment.TRAILING, gl_principalPanel.createSequentialGroup()
+			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+				.addGroup(gl_principalPanel.createSequentialGroup()
 					.addContainerGap()
-					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-						.addComponent(separator, Alignment.LEADING, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
+					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 						.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE)
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblName)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 411, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblMaximusAmmount)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(spinner, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
@@ -179,18 +186,19 @@ public class SearchOfMaterialFrame extends JFrame {
 							.addComponent(spinnerMinimum, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 							.addGap(18)
 							.addComponent(btnSearch, GroupLayout.PREFERRED_SIZE, 89, GroupLayout.PREFERRED_SIZE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblModel)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboModel, 0, 391, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblMeasureUnit)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(cboMeasureUnit, 0, 347, Short.MAX_VALUE))
-						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblMaterialType)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(cboMaterialType, 0, 418, Short.MAX_VALUE)))
+							.addComponent(cboMaterialType, 0, 418, Short.MAX_VALUE))
+						.addComponent(separator, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 442, Short.MAX_VALUE))
 					.addContainerGap())
 		);
 		gl_principalPanel.setVerticalGroup(
@@ -220,21 +228,21 @@ public class SearchOfMaterialFrame extends JFrame {
 						.addComponent(lblMaterialType)
 						.addComponent(cboMaterialType, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
-					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 291, GroupLayout.PREFERRED_SIZE)
-					.addPreferredGap(ComponentPlacement.UNRELATED)
-					.addComponent(separator, GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
-					.addContainerGap())
+					.addComponent(scrollPane, GroupLayout.DEFAULT_SIZE, 296, Short.MAX_VALUE)
+					.addPreferredGap(ComponentPlacement.RELATED)
+					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)
+					.addGap(4))
 		);
 		
 		table = new JTable();
-		String[] header = new String[] {"Material", "Quantidade"};
+		String[] header = new String[] {"Material", "Quantidade" ,"Unidade de Medida"};
 		table.setModel(new DefaultTableModel(null, header) {
 
 
             private static final long serialVersionUID = 6737039895901587009L;
 			
             boolean[] columnEditables = new boolean[] {
-					false, false
+					false, false, false
 			};
 			
 			@Override
@@ -347,8 +355,7 @@ public class SearchOfMaterialFrame extends JFrame {
 					{
 					   if(!Session.getInstance().havePermission("UPD_MAT"))
 						   ShowMessage.errorMessage(null,"Solicite permissão"," Você não tem permissão para atualizar/excluir materiais");
-					   else
-					   {
+					   else{
 						      MaterialUpdateFrame fr =  new MaterialUpdateFrame();
 							  String materialName = table.getModel().getValueAt(line,0).toString();
 							  Material material  = controller.getMaterialByName(materialName);
@@ -383,50 +390,12 @@ public class SearchOfMaterialFrame extends JFrame {
 		int materialType = cboMaterialType.getSelectedIndex() + 1;
 		controller.search(table, max, min, name, materialModel, materialType, measureUnit);		
 	}
-	WindowListener windowListener = new WindowListener() {
-		
-		@Override
-		public void windowOpened(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void windowIconified(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void windowDeiconified(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void windowDeactivated(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
+	WindowListener windowListener = new WindowAdapter() {
 		@Override
 		public void windowClosing(WindowEvent e) {
 			controller.queryAll(table);
-			
 		}
-		
-		@Override
-		public void windowClosed(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-		
-		@Override
-		public void windowActivated(WindowEvent e) {
-			// TODO Auto-generated method stub
-			
-		}
-	};
+	}; 
 	private JLabel lblModel;
 	private JButton btnExit;
 	private JSeparator separator;

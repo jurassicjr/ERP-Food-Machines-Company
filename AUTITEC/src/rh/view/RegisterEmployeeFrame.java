@@ -132,6 +132,10 @@ public class RegisterEmployeeFrame extends JFrame {
 	private String picturePath;
 	private RegisterEmployeeController controller;
 	private FileChooser fileChooser;
+
+	private JComboBox<State> cbPISState;
+
+	private JComboBox<City> cbPISCity;
 		
 	/**
 	 * Cria o frame de registro de funcionário
@@ -179,6 +183,7 @@ public class RegisterEmployeeFrame extends JFrame {
 		initializeButtonsPanel();		
 		
 		controller.fillStateAndCity(cbState, cbCity);
+		controller.fillStateAndCity(cbPISState, cbPISCity);
 		controller.fillCBO(cbJob, txCbo);
 		controller.fillBanks(cbBank);
 		controller.fillBanks(cbDepositaryBank);
@@ -427,10 +432,12 @@ public class RegisterEmployeeFrame extends JFrame {
 		
 		JLabel lblState = new JLabel("Estado");
 		cbState = new JComboBox<State>();
+		new ComboBoxAutoCompletion(cbState);
 		
 		JLabel lblCity = new JLabel("Cidade");
 		cbCity = new JComboBox<City>();
 		cbCity.setEnabled(false);
+		new ComboBoxAutoCompletion(cbCity);
 		
 		JLabel lblNeighborhood = new JLabel("Bairro");
 		txNeighborhood = new UpperTextField();	
@@ -534,7 +541,8 @@ public class RegisterEmployeeFrame extends JFrame {
 			
 			Class<?>[] columnTypes = new Class[] {String.class, String.class, Date.class};
 			
-			public Class<?> getColumnClass(int columnIndex) {
+			@Override
+            public Class<?> getColumnClass(int columnIndex) {
 				return columnTypes[columnIndex];
 			}
 			
@@ -771,6 +779,16 @@ public class RegisterEmployeeFrame extends JFrame {
 		JLabel lblSocialIntegrationAddress = new JLabel("Endereço");
 		txSocialIntegrationAddress = new UpperTextField();
 		
+		JLabel lblEstado = new JLabel("Estado");
+		
+		cbPISState = new JComboBox<State>();
+		new ComboBoxAutoCompletion(cbPISState);
+		
+		JLabel lblCidade = new JLabel("Cidade");
+		
+		cbPISCity = new JComboBox<City>();
+		new ComboBoxAutoCompletion(cbPISCity);
+		
 		GroupLayout socialIntegrationProgramPanellayout = new GroupLayout(socialIntegrationProgramPanel);
 		socialIntegrationProgramPanellayout.setHorizontalGroup(
 			socialIntegrationProgramPanellayout.createParallelGroup(Alignment.LEADING)
@@ -778,27 +796,38 @@ public class RegisterEmployeeFrame extends JFrame {
 					.addContainerGap()
 					.addGroup(socialIntegrationProgramPanellayout.createParallelGroup(Alignment.LEADING)
 						.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
-							.addComponent(lblSocialIntegrationBank)
-							.addGap(18)
-							.addComponent(cbSocialIntegrationBank, 0, 170, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblSocialIntegrationAgency)
-							.addGap(18)
-							.addComponent(txSocialIntegrationAgency, GroupLayout.DEFAULT_SIZE, 90, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblSocialIntegrationAddress)
-							.addGap(26)
-							.addComponent(txSocialIntegrationAddress, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-							.addGap(117))
-						.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
 							.addComponent(lblCadastreDate)
 							.addGap(18)
 							.addComponent(txCadastreDate, GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
 							.addGap(18)
 							.addComponent(lblCadastreNumber)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txCadastreNumber, GroupLayout.PREFERRED_SIZE, 466, GroupLayout.PREFERRED_SIZE))
+						.addGroup(Alignment.TRAILING, socialIntegrationProgramPanellayout.createSequentialGroup()
+							.addGroup(socialIntegrationProgramPanellayout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(Alignment.LEADING, socialIntegrationProgramPanellayout.createSequentialGroup()
+									.addComponent(lblEstado)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cbPISState, 0, 198, Short.MAX_VALUE))
+								.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
+									.addComponent(lblSocialIntegrationBank)
+									.addGap(18)
+									.addComponent(cbSocialIntegrationBank, 0, 188, Short.MAX_VALUE)))
 							.addGap(18)
-							.addComponent(txCadastreNumber, GroupLayout.DEFAULT_SIZE, 157, Short.MAX_VALUE)
-							.addGap(208))))
+							.addGroup(socialIntegrationProgramPanellayout.createParallelGroup(Alignment.LEADING, false)
+								.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
+									.addComponent(lblSocialIntegrationAgency)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(txSocialIntegrationAgency, GroupLayout.PREFERRED_SIZE, 122, GroupLayout.PREFERRED_SIZE)
+									.addGap(18)
+									.addComponent(lblSocialIntegrationAddress))
+								.addGroup(socialIntegrationProgramPanellayout.createSequentialGroup()
+									.addComponent(lblCidade)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cbPISCity, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(txSocialIntegrationAddress, GroupLayout.PREFERRED_SIZE, 304, GroupLayout.PREFERRED_SIZE)))
+					.addContainerGap())
 		);
 		socialIntegrationProgramPanellayout.setVerticalGroup(
 			socialIntegrationProgramPanellayout.createParallelGroup(Alignment.LEADING)
@@ -817,7 +846,13 @@ public class RegisterEmployeeFrame extends JFrame {
 						.addComponent(txSocialIntegrationAgency, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(txSocialIntegrationAddress, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 						.addComponent(lblSocialIntegrationAddress))
-					.addContainerGap(233, Short.MAX_VALUE))
+					.addGap(18)
+					.addGroup(socialIntegrationProgramPanellayout.createParallelGroup(Alignment.BASELINE)
+						.addComponent(lblEstado)
+						.addComponent(cbPISState, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblCidade)
+						.addComponent(cbPISCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+					.addContainerGap(201, Short.MAX_VALUE))
 		);
 		socialIntegrationProgramPanel.setLayout(socialIntegrationProgramPanellayout);
 		

@@ -45,6 +45,7 @@ public class PurchaseOrderController {
 	}
 	
 	public void fillSalesRequisitionCbo(JComboBox<PurchaseRequisition> cbo) {
+		cbo.removeAllItems();
 		List<PurchaseRequisition> list = new PurchaseRequisitionDAO().getAllOpenRequisition();
 		list.forEach(s -> cbo.addItem(s));
 	}

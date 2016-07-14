@@ -174,10 +174,10 @@ public class SuppliersDAO {
 		City city = null;
 		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM suppliers WHERE id = ?", supplierID)) {
 			if (rs.next()) {
-				String razaoSocial = rs.getString("corporate_name");
+				String corporateName = rs.getString("corporate_name");
 				String CNPJ = rs.getString("CNPJ");
 
-				Supplier supplier = new Supplier(razaoSocial, CNPJ);
+				Supplier supplier = new Supplier(corporateName, CNPJ);
 
 				supplier.setCep(rs.getString(15));
 				supplier.setCertificated(rs.getBoolean("certificate"));
@@ -191,7 +191,7 @@ public class SuppliersDAO {
 				supplier.setPhone(rs.getString("phone"));
 				supplier.setStateRegistration(rs.getString("state_registration"));
 				supplier.setStreet(rs.getString("street"));
-				supplier.setCorporateName("corporate_name");
+				supplier.setCorporateName(corporateName);
 				try {
 					ResultSet rsState = dataBase.executeQuery("SELECT *FROM state WHERE id = ?", rs.getInt("state"));
 					while (rsState.next()) {

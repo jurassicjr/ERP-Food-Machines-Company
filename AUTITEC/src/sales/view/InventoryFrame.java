@@ -227,6 +227,7 @@ public class InventoryFrame extends JFrame {
 	}
 
 	private void updateCbo() {
+		cboFiscalNote.removeAllItems();
 		controller.fillFiscalNote(cboFiscalNote);
 	}
 	private void addToInventory() {

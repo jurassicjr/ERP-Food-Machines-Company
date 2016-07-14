@@ -29,7 +29,7 @@ public class MaterialDAO {
 	private void persist(Map<String, Object> data) {
 		String descrition = (String) data.get("descricao");
 		String name = (String) data.get("name");
-		String intenalCode = (String) data.get("internalCode");
+		String intenalCode = String.valueOf(dataBase.getAutoIncrementValue("Product"));
 		String ncm = (String) data.get("ncm");
 		int model = (int) data.get("model");
 		int materialType = (int) data.get("materialType");
@@ -142,5 +142,17 @@ public class MaterialDAO {
 			e.printStackTrace();
 		}
 		return (ArrayList<Material>) mList;
+    }
+
+	public boolean verifyName(String text) {
+	    String query = "select * from Product where name = ?";
+	    try(ResultSet rs = dataBase.executeQuery(query, text)){
+	    	if(rs.next()) {
+	    		return false;
+	    	}
+	    } catch (SQLException e) {
+	        e.printStackTrace();
+        }
+		return true;
     }
 }

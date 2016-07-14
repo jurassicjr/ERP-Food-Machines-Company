@@ -29,6 +29,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -138,6 +139,7 @@ public class PurchaseRequisitionFrame extends JFrame {
 		lblRequisitioNumber = new JLabel("Nº da Req.");
 
 		txtRequisitionNumber = new JTextField("");
+		txtRequisitionNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		Border border = BorderFactory.createLineBorder(Color.BLUE);
 		txtRequisitionNumber.setBorder(border);
 
@@ -358,6 +360,7 @@ public class PurchaseRequisitionFrame extends JFrame {
 						material = (Material) cboMaterial.getSelectedItem();						
 					}
 					controller.addMaterial(material, ammount, table, area);
+					cboMaterial.requestFocus();
 				}else if(e.getSource().equals(btnSave))save();
 			}
 		};

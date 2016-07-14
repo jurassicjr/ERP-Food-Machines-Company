@@ -48,7 +48,7 @@ public class PurchaseOrderDAO {
 	    		+ "delivery_date, contact_phone, freight, sales_man, total_value) values(?,?,?,?,?,?,?,?,?,?)";
 	    
 	    boolean purchaseOrderConcluded = dataBase.executeUpdate(purchaseOrderSql, purchaseOrderData);
-	    if(purchaseOrderConcluded)registerPurchaseOrderAssociation(list, purchaseOrderId);
+	    if(purchaseOrderConcluded)registerPurchaseOrderAssociation(list, purchaseOrderId, purchaseRequisitionId);
 	    
 	    updateRequisition(status, purchaseRequisitionId);
 	    
@@ -66,12 +66,11 @@ public class PurchaseOrderDAO {
 	    	updStatus = 3;
 	    }
 		String updatePurchaseRequisitionSql = "update sales_requisition set status = ? where id = ?";
-		Object updatePurchaseRequisitionData = new Object[] {updStatus, purchaseRequisitionId};
-		
+		Object[] updatePurchaseRequisitionData = new Object[] {updStatus, purchaseRequisitionId};
 		dataBase.executeUpdate(updatePurchaseRequisitionSql, updatePurchaseRequisitionData);
     }
 
-	private void registerPurchaseOrderAssociation(List<PurchaseOrderAssociation> list, int purchaseOrderId) {
+	private void registerPurchaseOrderAssociation(List<PurchaseOrderAssociation> list, int purchaseOrderId, int salesRequisitionID) {
 	    for (PurchaseOrderAssociation purchaseOrderAssociation : list) {
 	        double ammount = purchaseOrderAssociation.getAmmount();
 	        double compostPrice = purchaseOrderAssociation.getCompostPrice();
@@ -83,17 +82,17 @@ public class PurchaseOrderDAO {
 	        Object[] purchaseOrderAssociationData = new Object[] {ammount, compostPrice, ipi, materialId, unitPrice, purchaseOrderId};
 	        
 	        String purchaseOrderAssociationSql = "insert into purchase_order_association(ammount, compost_price, ipi, material, unit_price, purchase_order) values (?,?,?,?,?,?)";
-	        
 	        boolean purchaseOrdeAssociationConcluded = dataBase.executeUpdate(purchaseOrderAssociationSql, purchaseOrderAssociationData);
 	        if(purchaseOrdeAssociationConcluded) {
-	        	upgradePurchaseRequisition(materialId);
+	        	upgradePurchaseRequisition(materialId, salesRequisitionID);
 	        }
         }
     }
 
-	private void upgradePurchaseRequisition(int materialId) {
+	private void upgradePurchaseRequisition(int materialId, int salesRequisitionID) {
 	    String updatePurchaseRequisitionAssociationSql = "update sales_requisition_association set is_bought = 1 where material = ? AND sales_requisition = ?";
-	    dataBase.executeUpdate(updatePurchaseRequisitionAssociationSql, materialId);
+	    Object[] data = new Object[] {materialId, salesRequisitionID};
+	    dataBase.executeUpdate(updatePurchaseRequisitionAssociationSql, data );
     }
 
 	public List<PurchaseOrder> getCompletePurchaseOrder() {

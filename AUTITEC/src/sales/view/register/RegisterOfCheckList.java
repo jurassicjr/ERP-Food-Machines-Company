@@ -3,11 +3,13 @@ package sales.view.register;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
 
@@ -252,6 +254,11 @@ public class RegisterOfCheckList extends JFrame {
 		Nfe nfe = (Nfe) cboFiscalNote.getSelectedItem();
 		txtMaxDate.setValue(nfe.getPurchaseOrder().getDeliveryDate());
 		List<NfeMaterialRelation> list = controller.fillPanel(nfe);
+		optionsPanel.add(new Label("Quatidade/Nome"));
+		optionsPanel.add(new Label("Verificação"));
+		optionsPanel.add(new Label());
+		optionsPanel.add(new Label());
+		optionsPanel.add(new Label());
 		for (NfeMaterialRelation nfeMaterialRelation : list) {
 			optionsPanel.add(new JLabel(nfeMaterialRelation.getAmmount() + " " + nfeMaterialRelation.toString()));
 			JRadioButton rdbtnYes = new JRadioButton("Conferido");
@@ -279,6 +286,8 @@ public class RegisterOfCheckList extends JFrame {
 			spinnerList.add(spinner);
 			
 		}
+		Date date = nfe.getPurchaseOrder().getDeliveryDate();
+		txtMaxDate.setValue(date);
 		this.revalidate();
 		optionsPanel.repaint();
 	}

@@ -26,7 +26,7 @@ public class RegisterOfMaterialModelDAO {
 
 	public List<MaterialModel> getModels() {
 	    List<MaterialModel> list = new ArrayList<MaterialModel>();
-	    String query = "SELECT * FROM mat_cat";
+	    String query = "SELECT * FROM mat_cat order by name";
 	    try(ResultSet rs = dataBase.executeQuery(query)){
 	    	while(rs.next()) {
 	    		int id = rs.getInt("id");

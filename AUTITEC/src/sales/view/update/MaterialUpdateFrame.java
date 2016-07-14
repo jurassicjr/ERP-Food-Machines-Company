@@ -35,6 +35,7 @@ import model.MeasureUnit;
 import sales.controller.MaterialUpdateController;
 import sales.controller.SalesController;
 import sales.view.register.RegisterOfMaterialFrame;
+import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.Icon;
@@ -91,7 +92,7 @@ public class MaterialUpdateFrame extends JFrame {
 	private JLabel lblMaterial;
 	private JComboBox<Material> cboProduto;
 
-	private JButton btnLimpar;
+	private JButton btnRemove;
 
 	private MaterialUpdateController materialUpdateController;
 
@@ -152,13 +153,14 @@ public class MaterialUpdateFrame extends JFrame {
 		lblModel = new JLabel("Modelo");
 		
 		cboMaterialType = new JComboBox<MaterialType>();
+		new ComboBoxAutoCompletion(cboMaterialType);
 		
 		btnAddMaterialType = new JButton("Adicionar");
 		btnAddMaterialType.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/plus.png")));
 		controller.fillMaterialType(cboMaterialType);
 		
 		cboMaterialModel = new JComboBox<MaterialModel>();
-		
+		new ComboBoxAutoCompletion(cboMaterialModel);
 		btnAddMaterialModel = new JButton("Adicionar");
 		btnAddMaterialModel.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/plus.png")));
 		controller.fillMaterialModels(cboMaterialModel);
@@ -167,7 +169,7 @@ public class MaterialUpdateFrame extends JFrame {
 		
 		cboMeasureUnit = new JComboBox<MeasureUnit>();
 		controller.fillMeasureUnit(cboMeasureUnit);
-		
+		new ComboBoxAutoCompletion(cboMeasureUnit);
 		lblwidth = new JLabel("Largura");
 		
 		txtWidth = new JTextField();
@@ -191,6 +193,8 @@ public class MaterialUpdateFrame extends JFrame {
 		
 		cboProduto = new JComboBox<Material>();
 		materialUpdateController.fillMaterials(cboProduto);
+		new ComboBoxAutoCompletion(cboProduto);
+
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
@@ -310,9 +314,9 @@ public class MaterialUpdateFrame extends JFrame {
 		this.getContentPane().add(bottonPanel, BorderLayout.SOUTH);
 		bottonPanel.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 5));
 		
-		btnLimpar = new JButton("Limpar");
-		btnLimpar.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/ClearFrame.png")));
-		bottonPanel.add(btnLimpar);
+		btnRemove = new JButton("Remover");
+		btnRemove.setIcon(new ImageIcon(MaterialUpdateFrame.class.getResource("/resources/clear.png")));
+		bottonPanel.add(btnRemove);
 
 		btnCancelar = new JButton("Cancelar");
 		btnCancelar.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/cancel.png")));
@@ -360,27 +364,27 @@ public class MaterialUpdateFrame extends JFrame {
 					int i = ShowMessage.questionMessage(frame, "Atualização", "Deseja realmente atualizar o produto \""
 					        + txtName.getText() + "\"");
 					if (i == JOptionPane.YES_OPTION) {
-						int x, y, z;
+						double x, y, z;
 						if(txtWidth.getText().isEmpty())x = 0;
-						else x = Integer.parseInt(txtWidth.getText());
+						else x = Double.valueOf((txtWidth.getText().trim()));
 						if(txtLength.getText().isEmpty())y = 0;
-						else y = Integer.parseInt(txtLength.getText());
+						else y = Double.valueOf(txtLength.getText());
 						if(txtHeigth.getText().isEmpty())z = 0;
-						else z = Integer.parseInt(txtHeigth.getText());
+						else z = Double.valueOf(txtHeigth.getText());
 						String sql = "UPDATE Product SET name = ?, descricao = ?, internal_code = ?, ncm = ?, model = ?, measure_unit = ?, material_type = ?, x = ?, y = ?, z = ? WHERE id = ?";
 						Material produto = (Material) cboProduto.getSelectedItem();
-						insertData = new Object[] { txtName.getText(), txtDescricao.getText(), txtInternalCode.getText(), txtNCM.getText() ,produto.getId(), cboMaterialModel.getSelectedIndex() +1,
-						cboMeasureUnit.getSelectedIndex() + 1, cboMaterialType.getSelectedIndex() + 1, x, y, z};
+						insertData = new Object[] { txtName.getText(), txtDescricao.getText(), txtInternalCode.getText(), txtNCM.getText() , cboMaterialModel.getSelectedIndex() +1,
+						cboMeasureUnit.getSelectedIndex() + 1, cboMaterialType.getSelectedIndex() + 1, x, y, z, produto.getId()};
 						dataBase.executeUpdate(sql, insertData);
 						String title = "Atualização/Remoção";
 						String message = "Ação concluida com sucesso!";
-						new ShowMessage();
 						ShowMessage.successMessage(frame, title, message);
+						materialUpdateController.fillMaterials(cboProduto);
 						ClearFrame.clear(frame);
 					} else {
 						txtName.requestFocus();
 					}
-				} else if (e.getSource().equals(btnLimpar)) {
+				} else if (e.getSource().equals(btnRemove)) {
 					int i = ShowMessage.questionMessage(frame, "APAGAR", "Deseja realmente apagar o material \""
 					        + txtName.getText() + " \"");
 					if (i == JOptionPane.YES_OPTION) {
@@ -408,10 +412,10 @@ public class MaterialUpdateFrame extends JFrame {
 		cboProduto.addActionListener(cboListener);
 		btnCancelar.addActionListener(buttonListerners);
 		btnConfirmar.addActionListener(buttonListerners);
-		btnLimpar.addActionListener(buttonListerners);
+		btnRemove.addActionListener(buttonListerners);
 	}
     public void setSelectedMaterial(Material material){
-    		cboProduto.setSelectedIndex(material.getId() - 1);
+    		cboProduto.setSelectedItem(material);
     	 	fill(material);
     }
     public void fill(Material material){

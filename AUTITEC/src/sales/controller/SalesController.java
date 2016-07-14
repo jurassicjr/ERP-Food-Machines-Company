@@ -312,7 +312,7 @@ public class SalesController {
 				Map<String, Object> mapa = new HashMap<String, Object>();
 				mapa.put("name", material.getName());
 				mapa.put("descricao", material.getDescrition());
-				mapa.put("internalCode", material.getInternalCode());
+				//mapa.put("internalCode", material.getInternalCode());
 				mapa.put("ncm", material.getNCM());
 				mapa.put("measureUnit", material.getMeasureUnit());
 				mapa.put("model", material.getModel());
@@ -333,7 +333,7 @@ public class SalesController {
 
 	public void doSupplierRegister(Supplier supplier) throws SQLException {
 		try {
-			if (supplier.equals(null)) {
+			if (supplier == null) {
 				throw new Exception();
 			} else {
 				Map<String, Object> mapa = new HashMap<String, Object>();
@@ -359,7 +359,6 @@ public class SalesController {
 			}
 		} catch (Exception e) {
 			System.out.println("No Supplier");
-
 		}
 	}
 
@@ -594,5 +593,10 @@ public class SalesController {
 	    if(!serviceList.isEmpty()) {
 	    	serviceList.forEach(s -> cboOutSourcedService.addItem(s));
 	    }
+    }
+
+	public boolean verifyName(String txtName) {
+	    boolean answer = new MaterialDAO().verifyName(txtName);
+		return answer;
     }
 }

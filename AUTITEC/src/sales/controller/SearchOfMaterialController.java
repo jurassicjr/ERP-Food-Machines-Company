@@ -8,8 +8,10 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import model.Material;
+import model.MeasureUnit;
 import util.ClearFrame;
 import database.DataBase;
+import database.dao.MeasureUnitDAO;
 
 public class SearchOfMaterialController extends SalesController{
 
@@ -81,13 +83,21 @@ public class SearchOfMaterialController extends SalesController{
 		   while(rs.next()) {
 			   String n = rs.getString("name");
 			   double ammount = rs.getDouble("quantidade");
-			   tbl.addRow(new Object[]{n, ammount});
+			   List<MeasureUnit> muList = measureUnitList();
+			   MeasureUnit mu = muList.get(rs.getInt("measure_unit"));
+			   tbl.addRow(new Object[]{n, ammount, mu});
 		   }
 		   
 	   } catch (SQLException e) {
 	    e.printStackTrace();
     }
 			   
+    }
+
+	private List<MeasureUnit> measureUnitList() {
+			List<MeasureUnit> list = new MeasureUnitDAO().getUnits();
+		    if(list.isEmpty())return null;
+		    return list;
     }
 
 	public void search(JTable table, int max, int min) {
@@ -98,7 +108,9 @@ public class SearchOfMaterialController extends SalesController{
 			while(rs.next()) {
 				String n = rs.getString("name");
 				double ammount = rs.getDouble("quantidade");
-				tbl.addRow(new Object[] {n, ammount});
+				 List<MeasureUnit> muList = measureUnitList();
+				 MeasureUnit mu = muList.get(rs.getInt("measure_unit"));
+				 tbl.addRow(new Object[]{n, ammount, mu});
 			}
 		} catch (SQLException e) {
 	        e.printStackTrace();
@@ -114,7 +126,9 @@ public class SearchOfMaterialController extends SalesController{
 			while(rs.next()) {
 				String n = rs.getString("name");
 				double ammount = rs.getDouble("quantidade");
-				tbl.addRow(new Object[] {n, ammount});
+				   List<MeasureUnit> muList = measureUnitList();
+				   MeasureUnit mu = muList.get(rs.getInt("measure_unit"));
+				   tbl.addRow(new Object[]{n, ammount, mu});
 			}
 		} catch (SQLException e) {
 	        e.printStackTrace();
@@ -128,7 +142,9 @@ public class SearchOfMaterialController extends SalesController{
 			while(rs.next()) {
 				String n = rs.getString("name");
 				double ammount = rs.getDouble("quantidade");
-				tbl.addRow(new Object[] {n, ammount});
+				List<MeasureUnit> muList = measureUnitList();
+				MeasureUnit mu = muList.get(rs.getInt("measure_unit"));
+				tbl.addRow(new Object[]{n, ammount, mu});
 			}
 		} catch (SQLException e) {
 	        e.printStackTrace();

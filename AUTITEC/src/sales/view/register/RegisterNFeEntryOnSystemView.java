@@ -164,17 +164,21 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	private JComboBox<State> cboState;
 	private JComboBox<City> cboCity;
 	private JComboBox<String> cboMaterialType;
+	private JComboBox<Material> cboMaterial;
 	
 	private JTable table;
 	
 	private DateField txtEmissionDate;
+
 	private RegisterNFeEntryOnSystemController controller;
-	private JComboBox<Material> cboMaterial;
+	
 	private JButton btnConfirm;
 	private JButton btnCancel;
 	private JButton btnClear;
 	private JButton btnAdd;
+	
 	private List<NfeMaterialRelation> nfeRelationList;
+	
 	private Nfe nfe;
 
 	public RegisterNFeEntryOnSystemView() {
@@ -1127,9 +1131,13 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		table.addKeyListener(keyListener);
 	}
 	
+	/*
+	 * Solicita confirmação para prosseguir com o resgistro de nfe, e verifica se os requisitos foram preenchidos
+	 * caso tenham sido preenchidos a função tenta realizar seu registro junto ao banco de dados.
+	 */
 	private void confirm() {
 		PurchaseOrder[] po = controller.getAllPurchaseOrder();
-		PurchaseOrder res = (PurchaseOrder) JOptionPane.showInputDialog(null, "Escolha um item" , "Selecao de itens" ,
+		PurchaseOrder res = (PurchaseOrder) JOptionPane.showInputDialog(null, "Pedido de Compra" , "Selecione o pedido de compra referente a nota" ,
 						JOptionPane.PLAIN_MESSAGE , null ,po,"");
 		if(res == null) {
 			ShowMessage.errorMessage(this, "Erro", "Você precisa selecionar uma ordem de compra");
@@ -1145,6 +1153,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		ShowMessage.successMessage(this, "Sucesso", "Registro de NF concluido com sucesso!");		
 	}
 	
+	/*
+	 * Remove da tabela um material/produto previamente adicionado.
+	 */
 	private void remove(KeyEvent e) {
 		if(e.getKeyCode() ==  KeyEvent.VK_DELETE) {
 			if(table.getSelectedRow() == -1)return;
@@ -1153,7 +1164,11 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 			tbl.removeRow(table.getSelectedRow());
 		}
 	}
-	
+	/*
+	 * Verifica se algum valor foi inserido caso não tenha sido inserido considera como 0
+	 * caso haja algum valor adiciona essa porcentagem inserida ao valor final unitario, e
+	 * popula no campo txtFinalSalesValues (valor final de venda).
+	 */
 	private void salesPercent() {
 		if(txtSalesPercent.getText().trim().isEmpty()) {
 			txtSalesPercent.setText("0");
@@ -1176,6 +1191,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		ClearFrame.clear(this);
 	}
 	
+	/*
+	 * Verifica os requisitos de inserção e caso tudo seja atendido adiciona um material/produto à tabela da nota fiscal.
+	 */
 	private void addMaterialToTable() {
 		boolean isOk = verifyData();
 		if(!isOk)return;
@@ -1228,11 +1246,18 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		clearMaterialTab();
 	}
 	
+	/*
+	 * Limpa o formulário sem limpar as informações contidas na tabela.
+	 */
 	private void clearMaterialTab() {
 	   ClearFrame.clearWithoutTable(productPanel);
 	    
     }
 
+	/*
+	 * Verifica se o produto em que o usuário está tentando adicionar à nota fiscal já não foi inserido,
+	 * caso já tenha sido inserido uma notificação é disparada ao usuário.
+	 */
 	private boolean verifyTable(NfeMaterialRelation mat) {
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		int i = tbl.getRowCount();
@@ -1246,6 +1271,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		return true;
 	}
 	
+	/*
+	 * Verifica os dados da primeira parte da nota fiscal para que o material/produto possa ser inserido à ela.
+	 */
 	private boolean verifyDataNfe() {
 		String accesKey = txtAccessKey.getText();
 		
@@ -1323,6 +1351,10 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		}
 	}
 	
+	/*
+	 * Verifica todos os dados da nota fiscal para realização do registro junto ao banco de dados.
+	 * caso tenha algo irregular uma notificação ao usuário é disparada.
+	 */
 	private boolean verifyData() {
 		String accesKey = txtAccessKey.getText();
 	
@@ -1498,6 +1530,10 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		return true;
 	}
 	
+	/*
+	 * Hablita ou desabilita campos referentes a entregra dos materiais/produtos no ato de mudançã de aba 
+	 * dependendo da modelidade de frete selecionado previamente.
+	 */
 	private void changeTab() {
 		if(cboFreightModality.getSelectedIndex() == 0) {
 			txtFreightCnpj.setEnabled(false);
@@ -1529,6 +1565,11 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		txtFinalCost.setText(String.valueOf("R$ " + (new DecimalFormat("#.##").format((div*ammount) + unitValue))));
 	}
 	
+	/*
+	 * Verifica se o campo de aliquota IPI não se encontra em branco, caso o campo não esteja em branco ele divide
+	 * o valor da aliquota por 100(descobrindo porcentagem) e multiplica pelo valor do produto depôs popula o campo
+	 * txtTaxIpi com o valor do imposto.
+	 */
 	private void aliquotIpi() {
 		if(txtAliquotIpi.getText().isEmpty() || txtCalculatedBaseIpi.getText().isEmpty())return;
 		else {
@@ -1539,16 +1580,26 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		}
 	}
 	
+	/*
+	 * Verifica se o campo de aliquota PIS não se encontra em branco, caso o campo não esteja em branco ele divide
+	 * o valor da aliquota por 100(descobrindo porcentagem) e multiplica pelo valor do produto depôs popula o campo
+	 * txtTaxPis com o valor do imposto.
+	 */
 	private void aliquotPis() {
 		if(txtAliquotPis.getText().isEmpty() || txtCalculatedBasePis.getText().isEmpty())return;
 		else {
 			double aliquot = Double.parseDouble(txtAliquotPis.getText().replaceAll(",", "."));
 			double value = Double.parseDouble(txtCalculatedBasePis.getText().replaceAll("R|\\$", "").replaceAll(",", "."));
 			double tax = (aliquot/100) * value;
-			txtTaxCofins.setText(String.valueOf(new DecimalFormat("#.##").format(tax)));
+			txtTaxPis.setText(String.valueOf(new DecimalFormat("#.##").format(tax)));
 		}
 	}
 	
+	/*
+	 * Verifica se o campo de aliquota Cofins não se encontra em branco, caso o campo não esteja em branco ele divide
+	 * o valor da aliquota por 100(descobrindo porcentagem) e multiplica pelo valor do produto depôs popula o campo
+	 * txtTaxCofins com o valor do imposto.
+	 */
 	private void aliquotCofins() {
 		if(txtAliquotCofins.getText().isEmpty() || txtCalculatedBaseCofins.getText().isEmpty())return;
 		else {
@@ -1559,6 +1610,11 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		}
 	}
 	
+	/*
+	 * Verifica se o campo de aliquota Icms não se encontra em branco, caso o campo não esteja em branco ele divide
+	 * o valor da aliquota por 100(descobrindo porcentagem) e multiplica pelo valor do produto depôs popula o campo
+	 * txtTaxIcms com o valor do imposto.
+	 */
 	private void aliquotIcms() {
 		if(txtAliquotIcms.getText().isEmpty() || txtCalculatedBaseIcms.getText().isEmpty())return;
 		else {
@@ -1568,6 +1624,11 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 			txtTaxIcms.setText(String.valueOf(new DecimalFormat("#.##").format(tax)));
 		}
 	}
+	
+	/*
+	 * Pega o valor total da nota referente ao material ou produto em questão e sua respectiva quantidade e realiza da divisão
+	 * do total pela quantidade obtendo o valor por produto que é populado no campo txtUnValue. 
+	 */
 	private void parcialValue() {
 		if(txtTotalValue.getText().replaceAll("R|\\$", "").replaceAll(",|0", "").trim().isEmpty() || txtAmmount.getText().isEmpty())return;
 		else {
@@ -1578,6 +1639,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		}
 	}
 	
+	/*
+	 * Calcula a "Base de Calculo" usado para obtenção de impostos como pis, icms e outros.
+	 */
 	private void calculatedBase(JTextField txtBase) {
 		if(cboFreightModality.getSelectedIndex() == 0) {
 			if(txtTotalValue.getText().replaceAll("R|\\$", "").replaceAll(",|0", "").trim().isEmpty()) {
@@ -1589,6 +1653,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		}
 	}
 	
+	/*
+	 * Preenche automaticamente os códigos mais convencionais dos sequintes impostos: icms, cofins, pis e ipi.
+	 */
 	private void cst(FocusEvent e) {
 		if(e.getSource().equals(txtCstIcms)) {
 			if(txtCstIcms.getText().trim().isEmpty()) {
@@ -1643,6 +1710,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		}
 	}
 	
+	/*
+	 * Estrutura o cnpj da empresa que realizou o frete das mercadorias contidas na nota fiscal em questão.
+	 */
 	private void formatFreightCnpj() {
 		if(txtFreightCnpj.getText().isEmpty())return;
 		else if(txtFreightCnpj.getText().length() == 11) {
@@ -1687,6 +1757,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		txtNcm.setText(m.getNCM());
 	}
 	
+	/*
+	 * Verifica se a hora de saída do material referente a nota fiscal realmente existe.
+	 */
 	private void verifyHour() {
 		if(txtExitHour.getText().replaceAll(":", "").trim().isEmpty()) {
 			Date date = new Date();
@@ -1718,6 +1791,9 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		}
 	}
 	
+	/*
+	 * Preenche os cnpj's de fornecedores.
+	 */
 	private void fillSupplierCnpj() {
 		Supplier supplier = (Supplier) cboSuppliers.getSelectedItem();
 		if(supplier == null)return;
@@ -1732,6 +1808,10 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		
 	}
 	
+	/*
+	 * Caso o focu do campo cfop seja perdido, a função popula os campos de CFOP com o mais convêncial caso nada seja inserido
+	 * e caso algo tenha sido inserido verifica na base de dados se esse código realmente é valido.
+	 */
 	private void cfop(FocusEvent e) {
 		if(e.getSource().equals(txtCFOP)) {
 			if(txtCFOP.getText().isEmpty()) {
@@ -1741,7 +1821,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 			}else {
 				CFOPExit cfop = controller.getCFOP(txtCFOP.getText());
 				if(cfop == null) {
-					ShowMessage.errorMessage(this, "Erro", "Numero de CFOP não existente");
+					ShowMessage.errorMessage(this, "Erro", "Número de CFOP não existente");
 					txtCFOP.requestFocus();
 					txtCFOP.setText("");
 					return;
@@ -1770,6 +1850,11 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		if(txtDanfeSerial.getText().isEmpty())txtDanfeSerial.setText("001");
 	} 
 	
+	/*
+	 * Verifica se algo foi preenchido no campo de modelo da nfe
+	 * caso sim verifica se o código é valido, caso não seja notifica o usuário
+	 * caso não popula o campo com o modelo de mais comum caso.
+	 */
 	private void nfeModel() {
 		if(txtNfeModel.getText().isEmpty()) {
 			txtNfeModel.setText("01");

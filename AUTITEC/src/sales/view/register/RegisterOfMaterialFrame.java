@@ -31,6 +31,8 @@ import model.MaterialModel;
 import model.MaterialType;
 import model.MeasureUnit;
 import sales.controller.SalesController;
+import sales.view.search.SearchOfMaterialFrame;
+import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.Icon;
@@ -55,13 +57,10 @@ public class RegisterOfMaterialFrame extends JFrame {
 
 	private JTextArea txtDescricao;
 	private JTextField txtNCM;
-	private JTextField txtInternalCode;
 
 	private JLabel lblName;
 
 	private JPanel panel;
-
-	private JLabel lblInternalCode;
 
 	private JLabel lblNCM;
 	private JLabel lblMaterialType;
@@ -80,6 +79,8 @@ public class RegisterOfMaterialFrame extends JFrame {
 	private JTextField txtLength;
 	private JLabel lblHeigth;
 	private JTextField txtHeigth;
+
+	private JButton btnSearch;
 
 	public RegisterOfMaterialFrame() {
 		frame = this;
@@ -119,24 +120,19 @@ public class RegisterOfMaterialFrame extends JFrame {
 
 		txtNCM = new JTextField();
 		txtNCM.setColumns(10);
-
-		lblInternalCode = new JLabel("Código interno");
-
-		txtInternalCode = new JTextField();
-		txtInternalCode.setColumns(10);
 		
 		lblMaterialType = new JLabel("Tipo do material");
 		 
 		lblModel = new JLabel("Modelo");
 		
 		cboMaterialType = new JComboBox<MaterialType>();
-		
+		new ComboBoxAutoCompletion(cboMaterialType);
 		btnAddMaterialType = new JButton("Adicionar");
 		btnAddMaterialType.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/plus.png")));
 		controller.fillMaterialType(cboMaterialType);
 		
 		cboMaterialModel = new JComboBox<MaterialModel>();
-		
+		new ComboBoxAutoCompletion(cboMaterialModel);
 		btnAddMaterialModel = new JButton("Adicionar");
 		btnAddMaterialModel.setIcon(new ImageIcon(RegisterOfMaterialFrame.class.getResource("/resources/plus.png")));
 		controller.fillMaterialModels(cboMaterialModel);
@@ -145,13 +141,14 @@ public class RegisterOfMaterialFrame extends JFrame {
 		
 		cboMeasureUnit = new JComboBox<MeasureUnit>();
 		controller.fillMeasureUnit(cboMeasureUnit);
+		new ComboBoxAutoCompletion(cboMeasureUnit);
 		
-		lblwidth = new JLabel("Largura");
+		lblwidth = new JLabel("Comprimento");
 		
 		txtWidth = new JTextField();
 		txtWidth.setColumns(10);
 		
-		lblLength = new JLabel("Comprimento");
+		lblLength = new JLabel("Largura");
 		lblLength.setEnabled(false);
 		
 		txtLength = new JTextField();
@@ -165,6 +162,8 @@ public class RegisterOfMaterialFrame extends JFrame {
 		txtHeigth.setEnabled(false);
 		txtHeigth.setColumns(10);
 		
+		btnSearch = new JButton("...");
+		
 		GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 		gl_principalPanel.setHorizontalGroup(
 			gl_principalPanel.createParallelGroup(Alignment.TRAILING)
@@ -174,16 +173,14 @@ public class RegisterOfMaterialFrame extends JFrame {
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblName)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE))
+							.addComponent(txtName, GroupLayout.DEFAULT_SIZE, 332, Short.MAX_VALUE)
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(btnSearch))
 						.addComponent(separator, GroupLayout.DEFAULT_SIZE, 414, Short.MAX_VALUE)
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblNCM)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-							.addGap(18)
-							.addComponent(lblInternalCode)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(txtInternalCode, GroupLayout.PREFERRED_SIZE, 174, GroupLayout.PREFERRED_SIZE))
+							.addComponent(txtNCM, GroupLayout.DEFAULT_SIZE, 352, Short.MAX_VALUE))
 						.addGroup(gl_principalPanel.createSequentialGroup()
 							.addComponent(lblMaterialType)
 							.addPreferredGap(ComponentPlacement.RELATED)
@@ -221,13 +218,12 @@ public class RegisterOfMaterialFrame extends JFrame {
 					.addContainerGap()
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblName)
-						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtName, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(btnSearch))
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblNCM)
-						.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblInternalCode)
-						.addComponent(txtInternalCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+						.addComponent(txtNCM, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblMaterialType)
@@ -305,13 +301,30 @@ public class RegisterOfMaterialFrame extends JFrame {
 				else if (e.getSource().equals(btnConfirmar)) {
 					int i = ShowMessage.questionMessage(frame, "CADASTRO", "Deseja realmente cadastrar esse produto ?");
 					if (i == JOptionPane.YES_OPTION) {
-							Material material = null;
-						if(txtName.getText().isEmpty()) ShowMessage.errorMessage(frame, "Erro", "Insira o nome do Material");
-						else if(txtDescricao.getText().isEmpty()) ShowMessage.errorMessage(frame, "Erro", "Insira a descrição do material");
-						else if(txtInternalCode.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira o código interno do material");
-						else if(txtNCM.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira o  código NCM do produto");
-						else if(cboMaterialType.getSelectedIndex() == -1)ShowMessage.errorMessage(frame, "Erro", "Selecione o tipo do material");
-						else if(txtWidth.getText().isEmpty())ShowMessage.errorMessage(frame, "Erro", "Insira um valor corresponde ao campo largura");
+						Material material = null;
+						if(txtName.getText().isEmpty()) {
+							ShowMessage.errorMessage(frame, "Erro", "Insira o nome do Material");
+							return;
+						}
+						else if(txtDescricao.getText().isEmpty()) {
+							ShowMessage.errorMessage(frame, "Erro", "Insira a descrição do material");
+							return;
+						}
+						else if(txtNCM.getText().isEmpty()) {
+							ShowMessage.errorMessage(frame, "Erro", "Insira o  código NCM do produto");
+							return;
+						}
+						else if(cboMaterialType.getSelectedIndex() == -1) {
+							ShowMessage.errorMessage(frame, "Erro", "Selecione o tipo do material");
+							return;
+						}
+						else if(txtWidth.getText().isEmpty()) {
+							ShowMessage.errorMessage(frame, "Erro", "Insira um valor corresponde ao campo largura");
+							return;
+						}else if(!controller.verifyName(txtName.getText())){
+							ShowMessage.errorMessage(frame, "Erro", "Material já cadastrado!");
+							return;
+						}
 						else {
 							material = createMaterial();
 						}
@@ -327,13 +340,14 @@ public class RegisterOfMaterialFrame extends JFrame {
 				}
 				else if(e.getSource().equals(btnAddMaterialType))new RegisterOfMaterialTypeView(frame).setVisible(true);
 				else if(e.getSource().equals(btnAddMaterialModel))new RegisterOfMaterialModelView(frame).setVisible(true);
+				else if(e.getSource().equals(btnSearch))new SearchOfMaterialFrame().setVisible(true);
 			}
 		};
 		btnConfirmar.addActionListener(btnAction);
 		btnCancelar.addActionListener(btnAction);
 		btnAddMaterialType.addActionListener(btnAction);
 		btnAddMaterialModel.addActionListener(btnAction);
-		
+		btnSearch.addActionListener(btnAction);
 		
 		ActionListener cboListener = new ActionListener() {
 			
@@ -373,7 +387,6 @@ public class RegisterOfMaterialFrame extends JFrame {
 		material.setName(txtName.getText());
 		material.setDescrition(txtDescricao.getText());
 		material.setNCM(txtNCM.getText());
-		material.setInternalCode(txtInternalCode.getText());
 		material.setAmmount(0);
 		MaterialModel mm = (MaterialModel) cboMaterialModel.getSelectedItem();
 		material.setModel(mm.getId());

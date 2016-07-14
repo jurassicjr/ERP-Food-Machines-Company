@@ -57,6 +57,9 @@ public class UpdateOfTrainingController {
 	   String period = training.getPeriod();
 	   String place = training.getPlace();
 	   String title = training.getTitle();
+	   
+	   map.put("date", date);
+	   map.put("duration", duration);
     }
 
 	/**

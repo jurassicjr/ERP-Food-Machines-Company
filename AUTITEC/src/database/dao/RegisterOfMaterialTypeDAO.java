@@ -24,7 +24,7 @@ public class RegisterOfMaterialTypeDAO {
 
 	public List<MaterialType> getTypes() {
 		List<MaterialType> list = new ArrayList<MaterialType>();
-		String query = "select * from type_mat";
+		String query = "select * from type_mat ORDER BY name";
 		try (ResultSet rs = dataBase.executeQuery(query)) {
 			while (rs.next()) {
 				String name = rs.getString("name");

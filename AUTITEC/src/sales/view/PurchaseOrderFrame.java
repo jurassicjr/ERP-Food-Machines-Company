@@ -461,7 +461,7 @@ public class PurchaseOrderFrame extends JFrame {
 		boolean complete = verifyRequisition(purchaseOrderAssociationList);
 		int status = 0;
 		if(!complete) {
-			int a =ShowMessage.questionMessage(this, "Fechamento", "Deseja encerrar a requisição de compras ?");
+			int a = ShowMessage.questionMessage(this, "Fechamento", "Deseja encerrar a requisição de compras ?");
 			if(a == JOptionPane.YES_OPTION)status = 1;
 			else status = 2;
 		}
@@ -469,6 +469,7 @@ public class PurchaseOrderFrame extends JFrame {
 		ClearFrame.clear(this);
 		ClearFrame.clearTable(table);
 		ShowMessage.successMessage(this, "sucesso", "Ordem de compra efetuada com sucesso!");
+		controller.fillSalesRequisitionCbo(cboPurchaseRequisition);
 	}
 	
 	private boolean verifyRequisition(List<PurchaseOrderAssociation> purchaseOrderAssociationList) {
@@ -540,7 +541,8 @@ public class PurchaseOrderFrame extends JFrame {
 		int i = table.getSelectedRow();
 		if(i == -1)return;
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
-		Material m = (Material) tbl.getValueAt(i, 0);
+		PurchaseOrderAssociation poa = (PurchaseOrderAssociation) tbl.getValueAt(i, 0);
+		Material m = poa.getMaterial();
 		cboMaterial.addItem(m);
 		tbl.removeRow(i);
 	}
@@ -611,5 +613,6 @@ public class PurchaseOrderFrame extends JFrame {
 		PurchaseOrderAssociation poa = new PurchaseOrderAssociation(m, unitValue, ipi, total, ammount);
 		Object[] rowData = new Object[] {poa, ammount, unitValue,ipi, total};
 		tbl.addRow(rowData);
+		txtUnitValue.requestFocus();
 	}
 }

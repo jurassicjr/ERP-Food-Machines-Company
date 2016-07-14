@@ -22,7 +22,7 @@ public class MaterialUpdateController extends SalesController{
 	
 	public void fillMaterials(JComboBox<Material> cboMaterial) {
 		cboMaterial.removeAllItems();
-		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM Product")){
+		try (ResultSet rs = dataBase.executeQuery("SELECT *FROM Product order by name")){
 			while (rs.next()) {
 				Material produto = new Material();
 				produto.setName(rs.getString("name"));

@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.sql.SQLException;
@@ -44,6 +47,7 @@ import net.sf.nachocalendar.CalendarFactory;
 import net.sf.nachocalendar.components.DateField;
 import sales.controller.MaterialUpdateController;
 import sales.controller.SalesController;
+import userInterface.components.ComboBoxAutoCompletion;
 import userInterface.components.UpperTextField;
 import util.ClearFrame;
 import util.Icon;
@@ -114,7 +118,7 @@ public class RegisterSuppliersFrame extends JFrame {
 
 	private JTextArea txtJustifacao;
 
-	private Date data;
+	private Date date;
 
 	private JTable table;
 
@@ -355,18 +359,20 @@ public class RegisterSuppliersFrame extends JFrame {
 		lblState = new JLabel("Estado");
 
 		cboState = new JComboBox<State>();
-
+		new ComboBoxAutoCompletion(cboState);
+		
 		cboCity = new JComboBox<City>();
-
+		new ComboBoxAutoCompletion(cboCity);
+		
 		lblStreet = new JLabel("Rua");
 
 		txtStreet = new UpperTextField();
 		txtStreet.setColumns(10);
 
 		lblProduct = new JLabel("Produtos");
-
 		cboMaterial = new JComboBox<Material>();
-
+		new ComboBoxAutoCompletion(cboMaterial);
+		
 		btnAddMaterial = new JButton("Adicionar");
 		btnAddMaterial.setIcon(new ImageIcon(RegisterSuppliersFrame.class.getResource("/resources/plus.png")));
 
@@ -377,6 +383,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		cboOutSourcedService = new JComboBox<OutSourcedServices>();
 		controller.fillService(cboOutSourcedService);
 		cboOutSourcedService.setSelectedIndex(-1);
+		new ComboBoxAutoCompletion(cboOutSourcedService);
 		
 		btnAddService = new JButton("Adicionar");
 		btnAddService.setIcon(new ImageIcon(RegisterSuppliersFrame.class.getResource("/resources/plus.png")));
@@ -442,20 +449,20 @@ public class RegisterSuppliersFrame extends JFrame {
 							.addComponent(scrollPaneProductTable, GroupLayout.DEFAULT_SIZE, 475, Short.MAX_VALUE)
 							.addGap(103))
 						.addGroup(gl_panel.createSequentialGroup()
-							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING, false)
+							.addGroup(gl_panel.createParallelGroup(Alignment.TRAILING, false)
 								.addGroup(gl_panel.createSequentialGroup()
 									.addComponent(lblServices)
 									.addPreferredGap(ComponentPlacement.RELATED)
 									.addComponent(cboOutSourcedService, 0, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-								.addGroup(gl_panel.createSequentialGroup()
+								.addGroup(Alignment.LEADING, gl_panel.createSequentialGroup()
 									.addComponent(lblProduct)
 									.addPreferredGap(ComponentPlacement.RELATED)
-									.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, 202, GroupLayout.PREFERRED_SIZE)))
+									.addComponent(cboMaterial, GroupLayout.PREFERRED_SIZE, 319, GroupLayout.PREFERRED_SIZE)))
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addGroup(gl_panel.createParallelGroup(Alignment.LEADING)
 								.addComponent(btnAddMaterial)
 								.addComponent(btnAddService))
-							.addGap(127))))
+							.addGap(10))))
 		);
 		gl_panel.setVerticalGroup(
 			gl_panel.createParallelGroup(Alignment.LEADING)
@@ -548,8 +555,12 @@ public class RegisterSuppliersFrame extends JFrame {
 					        "Deseja realmente cadastar esse fornecedor ?");
 					if (i == JOptionPane.YES_OPTION) {
 						try {
-							controller.doSupplierRegister(makeSupplier());
-							ShowMessage.successMessage(frame, "Sucesso", "Fornecedor registrado com sucesso!");
+							Supplier s = makeSupplier();
+							if(s == null)return;
+							else {
+								controller.doSupplierRegister(s);
+								ShowMessage.successMessage(frame, "Sucesso", "Fornecedor registrado com sucesso!");								
+							}
 						} catch (SQLException e1) {
 							e1.printStackTrace();
 						}
@@ -595,13 +606,27 @@ public class RegisterSuppliersFrame extends JFrame {
 		btnRegister.addActionListener(buttonListener);
 		btnAddService.addActionListener(buttonListener);
 		
-
+		KeyListener keyListener = new KeyAdapter() {
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if(e.getSource().equals(table) && e.getKeyCode() == KeyEvent.VK_DELETE)removeRow();
+			}
+		};
+		table.addKeyListener(keyListener);
 	}
 
+	private void removeRow() {
+		if(table.getSelectedRow() == -1)return;
+		int row = table.getSelectedRow();
+		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
+		tbl.removeRow(row);
+	}
+	
 	private Supplier makeSupplier() {
-		data = new Date();
-		data = (Date) txtExpirationDate.getValue();
-		String cnpj = txtCNPJ.getText().replaceAll("\\.|-|/", "").replaceAll(" ", "");
+		date = new Date();
+		if(txtExpirationDate.getValue() == null)date.setTime(System.currentTimeMillis());
+		else date = (Date) txtExpirationDate.getValue();
+		String cnpj = txtCNPJ.getText().replaceAll("\\.|-|/", "").replaceAll(" ", "").trim();
 		String stateRegister = txtStateRegister.getText().replaceAll("\\.", "").replaceAll(" ", "");
 		String CEP = txtCEP.getText().replaceAll("\\.", "").replaceAll("-", "").replaceAll(" ", "");
 		String justicacao = txtJustifacao.getText();
@@ -631,7 +656,7 @@ public class RegisterSuppliersFrame extends JFrame {
 				ShowMessage.errorMessage(this, "Erro", "Insira a justificativa");
 				return null;
 			}
-		} else if (txtExpirationDate.getValue().equals(null)) {
+		} else if (cboCertification.getSelectedIndex() == 1 && txtExpirationDate.getValue() == null) {
 			ShowMessage.errorMessage(this, "Erro", "Insira a data de expiração do Certificado");
 			return null;
 		}
@@ -656,7 +681,7 @@ public class RegisterSuppliersFrame extends JFrame {
 		supplier.setJustificative(txtJustifacao.getText());
 		supplier.setPhone(txtPhone.getText().replaceAll("\\(|\\)|-", ""));
 		supplier.setCep(CEP);
-		java.sql.Date sqlDate = new java.sql.Date(data.getTime());
+		java.sql.Date sqlDate = new java.sql.Date(date.getTime());
 		supplier.setExpireCertificateDate(sqlDate);
 		
 		List<Material> material = new ArrayList<Material>();

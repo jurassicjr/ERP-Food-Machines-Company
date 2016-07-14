@@ -80,7 +80,7 @@ public class RegisterProductFrame extends JFrame {
 	private void initialize() {
 		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-		setBounds(100, 100, 680, 562);
+		setBounds(100, 100, 759, 562);
 		setTitle("Registrar Produto");
 		Icon.setIcon(this);
 		
@@ -110,7 +110,8 @@ public class RegisterProductFrame extends JFrame {
 		contentPane.add(panel, BorderLayout.CENTER);
 		
 		JLabel lblProduct = new JLabel("Produto");
-		txProduct = new UpperTextField	();
+		txProduct = 
+				new UpperTextField	();
 		txProduct.setColumns(10);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -149,29 +150,29 @@ public class RegisterProductFrame extends JFrame {
 						.addComponent(scrollPane, Alignment.TRAILING, GroupLayout.DEFAULT_SIZE, 634, Short.MAX_VALUE)
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblProduct)
-							.addGap(18)
-							.addComponent(txProduct, GroupLayout.DEFAULT_SIZE, 578, Short.MAX_VALUE))
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(lblMaterial)
-							.addGap(18)
-							.addComponent(cbMaterial, 0, 221, Short.MAX_VALUE)
-							.addGap(18)
-							.addComponent(lblAmount)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(spinnerAmount, GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnInsert)
-							.addGap(133))
-						.addGroup(layout.createSequentialGroup()
-							.addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE)
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE))
+							.addComponent(txProduct, GroupLayout.DEFAULT_SIZE, 671, Short.MAX_VALUE))
 						.addGroup(layout.createSequentialGroup()
 							.addComponent(lblSendPhoto)
 							.addPreferredGap(ComponentPlacement.RELATED)
 							.addComponent(txtPath, GroupLayout.PREFERRED_SIZE, 314, GroupLayout.PREFERRED_SIZE)
 							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(btnOpenPhoto)))
+							.addComponent(btnOpenPhoto))
+						.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
+							.addGroup(layout.createParallelGroup(Alignment.TRAILING)
+								.addGroup(layout.createSequentialGroup()
+									.addComponent(lblMaterial)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(cbMaterial, 0, 434, Short.MAX_VALUE)
+									.addPreferredGap(ComponentPlacement.UNRELATED)
+									.addComponent(lblAmount)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(spinnerAmount, GroupLayout.PREFERRED_SIZE, 71, GroupLayout.PREFERRED_SIZE)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addComponent(btnInsert))
+								.addComponent(tableScroll, GroupLayout.DEFAULT_SIZE, 627, Short.MAX_VALUE))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addComponent(separator, GroupLayout.PREFERRED_SIZE, 1, GroupLayout.PREFERRED_SIZE)))
 					.addContainerGap())
 		);
 		layout.setVerticalGroup(
@@ -183,20 +184,17 @@ public class RegisterProductFrame extends JFrame {
 						.addComponent(txProduct, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 162, GroupLayout.PREFERRED_SIZE)
-					.addGap(18)
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
-						.addComponent(lblMaterial)
-						.addComponent(cbMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(lblAmount)
+						.addComponent(btnInsert)
 						.addComponent(spinnerAmount, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-						.addComponent(btnInsert))
+						.addComponent(lblAmount)
+						.addComponent(cbMaterial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+						.addComponent(lblMaterial))
+					.addPreferredGap(ComponentPlacement.RELATED)
 					.addGroup(layout.createParallelGroup(Alignment.TRAILING, false)
-						.addGroup(layout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED, 0, Short.MAX_VALUE)
-							.addComponent(tableScroll, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE))
-						.addGroup(layout.createSequentialGroup()
-							.addPreferredGap(ComponentPlacement.RELATED)
-							.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
+						.addComponent(tableScroll, GroupLayout.PREFERRED_SIZE, 166, GroupLayout.PREFERRED_SIZE)
+						.addComponent(separator, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 					.addGap(18)
 					.addGroup(layout.createParallelGroup(Alignment.BASELINE)
 						.addComponent(lblSendPhoto)
