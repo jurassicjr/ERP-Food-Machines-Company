@@ -41,6 +41,7 @@ public class MaterialDAO {
 		String sql = "INSERT INTO Product(descricao, name, internal_code, ncm, model, material_type, measure_unit, x, y, z) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		dataBase.executeUpdate(sql, insertData);
 		ShowMessage.successMessage(null, "GRAVAÇÂO", "Gravação concluida com sucesso!");
+		dataBase.close();
 	}
 
 	public List<Material> getAllMaterials() {
@@ -71,6 +72,7 @@ public class MaterialDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		dataBase.close();
 		return mList;
 	}
 
@@ -117,6 +119,7 @@ public class MaterialDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		dataBase.close();
 		return list;
 	}
 
@@ -141,6 +144,7 @@ public class MaterialDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		dataBase.close();
 		return (ArrayList<Material>) mList;
     }
 
@@ -148,11 +152,13 @@ public class MaterialDAO {
 	    String query = "select * from Product where name = ?";
 	    try(ResultSet rs = dataBase.executeQuery(query, text)){
 	    	if(rs.next()) {
+	    		dataBase.close();
 	    		return false;
 	    	}
 	    } catch (SQLException e) {
 	        e.printStackTrace();
         }
+	    dataBase.close();
 		return true;
     }
 }

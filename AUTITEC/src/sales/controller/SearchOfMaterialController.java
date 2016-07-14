@@ -84,7 +84,7 @@ public class SearchOfMaterialController extends SalesController{
 			   String n = rs.getString("name");
 			   double ammount = rs.getDouble("quantidade");
 			   List<MeasureUnit> muList = measureUnitList();
-			   MeasureUnit mu = muList.get(rs.getInt("measure_unit"));
+			   MeasureUnit mu = muList.get(rs.getInt("measure_unit")-1);
 			   tbl.addRow(new Object[]{n, ammount, mu});
 		   }
 		   
@@ -109,7 +109,7 @@ public class SearchOfMaterialController extends SalesController{
 				String n = rs.getString("name");
 				double ammount = rs.getDouble("quantidade");
 				 List<MeasureUnit> muList = measureUnitList();
-				 MeasureUnit mu = muList.get(rs.getInt("measure_unit"));
+				 MeasureUnit mu = muList.get(rs.getInt("measure_unit")-1);
 				 tbl.addRow(new Object[]{n, ammount, mu});
 			}
 		} catch (SQLException e) {
@@ -127,7 +127,7 @@ public class SearchOfMaterialController extends SalesController{
 				String n = rs.getString("name");
 				double ammount = rs.getDouble("quantidade");
 				   List<MeasureUnit> muList = measureUnitList();
-				   MeasureUnit mu = muList.get(rs.getInt("measure_unit"));
+				   MeasureUnit mu = muList.get(rs.getInt("measure_unit")-1);
 				   tbl.addRow(new Object[]{n, ammount, mu});
 			}
 		} catch (SQLException e) {
@@ -143,7 +143,7 @@ public class SearchOfMaterialController extends SalesController{
 				String n = rs.getString("name");
 				double ammount = rs.getDouble("quantidade");
 				List<MeasureUnit> muList = measureUnitList();
-				MeasureUnit mu = muList.get(rs.getInt("measure_unit"));
+				MeasureUnit mu = muList.get(rs.getInt("measure_unit")-1);
 				tbl.addRow(new Object[]{n, ammount, mu});
 			}
 		} catch (SQLException e) {

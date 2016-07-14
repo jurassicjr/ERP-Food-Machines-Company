@@ -393,7 +393,7 @@ public class SearchOfMaterialFrame extends JFrame {
 	WindowListener windowListener = new WindowAdapter() {
 		@Override
 		public void windowClosing(WindowEvent e) {
-			controller.queryAll(table);
+			//controller.queryAll(table);
 		}
 	}; 
 	private JLabel lblModel;
