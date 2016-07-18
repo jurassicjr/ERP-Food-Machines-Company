@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -224,8 +227,20 @@ public class InventoryFrame extends JFrame {
 		btnCancelar.addActionListener(buttonListeners);
 		btnFiscalNoteRegister.addActionListener(buttonListeners);
 		btnCheckList.addActionListener(buttonListeners);
+		
+		FocusListener windowsFocusListener = new FocusAdapter() {
+			@Override
+			public void focusGained(FocusEvent e) {
+				updateFields();
+			}
+		};
+		addFocusListener(windowsFocusListener);
 	}
 
+	private void updateFields() {
+		controller.fillFiscalNote(cboFiscalNote);
+	}
+	
 	private void updateCbo() {
 		cboFiscalNote.removeAllItems();
 		controller.fillFiscalNote(cboFiscalNote);
@@ -241,7 +256,6 @@ public class InventoryFrame extends JFrame {
 //		i.setIcms(Double.parseDouble(txtIcms.getText().replaceAll("%", "").replaceAll(",", "\\.").trim()));
 //		i.setPis(Double.parseDouble(txtPIS.getText().replaceAll("%", "").replaceAll(",", "\\.").trim()));
 //		i.setEntryValue(Double.parseDouble(txtEntryValue.getText().replaceAll("R|\\$", "").replaceAll(",", "\\.").trim()));
-//		controller.addToInventory(i);
-		
+//		controller.addToInventory(i);		
 	}
 }

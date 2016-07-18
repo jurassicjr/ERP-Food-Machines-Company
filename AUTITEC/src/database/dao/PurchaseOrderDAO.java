@@ -177,6 +177,47 @@ public class PurchaseOrderDAO {
 	        }
 		    return null;
     }
+
+	public String getBuyNumber() {
+	    String buyNumber = String.valueOf(dataBase.getAutoIncrementValue("purchase_order"));
+	    dataBase.close();
+		return buyNumber;
+    }
+
+	public List<PurchaseOrder> getPurchaseOrderWithoutNfe() {
+		   	List<PurchaseOrder> list = new ArrayList<PurchaseOrder>();
+			String sql = "SELECT * FROM purchase_order where isConcluded = ? and has_nfe = ?";
+		    boolean answer = false;
+		    boolean has_nfe = false;
+		    Object[] data = new Object[] {answer, has_nfe};
+		    try(ResultSet rs = dataBase.executeQuery(sql, data)){
+		    	while(rs.next()) {
+		    		String paymentMethod = rs.getString("payment_method");
+		    		int purchaseRequisitionId = rs.getInt("purchase_requisition");
+		    		PurchaseRequisition purchaseRequisition = new PurchaseRequisitionDAO().getRequisitionById(purchaseRequisitionId);
+		    		String shippingCompany = rs.getString("shipping_company");
+		    		int supplierId = rs.getInt("supplier");
+		    		Supplier supplier = new SuppliersDAO().getSupplierbyId(supplierId);
+		    		Date orderDate = rs.getDate("order_date");
+		    		Date deliveryDate = rs.getDate("delivery_date");
+		    		String contactPhone = rs.getString("contact_phone");
+		    		double freight = rs.getDouble("freight");
+		    		String salesMan = rs.getString("sales_man");
+		    		double totalValue = rs.getDouble("total_value");
+		    		int id = rs.getInt("id");
+		    		List<PurchaseOrderAssociation> purchaseOrderAssociationList = getAssociatedList(id);
+		    		PurchaseOrder po = new PurchaseOrder(paymentMethod, purchaseRequisition, shippingCompany, supplier, orderDate, deliveryDate, contactPhone, freight, salesMan, totalValue, purchaseOrderAssociationList, answer);
+		    		po.setId(id);
+		    		list.add(po);
+		    	}
+			    dataBase.close();
+		    	return list;
+		    } catch (SQLException e) {
+		        e.printStackTrace();
+	        }
+		    dataBase.close();
+		    return null;
+    }
 	
 	
 }

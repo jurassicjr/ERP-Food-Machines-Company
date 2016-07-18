@@ -8,6 +8,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import model.Employee;
@@ -138,5 +139,17 @@ public class SalesRequisitionControllerFrame {
 	    map.put("justification", sr.getJustification());
 	    PurchaseRequisitionDAO sDAO = new PurchaseRequisitionDAO();
 	    sDAO.register(map);
+    }
+
+	public void fillRequisitionNumber(JTextField txtRequisitionNumber) {
+	    String requisitionNumber = new PurchaseRequisitionDAO().getNewRequisitionNumber();
+	    if(requisitionNumber.length() == 1) {
+	    	requisitionNumber = "000" + requisitionNumber;
+	    }else if(requisitionNumber.length() == 2) {
+	    	requisitionNumber = "00" + requisitionNumber;
+	    }else if(requisitionNumber.length() == 3) {
+	    	requisitionNumber = "0" + requisitionNumber;
+	    }
+		txtRequisitionNumber.setText(requisitionNumber);
     }
 }

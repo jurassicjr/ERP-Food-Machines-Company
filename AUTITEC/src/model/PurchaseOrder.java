@@ -120,7 +120,19 @@ public class PurchaseOrder {
 	
 	@Override
 	public String toString() {
-		return this.supplier.getCompanyName() + "/" + this.purchaseRequisition.getPtc().getRastreabilityCode();
+		return this.supplier.getCompanyName() + "/" + this.purchaseRequisition.getPtc().getRastreabilityCode() + "/" + buyNumber();
 	}
+
+	private String buyNumber() {
+		String buyNumber = String.valueOf(this.id);
+	    if(buyNumber.length() == 1) {
+	    	buyNumber = "000" + buyNumber;
+	    }else if(buyNumber.length() == 2) {
+	    	buyNumber = "00" + buyNumber;
+	    }else if(buyNumber.length() == 3) {
+	    	buyNumber = "0" + buyNumber;
+	    }
+		return buyNumber;
+    }
 	
 }

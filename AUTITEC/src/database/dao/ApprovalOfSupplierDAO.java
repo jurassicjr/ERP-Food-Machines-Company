@@ -44,5 +44,6 @@ public class ApprovalOfSupplierDAO {
 		        + " supplier_evidence, supplier_observation, descrition, price_rate, quality_rate, service_rate, isHabilitated) "
 		        + "VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		dataBase.executeUpdate(sql, persist);
+		dataBase.close();
 	}
 }

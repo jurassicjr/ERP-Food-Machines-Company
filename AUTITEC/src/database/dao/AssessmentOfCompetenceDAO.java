@@ -34,7 +34,7 @@ public class AssessmentOfCompetenceDAO {
 	    Object[] obj = new Object[] {experience, funDesID, eID, points, isEnable};
 	    dataBase.executeUpdate(query, obj);
 	    registerFunctionsAssociations(btngroupList, functions, assessmentOfCompetenceID);
-	    
+	    dataBase.close();
     }
 
 	private void registerFunctionsAssociations(List<ButtonGroup> btngroupList, List<String> functions, int assessmentOfCompetenceID) {

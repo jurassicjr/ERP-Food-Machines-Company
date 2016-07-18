@@ -38,6 +38,7 @@ public class FunctionDescriptionDAO {
 	    dataBase.executeUpdate(query, obj);
 	    registerKnowledgement(knowledgementList, functionDescriptionID);
 	    registerPersonalHabilities(personalHabilitiesList, functionDescriptionID);
+	    dataBase.close();
 	}
 
 	private void registerKnowledgement(List<String> knowledgementList, int id) {

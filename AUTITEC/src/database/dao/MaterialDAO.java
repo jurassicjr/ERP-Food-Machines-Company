@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Map;
 
 import model.Material;
+import model.PurchaseOrder;
+import model.PurchaseOrderAssociation;
 import util.ShowMessage;
 import database.DataBase;
 
@@ -160,5 +162,41 @@ public class MaterialDAO {
         }
 	    dataBase.close();
 		return true;
+    }
+
+	public List<Material> getAllMaterialsOnPurchaseOrder(PurchaseOrder po) {
+	    List<PurchaseOrderAssociation> list = po.getPurchaseOrderAssociationList();
+	    List<Material> mList = new ArrayList<Material>();
+		try {
+
+			ResultSet rs = dataBase.executeQuery("SELECT *FROM Product");
+
+			while (rs.next()) {
+
+				Material material = new Material();
+				material.setName(rs.getString("name"));
+				material.setDescrition(rs.getString("descricao"));
+				material.setId(rs.getInt("id"));
+				material.setModel(rs.getInt("model"));
+				material.setMaterialType(rs.getInt("material_type"));
+				material.setHeigth(rs.getDouble("z"));
+				material.setInternalCode(rs.getString("internal_code"));
+				material.setLength(rs.getDouble("y"));
+				material.setMaterialType(rs.getInt("material_type"));
+				material.setMeasureUnit(rs.getInt("measure_unit"));
+				material.setModel(rs.getInt("model"));
+				material.setNCM(rs.getString("ncm"));
+				material.setWidth(rs.getDouble("x"));
+				for (PurchaseOrderAssociation poa : list) {
+	                if(poa.getMaterial().equals(material)) {
+	                	mList.add(material);	                	
+	                }
+                }
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		dataBase.close();
+		return mList;
     }
 }

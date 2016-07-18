@@ -139,6 +139,8 @@ public class PurchaseRequisitionFrame extends JFrame {
 		lblRequisitioNumber = new JLabel("Nº da Req.");
 
 		txtRequisitionNumber = new JTextField("");
+		controller.fillRequisitionNumber(txtRequisitionNumber);
+		txtRequisitionNumber.setEnabled(false);
 		txtRequisitionNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		Border border = BorderFactory.createLineBorder(Color.BLUE);
 		txtRequisitionNumber.setBorder(border);
@@ -338,35 +340,39 @@ public class PurchaseRequisitionFrame extends JFrame {
 				if (e.getSource().equals(btnCancelar)) {
 					controller.close();
 				}else if (e.getSource().equals(btnInsert)) {
-					Material material;
-					String area;
-					if(cboSector.getSelectedIndex() == -1) {
-						ShowMessage.errorMessage(frame, "Erro", "Selecione para qual setor é o material!");
-						return;
-					}else {
-						area = (String) cboSector.getSelectedItem();						
-					}
-					double ammount;
-					if(txtAmmount.getText() == "" || txtAmmount.getText().equalsIgnoreCase("0")) {
-						ShowMessage.errorMessage(frame, "Erro", "Insira a quantidade correta do produto");
-						return;
-					}else {
-						ammount = Double.parseDouble(txtAmmount.getText());						
-					}
-					if(cboMaterial.getSelectedIndex() == -1) {
-						ShowMessage.errorMessage(frame, "Erro", "Selecione um produto para adicionar!");
-						return;
-					}else {
-						material = (Material) cboMaterial.getSelectedItem();						
-					}
-					controller.addMaterial(material, ammount, table, area);
-					cboMaterial.requestFocus();
+					addMaterial();
 				}else if(e.getSource().equals(btnSave))save();
 			}
 		};
 		btnSave.addActionListener(buttonListener);
 		btnCancelar.addActionListener(buttonListener);
 		btnInsert.addActionListener(buttonListener);
+	}
+	
+	private void addMaterial() {
+		Material material;
+		String area;
+		if(cboSector.getSelectedIndex() == -1) {
+			ShowMessage.errorMessage(frame, "Erro", "Selecione para qual setor é o material!");
+			return;
+		}else {
+			area = (String) cboSector.getSelectedItem();						
+		}
+		double ammount;
+		if(txtAmmount.getText() == "" || txtAmmount.getText().equalsIgnoreCase("0")) {
+			ShowMessage.errorMessage(frame, "Erro", "Insira a quantidade correta do produto");
+			return;
+		}else {
+			ammount = Double.parseDouble(txtAmmount.getText());						
+		}
+		if(cboMaterial.getSelectedIndex() == -1) {
+			ShowMessage.errorMessage(frame, "Erro", "Selecione um produto para adicionar!");
+			return;
+		}else {
+			material = (Material) cboMaterial.getSelectedItem();						
+		}
+		controller.addMaterial(material, ammount, table, area);
+		cboMaterial.requestFocus();
 	}
 	
 	public void save() {
@@ -395,6 +401,7 @@ public class PurchaseRequisitionFrame extends JFrame {
 		controller.register(sr);
 		ShowMessage.successMessage(this, "Sucesso", "Registro de requisição de compra concluido com sucesso");
 		ClearFrame.clear(this);
+		controller.fillRequisitionNumber(txtRequisitionNumber);
 	}
 
 	private boolean isOk() {

@@ -35,6 +35,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.ScrollPaneConstants;
+import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -146,8 +147,10 @@ public class PurchaseOrderFrame extends JFrame {
 
 		lblBuyNumber = new JLabel("Nº Pedido");
 		txtBuyNumber = new JLabel("");
+		txtBuyNumber.setHorizontalAlignment(SwingConstants.CENTER);
 		Border border = BorderFactory.createLineBorder(Color.BLUE);
 		txtBuyNumber.setBorder(border);
+		controller.fillBuyNumber(txtBuyNumber);
 
 		lblSalesMan = new JLabel("Vendedor");
 		txtSalesMan = new JTextField();
@@ -470,6 +473,7 @@ public class PurchaseOrderFrame extends JFrame {
 		ClearFrame.clearTable(table);
 		ShowMessage.successMessage(this, "sucesso", "Ordem de compra efetuada com sucesso!");
 		controller.fillSalesRequisitionCbo(cboPurchaseRequisition);
+		controller.fillBuyNumber(txtBuyNumber);
 	}
 	
 	private boolean verifyRequisition(List<PurchaseOrderAssociation> purchaseOrderAssociationList) {
@@ -480,9 +484,11 @@ public class PurchaseOrderFrame extends JFrame {
 	    		matList.add(poa.getMaterial());
         }
 	    for (PurchaseRequisitionAssociation pra : list) {
-            if(!matList.contains(pra.getMaterial())) {
-            	return false;
-            }
+	    	if(!pra.isBought()) {
+	    		if(!matList.contains(pra.getMaterial())) {
+	    			return false;
+	    		}	    		
+	    	}
         }
 	    return true;
     }

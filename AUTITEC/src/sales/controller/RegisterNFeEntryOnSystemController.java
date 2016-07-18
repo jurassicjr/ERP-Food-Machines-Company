@@ -150,6 +150,26 @@ public class RegisterNFeEntryOnSystemController {
 	    
 		return po;
     }
-	
-	
+
+	public void fillPurchaseOrder(JComboBox<PurchaseOrder> cboPurchaseOrder) {
+		cboPurchaseOrder.removeAllItems();
+		PurchaseOrder[] po = getAllPurchaseOrderWithoutNfe();
+		for (PurchaseOrder purchaseOrder : po) {
+	        cboPurchaseOrder.addItem(purchaseOrder);
+        }
+		cboPurchaseOrder.setSelectedIndex(-1);
+	}
+
+	private PurchaseOrder[] getAllPurchaseOrderWithoutNfe() {
+		 List<PurchaseOrder> poList = new PurchaseOrderDAO().getPurchaseOrderWithoutNfe();
+		    PurchaseOrder[] po = new PurchaseOrder[poList.size()];
+		    po = poList.toArray(po);
+		    
+			return po;
+    }
+
+	public void fillMaterialCboOrPurchaseOrder(JComboBox<Material> cboMaterial, PurchaseOrder po) {
+	    List<Material> list = new MaterialDAO().getAllMaterialsOnPurchaseOrder(po);
+	    list.stream().sorted((a, b) -> a.getName().compareTo(b.getName())).forEach(e -> cboMaterial.addItem(e));		
+    }
 }

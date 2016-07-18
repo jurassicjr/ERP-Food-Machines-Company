@@ -33,7 +33,8 @@ public class ClientPropertiesDAO {
 	    Object[] data = new Object[] {entryDateSQL, fiscalNote};
 	    dataBase.executeUpdate(query, data);
 	    registerClientPropertiesMaterial(clientPropertieID, cpmList);
-	    }
+	    dataBase.close();
+	}
 
 	private void registerClientPropertiesMaterial(int clientPropertieID, List<ClientPropertiesMaterial> cpmList) {
 	    String query = "INSERT INTO client_properties_material(ammount, material, client_properties) VALUES (?,?,?)";
@@ -62,9 +63,11 @@ public class ClientPropertiesDAO {
 	    		cp.setPropertiesList(cpmList);
 	    		cpList.add(cp);
 	    	}
+	    	dataBase.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
         }
+	    dataBase.close();
 		return cpList;
     }
 
@@ -84,9 +87,11 @@ public class ClientPropertiesDAO {
 	    		cpm.setId(clientPropestiesMaterialId);
 	    		cpmList.add(cpm);
 	    	}
+	    	dataBase.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
         }
+	    dataBase.close();
 	    return cpmList;
     }	
 }

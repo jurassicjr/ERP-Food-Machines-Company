@@ -180,6 +180,8 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	private List<NfeMaterialRelation> nfeRelationList;
 	
 	private Nfe nfe;
+	private JLabel lblPurchaseOrder;
+	private JComboBox<PurchaseOrder> cboPurchaseOrder;
 
 	public RegisterNFeEntryOnSystemView() {
 		controller = new RegisterNFeEntryOnSystemController(this);
@@ -191,11 +193,12 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	private void initialize() {
 		setTitle("REGISTRO DE NOTA FISCAL DE ENTRADA");
 		Icon.setIcon(this);
-		setBounds(100, 100, 757, 579);
+		setBounds(100, 100, 757, 614);
 		setPreferredSize(new Dimension(757, 565));
 		setMinimumSize(new Dimension(757, 565));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setFocusable(true);
 		initializeTabbed();
     }
 
@@ -386,7 +389,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    
 	    cboMaterial = new JComboBox<Material>();
 	    new ComboBoxAutoCompletion(cboMaterial);
-	    controller.fillMaterialCbo(cboMaterial);
+	    
 	    cboMaterial.setSelectedIndex(-1);
 	    
 	    GroupLayout gl_productPanel = new GroupLayout(productPanel);
@@ -657,6 +660,12 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
     }
 
 	private void initializePrincipal() {
+		lblPurchaseOrder = new JLabel("Pedido de Compra");
+		
+		cboPurchaseOrder = new JComboBox<PurchaseOrder>();
+		controller.fillPurchaseOrder(cboPurchaseOrder);
+		new ComboBoxAutoCompletion(cboPurchaseOrder);
+
 		principalPanel = new JPanel();
 		lblAccessKey = new JLabel("Informar numero da DANFE (Chave de Acesso)");
 	    
@@ -778,60 +787,52 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    txtANTTCode = new JTextField();
 	    txtANTTCode.setColumns(10);
 	    
+	    
+	    
 	    GroupLayout gl_principalPanel = new GroupLayout(principalPanel);
 	    gl_principalPanel.setHorizontalGroup(
 	    	gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    		.addGroup(gl_principalPanel.createSequentialGroup()
 	    			.addContainerGap()
-	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
+	    				.addComponent(txtAccessKey, GroupLayout.DEFAULT_SIZE, 726, Short.MAX_VALUE)
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addComponent(txtAccessKey, GroupLayout.DEFAULT_SIZE, 719, Short.MAX_VALUE)
-	    					.addContainerGap())
+	    					.addComponent(lblFiscalNoteData)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(separator, GroupLayout.PREFERRED_SIZE, 622, GroupLayout.PREFERRED_SIZE))
+	    				.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+	    					.addComponent(lblFreightModality)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(cboFreightModality, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
+	    					.addGap(18)
+	    					.addComponent(lblFreightCnpj)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtFreightCnpj, GroupLayout.DEFAULT_SIZE, 238, Short.MAX_VALUE))
+	    				.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+	    					.addComponent(lblStreet)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
+	    					.addGap(18)
+	    					.addComponent(lblState)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(cboState, 0, 317, Short.MAX_VALUE))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-	    						.addComponent(lblAccessKey)
-	    						.addGroup(gl_principalPanel.createSequentialGroup()
-	    							.addComponent(lblFiscalNoteData)
-	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(separator, GroupLayout.DEFAULT_SIZE, 615, Short.MAX_VALUE)))
-	    					.addContainerGap())
-	    				.addGroup(gl_principalPanel.createSequentialGroup()
-	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
-	    						.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
-	    							.addComponent(lblFreightModality)
-	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(cboFreightModality, GroupLayout.PREFERRED_SIZE, 325, GroupLayout.PREFERRED_SIZE)
-	    							.addGap(18)
-	    							.addComponent(lblFreightCnpj)
-	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(txtFreightCnpj, GroupLayout.DEFAULT_SIZE, 231, Short.MAX_VALUE))
-	    						.addGroup(gl_principalPanel.createSequentialGroup()
-	    							.addComponent(lblStreet)
-	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(txtStreet, GroupLayout.PREFERRED_SIZE, 295, GroupLayout.PREFERRED_SIZE)
-	    							.addGap(18)
-	    							.addComponent(lblState)
-	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(cboState, 0, 320, Short.MAX_VALUE))
-	    						.addGroup(gl_principalPanel.createSequentialGroup()
-	    							.addComponent(lblFreight)
-	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(separator_2, GroupLayout.DEFAULT_SIZE, 662, Short.MAX_VALUE)))
-	    					.addContainerGap())
-	    				.addGroup(gl_principalPanel.createSequentialGroup()
+	    					.addComponent(lblFreight)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(separator_2, GroupLayout.DEFAULT_SIZE, 669, Short.MAX_VALUE))
+	    				.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblCompanyName)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(txtCompanyName, GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
-	    					.addContainerGap())
+	    					.addComponent(txtCompanyName, GroupLayout.DEFAULT_SIZE, 652, Short.MAX_VALUE))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addComponent(lblCity)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
-	    					.addComponent(cboCity, 0, 339, Short.MAX_VALUE)
+	    					.addComponent(cboCity, 0, 346, Short.MAX_VALUE)
 	    					.addGap(18)
 	    					.addComponent(lblANTTCode)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addComponent(txtANTTCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    					.addGap(183))
+	    					.addGap(173))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
@@ -841,29 +842,29 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    							.addGap(18)
 	    							.addComponent(lblcnpj)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(txtcnpj, GroupLayout.DEFAULT_SIZE, 246, Short.MAX_VALUE))
+	    							.addComponent(txtcnpj, GroupLayout.DEFAULT_SIZE, 253, Short.MAX_VALUE))
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblSupplier)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
-	    							.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 656, Short.MAX_VALUE)))
-	    					.addGap(14))
+	    							.addComponent(separator_1, GroupLayout.DEFAULT_SIZE, 663, Short.MAX_VALUE)))
+	    					.addGap(4))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-	    						.addComponent(txtCFOP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addGap(30)
-	    							.addComponent(lblCFOP)))
+	    							.addComponent(lblCFOP))
+	    						.addComponent(txtCFOP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    					.addGap(18)
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    						.addComponent(lblDescrioDaClassificao)
-	    						.addComponent(lblClassificationDescription, GroupLayout.PREFERRED_SIZE, 564, GroupLayout.PREFERRED_SIZE))
-	    					.addContainerGap(58, Short.MAX_VALUE))
+	    						.addComponent(lblClassificationDescription, GroupLayout.PREFERRED_SIZE, 622, GroupLayout.PREFERRED_SIZE)))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
-	    						.addComponent(txtExitHour, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addGap(4)
-	    							.addComponent(lblExitHour)))
+	    							.addComponent(lblExitHour))
+	    						.addComponent(txtExitHour, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    					.addGap(3)
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addGap(22)
@@ -894,14 +895,24 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
 	    						.addComponent(lblExitDate)
 	    						.addComponent(txtExitDate, GroupLayout.PREFERRED_SIZE, 76, GroupLayout.PREFERRED_SIZE))
-	    					.addGap(71))))
+	    					.addGap(61))
+	    				.addGroup(Alignment.LEADING, gl_principalPanel.createSequentialGroup()
+	    					.addComponent(lblPurchaseOrder)
+	    					.addPreferredGap(ComponentPlacement.RELATED)
+	    					.addComponent(cboPurchaseOrder, 0, 625, Short.MAX_VALUE))
+	    				.addComponent(lblAccessKey, Alignment.LEADING))
+	    			.addContainerGap())
 	    );
 	    gl_principalPanel.setVerticalGroup(
-	    	gl_principalPanel.createParallelGroup(Alignment.LEADING)
+	    	gl_principalPanel.createParallelGroup(Alignment.TRAILING)
 	    		.addGroup(gl_principalPanel.createSequentialGroup()
-	    			.addContainerGap()
+	    			.addGap(21)
+	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+	    				.addComponent(lblPurchaseOrder)
+	    				.addComponent(cboPurchaseOrder, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    			.addGap(13)
 	    			.addComponent(lblAccessKey)
-	    			.addPreferredGap(ComponentPlacement.RELATED)
+	    			.addPreferredGap(ComponentPlacement.UNRELATED)
 	    			.addComponent(txtAccessKey, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    			.addPreferredGap(ComponentPlacement.RELATED)
 	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
@@ -920,11 +931,10 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    								.addComponent(lblDanfeModel)
 	    								.addComponent(lblExitHour))
 	    							.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-	    							.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING, false)
-	    								.addComponent(txtExitHour, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    								.addGroup(gl_principalPanel.createSequentialGroup()
-	    									.addComponent(txtNfeModel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-	    									.addPreferredGap(ComponentPlacement.RELATED))))
+	    							.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
+	    								.addComponent(txtNfeModel, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+	    								.addComponent(txtExitHour, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
+	    							.addPreferredGap(ComponentPlacement.RELATED))
 	    						.addGroup(gl_principalPanel.createSequentialGroup()
 	    							.addComponent(lblFiscalNumber)
 	    							.addPreferredGap(ComponentPlacement.RELATED)
@@ -938,16 +948,16 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    							.addPreferredGap(ComponentPlacement.RELATED)
 	    							.addComponent(txtDanfeSerial, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 	    					.addGap(18)
-	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.BASELINE)
-	    						.addComponent(lblCFOP)
-	    						.addComponent(lblDescrioDaClassificao)))
+	    					.addGroup(gl_principalPanel.createParallelGroup(Alignment.LEADING)
+	    						.addComponent(lblDescrioDaClassificao)
+	    						.addComponent(lblCFOP)))
 	    				.addGroup(gl_principalPanel.createSequentialGroup()
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addComponent(lblEmissionDate)
 	    					.addPreferredGap(ComponentPlacement.RELATED)
 	    					.addComponent(txtEmissionDate, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)))
 	    			.addPreferredGap(ComponentPlacement.RELATED)
-	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING, false)
+	    			.addGroup(gl_principalPanel.createParallelGroup(Alignment.TRAILING)
 	    				.addComponent(lblClassificationDescription, GroupLayout.DEFAULT_SIZE, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
 	    				.addComponent(txtCFOP, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
 	    			.addGap(18)
@@ -991,7 +1001,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	    				.addComponent(cboCity, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
 	    				.addComponent(lblANTTCode)
 	    				.addComponent(txtANTTCode, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE))
-	    			.addGap(80))
+	    			.addContainerGap())
 	    );
 	    principalPanel.setLayout(gl_principalPanel);
 	    getContentPane().add(tabbedPanel, BorderLayout.CENTER);
@@ -1004,7 +1014,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		subPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
 		getContentPane().add(subPanel, BorderLayout.SOUTH);
 		
-		btnConfirm = 	new JButton("Confirmar");
+		btnConfirm = new JButton("Confirmar");
 		btnConfirm.setIcon(new ImageIcon(RegisterNFeEntryOnSystemView.class.getResource("/resources/ok.png")));
 		btnCancel = new JButton("Cancelar");
 		btnCancel.setIcon(new ImageIcon(RegisterNFeEntryOnSystemView.class.getResource("/resources/cancel.png")));
@@ -1090,9 +1100,10 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 			public void actionPerformed(ActionEvent e) {
 				if(e.getSource().equals(cboSuppliers))fillSupplierCnpj();
 				else if(e.getSource().equals(cboMaterial))fillMaterialCode();
+				else if(e.getSource().equals(cboPurchaseOrder))fillMaterials();
 			}
 		};
-		
+		cboPurchaseOrder.addActionListener(cboListener);
 		cboSuppliers.addActionListener(cboListener);
 		cboMaterial.addActionListener(cboListener);
 		
@@ -1100,7 +1111,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(e.getSource().equals(btnClear)) clearFrame();
+				if(e.getSource().equals(btnClear)) clearFrame(false);
 				else if(e.getSource().equals(btnAdd))addMaterialToTable();
 				else if(e.getSource().equals(btnCancel))controller.close();
 				else if(e.getSource().equals(btnConfirm))confirm();
@@ -1131,26 +1142,31 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		table.addKeyListener(keyListener);
 	}
 	
+	private void fillMaterials() {
+		if(cboPurchaseOrder.getSelectedIndex() == -1)return;
+		controller.fillMaterialCboOrPurchaseOrder(cboMaterial, (PurchaseOrder) cboPurchaseOrder.getSelectedItem());
+	}
+	
 	/*
 	 * Solicita confirmação para prosseguir com o resgistro de nfe, e verifica se os requisitos foram preenchidos
 	 * caso tenham sido preenchidos a função tenta realizar seu registro junto ao banco de dados.
 	 */
 	private void confirm() {
-		PurchaseOrder[] po = controller.getAllPurchaseOrder();
-		PurchaseOrder res = (PurchaseOrder) JOptionPane.showInputDialog(null, "Pedido de Compra" , "Selecione o pedido de compra referente a nota" ,
-						JOptionPane.PLAIN_MESSAGE , null ,po,"");
-		if(res == null) {
-			ShowMessage.errorMessage(this, "Erro", "Você precisa selecionar uma ordem de compra");
+		if(cboPurchaseOrder.getSelectedIndex() == -1) {
+			ShowMessage.errorMessage(this, "Erro", "Selecione um fornecedor");
 			return;
 		}
+		PurchaseOrder res = (PurchaseOrder) cboPurchaseOrder.getSelectedItem();
 		int i = ShowMessage.questionMessage(this, "Registrar", "Deseja realmente registar essa nota fiscal?");
 		if(i == JOptionPane.NO_OPTION)return;
 		boolean isOk = verifyDataNfe();
 		if(!isOk)return;
-		nfeRelationList.forEach(s -> System.out.println(s));
+		//nfeRelationList.forEach(s -> System.out.println(s));
 		nfe.setPurchaseOrder(res);
 		controller.registerNFe(nfeRelationList, nfe);
-		ShowMessage.successMessage(this, "Sucesso", "Registro de NF concluido com sucesso!");		
+		ShowMessage.successMessage(this, "Sucesso", "Registro de NF concluido com sucesso!");
+		clearFrame(true);
+		controller.fillPurchaseOrder(cboPurchaseOrder);
 	}
 	
 	/*
@@ -1161,7 +1177,10 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 			if(table.getSelectedRow() == -1)return;
 			DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 			nfeRelationList.remove(tbl.getValueAt(table.getSelectedRow(), 0));
+			NfeMaterialRelation nfemr =  (NfeMaterialRelation) tbl.getValueAt(table.getSelectedRow(), 0);
+			Material mat = nfemr.getMaterial();
 			tbl.removeRow(table.getSelectedRow());
+			cboMaterial.addItem(mat);
 		}
 	}
 	/*
@@ -1185,10 +1204,14 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		}
 	}
 	
-	private void clearFrame() {
-		int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar a janela ?");
-		if(i == JOptionPane.NO_OPTION)return;
-		ClearFrame.clear(this);
+	private void clearFrame(boolean b) {
+		if(!b) {
+			int i = ShowMessage.questionMessage(this, "Limpar", "Deseja realmente limpar a janela ?");
+			if(i == JOptionPane.NO_OPTION)return;
+			ClearFrame.clear(this);			
+		}else {
+			ClearFrame.clear(this);
+		}
 	}
 	
 	/*
@@ -1243,6 +1266,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 		DefaultTableModel tbl = (DefaultTableModel) table.getModel();
 		tbl.addRow(obj);
 		nfeRelationList.add(nfemr);
+		cboMaterial.removeItem(material);
 		clearMaterialTab();
 	}
 	
@@ -1531,7 +1555,7 @@ public class RegisterNFeEntryOnSystemView extends JFrame{
 	}
 	
 	/*
-	 * Hablita ou desabilita campos referentes a entregra dos materiais/produtos no ato de mudançã de aba 
+	 * Habilita ou desabilita campos referentes a entregra dos materiais/produtos no ato de mudançã de aba 
 	 * dependendo da modelidade de frete selecionado previamente.
 	 */
 	private void changeTab() {

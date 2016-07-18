@@ -44,6 +44,7 @@ public class ClientDAO {
 		String sql = "INSERT INTO client(name, street, neighborhood, city, state, cep, phone, email,"
 				+ "companyNAme,cpf,cnpj,ie,sex,companycontactname,birthdate,rg) VALUES(?, ?, ? ,? , ?, ?, ?, ?,?,?,?,?,?,?,?,?)";
 		dataBase.executeUpdate(sql, persist);
+		dataBase.close();
 	}
 	public List<Client> getAllClients() {
 	    String sql = "SELECT * FROM client order by name";
@@ -73,10 +74,11 @@ public class ClientDAO {
 				client.setRg(rs.getString("rg"));
 				cList.add(client);
 			}
-				
+				dataBase.close();
 		} catch (SQLException e) {
 	        e.printStackTrace();
         }
+		dataBase.close();
 		return cList;
     }
 	public Client getClientByID(int id) {
@@ -106,10 +108,11 @@ public class ClientDAO {
 				client.setRg(rs.getString("rg"));
 				return client;
 			}
-
+			dataBase.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		dataBase.close();
 		return null;
     }
 }

@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import model.City;
@@ -171,4 +172,16 @@ public class PurchaseOrderController {
 	    map.put("totalValue", po.getTotalValue());
 	    new PurchaseOrderDAO().register(map, status);
 	}
+
+	public void fillBuyNumber(JLabel txtBuyNumber) {
+	    String buyNumber =new PurchaseOrderDAO().getBuyNumber();
+	    if(buyNumber.length() == 1) {
+	    	buyNumber = "000" + buyNumber;
+	    }else if(buyNumber.length() == 2) {
+	    	buyNumber = "00" + buyNumber;
+	    }else if(buyNumber.length() == 3) {
+	    	buyNumber = "0" + buyNumber;
+	    }
+	    txtBuyNumber.setText(buyNumber);
+    }
 }

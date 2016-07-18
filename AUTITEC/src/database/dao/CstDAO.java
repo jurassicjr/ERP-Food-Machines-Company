@@ -20,9 +20,11 @@ public class CstDAO {
 	    	if(rs.next()) {
 	    		return true;
 	    	}
+	    	dataBase.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
         }
+	    dataBase.close();
 		return false;
     }
 
@@ -32,9 +34,11 @@ public class CstDAO {
 	    	if(rs.next()) {
 	    		return true;
 	    	}
+	    	dataBase.close();
 	    } catch (SQLException e) {
 	        e.printStackTrace();
         }
+	    dataBase.close();
 		return false;
     }
 

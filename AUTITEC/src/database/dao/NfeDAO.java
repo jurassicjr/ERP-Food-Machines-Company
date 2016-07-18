@@ -129,6 +129,13 @@ public class NfeDAO {
 	        	return false;
 	        }
         }
+		
+		String updatePurchaseOrderQuery = "update purchase_order set has_nfe = true where id = ?";
+		dataBase.executeUpdate(updatePurchaseOrderQuery, purchaseOrderId);
+		
+		String registerNfeRelationWithPurchaseOrder = "insert into purchase_order_nfe_relation(nfe, purchase_order) values(?,?)";
+		Object[] dataRNRP = new Object[] {nfeID, purchaseOrderId};
+		dataBase.executeUpdate(registerNfeRelationWithPurchaseOrder, dataRNRP);
 		return true;
 		
     }

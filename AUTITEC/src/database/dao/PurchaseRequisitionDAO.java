@@ -99,7 +99,7 @@ public class PurchaseRequisitionDAO {
     }
 
 	public List<PurchaseRequisition> getAllOpenRequisition() {
-		 String query = "select * from sales_requisition where status != 2 AND status != 5";
+		 String query = "select * from sales_requisition where status != 2 AND status != 4";
 		    List<PurchaseRequisition> srList = new ArrayList<PurchaseRequisition>();
 		    try(ResultSet rs = dataBase.executeQuery(query)){
 		    	while(rs.next()) {	    		
@@ -189,6 +189,11 @@ public class PurchaseRequisitionDAO {
 		        e.printStackTrace();
 	        }
 			return null;
+    }
+
+	public String getNewRequisitionNumber() {
+	    String number = String.valueOf((dataBase.getAutoIncrementValue("sales_requisition")));
+		return number;
     }
 	
 	
